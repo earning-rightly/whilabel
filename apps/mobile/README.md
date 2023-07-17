@@ -1,2 +1,0 @@
-# Whilabel Mobile Application
-
