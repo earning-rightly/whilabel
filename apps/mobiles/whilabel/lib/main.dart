@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
+import 'package:whilabel/presentation/resources/routes_manager.dart';
+
 void main() {
-  runApp(const MainApp());
+  runApp(const Whilabel());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class Whilabel extends StatelessWidget {
+  const Whilabel({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: RouteGenerator.getRoute,
+      initialRoute: Routes.homeRoute,
     );
   }
 }
