@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:whilabel/presentation/resources/routes_manager.dart';
 
 void main() {
-  runApp(const Whilabel());
+  runApp(const mainApp());
 }
 
-class Whilabel extends StatelessWidget {
-  const Whilabel({super.key});
+class mainApp extends StatelessWidget {
+  const mainApp({super.key});
 
   @override
   Widget build(BuildContext context) {

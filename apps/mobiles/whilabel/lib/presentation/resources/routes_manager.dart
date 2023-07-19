@@ -19,12 +19,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => CameraView());
 
       default:
-        return unDefinedRoute();
+        return undefinedRoute();
       // return MaterialPageRoute(builder: (_) => TestOnBoardingView());
     }
   }
 
-  static Route<dynamic> unDefinedRoute() {
+  static Route<dynamic> undefinedRoute() {
     const String noRouteFound = "페이지를 찾을 수  없습니다";
     return MaterialPageRoute(
       builder: (_) => Scaffold(
