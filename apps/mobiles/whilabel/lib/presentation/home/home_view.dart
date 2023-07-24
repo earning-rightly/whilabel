@@ -20,6 +20,11 @@ class HomeView extends StatelessWidget {
               },
               child: const Text("(test) go cameraView"),
             ),
+            TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.recongnitionSuccessRoute);
+                },
+                child: Text("recognition_success_view.dart"))
           ],
         ),
       ),
