@@ -7,7 +7,6 @@ class Routes {
   static const String cameraRoute = "/carmera";
   static const String homeRoute = "/home";
   static const String recongnitionSuccessRoute = "/RecongnitionSuccess";
-  // TODO - Add views related with mycare service.
 }
 
 class RouteGenerator {
@@ -25,7 +24,6 @@ class RouteGenerator {
 
       default:
         return undefinedRoute();
-      // return MaterialPageRoute(builder: (_) => TestOnBoardingView());
     }
   }
 

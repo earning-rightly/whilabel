@@ -6,8 +6,8 @@ class RecongnitionSuccessView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
-        // appBar: AppBar(),
-        body: Container());
+      backgroundColor: Colors.black,
+      body: Container(),
+    );
   }
 }
