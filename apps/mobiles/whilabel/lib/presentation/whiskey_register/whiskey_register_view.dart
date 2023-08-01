@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RecongnitionSuccessView extends StatelessWidget {
-  const RecongnitionSuccessView({super.key});
+class WhiskeyRegisterView extends StatelessWidget {
+  const WhiskeyRegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
