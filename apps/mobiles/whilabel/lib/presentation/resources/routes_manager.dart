@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/presentation/home/home_view.dart';
-import 'package:whilabel/presentation/carmera/camera_view.dart';
+
+import 'package:whilabel/presentation/whiskey_register/whiskey_register_view.dart';
 
 class Routes {
   static const String cameraRoute = "/carmera";
   static const String homeRoute = "/home";
-
-  // TODO - Add views related with mycare service.
+  static const String WhiskeyRegisterRoute = "/whiskey_register_view";
 }
 
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.homeRoute:
-        return MaterialPageRoute(builder: (_) => HomeView());
+        return MaterialPageRoute(builder: (_) => const HomeView());
 
-      case Routes.cameraRoute:
-        return MaterialPageRoute(builder: (_) => CameraView());
+      case Routes.WhiskeyRegisterRoute:
+        return MaterialPageRoute(builder: (_) => const WhiskeyRegisterView());
 
       default:
         return undefinedRoute();
-      // return MaterialPageRoute(builder: (_) => TestOnBoardingView());
     }
   }
 
