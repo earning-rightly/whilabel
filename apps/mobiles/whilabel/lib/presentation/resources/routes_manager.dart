@@ -6,7 +6,8 @@ import 'package:whilabel/presentation/whiskey_register/whiskey_register_view.dar
 class Routes {
   static const String cameraRoute = "/carmera";
   static const String homeRoute = "/home";
-  static const String WhiskeyRegisterRoute = "/whiskey_register_view";
+  // TODO - Add views related with mycare service.
+  static const String WhiskeyRegisterRoute = "/whiskey_register";
 }
 
 class RouteGenerator {
