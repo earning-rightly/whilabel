@@ -17,6 +17,7 @@ const String whiskeyImageUrl =
 // - 위스키 사진
 // - 위스키 맛 특징
 // - 바텀 버튼 2개(다시찍기, 등록하기)
+
 class WhiskeyRegisterView extends StatelessWidget {
   const WhiskeyRegisterView({super.key});
 

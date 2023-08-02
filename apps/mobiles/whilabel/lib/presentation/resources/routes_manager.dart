@@ -6,8 +6,8 @@ import 'package:whilabel/presentation/whiskey_register/whiskey_register_view.dar
 class Routes {
   static const String cameraRoute = "/carmera";
   static const String homeRoute = "/home";
-  static const String whiskeyRegisterViewRoute = "/whiskey_register";
   // TODO - Add views related with mycare service.
+  static const String WhiskeyRegisterRoute = "/whiskey_register";
 }
 
 class RouteGenerator {
@@ -16,12 +16,11 @@ class RouteGenerator {
       case Routes.homeRoute:
         return MaterialPageRoute(builder: (_) => const HomeView());
 
-      case Routes.whiskeyRegisterViewRoute:
+      case Routes.WhiskeyRegisterRoute:
         return MaterialPageRoute(builder: (_) => const WhiskeyRegisterView());
 
       default:
         return undefinedRoute();
-      // return MaterialPageRoute(builder: (_) => TestOnBoardingView());
     }
   }
 

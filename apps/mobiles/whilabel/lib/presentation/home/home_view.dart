@@ -22,7 +22,7 @@ class HomeView extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, Routes.whiskeyRegisterViewRoute);
+                  Navigator.pushNamed(context, Routes.WhiskeyRegisterRoute);
                 },
                 child: Text("recognition_success_view.dart"))
           ],
