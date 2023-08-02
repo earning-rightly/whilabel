@@ -9,6 +9,14 @@ const String distilleryImageURL =
 const String whiskeyImageUrl =
     'https://jmagazine.joins.com/_data2/photo/2022/10/2041357502_oEjDhyuw_2.jpg';
 
+//-------- viwe 소개------------
+// - 위스키 인식이 성공적일때 유저에게 보여줄 view.
+
+// <안에 들어갈 내용>
+// - 양조장 사진
+// - 위스키 사진
+// - 위스키 맛 특징
+// - 바텀 버튼 2개(다시찍기, 등록하기)
 class WhiskeyRegisterView extends StatelessWidget {
   const WhiskeyRegisterView({super.key});
 
