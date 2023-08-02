@@ -9,8 +9,8 @@ const String distilleryImageURL =
 const String whiskeyImageUrl =
     'https://jmagazine.joins.com/_data2/photo/2022/10/2041357502_oEjDhyuw_2.jpg';
 
-class RecongnitionSuccessView extends StatelessWidget {
-  const RecongnitionSuccessView({super.key});
+class WhiskeyRegisterView extends StatelessWidget {
+  const WhiskeyRegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
