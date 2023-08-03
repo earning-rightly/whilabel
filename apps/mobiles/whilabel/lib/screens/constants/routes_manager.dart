@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:whilabel/presentation/home/home_view.dart';
-
-import 'package:whilabel/presentation/whiskey_register/whiskey_register_view.dart';
+import 'package:whilabel/screens/home/home_view.dart';
+import 'package:whilabel/screens/whiskey_register/whiskey_register_view.dart';
 
 class Routes {
   static const String cameraRoute = "/carmera";
