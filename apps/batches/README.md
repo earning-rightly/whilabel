@@ -14,6 +14,7 @@ Side Project -> Spark, ML X
         - 데이터 안정성
             - Remote 연결을 통해서 주기적 동기화 (replication)
             - 외장하드에 주기적 백업
+            - Cloud에 백업
         - 연결 문제
             - API 호출 Firebase token -> 최종 데이터만 전달
         - 개발하는 환경과 실행하는 환경이 다름
