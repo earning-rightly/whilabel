@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-final whilabelThemeData = ThemeData(
+final ThemeData whilabelTheme = ThemeData(
   scaffoldBackgroundColor: Colors.black,
   appBarTheme: const AppBarTheme(backgroundColor: Colors.black),
   bannerTheme: const MaterialBannerThemeData(backgroundColor: Colors.grey),
