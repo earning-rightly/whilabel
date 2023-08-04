@@ -18,8 +18,8 @@ Side Project -> Spark, ML X
         - 연결 문제
             - API 호출 Firebase token -> 최종 데이터만 전달
         - 개발하는 환경과 실행하는 환경이 다름
-            - git을 통해서 동기화
-            - setting 용 자동화 코드
+            - git을 통해서 동기화 (현재 단계에서 고려 x)
+            - setting 용 자동화 코드 (현재 단계에서 고려 x)
 2. GCP -> 20만원 (DB -> cost 너무 높음) k8s -> mysql -> PV Replication
     - volume1 1, 3, 7 -> 4, 5
     - volume2 2, 4 -> 5, 3
@@ -88,14 +88,50 @@ Side Project -> Spark, ML X
 - Spring Batch
 - Dask
 
-## Pipeline structure
+## Pipeline structure 
+(* 수집단계여서 전처리 단계때 다시 수정필요.)
 
 - 어떻게 퀄리티 좋은 데이터를 뽑아낼거냐
     - 어떻게 pk와 내부 필드들을 구성할지 (relation ship)
+      |제목|내용|설명|
+    |------|---|---|
+    |테스트1|테스트2|테스트3|
+    |테스트1|테스트2|테스트3|
+    |테스트1|테스트2|테스트3|
+          
     - 어떻게 중복을 제거할지 (중복제거 기준)
+      1. whisky_base_id 기준
+        * whisky_base_id를 안가지고 있는 위스키가 너무많음.
     - 어떤 데이터를 저품질로 제거할지
+      1. whisky or (distilleries, brands) name 이름에 유니코드(로마문자)가 들어가 있어 제거 or 전처리가 필요
+      2. 주소체계 정규화 필요 (나라별 주소 체계와 데이터 형태가 상의함
+        * ['Grace Kellystraat 211325 HC  AlmereNetherlands', 'KigaliRwanda', '286 Bridge StCO 81657 VailUnited States']
+         '286 Bridge StCO 81657 VailUnited States' 로 검색시 검색 X
+         '286 Bridge St CO 81657 Vail United States'로 검색해야 나옴.
+         -> 중간에 br태그로 되어있어 해결가능.
+      3. 가격에대한 정규화.
+        * 위스키 가격이 현재 각 제조사 혹은 브랜드에 맞게 또는 작성자에 의해 단위가 정해짐.
+          해당 가격 단위에 대한 정규화가 필요함
+
+      
 - 각 태스크를 어떻게 구성하고 배치할지 (DAG 구성)
+  * cron 으로 진행시 DAG 불필요.
+  
 - 작업 주기는 어떻게 할지
+  -> page_1(brands, distilleries)          : monthly
+  -> page_2 [about] (brands, distilleries) : monthly
+  -> page_2 [whisky link]                  : weekly or 2 weeks
+  -> page_3 (whisky about)                 : weekly
+  * page 3에 해당하는 위스키 정보는 추가및 소멸 또한 존재하여 필요시 소멸또한 진행필요.
+
 
 ## add workflow Management
-- Crontab (apscheduler<https://apscheduler.readthedocs.io/en/3.x/userguide.html>)
+- Crontab ([apscheduler]<https://apscheduler.readthedocs.io/en/3.x/userguide.html>)
+
+## add Base Paltform
+- asyncio             : 비동기 처리
+- cfscrape or aiohttp :  session을 통해 웹 연결
+- BeautifulSoup       : 웹 태그 및 클래스명 검색 및 수집
+- pandas              : 데이터 읽고 쓰기
+- tqdm                : 비동기 및 순환 처리에 대한 처리율(백분율) 표시
+
