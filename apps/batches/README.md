@@ -96,3 +96,6 @@ Side Project -> Spark, ML X
     - 어떤 데이터를 저품질로 제거할지
 - 각 태스크를 어떻게 구성하고 배치할지 (DAG 구성)
 - 작업 주기는 어떻게 할지
+
+## add workflow Management
+- Crontab (apscheduler<https://apscheduler.readthedocs.io/en/3.x/userguide.html>)
