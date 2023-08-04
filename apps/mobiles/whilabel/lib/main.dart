@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:whilabel/screens/constants/routes_manager.dart';
+import 'package:whilabel/presentation/resources/routes_manager.dart';
+import 'package:whilabel/presentation/resources/themedata_manager.dart';
+
 
 void main() {
-  runApp(const mainApp());
+  runApp(const MainApp());
 }
 
-class mainApp extends StatelessWidget {
-  const mainApp({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: whilabelTheme,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: RouteGenerator.getRoute,
       initialRoute: Routes.homeRoute,
