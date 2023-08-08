@@ -46,10 +46,14 @@ class FlavorRange extends StatelessWidget {
           ),
           Row(
             children: [
+              // 수정된 코드
               for (int i = 0; i < maxContainer; i++)
-                i == 0 // 맨 처음에 생성되는 칸은 항상 왼쪽이 둥그러야 하기에 고정
-                    ? Expanded(
-                        child: Container(
+                Expanded(
+                  // 즉시 실행 함수 표현식으로 단일값을 리턴
+                  child: (() {
+                    switch (i) {
+                      case 0: // 첫번째 Container은 왼쪽이 항상 둥글기에 고정값
+                        return Container(
                           height: height,
                           decoration: BoxDecoration(
                               color: fillContainer[i] == true
@@ -57,10 +61,9 @@ class FlavorRange extends StatelessWidget {
                                   : emptiedColor,
                               border: borderStyle,
                               borderRadius: borderRadiusL),
-                        ),
-                      )
-                    : Expanded(
-                        child: Container(
+                        );
+                      default:
+                        return Container(
                           height: height,
                           decoration: BoxDecoration(
                             color: fillContainer[i] == true
@@ -73,8 +76,10 @@ class FlavorRange extends StatelessWidget {
                                 ? borderRadiusR
                                 : BorderRadius.zero,
                           ),
-                        ),
-                      ),
+                        );
+                    }
+                  })(),
+                )
             ],
           ),
           Row(
