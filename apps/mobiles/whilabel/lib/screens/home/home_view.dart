@@ -21,10 +21,17 @@ class HomeView extends StatelessWidget {
               child: const Text("(test) go cameraView"),
             ),
             TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.WhiskeyRegisterRoute);
-                },
-                child: Text("recognition_success_view.dart"))
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.WhiskeyRegisterRoute);
+              },
+              child: Text("recognition_success_view.dart"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.WhiskeyCritiqueRoute);
+              },
+              child: Text("Whiskey critique view"),
+            )
           ],
         ),
       ),
