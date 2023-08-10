@@ -15,6 +15,6 @@ def whisky_detail_brand_collector_executions(mode = 'brand', level ='detail'):
     print("start whisky_detail_belonging_to_brand_collector")
     libs_func.write_log(current_time=libs_func.extract_time(), mode = mode, log_mode='start', level = level) #시작 로그 기록
     whisky_collector_detail_func.initserilized_value(mode)                                                   #위스키  상세정보 수집 함수 호출
-    libs_func.save_results(result_dict = whisky_collector_detail_values.whisky_collec_detail_result_dict, file_form= '_whisky_collector_detail')   #위스키 상세정보 수집 함수 호출
+    libs_func.save_results(result_dict = whisky_collector_detail_values.whisky_collec_detail_result_dict, file_form= '_whisky_collector_detail')   #위스키 상세정보 저장
     libs_func.write_log(current_time=libs_func.extract_time(),mode = mode, log_mode= 'end', level = level)    #종료 로그 기록
     print("end whisky_detail_belonging_to_brand_collector")
