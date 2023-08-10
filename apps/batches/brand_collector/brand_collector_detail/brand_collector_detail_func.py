@@ -50,9 +50,9 @@ async def extract_brand_collector_detail(url, sema, loop, table):
                 soup = await loop.run_in_executor(None, BeautifulSoup, r, 'lxml')               #BeautifulSoup을 통해 수집된 페이지 검색
                 extract_information_related_brand(url, soup, table)
 
-async def scrap_distillery_collector_detail_async(link,loop,table):
+async def scrap_brand_collector_detail_async(link,loop,table):
     """
-        scrap_distillery_collector_detail_async.
+        scrap_brand_collector_detail_async.
             Args:
                 link : 수집해야할 홈페이지 전체 링크.
                 loop : (async_execution)함수에서 asyncio.get_event_loop로 생성한 loop값
@@ -74,5 +74,5 @@ def async_execution():
     libs_func.reset_list_size(brand_table, brand_collector_detail_values.brand_collec_detail_result_dict)   #brand_table에 갯수만큼 저장해야할 리스트 초기화
 
     loop = asyncio.get_event_loop()                                                                         #loop 생성
-    loop.run_until_complete(scrap_distillery_collector_detail_async(brand_table.link,loop,brand_table))
+    loop.run_until_complete(scrap_brand_collector_detail_async(brand_table.link,loop,brand_table))
     loop.close                                                                                              #loop 종료
