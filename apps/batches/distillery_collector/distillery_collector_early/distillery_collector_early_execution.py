@@ -9,7 +9,7 @@ def dis_early_executions(mode = 'distillery', level = 'early'):
                mode : mode값을 받아, 하위 함수르 호출할때 현재 상태를 전달.
                detail : detail값을 받아, 하위 함수르 호출할때 현재 상태를 전달.
            Note:
-               scrap_main 에서 브랜드 상세정보 스케줄링 함수
+               scrap_main 에서 증류소 초기정보 스케줄링 함수
     """
     print("start distillery_collector_early")
     libs_func.write_log(current_time=libs_func.extract_time(), log_mode='start', mode = mode, level = level)  #시작 로그 기록
