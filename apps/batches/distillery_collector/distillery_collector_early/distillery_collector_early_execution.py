@@ -14,6 +14,6 @@ def dis_early_executions(mode = 'distillery', level = 'early'):
     print("start distillery_collector_early")
     libs_func.write_log(current_time=libs_func.extract_time(), log_mode='start', mode = mode, level = level)  #시작 로그 기록
     distillery_collector_early_func.scrap_distillery_collector_early()                                         #증류소 초기정보 수집 함수 호출
-    libs_func.save_results(result_dict = distillery_collector_early_values.distillery_collec_early_result_dict, file_form = 'distillery_collector_early') #증류소 초기정보 수집 함수 호출
+    libs_func.save_results(result_dict = distillery_collector_early_values.distillery_collec_early_result_dict, file_form = 'distillery_collector_early') #증류소 초기정보 저장 함수 호출
     libs_func.write_log(current_time=libs_func.extract_time(), log_mode='start', mode = mode, level = level)  #종료 로그 기록
     print("end distillery_collector_early")
