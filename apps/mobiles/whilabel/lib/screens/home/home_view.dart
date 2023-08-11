@@ -1,38 +1,103 @@
 import 'package:flutter/material.dart';
-import 'package:whilabel/screens/constants/routes_manager.dart';
+import 'package:whilabel/screens/home/widgets/build_widfets/build_home_appbar.dart';
+import 'package:whilabel/screens/home/widgets/home_tab_bar.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  // 바텀 네이게이션의 어떤 index가 선택되었는지 저장하는 변수
+  int selectedBottomNavigationIndex = 0;
+
+  final List<Widget> bottomNavigationBodyRoutes = <Widget>[
+    HomeTabBar(),
+    Text(
+      // test값
+      'camer',
+      style: TextStyle(color: Colors.white),
+    ),
+    Text(
+      // test값
+      'my page',
+      style: TextStyle(color: Colors.white),
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    // widget내에서 state에 변화를 알려주기 위해서 사용하는 함수
+    setState(() {
+      selectedBottomNavigationIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("home 입니다"),
-        leading: const SizedBox(width: 0),
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.cameraRoute);
-              },
-              child: const Text("(test) go cameraView"),
+    int myWhiskeyCounters = 26;
+    return DefaultTabController(
+      // tabBar를 사용하기 필요한 widget
+      length: 2,
+      initialIndex: 1,
+      child: Scaffold(
+        appBar: (() {
+          switch (selectedBottomNavigationIndex) {
+            case 0:
+              return buildHomeAppbar(context, myWhiskeyCounters);
+            case 1:
+              return AppBar(
+                title: Container(
+                  width: double.infinity,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "CAMER",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+              );
+            case 2:
+              return AppBar(
+                title: Container(
+                  width: double.infinity,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "MY PAGE",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+              );
+          }
+        })(),
+        body: Center(
+            child: bottomNavigationBodyRoutes
+                .elementAt(selectedBottomNavigationIndex)),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.black,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.wordpress_sharp),
+              label: '위스키',
+              backgroundColor: Colors.white,
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.WhiskeyRegisterRoute);
-              },
-              child: Text("WhiskeyRegisterRouteview.dart"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.camera),
+              label: '카메라',
+              backgroundColor: Colors.white,
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.WhiskeyCritiqueRoute);
-              },
-              child: Text("Whiskey critique view"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.square),
+              label: '마이',
             ),
           ],
+          currentIndex: selectedBottomNavigationIndex,
+          selectedItemColor: Colors.orange,
+          unselectedItemColor: Colors.white,
+          unselectedLabelStyle: TextStyle(
+            color: Colors.grey,
+          ),
+          onTap: _onItemTapped,
         ),
       ),
     );
