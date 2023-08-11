@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:whilabel/screens/global/functions/build_star_rating.dart.dart';
+import 'package:whilabel/screens/global/functions/create_star_rating.dart';
+
 import 'package:whilabel/screens/global/functions/text_field_styles.dart';
-import 'package:whilabel/screens/whiskey_register/widgets/progress_bar.dart';
+import 'package:whilabel/screens/whiskey_register/widgets/flavor_range.dart';
 
 const String whiskeyName = "위스키 이름";
 const double whiskeyLcoholPercentagea = 40;
@@ -114,23 +115,21 @@ class WhiskeyRegisterView extends StatelessWidget {
                                 Text("별점"),
                                 Builder(
                                   builder: (context) =>
-                                      buildStarRating(3, false),
+                                      createStarRating(3, false),
                                 ),
                                 SizedBox(height: 20),
                                 Text("한줄평"),
                                 TextFormField(
-                                  decoration:
-                                      returnWhiskeyRegisterTextFieldStyle(
-                                          "연락처 유저 데이터 수정해야함", true),
+                                  decoration: makeWhiskeyRegisterTextFieldStyle(
+                                      "연락처 유저 데이터 수정해야함", true),
                                   initialValue: "너무 맛있다!",
                                   enabled: false,
                                 ),
                                 SizedBox(height: 20),
                                 Text("테이스팅 노트"),
                                 TextFormField(
-                                  decoration:
-                                      returnWhiskeyRegisterTextFieldStyle(
-                                          "연락처 유저 데이터 수정해야함", true),
+                                  decoration: makeWhiskeyRegisterTextFieldStyle(
+                                      "연락처 유저 데이터 수정해야함", true),
                                   initialValue: "스모키하고 스모키한데 스모키해서",
                                   enabled: false,
                                 ),
@@ -154,23 +153,23 @@ class WhiskeyRegisterView extends StatelessWidget {
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 22),
                                 ),
-                                ProgressBar(
+                                FlavorRange(
                                   title: "바디감",
                                   subTitleLeft: "무거움",
                                   subTitleRight: "가변움",
-                                  value: 3,
+                                  filledCount: 3,
                                 ),
-                                ProgressBar(
+                                FlavorRange(
                                   title: "향",
                                   subTitleLeft: "스모키함",
                                   subTitleRight: "섬세함",
-                                  value: 3,
+                                  filledCount: 3,
                                 ),
-                                ProgressBar(
+                                FlavorRange(
                                   title: "피트감",
                                   subTitleLeft: "피트함",
                                   subTitleRight: "언피트",
-                                  value: 3,
+                                  filledCount: 3,
                                 ),
                               ],
                             ),
