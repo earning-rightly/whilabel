@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 // whiskey_register에서 사용
-InputDecoration returnWhiskeyRegisterTextFieldStyle(
+InputDecoration makeWhiskeyRegisterTextFieldStyle(
   String hinText,
   bool disable,
 ) {
