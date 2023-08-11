@@ -1,11 +1,11 @@
-class TestWhiskeyDataModel {
+class MockWhiskeyDataModel {
   final String imageUrl;
   final String whiskeyName;
   final int starRating;
   final String whiskeyProducingArea;
   final double whiskeyLcoholPercentagea;
   final String oneLineText;
-  TestWhiskeyDataModel({
+  MockWhiskeyDataModel({
     required this.imageUrl,
     required this.whiskeyName,
     required this.starRating,
@@ -14,7 +14,7 @@ class TestWhiskeyDataModel {
     required this.oneLineText,
   });
 
-  TestWhiskeyDataModel copyWith({
+  MockWhiskeyDataModel copyWith({
     String? imageUrl,
     String? whiskeyName,
     int? starRating,
@@ -22,7 +22,7 @@ class TestWhiskeyDataModel {
     double? whiskeyLcoholPercentagea,
     String? oneLineText,
   }) {
-    return TestWhiskeyDataModel(
+    return MockWhiskeyDataModel(
       imageUrl: imageUrl ?? this.imageUrl,
       whiskeyName: whiskeyName ?? this.whiskeyName,
       starRating: starRating ?? this.starRating,
