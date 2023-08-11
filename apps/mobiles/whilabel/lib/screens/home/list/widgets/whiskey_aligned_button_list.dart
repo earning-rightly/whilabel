@@ -65,6 +65,8 @@ class WhiskeyAlignedButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
             side: BorderSide(color: Colors.grey)),
+        // 나중에 함수로 다시 구성해야 할 부분입니다.
+        // 버튼안에 글자수에 따라서 버튼의 width를 결정하는 코드입니다
         fixedSize: buttonText.length * 14 < 90
             ? Size(buttonText.length * 14, 40)
             : Size(90, 40),
