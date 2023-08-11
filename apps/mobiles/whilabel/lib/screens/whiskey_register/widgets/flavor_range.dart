@@ -6,34 +6,31 @@ class FlavorRange extends StatelessWidget {
   final String title; // 무엇에 관한
   final String subTitleRight;
   final String subTitleLeft;
-  final int value; // 왼쪽부터 채워질 box 갯 수 입니다
+  final maxCount = 5; // 칸에 최대 갯수
+  final int filledCount; // 왼쪽부터 채워질 box 갯 수 입니다
 
-  const FlavorRange(
+  final BorderRadius borderRadiusLeft = BorderRadius.only(
+      topLeft: Radius.circular(10), bottomLeft: Radius.circular(10));
+  final BorderRadius borderRadiusRight = BorderRadius.only(
+      topRight: Radius.circular(10), bottomRight: Radius.circular(10));
+  final Color filledColor = Colors.amber;
+  final Color emptyColor = Colors.brown;
+  final double height = 25;
+  final borderStyle = Border.all(width: 1); // const르 둘 수 없기에 final
+
+  FlavorRange(
       {super.key,
       required this.title,
       required this.subTitleLeft,
       required this.subTitleRight,
-      required this.value});
+      required this.filledCount});
 
   @override
   Widget build(BuildContext context) {
-    const maxContainer = 5; // 칸에 최대 갯수
-    const double height = 25;
-    const Color filledColor = Colors.amber;
-    const Color emptiedColor = Colors.brown;
-    final borderStyle = Border.all(width: 1); // const르 둘 수 없기에 final
-    const BorderRadius borderRadiusL = BorderRadius.only(
-        topLeft: Radius.circular(10), bottomLeft: Radius.circular(10));
-    const BorderRadius borderRadiusR = BorderRadius.only(
-        topRight: Radius.circular(10), bottomRight: Radius.circular(10));
-    List fillContainer =
-        List.filled(maxContainer, false); // 화면에서 보여지는 화면을 리스트로 구현
-
-    // 입력 받은 value만큼 0 index에서 부터 true로 변환
-    if (1 <= value && value <= maxContainer) {
-      for (int i = 0; i < value; i++) fillContainer[i] = true;
-    } else // 입력한 valuer가 이상하다면 화면에 아무거도 띄우지 않는다.
+    // 채우는 값이 잘못들어오면 빈박스 반환
+    if (filledCount < 1 || filledCount > maxCount) {
       return SizedBox();
+    }
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -44,44 +41,7 @@ class FlavorRange extends StatelessWidget {
             title,
             style: TextStyle(fontSize: 18),
           ),
-          Row(
-            children: [
-              // 수정된 코드
-              for (int i = 0; i < maxContainer; i++)
-                Expanded(
-                  // 즉시 실행 함수 표현식으로 단일값을 리턴
-                  child: (() {
-                    switch (i) {
-                      case 0: // 첫번째 Container은 왼쪽이 항상 둥글기에 고정값
-                        return Container(
-                          height: height,
-                          decoration: BoxDecoration(
-                              color: fillContainer[i] == true
-                                  ? filledColor
-                                  : emptiedColor,
-                              border: borderStyle,
-                              borderRadius: borderRadiusL),
-                        );
-                      default:
-                        return Container(
-                          height: height,
-                          decoration: BoxDecoration(
-                            color: fillContainer[i] == true
-                                ? filledColor
-                                : emptiedColor,
-                            border: borderStyle,
-                            // 맨 왼쪽과 오른쪽만 둥글면 되기에
-                            // 위에서 왼쪽은 if를 만들어 두었으니깐 오르쪽만 조건을 추가
-                            borderRadius: i == maxContainer - 1
-                                ? borderRadiusR
-                                : BorderRadius.zero,
-                          ),
-                        );
-                    }
-                  })(),
-                )
-            ],
-          ),
+          Row(children: makeRangeBars(maxCount, filledCount)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [Text(subTitleLeft), Text(subTitleRight)],
@@ -89,5 +49,35 @@ class FlavorRange extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  List<Widget> makeRangeBars(int maxCount, int filledCount) {
+    final List<Expanded> barList = List<Expanded>.generate(
+        maxCount,
+        (int index) => Expanded(
+              child: Container(
+                height: height,
+                decoration: BoxDecoration(
+                    color: getColor(index),
+                    border: borderStyle,
+                    borderRadius: getBorderRadius(index)),
+              ),
+            ),
+        growable: false);
+
+    return barList;
+  }
+
+  Color getColor(index) {
+    return index < filledCount ? filledColor : emptyColor;
+  }
+
+  BorderRadius getBorderRadius(index) {
+    if (index == 0)
+      return borderRadiusLeft;
+    else if (index == maxCount - 1)
+      return borderRadiusRight;
+    else
+      return BorderRadius.zero;
   }
 }
