@@ -24,14 +24,14 @@ class HomeView extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, Routes.WhiskeyRegisterRoute);
               },
-              child: Text("recognition_success_view.dart"),
+              child: Text("WhiskeyRegisterRouteview.dart"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, Routes.WhiskeyCritiqueRoute);
               },
               child: Text("Whiskey critique view"),
-            )
+            ),
           ],
         ),
       ),
