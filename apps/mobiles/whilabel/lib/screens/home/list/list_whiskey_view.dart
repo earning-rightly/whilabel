@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whilabel/test_data/test_whiskey_data_list.dart';
+import 'package:whilabel/mock_data/mock_whiskey_data_list.dart';
 import 'package:whilabel/screens/home/list/widgets/each_whiskey_list_view.dart';
 import 'package:whilabel/screens/home/list/widgets/whiskey_aligned_button_list.dart';
 
@@ -18,10 +18,10 @@ class ListWhiskeyView extends StatelessWidget {
           SizedBox(height: 10),
           Expanded(
             child: ListView.separated(
-              itemCount: testWhiskeyDataList.length,
+              itemCount: mockWhiskeyDataList.length,
               itemBuilder: (context, index) {
                 return EachWhisketListView(
-                  whiskeyData: testWhiskeyDataList[index],
+                  whiskeyData: mockWhiskeyDataList[index],
                 );
               },
               separatorBuilder: (context, index) {
