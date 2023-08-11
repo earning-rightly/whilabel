@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:whilabel/mock_data/mock_whiskey_data_list.dart';
 import 'package:whilabel/screens/home/grid/widgets/each_whiskey_grid_view.dart';
-import 'package:whilabel/test_data/test_whiskey_data_list.dart';
 
 class GrideWhiskeyView extends StatelessWidget {
   const GrideWhiskeyView({super.key});
@@ -10,7 +10,7 @@ class GrideWhiskeyView extends StatelessWidget {
     return Expanded(
       child: GridView.builder(
         padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-        itemCount: testWhiskeyDataList.length,
+        itemCount: mockWhiskeyDataList.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: 1 / 1.25,
@@ -18,7 +18,7 @@ class GrideWhiskeyView extends StatelessWidget {
           mainAxisSpacing: 10,
         ),
         itemBuilder: (context, index) {
-          final whiskeyData = testWhiskeyDataList[index];
+          final whiskeyData = mockWhiskeyDataList[index];
           return EachWhiskeyGridView(
             whiskeyData: whiskeyData,
           );

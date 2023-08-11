@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:whilabel/test_data/test_whiskey_data_model.dart';
+import 'package:whilabel/mock_data/mock_whiskey_data_model.dart';
 
 class EachWhiskeyGridView extends StatelessWidget {
-  final TestWhiskeyDataModel whiskeyData;
+  final MockWhiskeyDataModel whiskeyData;
 
   const EachWhiskeyGridView({
     Key? key,
