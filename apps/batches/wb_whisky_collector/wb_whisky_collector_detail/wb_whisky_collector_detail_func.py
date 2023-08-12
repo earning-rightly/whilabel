@@ -8,6 +8,18 @@ from batches.wb_libs import wb_libs_func
 
 #scrap_whisky_collector_detail try, except 수정필요
 async def scrap_whisky_collector_detail(url, sema,loop, url_index):
+    """
+        scrap_whisky_collector_detail.
+            Args:
+                url : 수집해야할 홈페이지 링크.
+                sema : 비동기식 해당 스레드 위치주소.
+                loop :  (async_execution)함수에서 asyncio.get_event_loop로 생성한 loop값
+                url_index : 현재 수집중인 url의 index
+            Note:
+                수집된 위스키 링크에 대하여 위스키의 각종 정보를 수집하는 함수
+            Raises:
+               aiohttp.client_exceptions.ClientConnectorError : ssl connect 문제 (해결 진행중)
+    """
     async with sema:
         async with ClientSession(trust_env=True, connector=TCPConnector(ssl=False)) as session:
             await asyncio.sleep(5)  # 세션 차단을 방지하기위한 3초 딜레이
@@ -47,31 +59,46 @@ async def scrap_whisky_collector_detail(url, sema,loop, url_index):
                            0].text.strip()  # 딕셔너리에 넣지않은이유는 vote투표수가 여러개일때와 한개일때의 dt태그명이 다른점과 같은 데이터가 2번 추출된다든점에서 따로 진행
                     whisky_detail_scrap['votes'][url_index] = soup.select('dd.votes-count')[0].text.strip()
 
-                    if soup.select('.photo')[0][
+                    if soup.select('.photo')[0][  #위스키 사진이 없는경우 수집안하기위해
                         'href'] != 'https://static.whiskybase.com/storage/whiskies/default/big.png?v4':
                         whisky_detail_scrap['photo'][url_index] = soup.select('.photo')[0]['href']
                     try:
-                        whisky_detail_scrap['block_price'][url_index] = soup.select('.block-price')[0].text.strip().split('\n')[1]
+                        whisky_detail_scrap['block_price'][url_index] = soup.select('.block-price')[0].text.strip().split('\n')[1]#위스키 가격이 있는경우
                     except:
                         pass
                     real_tag_list = []
-                    tag_list = soup.select('.tag-name')
+                    tag_list = soup.select('.tag-name')  #클래스명 이 tag-name 추출
                     for tag in tag_list:
                         real_tag_list.append(tag.text.strip())
                     real_tast_num = []
                     tast_list = soup.select('.btn-tastingtag')
                     for tast in tast_list:
                         real_tast_num.append(tast['data-num'])
-                    whisky_detail_scrap['tag_name'][url_index] = dictionary = dict(
+                    whisky_detail_scrap['tag_name'][url_index] = dictionary = dict(#tastingtag와 해당 맛에 대한 투표수를 딕셔너리로 만들어 저장
                         zip(real_tag_list, real_tast_num))
 
 
 async def extract_whisky_detail_collector_async(link,loop):
+    """
+        extract_whisky_detail_collector_async.
+            Args:
+                link : 수집해야할 홈페이지 전체 링크.
+                loop : (async_execution)함수에서 asyncio.get_event_loop로 생성한 loop값
+            Note:
+                비동식 제한 갯수 설정(Semaphore) 및 수집해야할 홈페이지 반복문 실행
+    """
     semaphore = asyncio.Semaphore(10)
     fts = [asyncio.ensure_future(scrap_whisky_collector_detail(u, semaphore,loop,url_index= url_index)) for url_index, u in enumerate(link)]
     await tqdm_asyncio.gather(*fts)
 
 def collect(mode):
+    """
+        collect.
+        Args:
+                mode : {brand or distillery} mode를 통해 read_csv파일 결정.
+            Note:
+                파일 읽기 및 파일크기에따른 리스트 초기화(reset_list_size) loop생성
+    """
     table = pd.read_csv('wb_'+mode+'_whisky_collector_link.csv')
     table = table[:10]
     wb_libs_func.reset_list_size(len(table), whisky_detail_scrap)
