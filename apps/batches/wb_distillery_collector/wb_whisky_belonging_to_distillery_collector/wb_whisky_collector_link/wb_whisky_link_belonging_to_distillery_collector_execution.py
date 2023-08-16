@@ -14,6 +14,6 @@ def whisky_link_distillery_collector_executions(mode = 'distillery', level = 'li
     print("start whisky_link_belonging_to_brand_collector")
     wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), log_mode='start', mode=mode, level=level)      #시작 로그 기록
     wb_whisky_collector_link_func.collect(mode)                                                                     #위스키 링크 수집 함수 호출
-    wb_libs_func.save_results(result_dict = link_scrap, file_form ='wb_distillery_whisky_collector_link')           #위스키 링크 저장 함수 호출
+    wb_libs_func.save_resconvert_csv_to_json(result_dict = link_scrap, file_form ='wb_distillery_whisky_collector_link')           #위스키 링크 저장 함수 호출
     wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), log_mode='end', mode = mode, level = level)    #종료 로그 기록
     print("end whisky_link_belonging_to_distillery_collector")
