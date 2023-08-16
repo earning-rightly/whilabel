@@ -2,7 +2,11 @@ import json
 import pandas as pd
 from datetime import datetime
 from pytz import timezone
-from apps.batches.wb_libs import wb_libs_values
+from batches.wb_libs import wb_libs_values
+from enum import Enum
+
+
+
 def write_log(current_time, log_mode, mode, level):
     """
        write_log.
@@ -16,30 +20,28 @@ def write_log(current_time, log_mode, mode, level):
     """
     def start():
         try:
-            with open("log.txt", "a") as file:
-                try:
-                    file.write('\nstart time : ' + str(current_time) + '\nmode : '+ mode +'\nlevel : '+level)
-                finally:
-                    file.close()
+            file =  open("log.txt", "a")
         except IOError:
-            print('Unable to create file on disk. \nmode : '+ mode +'\nlevel : '+level)
+            print('Unable to create file on disk. \nmode : ' + mode + '\nlevel : ' + level)
+        else:
+            file.write('\nstart time : ' + str(current_time) + '\nmode : '+ mode +'\nlevel : '+level)
+            file.close()
 
     def end():
         try:
-            with open("log.txt", "a") as file:
-                try:
-                    file.write('\nfinish time : ' + str(current_time) + '\nmode : '+ mode +'\nlevel : '+level)
-                finally:
-                    file.close()
+            file =  open("log.txt", "a")
         except IOError:
-            print('Unable to create file on disk. \nmode : '+ mode +'\nlevel : '+level)
+            print('Unable to create file on disk. \nmode : ' + mode + '\nlevel : ' + level)
+        else:
+            file.write('\nfinish time : ' + str(current_time) + '\nmode : ' + mode + '\nlevel : ' + level)
+            file.close()
 
     if log_mode == 'start':
         start()
     elif log_mode == 'end':
         end()
 
-def save_results(result_dict, file_form):
+def save_resconvert_csv_to_json(result_dict, file_form):
     """
         save_results.
             Args:
@@ -51,13 +53,12 @@ def save_results(result_dict, file_form):
     results = pd.DataFrame(result_dict)
     results.to_csv(file_form+'.csv',index=False)  #수집결과 csv로 저장
     try:
-        with open(file_form+'.json', 'w') as outfile:   #수집결과 json으로 저장
-            try:
-                json.dump(result_dict, outfile, indent=4)
-            finally:
-                outfile.close()
+        outfile =  open(file_form+'.json', 'w')   #수집결과 json으로 저장
     except IOError:
-        print('Unable to create file on disk. file_form : '+file_form)
+        print('Unable to create file on disk. file_form : ' + file_form)
+    else:
+        json.dump(result_dict, outfile, indent=4)
+        outfile.close()
 
 def reset_list_size(length, scrap_dict): #수정필요
     """
