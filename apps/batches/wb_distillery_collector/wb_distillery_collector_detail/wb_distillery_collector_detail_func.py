@@ -1,10 +1,13 @@
 import asyncio
+import random
+import aiohttp.client_exceptions
 from bs4 import BeautifulSoup
 import pandas as pd
-from batches.wb_libs import wb_libs_func
-from batches.wb_distillery_collector.wb_distillery_collector_detail.wb_distillery_collector_detail_values import distillery_collect_detail_scrap as detail_scrap
+from apps.batches.wb_libs import wb_libs_func
+from apps.batches.wb_distillery_collector.wb_distillery_collector_detail.wb_distillery_collector_detail_values import distillery_collect_detail_scrap as detail_scrap
 from tqdm.asyncio import tqdm_asyncio
 from aiohttp import ClientSession, TCPConnector
+import traceback
 
 async def extract_distillery_collector_detail(url_index, url, sema, loop):
     """
@@ -20,7 +23,7 @@ async def extract_distillery_collector_detail(url_index, url, sema, loop):
             Raises:
                aiohttp.client_exceptions.ClientConnectorError : ssl connect 문제 (해결 진행중)
     """
-    def extract_information_related_distillery(soup, url_index):
+    def extract_information_related_with_distillery(soup, url_index):
         """
             extract_information_related_distillery.
                 Args:
@@ -57,11 +60,36 @@ async def extract_distillery_collector_detail(url_index, url, sema, loop):
         async with ClientSession(trust_env=True, connector=TCPConnector(ssl=False)) as session:
             # install pyopenssl[pip install pyOpenSSL]
             # if uninstall openssl then, connection error about port 443
-            await asyncio.sleep(5)  # 세션 차단을 방지하기위한 5초 딜레이
-            async with session.get(url[:url.rfind(('/'))]+'/about',ssl = False) as response:
-                r = await response.read()
-                soup = await loop.run_in_executor(None, BeautifulSoup, r, 'lxml')
-                extract_information_related_distillery(soup= soup, url_index= url_index)
+            await asyncio.sleep(random.randrange(15))  # 세션 차단을 방지하기위한  15초내외로 난수 딜레이
+            try:
+                async with session.get(url[:url.rfind(('/'))]+'/about',ssl = False) as response:
+                    r = await response.read()
+                    soup = await loop.run_in_executor(None, BeautifulSoup, r, 'lxml')
+                    extract_information_related_with_distillery(soup= soup, url_index= url_index)
+
+            except aiohttp.client_exceptions.ClientConnectorError:
+                from selenium import webdriver
+                import chromedriver_autoinstaller
+                from selenium.webdriver.chrome.options import Options
+                print('used selenuim!!')
+                print(url_index)
+                chrome_options = Options()
+                # headless 설정
+
+                chromedriver_autoinstaller.install()  # Check if the current version of chromedriver exists
+                # and if it doesn't exist, download it automatically,
+                # then add chromedriver to path
+                chrome_options.add_argument("--headless=new")  # 크롬 창 실행없이 백그라운드에서 실행
+                driver = webdriver.Chrome(options=chrome_options)
+                driver.get(url[:url.rfind(('/'))] + '/about')
+                driver.implicitly_wait(3)
+                soup = await loop.run_in_executor(None, BeautifulSoup, driver.page_source,
+                                                  'lxml')  # BeautifulSoup을 통해 수집된 페이지 검색
+                extract_information_related_with_distillery(soup=soup, url_index=url_index)
+                driver.close()
+            except:
+                # write error_log.txt
+                traceback.print_exc()
 
 async def extract_distillery_collector_detail_async(link,loop):
     """
@@ -72,7 +100,7 @@ async def extract_distillery_collector_detail_async(link,loop):
             Note:
                 비동식 제한 갯수 설정(Semaphore) 및 수집해야할 홈페이지 반복문 실행
     """
-    semaphore = asyncio.Semaphore(10)  #비동기 최대 갯수 50개 제한
+    semaphore = asyncio.Semaphore(30)  #비동기 최대 갯수 50개 제한
     fts = [asyncio.ensure_future(extract_distillery_collector_detail(url_index, u, semaphore,loop)) for url_index, u in enumerate(link)]
     await tqdm_asyncio.gather(*fts)
 
