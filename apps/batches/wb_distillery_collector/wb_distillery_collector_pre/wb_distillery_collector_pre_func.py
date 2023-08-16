@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import cfscrape
-from batches.wb_distillery_collector.wb_distillery_collector_pre.wb_distillery_collector_pre_values import distillery_collec_pre_url as url , distillery_collect_pre_scrap as pre_scrap
+from apps.batches.wb_distillery_collector.wb_distillery_collector_pre.wb_distillery_collector_pre_values import distillery_summary_collect_url as url , distillery_summary_collect_data as pre_scrap
 
 def collect():            #증류소의 초기 정보를 수집하는 함수
     """
@@ -9,8 +9,10 @@ def collect():            #증류소의 초기 정보를 수집하는 함수
                 브랜드 초기정보 수집 함수
     """
     scraper = cfscrape.create_scraper()
-    soup = BeautifulSoup(scraper.get(
-        url['distillery']).content, 'lxml')
+    soup = BeautifulSoup(
+        scraper.get(url['distillery']).content,
+        'lxml'
+        )
     #whisky base에 distillery 카테고리 홈페이지 정보 수집
     clickable_list = soup.select(".clickable") #증류소 갯수 확인 type : list
 
