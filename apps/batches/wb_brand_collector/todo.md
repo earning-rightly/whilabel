@@ -1,0 +1,11 @@
+## todo list
+- [ ] ~~2. //pr 순서 libs, whisky_collertor update~~
+- [ ] aiohttp error test sleep(5sec), semaphore(50)
+- [ ] brand_detail country 12 index 왜 수집안됬는지 확인필요
+- [X] 모든 파일 wb_ 붙히기 
+- [X] *_early -> pre or source 로 변경
+- [X] libs.reset_list_size 4번의 영향에 따라 변경 keys_list
+- [X] write_log f(변수명) -> file로변경 f.close() finally 추가
+- [X] async_execution -> collect로 변경
+- [X] values 구조 변경 iteral 사용
+- [X] 대문자 소문자로 변경
