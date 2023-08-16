@@ -5,7 +5,7 @@ import traceback
 import aiohttp.client_exceptions
 from bs4 import BeautifulSoup
 import pandas as pd
-from batches.wb_whisky_collector.wb_whisky_collector_link.wb_whisky_collector_link_values import whisky_collect_link_scrap as link_scrap
+from apps.batches.wb_whisky_collector.wb_whisky_collector_link.wb_whisky_collector_link_values import whisky_collect_link_scrap as link_scrap
 from tqdm.asyncio import tqdm_asyncio
 from aiohttp import ClientSession
 
