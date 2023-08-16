@@ -3,10 +3,10 @@ import random
 
 from bs4 import BeautifulSoup
 import pandas as pd
-from batches.wb_whisky_collector.wb_whisky_collector_detail.wb_whisky_collector_detail_values import whisky_collect_detail_scrap as whisky_detail_scrap
+from apps.batches.wb_whisky_collector.wb_whisky_collector_detail.wb_whisky_collector_detail_values import whisky_collect_detail_scrap as whisky_detail_scrap
 from tqdm.asyncio import tqdm_asyncio
 from aiohttp import ClientSession, TCPConnector
-from batches.wb_libs import wb_libs_func
+from apps.batches.wb_libs import wb_libs_func
 import aiohttp.client_exceptions
 from selenium import webdriver
 import chromedriver_autoinstaller
