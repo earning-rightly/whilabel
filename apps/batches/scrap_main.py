@@ -19,20 +19,4 @@ from apps.appsbatches.wb_distillery_collector.wb_whisky_belonging_to_distillery_
 
 scheduler = BackgroundScheduler()
 
-
-#scheduler.add_job(distillery_pre_executions,'cron',day = 10 ,hour = 16 ,minute = 21,id="distillery_pre_executions",timezone='Asia/Seoul')
-#scheduler.add_job(distillery_pre_executions,'interval', seconds=5,id="distillery_pre_executions",timezone='Asia/Seoul')
-
-#brand_pre_executions()
-#distillery_pre_executions()
-
-#brand_detail_executions()
-#distillery_detail_executions()
-
-#whisky_link_brand_collector_executions()
-#whisky_link_distillery_collector_executions()
-
-#whisky_detail_brand_collector_executions()
-#whisky_detail_distillery_collector_executions()
-
 scheduler.start()
