@@ -1,11 +1,14 @@
 import asyncio
+
+import aiohttp.client_exceptions
 from bs4 import BeautifulSoup
 import pandas as pd
 from tqdm.asyncio import tqdm_asyncio
 from aiohttp import ClientSession, TCPConnector
 from batches.wb_libs import wb_libs_func
 from batches.wb_brand_collector.wb_brand_collector_detail.wb_brand_collector_detail_values import brand_collect_detail_scrap as detail_scrap
-
+import traceback
+import random
 async def extract_brand_collector_detail(url_index, url, sema, loop):
     """
         extract_brand_collector_detail.
@@ -20,7 +23,7 @@ async def extract_brand_collector_detail(url_index, url, sema, loop):
             Raises:
                aiohttp.client_exceptions.ClientConnectorError : ssl connect 문제 (해결 진행중)
     """
-    def extract_information_related_brand(soup,url_index):
+    def extract_information_related_with_brand(soup,url_index):
         """
             extract_information_related_brand.
                 Args:
@@ -44,12 +47,36 @@ async def extract_brand_collector_detail(url_index, url, sema, loop):
         async with ClientSession(trust_env=True, connector=TCPConnector(ssl=False)) as session: #세션 생성
             # install pyopenssl[pip install pyOpenSSL]
             # if uninstall openssl then, connection error about port 443
-            await asyncio.sleep(5)  # 세션 차단을 방지하기위한 3초 딜레이
-            async with session.get(url[:url.rfind(('/'))]+'/about',ssl = False) as response:    #세션에 브랜드 상세주소 페이지 호출
-                r = await response.read()
-                soup = await loop.run_in_executor(None, BeautifulSoup, r, 'lxml')               #BeautifulSoup을 통해 수집된 페이지 검색
-                extract_information_related_brand(soup = soup, url_index= url_index)
-               # async with sleep (50) 수정필
+            await asyncio.sleep(random.randrange(10))  # 세션 차단을 방지하기위한  15초내외로 난수 딜레이
+            try:
+                async with session.get(url[:url.rfind(('/'))]+'/about',ssl = False) as response:    #세션에 브랜드 상세주소 페이지 호출
+                    r = await response.read()
+                    soup = await loop.run_in_executor(None, BeautifulSoup, r, 'lxml')  # BeautifulSoup을 통해 수집된 페이지 검색
+                    extract_information_related_with_brand(soup=soup, url_index=url_index)
+
+            except aiohttp.client_exceptions.ClientConnectorError:                     # 비동기식 접속으로 443포트에 대한 접속이 안되는 에러에 대한 예외처리
+                from selenium import webdriver
+                import chromedriver_autoinstaller
+                from selenium.webdriver.chrome.options import Options
+                print('used selenuim!!')
+                print(url_index)
+                chrome_options = Options()
+                # headless 설정
+
+                chromedriver_autoinstaller.install()  # Check if the current version of chromedriver exists
+                # and if it doesn't exist, download it automatically,
+                # then add chromedriver to path
+                chrome_options.add_argument("--headless=new")                                       # 크롬 창 실행없이 백그라운드에서 실행
+                driver = webdriver.Chrome(options=chrome_options)
+                driver.get(url[:url.rfind(('/'))]+'/about')
+                driver.implicitly_wait(3)
+                soup = await loop.run_in_executor(None, BeautifulSoup, driver.page_source, 'lxml')  # BeautifulSoup을 통해 수집된 페이지 검색
+                extract_information_related_with_brand(soup=soup, url_index=url_index)
+                driver.close()
+            except:
+                #write error_log.txt
+                traceback.print_exc()
+
 async def extract_brand_collector_detail_async(link,loop):
     """
         extract_brand_collector_detail_async.
@@ -59,7 +86,7 @@ async def extract_brand_collector_detail_async(link,loop):
             Note:
                 비동식 제한 갯수 설정(Semaphore) 및 수집해야할 홈페이지 반복문 실행
     """
-    semaphore = asyncio.Semaphore(10)                                                          #동시 처리 50개 제한
+    semaphore = asyncio.Semaphore(30)                                                          #동시 처리 50개 제한
     fts = [asyncio.ensure_future(extract_brand_collector_detail(url_index, u, semaphore,loop)) for url_index, u in enumerate(link)]
     await tqdm_asyncio.gather(*fts)
 
