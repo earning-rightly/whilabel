@@ -15,6 +15,6 @@ def whisky_detail_brand_collector_executions(mode = 'brand', level ='detail'):
     print("start whisky_detail_belonging_to_brand_collector")
     wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), mode = mode, log_mode='start', level = level)  #시작 로그 기록
     wb_whisky_collector_detail_func.collect(mode)                                                                   #브랜드 상세정보 수집 함수 호출
-    wb_libs_func.save_resconvertcsvtojson(result_dict = whisky_detail_scrap, file_form='wb_brand_whisky_collector_detail')      #브랜드 상세정보 저장 함수 호출
+    wb_libs_func.save_resconvert_csv_to_json(result_dict = whisky_detail_scrap, file_form='wb_brand_whisky_collector_detail')      #브랜드 상세정보 저장 함수 호출
     wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), mode = mode, log_mode='end', level = level)    #종료 로그 기록
     print("end whisky_detail_belonging_to_brand_collector")
