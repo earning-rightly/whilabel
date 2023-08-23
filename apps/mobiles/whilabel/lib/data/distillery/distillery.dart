@@ -30,6 +30,7 @@ class Distillery {
     this.name,
     this.link,
     this.country,
+    this.address,
     this.tasteFeature,
     this.wbDistillery
   });
@@ -49,6 +50,7 @@ class Distillery {
   final String? name;                      // 위스키 이름
   final String? link;                     // 증류소 공식 url - aberlour.com
   final String? country;                  // 나라 - Scotland
+  final String? address;                  // 증류소 위치
 
   // 초기: 캐글 맛 데이터 - 추후 관리자 수정 가능
   final TasteFeature? tasteFeature;

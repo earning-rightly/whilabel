@@ -44,6 +44,7 @@ class WbDistillery {
   final String name;                      // 위스키 이름 - Aberlour
   final String? link;                     // 증류소 공식 url - aberlour.com
   final String? country;                  // 나라 - Scotland
+  final String? address;                  // 증류소 상세 주소 - PA42 7EA Port Ellen, Islay > Scotland  Islay
 
   // 관리용 필드
   final Timestamp batchedAt;              // 데이터 생성 배치가 돈 시각
