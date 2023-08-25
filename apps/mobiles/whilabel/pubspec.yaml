@@ -1,7 +1,8 @@
 name: whilabel
 description: A new Flutter project.
 publish_to: 'none'
-version: 0.1.0
+version: 1.0.0+1
+
 
 environment:
   sdk: '>=3.1.0-260.0.dev <4.0.0'
@@ -11,10 +12,25 @@ dependencies:
     sdk: flutter
   flutter_rating_bar: ^4.0.1
 
+  # 불변객체 만들때 사용하는 패키지
+  json_serializable: ^6.7.0
+  json_annotation: ^4.8.1
+  freezed_annotation: ^2.2.0
+
+  # firebase 패키지
+  firebase_core: ^2.15.1
+  cloud_firestore_odm: ^1.0.0-dev.58
+  cloud_firestore_odm_generator: ^1.0.0-dev.58
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  
+  # 불변객체 만들때 사용하는 패키지
+  build_runner: 2.4.3
+  freezed: ^2.3.5
+
 
 flutter:
   uses-material-design: true
