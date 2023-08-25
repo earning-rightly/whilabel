@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:whilabel/data/enums/sns_type.dart';
+import 'package:whilabel/data/user/sns_type.dart';
 
 // This doesn't exist yet...! See "Next Steps"
 part 'app_user.g.dart';
