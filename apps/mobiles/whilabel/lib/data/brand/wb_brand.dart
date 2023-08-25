@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -26,17 +27,19 @@ class WbBrand {
     this.rating,
   });
 
-  final String id;            // wb 브랜드 id - 81707
-  final String? name;          // 브랜드명 - Aberlour
-  final String? country;       // 나라 - Scotland
-  final String? link;          // wb 브랜드 url - https://www.whiskybase.com/whiskies/brand/81707
-  final int? whiskyCount;      // 위스키 수 - 3
-  final int? voteCount;        // 투표 수 - 143
-  final double? rating;        // 점수 - 35.03
+  final String id; // wb 브랜드 id - 81707
+  final String? name; // 브랜드명 - Aberlour
+  final String? country; // 나라 - Scotland
+  final String?
+      link; // wb 브랜드 url - https://www.whiskybase.com/whiskies/brand/81707
+  final int? whiskyCount; // 위스키 수 - 3
+  final int? voteCount; // 투표 수 - 143
+  final double? rating; // 점수 - 35.03
 
-  factory WbBrand.fromJson(Map<String, Object?> json) => _$WbBrand(json);
+  factory WbBrand.fromJson(Map<String, Object?> json) =>
+      _$WbBrandFromJson(json);
 
-  Map<String, Object?> toJson() => _$WbBrand(this);
+  Map<String, Object?> toJson() => _$WbBrandToJson(this);
 }
 
 @Collection<WbBrand>('wb_brand')
