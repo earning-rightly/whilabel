@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 
@@ -30,7 +31,7 @@ class FirestoreUserRepositoryImpl implements AppUserRepository {
     }
 
     final userDoc = await _findUserDoc(uid);
-    
+
     if (userDoc == null) {
       return Future(() => null);
     }
@@ -44,7 +45,13 @@ class FirestoreUserRepositoryImpl implements AppUserRepository {
   Future<AppUser?> findUser(String uid) async {
     final userSnapshot = await _findUserDoc(uid);
 
-    if (userSnapshot == null || userSnapshot.data == null || userSnapshot.data.isDeleted) {
+    if (userSnapshot == null) {
+      debugPrint("유저 정보를 찾을 수 없습니다.");
+
+      return Future(() => null);
+    } else if (userSnapshot.data.isDeleted) {
+      debugPrint("삭제를 요청한 유저입니다.");
+
       return Future(() => null);
     }
 
@@ -54,9 +61,9 @@ class FirestoreUserRepositoryImpl implements AppUserRepository {
   @override
   Future<bool> existUser(String nickname) async {
     final userSnapshot = await _ref
-      .where("nickname", isEqualTo: nickname)
-      .where("isDeleted", isEqualTo: false)
-      .get();
+        .whereUid(isEqualTo: nickname)
+        .whereIsDeleted(isEqualTo: false)
+        .get();
 
     return !userSnapshot.docs.isEmpty;
   }
@@ -71,7 +78,7 @@ class FirestoreUserRepositoryImpl implements AppUserRepository {
 
   Future<AppUserQueryDocumentSnapshot?> _findUserDoc(uid) async {
     final querySnapshot = await _ref.whereUid(isEqualTo: uid).get();
-    
+
     if (querySnapshot.docs.isEmpty) {
       return Future(() => null);
     }
