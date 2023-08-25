@@ -20,37 +20,36 @@ const firestoreSerializable = JsonSerializable(
 
 @firestoreSerializable
 class Distillery {
-  Distillery({
-    required this.id,
-    required this.createdAt,
-    required this.creator,
-    required this.modifiedAt,
-    required this.modifier,
-    this.wbId,
-    this.name,
-    this.link,
-    this.country,
-    this.address,
-    this.tasteFeature,
-    this.wbDistillery
-  });
+  Distillery(
+      {required this.id,
+      required this.createdAt,
+      required this.creator,
+      required this.modifiedAt,
+      required this.modifier,
+      this.wbId,
+      this.name,
+      this.link,
+      this.country,
+      this.address,
+      this.tasteFeature,
+      this.wbDistillery});
 
-  final String id;                        // 증류소 id (guid 사용)
+  final String id; // 증류소 id (guid 사용)
 
   // 관리용 필드
-  final Timestamp createdAt;             // 생성일
-  final String creator;                  // 생성자
-  final Timestamp modifiedAt;             // 수정일
-  final String modifier;                  // 수정인
+  final Timestamp createdAt; // 생성일
+  final String creator; // 생성자
+  final Timestamp modifiedAt; // 수정일
+  final String modifier; // 수정인
 
   // 관리자가 수정 가능한 필드
-  final String? wbId;                      // wb 증류소 id
+  final String? wbId; // wb 증류소 id
 
   // 관리자 '만' 수정할 수 있는 필드
-  final String? name;                      // 위스키 이름
-  final String? link;                     // 증류소 공식 url - aberlour.com
-  final String? country;                  // 나라 - Scotland
-  final String? address;                  // 증류소 위치
+  final String? name; // 위스키 이름
+  final String? link; // 증류소 공식 url - aberlour.com
+  final String? country; // 나라 - Scotland
+  final String? address; // 증류소 위치
 
   // 초기: 캐글 맛 데이터 - 추후 관리자 수정 가능
   final TasteFeature? tasteFeature;
