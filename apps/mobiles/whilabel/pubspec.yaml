@@ -16,6 +16,11 @@ dependencies:
   json_serializable: ^6.7.0
   json_annotation: ^4.8.1
   freezed_annotation: ^2.2.0
+  build: ^2.0.1
+  collection: ^1.15.0
+  graphs: '>=2.0.0 <2.3.0'
+
+
 
 
 
