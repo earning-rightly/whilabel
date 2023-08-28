@@ -56,6 +56,7 @@ async def extract_whiksy_link_collector(url : str , sema : asyncio.Semaphore):
                 soup = BeautifulSoup(markup=driver.page_source,features='lxml')  # BeautifulSoup을 통해 수집된 페이지 검색
                 extract_whisky_link(soup=soup)
                 driver.close()
+
             except:
                 traceback.print_exc()
 

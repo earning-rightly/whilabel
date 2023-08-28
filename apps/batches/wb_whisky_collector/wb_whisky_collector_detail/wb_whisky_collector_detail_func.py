@@ -50,6 +50,7 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
                 whisky_detail_scrap['whisky_name'][url_index] = soup.select('.name header h1')[
                     0].text.strip()  # 위스키 이름 추출
                 pass
+
             except IndexError:
                 if soup.text in '503':
                     print('503 error')
@@ -78,6 +79,7 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
                 whisky_detail_scrap['overall_rating'][url_index] = soup.select('dd.votes-rating')[
                     0].text.strip()  # 딕셔너리에 넣지않은이유는 vote투표수가 여러개일때와 한개일때의 dt태그명이 다른점과 같은 데이터가 2번 추출된다든점에서 따로 진행
                 whisky_detail_scrap['votes'][url_index] = soup.select('dd.votes-count')[0].text.strip()
+
             except IndexError:
                 if soup.text in '503':
                     print('503 error')
@@ -87,11 +89,13 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
             try:
                 if soup.select('.photo')[0]['href'] != 'https://static.whiskybase.com/storage/whiskies/default/big.png?v4':
                     whisky_detail_scrap['photo'][url_index] = soup.select('.photo')[0]['href']
+
             except IndexError:
                 pass
             try:
                 whisky_detail_scrap['block_price'][url_index] = soup.select('.block-price')[0].text.strip().split('\n')[
                     1]  # 위스키 가격이 있는경우
+
             except IndexError:
                 # print('block-price miss : ' + url)
                 pass
