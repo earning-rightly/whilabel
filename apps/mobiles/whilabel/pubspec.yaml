@@ -34,6 +34,10 @@ dependencies:
   get: ^4.6.5
   http: ^1.1.0
 
+  # 간편로그인 패키지
+  kakao_flutter_sdk: ^1.5.0
+  kakao_flutter_sdk_user: ^1.5.0
+
 
 
 
@@ -45,6 +49,7 @@ dev_dependencies:
   # 불변객체 만들때 사용하는 패키지
   build_runner: 2.4.3
   freezed: ^2.3.5
+
   # firebase 패키지
   cloud_firestore_odm_generator: ^1.0.0-dev.58
 
