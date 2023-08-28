@@ -7,5 +7,5 @@ part 'login_event.freezed.dart';
 @freezed
 abstract class LoginEvent with _$LoginEvent {
   const factory LoginEvent.login(SnsType snsType) = Login;
-  const factory LoginEvent.logout() = Logout;
+  const factory LoginEvent.logout(SnsType snsType) = Logout;
 }

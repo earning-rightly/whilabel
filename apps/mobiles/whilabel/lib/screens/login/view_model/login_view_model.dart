@@ -46,8 +46,8 @@ class LoginViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _logout() async {
-    bool isLogined = await logoutUseCase.call();
+  Future<void> _logout(SnsType snsType) async {
+    bool isLogined = await logoutUseCase.call(snsType);
     _state = _state.copyWith(
       isLogined: isLogined,
       isNewbie: _state.isNewbie,
