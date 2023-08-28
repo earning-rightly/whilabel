@@ -6,12 +6,12 @@ from apps.batches.wb_libs import wb_libs_func
 
 def bottler_pre_executions(mode='bottler', level='pre'):
     """
-       distillery_pre_executions.
+       bottler_pre_executions.
            Args:
                mode : mode값을 받아, 하위 함수르 호출할때 현재 상태를 전달.
                detail : detail값을 받아, 하위 함수르 호출할때 현재 상태를 전달.
            Note:
-               scrap_main 에서 증류소 사전 정보 스케줄링 함수
+               scrap_main 에서 bottler 사전 정보 스케줄링 함수
     """
     wb_libs_func.write_log(current_time=wb_libs_func.extract_time(),
                            log_mode='start',
