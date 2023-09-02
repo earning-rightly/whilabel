@@ -85,8 +85,7 @@ def write_log(current_time: tuple, log_mode: str, mode: str, level: str):
             file.write(finish_log)
             file.close()
 
-def save_resconvert_csv_to_json(current_date: str, dir_path: str, result_dict: object, file_form: str,update_key : str = None,
-                                data_load_to_fire_base_bool: bool = False, transform_to_fire_bose : list = None):
+def save_resconvert_csv_to_json(current_date: str, dir_path: str, result_dict: object, file_form: str):
     """
         save_results.
             Args:
@@ -128,11 +127,6 @@ def save_resconvert_csv_to_json(current_date: str, dir_path: str, result_dict: o
         os.makedirs('./results/' + current_date + '/json/' + dir_path)
         outfile = open('results/' + current_date + '/json/' + dir_path + file_form + '.json', 'w')  # 수집결과 json으로 저장
         json.dump(result_dict, outfile, indent=4)
-
-    if data_load_to_fire_base_bool == True:
-        print('fire!!!')
-        data_load_to_fire_base(mode=file_form, raw_data=transform_to_fire_bose,update_key=update_key)
-
 
 def reset_list_size(length: int, scrap_dict: dict):
     """
