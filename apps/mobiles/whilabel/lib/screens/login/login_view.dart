@@ -128,22 +128,28 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void checkNextRoute(
-      BuildContext context, bool isLogined, UserState userState) {
+    BuildContext context,
+    bool isLogined,
+    UserState userState,
+  ) {
     setState(() {});
+
     // 뉴비면 유저 추가 정보를 받는 화면으로 이동
     if (isLogined && userState == UserState.initial) {
       Navigator.pushReplacementNamed(
         context,
         Routes.userInfoAdditionalRoute,
       );
-    } // 뉴비가 아닌 유저면 홈 화면으로 이동
-    else if (isLogined && userState == UserState.login) {
+
+      // 뉴비가 아닌 유저면 홈 화면으로 이동
+    } else if (isLogined && userState == UserState.login) {
       Navigator.pushReplacementNamed(
         context,
         Routes.homeRoute,
       );
-    } // login하는 과정에서 에러가 발생하면 알림 띄우기
-    else
+    } // TODO: login하는 과정에서 에러가 발생하면 알림 띄우기
+    else {
       loginError();
+    }
   }
 }
