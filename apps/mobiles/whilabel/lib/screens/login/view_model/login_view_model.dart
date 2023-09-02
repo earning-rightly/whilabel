@@ -39,10 +39,12 @@ class LoginViewModel extends ChangeNotifier {
     debugPrint("isLogined ===> ${isLoginedIsNewbie.first}");
     debugPrint("isNewbie ===> ${isLoginedIsNewbie.second}");
 
-    if (isLoginedIsNewbie.second)
+    if (isLoginedIsNewbie.first && isLoginedIsNewbie.second)
       userState = UserState.initial;
-    else
+    else if (isLoginedIsNewbie.first)
       userState = UserState.login;
+    else
+      userState = UserState.notLogin;
 
     _state = _state.copyWith(
         isLogined: isLoginedIsNewbie.first, userState: userState);
