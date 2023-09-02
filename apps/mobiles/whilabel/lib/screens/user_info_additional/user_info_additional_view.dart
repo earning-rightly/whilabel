@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/domain/global_provider/current_user_state.dart';
+import 'package:whilabel/screens/global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/user_info_additional/nick_name_attional_page.dart';
 
 // UserInfoAdditionalView의 view model과 이름이 햇갈리지 읺기 위해서
@@ -19,26 +20,7 @@ class UserInfoAdditionalView extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.data == null || !snapshot.hasData) {
           // 현재 유저 정보를 늦게 받아오면
-          return Offstage(
-            offstage: true,
-            child: Stack(
-              children: [
-                Opacity(
-                  opacity: 0.5,
-                  child: ModalBarrier(dismissible: false, color: Colors.black),
-                ),
-                Center(
-                  child: SpinKitCubeGrid(
-                    itemBuilder: (context, index) {
-                      return const DecoratedBox(
-                        decoration: BoxDecoration(color: Colors.amber),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
+          LodingProgressIndicator();
         }
 
         return NickNameAttionalPage();
