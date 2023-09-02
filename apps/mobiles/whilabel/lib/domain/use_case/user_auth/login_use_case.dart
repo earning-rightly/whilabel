@@ -13,13 +13,7 @@ import 'package:whilabel/domain/login_services/kakao_oauth.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 
 class LoginUseCase {
-  AuthUser _loginUserInfo = AuthUser(
-    uid: "",
-    displayName: "",
-    email: "",
-    photoUrl: "",
-    snsType: SnsType.EMPTY,
-  );
+  AuthUser? _loginUserInfo;
 
   final CurrentUserStatus currentUserStatus;
   final AppUserRepository appUserRepository;
@@ -55,7 +49,10 @@ class LoginUseCase {
         debugPrint("snsType 값을 찾을 수 없습니다.");
         return Pair(false, false);
     }
-    await _customTokenLoginService(_loginUserInfo);
+
+    if (_loginUserInfo == null) return Pair(false, false);
+
+    await _customTokenLoginService(_loginUserInfo!);
 
     currentUserStatus.updateUserState();
     bool isNewbie = await _isNewbie();
@@ -96,11 +93,11 @@ class LoginUseCase {
         appUserRepository.insertUser(
           AppUser(
               uid: currentUser.uid,
-              email: _loginUserInfo.email,
+              email: authUser.email,
               allowNotification: false,
               isDeleted: false,
-              nickname: _loginUserInfo.displayName,
-              snsType: _loginUserInfo.snsType,
+              nickname: authUser.displayName,
+              snsType: authUser.snsType,
               snsUserInfo: {}),
         );
       }
