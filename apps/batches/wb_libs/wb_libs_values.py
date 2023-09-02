@@ -1,1 +1,1 @@
-KST = 'Asia/Seoul' #timezone setting
+KST = 'Asia/Seoul'  # timezone setting
