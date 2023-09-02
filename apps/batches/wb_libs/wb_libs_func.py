@@ -5,7 +5,6 @@ from pytz import timezone
 import os
 
 from apps.batches.wb_libs import constants
-from apps.batches.connect_fire_base.data_load_to_fire_base import data_load_to_fire_base
 
 # def write_log(file_name: str, batch_type: BatchType, log_content: str):
 #     """
