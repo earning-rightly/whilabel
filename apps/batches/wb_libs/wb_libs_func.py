@@ -7,6 +7,41 @@ import os
 from apps.batches.wb_libs import constants
 from apps.batches.connect_fire_base.data_load_to_fire_base import data_load_to_fire_base
 
+# def write_log(file_name: str, batch_type: BatchType, log_content: str):
+#     """
+#        write_log.
+#            Args:
+#                file_name: log file name
+#                batch_type: batch type
+#                log_content: log content
+#            Note:
+#                 log.txt파일에 함수 시작과 끝나는 시간을 기록하기 위한 함수
+#     """
+#     try:
+#         file = open(file_name, 'a')
+#         current_date_time: str = current_date_time()
+#         print()
+#         file.write(start_log)
+#         file.close()
+#     except Exception as err:
+#         end_log ='\nstart time : ' + str(current_time[1]) + '\nmode : ' + mode + '\nlevel : ' + level
+#         print(end_log)
+#         file.write(end_log)
+#         file.close()
+
+
+# def current_date_time() -> str:  # ex)2023_08_16 20:18:33 PM
+#     date = datetime.now()
+#     current_time = date.replace(tzinfo=timezone(constants.KST))  # 타임존을 한국시간으로 설정
+#     return current_time.strftime("%Y_%m_%d %H:%M:%S %p")  # 표시 양식을 2023_08_11 14:14:31 PM 으로 표시
+
+# def current_date() -> str:
+#     date = datetime.now()
+#     current_time = date.replace(tzinfo=timezone(constants.KST))  # 타임존을 한국시간으로 설정
+#     return current_time.strftime("%Y_%m_%d")             #표시 양식을 2023_08_11 으로 표시
+
+
+
 def write_log(current_time: tuple, log_mode: str, mode: str, level: str):
     """
        write_log.
@@ -49,7 +84,6 @@ def write_log(current_time: tuple, log_mode: str, mode: str, level: str):
             print(finish_log)
             file.write(finish_log)
             file.close()
-
 
 def save_resconvert_csv_to_json(current_date: str, dir_path: str, result_dict: object, file_form: str,update_key : str = None,
                                 data_load_to_fire_base_bool: bool = False, transform_to_fire_bose : list = None):
