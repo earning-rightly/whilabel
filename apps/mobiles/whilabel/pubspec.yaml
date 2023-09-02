@@ -34,11 +34,10 @@ dependencies:
   get: ^4.6.5
   http: ^1.1.0
 
+
   # 간편로그인 패키지
   kakao_flutter_sdk: ^1.5.0
   kakao_flutter_sdk_user: ^1.5.0
-
-
 
 
 dev_dependencies:
