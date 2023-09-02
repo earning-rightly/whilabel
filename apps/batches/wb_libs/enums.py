@@ -15,4 +15,4 @@ class CollectionName(Enum):
     WHISKY = 'whisky'
     DISTILLERY = 'distillery'
     BRAND = 'brand'
-    # TODO: Bottler Collection 추가
+    BOTTLER = 'bottler'
