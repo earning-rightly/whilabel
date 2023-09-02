@@ -92,9 +92,6 @@ def save_resconvert_csv_to_json(current_date: str, dir_path: str, result_dict: o
                 dir_path : detail , pre , link 구분
                 result_dict : 읽어올 파일명 ex)  'whisky_colloctor_detail.csv'
                 file_form : 저장할 파일명 형식 ex) 'whisky_colloctor_detail'
-                update_key : fire-base fire-store에 업데이트해야할 필드명
-                transform_to_fire_bose : fire-base fire-store에 저장용 데이터
-                data_load_to_fire_base_bool : fire-base fire-store에 저장 하는 판단 (bool)
             Note:
                 수집을 통한 결과 파일을 저장하기 위한 함수
                 :type result_dict: object
