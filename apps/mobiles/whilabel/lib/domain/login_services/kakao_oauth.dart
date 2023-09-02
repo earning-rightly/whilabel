@@ -22,9 +22,11 @@ class KaKaoOauth {
       } catch (erro) {
         debugPrint("$erro");
         ("firebase function 접근할 수 없습니다.");
+        return null;
       }
     } else {
       debugPrint("isLogined ==== >>>> ture, kakao 로그인을 취소 했습니다");
+      return null;
     }
     return loginedAuthUser;
   }
