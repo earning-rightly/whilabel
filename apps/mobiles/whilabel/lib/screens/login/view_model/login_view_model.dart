@@ -1,6 +1,7 @@
 import 'package:dartx/dartx.dart';
 import 'package:flutter/foundation.dart';
 import 'package:whilabel/data/user/sns_type.dart';
+import 'package:whilabel/domain/global_provider/current_user_state.dart';
 import 'package:whilabel/domain/use_case/user_auth/login_use_case.dart';
 import 'package:whilabel/domain/use_case/user_auth/logout_use_case.dart';
 import 'package:whilabel/screens/login/view_model/login_event.dart';
@@ -12,7 +13,7 @@ class LoginViewModel extends ChangeNotifier {
 
   LoginState _state = LoginState(
     isLogined: false,
-    isNewbie: false,
+    userState: UserState.notLogin,
   );
 
   LoginState get state => _state;
@@ -34,14 +35,17 @@ class LoginViewModel extends ChangeNotifier {
 
   Future<void> _login(SnsType snsType) async {
     Pair<bool, bool> isLoginedIsNewbie = await loginUseCase.call(snsType);
-
+    UserState userState;
     debugPrint("isLogined ===> ${isLoginedIsNewbie.first}");
     debugPrint("isNewbie ===> ${isLoginedIsNewbie.second}");
 
+    if (isLoginedIsNewbie.second)
+      userState = UserState.initial;
+    else
+      userState = UserState.login;
+
     _state = _state.copyWith(
-      isLogined: isLoginedIsNewbie.first,
-      isNewbie: isLoginedIsNewbie.second,
-    );
+        isLogined: isLoginedIsNewbie.first, userState: userState);
 
     notifyListeners();
   }
@@ -50,7 +54,7 @@ class LoginViewModel extends ChangeNotifier {
     bool isLogined = await logoutUseCase.call(snsType);
     _state = _state.copyWith(
       isLogined: isLogined,
-      isNewbie: _state.isNewbie,
+      userState: UserState.notLogin,
     );
 
     notifyListeners();
