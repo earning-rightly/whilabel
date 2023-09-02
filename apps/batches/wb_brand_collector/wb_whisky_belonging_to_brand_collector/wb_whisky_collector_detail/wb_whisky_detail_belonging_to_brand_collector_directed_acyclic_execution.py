@@ -1,3 +1,5 @@
+from apps.batches.wb_libs.enums import CollectionName
+from apps.batches.wb_libs.lib_firebase import save_to_firebase
 from apps.batches.wb_whisky_collector.wb_whisky_collector_detail import wb_whisky_collector_detail_func
 from apps.batches.wb_libs import wb_libs_func
 from apps.batches.wb_whisky_collector.wb_whisky_collector_detail.wb_whisky_collector_detail_values import \
@@ -38,8 +40,7 @@ def whisky_detail_brand_collector_executions(mode : str ='brand', level : str ='
     wb_libs_func.save_resconvert_csv_to_json(current_date=wb_libs_func.extract_time()[0],
                                              result_dict=transform_result_dict,
                                              dir_path='transformation/',
-                                             file_form='wb_' + mode + '_whiky',
-                                             transform_to_fire_bose=transform_result_list,
-                                             update_key='brand_whisky',#?
-                                              data_load_to_fire_base_bool=False)  # True)  # 브랜드 사전정보 저장 함수 호출
+                                             file_form='wb_' + mode + '_whiky')
+
+    save_to_firebase(CollectionName.WHISKY, transform_result_list, 'barcode', 'wbWhisky')
 
