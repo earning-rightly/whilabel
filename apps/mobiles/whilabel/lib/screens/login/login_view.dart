@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:whilabel/data/user/sns_type.dart';
+import 'package:whilabel/domain/global_provider/current_user_state.dart';
 import 'package:whilabel/screens/constants/path/image_paths.dart' as imagePaths;
+import 'package:whilabel/screens/constants/routes_manager.dart';
+import 'package:whilabel/screens/global/widgets/loding_progress_indicator.dart';
+import 'package:whilabel/screens/login/view_model/login_event.dart';
+import 'package:whilabel/screens/login/view_model/login_view_model.dart';
 import 'package:whilabel/screens/login/widget/each_login_button.dart';
 
 class LoginView extends StatefulWidget {
@@ -11,8 +18,11 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  bool _offstage = true;
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<LoginViewModel>();
+
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -47,22 +57,99 @@ class _LoginViewState extends State<LoginView> {
                     EachLoginButton(
                       buttonText: "카카오로 로그인하기",
                       svgImagePath: imagePaths.kakaoIcon,
+                      onPressedFunc: () {
+                        turnOnOffoffstage();
+
+                        viewModel.onEvent(LoginEvent.login(SnsType.KAKAO),
+                            callback: () {
+                          // 로그인 후 이동할 경로 확인
+                          checkNextRoute(
+                            context,
+                            viewModel.state.isLogined,
+                            viewModel.state.userState,
+                          );
+                        });
+                      },
                     ),
                     EachLoginButton(
                       buttonText: "인스타로 로그인하기",
                       svgImagePath: imagePaths.instargramIcon,
+                      onPressedFunc: () {
+                        turnOnOffoffstage();
+
+                        // 인스타 로그인은 웹뷰를 띄어줘야 하기에 로직이 다른것들과 다릅니다.
+                        if (viewModel.state.userState == UserState.notLogin) {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            Routes.instargramLoginWebPageRoute,
+                          );
+                        }
+                      },
                     ),
                     EachLoginButton(
                       buttonText: "구글로 로그인하기",
                       svgImagePath: imagePaths.googleIcon,
+                      onPressedFunc: () {
+                        turnOnOffoffstage();
+
+                        viewModel.onEvent(LoginEvent.login(SnsType.GOOGLE),
+                            callback: () {
+                          // 로그인 후 이동할 경로 확인
+                          checkNextRoute(
+                            context,
+                            viewModel.state.isLogined,
+                            viewModel.state.userState,
+                          );
+                        });
+                      },
                     ),
                   ],
                 ),
               ),
+            ),
+            LodingProgressIndicator(
+              offstage: _offstage,
             )
           ],
         ),
       ),
     );
+  }
+
+  void turnOnOffoffstage() {
+    setState(() {
+      _offstage = !_offstage;
+    });
+  }
+
+  void loginError() {
+    turnOnOffoffstage();
+    debugPrint("로그인 오류 발생");
+  }
+
+  void checkNextRoute(
+    BuildContext context,
+    bool isLogined,
+    UserState userState,
+  ) {
+    setState(() {});
+
+    // 뉴비면 유저 추가 정보를 받는 화면으로 이동
+    if (isLogined && userState == UserState.initial) {
+      Navigator.pushReplacementNamed(
+        context,
+        Routes.userInfoAdditionalRoute,
+      );
+
+      // 뉴비가 아닌 유저면 홈 화면으로 이동
+    } else if (isLogined && userState == UserState.login) {
+      Navigator.pushReplacementNamed(
+        context,
+        Routes.homeRoute,
+      );
+    } // TODO: login하는 과정에서 에러가 발생하면 알림 띄우기
+    else {
+      loginError();
+    }
   }
 }

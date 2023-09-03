@@ -33,11 +33,10 @@ class InstargramOauth {
           'https://graph.instagram.com/${json.decode(token.body)['user_id'].toString()}?fields=id,username,account_type,media_count&access_token=${json.decode(longToken.body)['access_token']}',
         ),
       );
-      // responseUserData = await http.get(Uri.parse(
-      //     'https://graph.instagram.com/${json.decode(response.body)['user_id'].toString()}?fields=id,username,account_type,media_count&access_token=${json.decode(responseLongAccessToken.body)['access_token']}'));
     } catch (e) {
       debugPrint("에러!! 인스타그램 token 받아오기 실패");
       debugPrint(e.toString());
+      return null;
     }
 
     return _creatAuthUser(jsonDecode(responseUserData.body));

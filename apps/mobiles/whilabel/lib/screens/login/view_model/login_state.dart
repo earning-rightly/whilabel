@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:whilabel/domain/global_provider/current_user_state.dart';
 
 part 'login_state.freezed.dart';
 
@@ -6,6 +7,6 @@ part 'login_state.freezed.dart';
 class LoginState with _$LoginState {
   factory LoginState({
     required bool isLogined,
-    required bool isNewbie,
+    required UserState userState,
   }) = _LoginState;
 }

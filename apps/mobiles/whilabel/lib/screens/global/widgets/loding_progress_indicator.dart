@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LodingProgressIndicator extends StatelessWidget {
-  const LodingProgressIndicator({super.key});
+  final bool offstage;
+  const LodingProgressIndicator({
+    Key? key,
+    required this.offstage,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Offstage(
-      offstage: true,
+      offstage: offstage,
       child: Stack(
         children: [
           Opacity(
