@@ -54,40 +54,20 @@ class _LoginViewState extends State<LoginView> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
-                    TextButton(
-                        onPressed: () {
-                          viewModel.onEvent(LoginEvent.logout(SnsType.KAKAO));
-                        },
-                        child: Text("kakao로그아웃 데트스")),
-                    TextButton(
-                        onPressed: () {
-                          viewModel.onEvent(LoginEvent.logout(SnsType.GOOGLE));
-                        },
-                        child: Text("google 로그아웃 데트스")),
                     EachLoginButton(
                       buttonText: "카카오로 로그인하기",
                       svgImagePath: imagePaths.kakaoIcon,
                       onPressedFunc: () {
-                        setState(() {
-                          _offstage = !_offstage;
-                        });
+                        turnOnOffoffstage();
 
                         viewModel.onEvent(LoginEvent.login(SnsType.KAKAO),
                             callback: () {
-                          setState(() {});
-                          if (viewModel.state.isLogined &&
-                              viewModel.state.userState == UserState.initial) {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.userInfoAdditionalRoute,
-                            );
-                          } else if (viewModel.state.isLogined &&
-                              viewModel.state.userState == UserState.login) {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.homeRoute,
-                            );
-                          }
+                          // 로그인 후 이동할 경로 확인
+                          checkNextRoute(
+                            context,
+                            viewModel.state.isLogined,
+                            viewModel.state.userState,
+                          );
                         });
                       },
                     ),
@@ -95,11 +75,11 @@ class _LoginViewState extends State<LoginView> {
                       buttonText: "인스타로 로그인하기",
                       svgImagePath: imagePaths.instargramIcon,
                       onPressedFunc: () {
-                        setState(() {
-                          _offstage = !_offstage;
-                        });
+                        turnOnOffoffstage();
+
+                        // 인스타 로그인은 웹뷰를 띄어줘야 하기에 로직이 다른것들과 다릅니다.
                         if (viewModel.state.userState == UserState.notLogin) {
-                          Navigator.pushNamed(
+                          Navigator.pushReplacementNamed(
                             context,
                             Routes.instargramLoginWebPageRoute,
                           );
@@ -110,25 +90,16 @@ class _LoginViewState extends State<LoginView> {
                       buttonText: "구글로 로그인하기",
                       svgImagePath: imagePaths.googleIcon,
                       onPressedFunc: () {
-                        setState(() {
-                          _offstage = !_offstage;
-                        });
+                        turnOnOffoffstage();
+
                         viewModel.onEvent(LoginEvent.login(SnsType.GOOGLE),
                             callback: () {
-                          setState(() {});
-                          if (viewModel.state.isLogined &&
-                              viewModel.state.userState == UserState.initial) {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.userInfoAdditionalRoute,
-                            );
-                          } else if (viewModel.state.isLogined &&
-                              viewModel.state.userState == UserState.login) {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.homeRoute,
-                            );
-                          }
+                          // 로그인 후 이동할 경로 확인
+                          checkNextRoute(
+                            context,
+                            viewModel.state.isLogined,
+                            viewModel.state.userState,
+                          );
                         });
                       },
                     ),
@@ -143,5 +114,42 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
+  }
+
+  void turnOnOffoffstage() {
+    setState(() {
+      _offstage = !_offstage;
+    });
+  }
+
+  void loginError() {
+    turnOnOffoffstage();
+    debugPrint("로그인 오류 발생");
+  }
+
+  void checkNextRoute(
+    BuildContext context,
+    bool isLogined,
+    UserState userState,
+  ) {
+    setState(() {});
+
+    // 뉴비면 유저 추가 정보를 받는 화면으로 이동
+    if (isLogined && userState == UserState.initial) {
+      Navigator.pushReplacementNamed(
+        context,
+        Routes.userInfoAdditionalRoute,
+      );
+
+      // 뉴비가 아닌 유저면 홈 화면으로 이동
+    } else if (isLogined && userState == UserState.login) {
+      Navigator.pushReplacementNamed(
+        context,
+        Routes.homeRoute,
+      );
+    } // TODO: login하는 과정에서 에러가 발생하면 알림 띄우기
+    else {
+      loginError();
+    }
   }
 }
