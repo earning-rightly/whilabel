@@ -68,6 +68,8 @@ class _InstargramLoginWebPageState extends State<InstargramLoginWebPage> {
                           context,
                           Routes.homeRoute,
                         );
+                      } else {
+                        debugPrint("로그인 오류 발생");
                       }
                     });
 
