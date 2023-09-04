@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import cfscrape
 from tqdm import tqdm
 
-from batches.wb_distillery_collector.wb_distillery_collector_pre.wb_distillery_collector_pre_values import \
+from apps.batches.wb_distillery_collector.wb_distillery_collector_pre.wb_distillery_collector_pre_values import \
     distillery_summary_collect_url as url, distillery_summary_collect_data as pre_scrap
 
 def collect():  # 증류소의 초기 정보를 수집하는 함수
