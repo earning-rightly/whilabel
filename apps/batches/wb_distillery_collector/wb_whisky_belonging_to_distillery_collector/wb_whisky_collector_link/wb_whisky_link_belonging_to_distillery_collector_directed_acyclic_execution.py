@@ -1,10 +1,10 @@
-from apps.batches.wb_whisky_collector.wb_whisky_collector_link import wb_whisky_collector_link_func
+from apps.batches.wb_whisky_collector.wb_whisky_collector_link import wb_whisky_collector_link_apply_func
 from apps.batches.wb_whisky_collector.wb_whisky_collector_link.wb_whisky_collector_link_values import \
     whisky_collect_link_scrap as link_scrap
 from apps.batches.wb_libs import wb_libs_func
+from apps.batches.wb_libs.enums import BatchType
 
-
-def whisky_link_distillery_collector_executions(mode : str ='distillery', level : str = 'link'):
+def whisky_link_distillery_collector_executions(batch_type : BatchType):
     """
        whisky_link_distillery_collector_executions.
            Args:
@@ -13,12 +13,13 @@ def whisky_link_distillery_collector_executions(mode : str ='distillery', level 
            Note:
                scrap_main 에서 위스키 링크  스케줄링 함수
     """
-
-    wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), log_mode='start', mode=mode+'_whisky',
-                           level=level)  # 시작 로그 기록
-    wb_whisky_collector_link_func.collect(mode = mode, current_date=wb_libs_func.extract_time()[0])  # 위스키 링크 수집 함수 호출
-    wb_libs_func.save_resconvert_csv_to_json(current_date=wb_libs_func.extract_time()[0], result_dict=link_scrap,
+    #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), log_mode='start', mode=mode+'_whisky',level=level)  # 시작 로그 기록
+    #TODO: logger add
+    wb_whisky_collector_link_apply_func.collect(batch_type=BatchType.DISTILLERY_PRE.value,
+                                                current_date=wb_libs_func.extract_time()[0])  # 위스키 링크 수집 함수 호출
+    wb_libs_func.save_resconvert_csv_to_json(current_date=wb_libs_func.extract_time()[0],
+                                             result_dict=link_scrap,
                                              dir_path='link/',
-                                             file_form='wb_distillery_whisky_collector_link')  # 위스키 링크 저장 함수 호출
-    wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), log_mode='end', mode=mode+'_whisky', level=level)  # 종료 로그 기록
-
+                                             file_form=batch_type.value)  # 위스키 링크 저장 함수 호출
+   # wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), log_mode='end', mode=mode+'_whisky', level=level)  # 종료 로그 기록
+    # TODO: logger add

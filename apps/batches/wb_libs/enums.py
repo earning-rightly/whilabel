@@ -1,0 +1,31 @@
+from enum import Enum
+
+class BatchType(Enum):
+    BRAND_PRE = 'BRAND_PRE'
+    BRAND_DETAIL = 'BRAND_DETAIL'
+    BRAND_WHISKY_LINK = 'BRAND_WHISKY_LINK'
+    BRAND_WHISKY_DETAIL = 'BRAND_WHISKY_DETAIL'
+
+    DISTILLERY_PRE = 'DISTILLERY_PRE'
+    DISTILLERY_DETAIL = 'DISTILLERY_DETAIL'
+    DISTILLERY_WHISKY_LINK = 'DISTILLERY_WHISKY_LINK'
+    DISTILLERY_WHISKY_DETAIL = 'DISTILLERY_WHISKY_DETAIL'
+
+    BOTTER_PRE = 'BOTTER_PRE'
+    BOTTER_DETAIL = 'BOTTER_DETAIL'
+    BOTTER_WHISKY_LINK = 'BOTTER_WHISKY_LINK'
+    BOTTER_WHISKY_DETAIL = 'BOTTER_WHISKY_DETAIL'
+
+class CollectionName(Enum):
+    WHISKY = 'whisky'
+    DISTILLERY = 'distillery'
+    BRAND = 'brand'
+    BOTTLER = 'bottler'
+    WHISKY_CATEGORY = 'whisky_category'
+    TASTETAG = 'taste_tag'
+
+class BatchExecution(Enum):
+    PRETEST = 'pre_test'
+    DAILY = 'daily'
+    ERRORTEST = 'error_test'
+

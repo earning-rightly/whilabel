@@ -5,7 +5,6 @@ from tqdm import tqdm
 from batches.wb_distillery_collector.wb_distillery_collector_pre.wb_distillery_collector_pre_values import \
     distillery_summary_collect_url as url, distillery_summary_collect_data as pre_scrap
 
-
 def collect():  # 증류소의 초기 정보를 수집하는 함수
     """
         collect.
@@ -19,6 +18,7 @@ def collect():  # 증류소의 초기 정보를 수집하는 함수
     # whisky base에 distillery 카테고리 홈페이지 정보 수집
     clickable_list = soup.select(".clickable")  # 증류소 갯수 확인 type : list
     data_list = soup.select(".data")  # data로 시작하는 class 명 수집 type : list
+
     for i in tqdm(range(len(clickable_list))):  # 증류쇼 갯수만큼 반복
         pre_scrap['distillery_name'].append(clickable_list[i].text.replace("\t", "").replace("\n", ""))  # 브랜드 초기정보 수집
         pre_scrap['link'].append(clickable_list[i].a['href'])

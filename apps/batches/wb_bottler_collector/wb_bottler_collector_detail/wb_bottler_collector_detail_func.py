@@ -15,6 +15,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from apps.batches.wb_libs import wb_libs_func
 from apps.batches.wb_bottler_collector.wb_bottler_collector_detail.wb_bottler_collector_detail_values import \
     bottler_collect_detail_scrap as detail_scrap
+from apps.batches.wb_libs.enums import BatchType
 
 async def extract_bottler_collector_detail(url_index : int, url : str, sema : asyncio.Semaphore):
     """
@@ -110,6 +111,6 @@ def collect(current_date: str):
             Note:
                 파일 읽기 및 파일크기에따른 리스트 초기화(reset_list_size) loop생성
     """
-    bottler_table = pd.read_csv('results/' + current_date + '/csv/pre/wb_bottler_collector_pre.csv')
+    bottler_table = pd.read_csv(f'results/{current_date}/csv/pre/{BatchType.BOTTER_PRE.value}.csv')
     wb_libs_func.reset_list_size(len(bottler_table), detail_scrap)
     asyncio.run(extract_bottler_collector_detail_async(bottler_table.link))

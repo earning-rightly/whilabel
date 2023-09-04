@@ -11,7 +11,7 @@ import traceback
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-
+from apps.batches.wb_libs.enums import BatchType
 from apps.batches.wb_libs import wb_libs_func
 from apps.batches.wb_distillery_collector.wb_distillery_collector_detail.wb_distillery_collector_detail_values import \
     distillery_collect_detail_scrap as detail_scrap
@@ -117,6 +117,6 @@ def collect(current_date: str):
             Note:
                 파일 읽기 및 파일크기에따른 리스트 초기화(reset_list_size) loop생성
     """
-    distillery_table = pd.read_csv('results/' + current_date + '/csv/pre/wb_distillery_collector_pre.csv')
+    distillery_table = pd.read_csv(f'results/{current_date}/csv/pre/{BatchType.DISTILLERY_PRE.value}.csv')
     wb_libs_func.reset_list_size(len(distillery_table), detail_scrap)
     asyncio.run(extract_distillery_collector_detail_async(distillery_table.link))

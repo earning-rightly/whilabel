@@ -89,7 +89,7 @@ async def extract_brand_collector_detail_async(link: str):
     semaphore = asyncio.Semaphore(30)  # 동시 처리 30개 제한
     fts = [asyncio.ensure_future(extract_brand_collector_detail(url_index=url_index, url=url, sema=semaphore)) for url_index, url in enumerate(link)]
     await tqdm_asyncio.gather(*fts)
-
+from apps.batches.wb_libs.enums import BatchType
 def collect(current_date: str):
     """
         collect.
@@ -98,7 +98,7 @@ def collect(current_date: str):
             Note:
                 파일 읽기 및 파일크기에따른 리스트 초기화(reset_list_size) loop생성
     """
-    brand_table = pd.read_csv('results/' + current_date + '/csv/pre/wb_brand_collector_pre.csv')
+    brand_table = pd.read_csv(f'results/{current_date}/csv/pre/{BatchType.BRAND_PRE.value}.csv')
     wb_libs_func.reset_list_size(
         length=len(brand_table),
         scrap_dict=detail_scrap)  # brand_table에 갯수만큼 저장해야할 리스트 초기화
