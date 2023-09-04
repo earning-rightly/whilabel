@@ -14,7 +14,6 @@ def whisky_detail_distillery_collector_executions(batch_type : BatchType, batch_
             Note:
                 scrap_main 에서 위스키 상세정보 스케줄링 함수
     """
-
     #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), mode=mode+'_whisky', log_mode='start',
     # TODO: logger
         #                   level=level)  # 시작 로그 기록
@@ -25,8 +24,7 @@ def whisky_detail_distillery_collector_executions(batch_type : BatchType, batch_
                                              file_form=batch_type.value)  # 위스키 사전정보 저장 함수 호출
     #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), mode=mode+'_whisky', log_mode='end', level=level)  # 종료 로그 기록
     # TODO: logger
-    transform_result_dict = replace_extracted_data_with_wb_whisky_format(extract_data=whisky_detail_scrap,
-                                                                         batchId=batch_id.value)
+    transform_result_dict = replace_extracted_data_with_wb_whisky_format(extract_data=whisky_detail_scrap,batchId=batch_id.value)
     wb_libs_func.save_resconvert_csv_to_json(current_date=wb_libs_func.extract_time()[0],
                                              result_dict=transform_result_dict,
                                              dir_path='transformation/',
