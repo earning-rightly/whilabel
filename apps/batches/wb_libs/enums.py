@@ -21,7 +21,7 @@ class CollectionName(Enum):
     DISTILLERY = 'distillery'
     BRAND = 'brand'
     BOTTLER = 'bottler'
-    WHISKYCATEGORY = 'whisky_category'
+    WHISKY_CATEGORY = 'whisky_category'
     TASTETAG = 'taste_tag'
 
 class BatchExecution(Enum):
