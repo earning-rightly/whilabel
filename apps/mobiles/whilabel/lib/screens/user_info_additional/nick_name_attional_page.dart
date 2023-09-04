@@ -11,6 +11,7 @@ class NickNameAttionalPage extends StatefulWidget {
 }
 
 class _NickNameAttionalPageState extends State<NickNameAttionalPage> {
+  final _formKey = GlobalKey();
   final nickNameText = TextEditingController();
   String userNickname = "";
 
@@ -28,28 +29,32 @@ class _NickNameAttionalPageState extends State<NickNameAttionalPage> {
         child: Stack(
           children: [
             Positioned(
-              child: Column(
-                children: [
-                  Text(
-                    "닉네임을 설정해주세요",
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  TextFormField(
-                    maxLength: 20,
-                    controller: nickNameText,
-                    decoration: makeWhiskeyRegisterTextFieldStyle(
-                        "한글, 영문, 숫자, 언더바 가능", true),
-                    validator: (value) => checkAbleNickNameRule(value),
-                    onChanged: (value) {
-                      setState(() {
-                        userNickname = value;
-                      });
-                    },
-                  )
-                ],
+              child: Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  children: [
+                    Text(
+                      "닉네임을 설정해주세요",
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    TextFormField(
+                      maxLength: 20,
+                      controller: nickNameText,
+                      decoration: makeWhiskeyRegisterTextFieldStyle(
+                          "[한글, 영어, 숫자, _ ] 만 가능", true),
+                      validator: (value) => checkAbleNickNameRule(value!),
+                      onChanged: (value) {
+                        setState(() {
+                          userNickname = value;
+                        });
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
             Positioned(
