@@ -17,9 +17,6 @@ def save_to_firebase(collection_name: CollectionName, data: list, query_field: s
             Note:
                 fire-base/fire-store에 데이터 를 적재하기 위한 코드 입니다.
     """
-
-    start = timeit.default_timer()  # 시작 시간 기록
-
     connect_app()
 
     db = firestore.client()  # firesotore client 생성
@@ -34,11 +31,7 @@ def save_to_firebase(collection_name: CollectionName, data: list, query_field: s
             doc_ref = db.collection(collection_name.value).document(doc[query_field])
             doc_ref.update({update_field: doc[update_field]}) # 특정 필드 업데이트
 
-    stop = timeit.default_timer()  # 종료 시간 기록
-
     # TODO: logger 로 대체
-    print(collection_name.value + "data load to fire store total time taken : " + str(stop - start))  # 총 걸린 시간 출력 (종료 시간 - 시작 시간)
-
 def connect_app():
     cred = credentials.Certificate('whilabel-firebase-adminsdk-wpf10-c0d0c95e63.json')  # sdk키 호출
     if not firebase_admin._apps:  # sdk 키를 가지고  project_id와 같이 firebase_admin연결
@@ -59,16 +52,11 @@ def extract_to_firebase(collection_name: CollectionName) -> dict:
             Return:
                 dict
     """
-    start = timeit.default_timer()  # 시작 시간 기록
 
     connect_app()
 
     db = firestore.client()  # firesotore client 생성
     query = db.collection(collection_name.value)
-
-
-    stop = timeit.default_timer()  # 종료 시간 기록
-    print(collection_name.value + " data load to fire store total time taken : " + str(stop - start))  # 총 걸린 시간 출력 (종료 시간 - 시작 시간)
 
     for doc in query.stream():
         return doc.to_dict()
