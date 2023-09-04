@@ -13,7 +13,6 @@ def whisky_link_distillery_collector_executions(batch_type : BatchType):
            Note:
                scrap_main 에서 위스키 링크  스케줄링 함수
     """
-
     #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), log_mode='start', mode=mode+'_whisky',level=level)  # 시작 로그 기록
     #TODO: logger add
     wb_whisky_collector_link_apply_func.collect(batch_type=BatchType.DISTILLERY_PRE.value,
