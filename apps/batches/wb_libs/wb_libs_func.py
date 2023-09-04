@@ -39,8 +39,6 @@ from apps.batches.wb_libs import constants
 #     current_time = date.replace(tzinfo=timezone(constants.KST))  # 타임존을 한국시간으로 설정
 #     return current_time.strftime("%Y_%m_%d")             #표시 양식을 2023_08_11 으로 표시
 
-
-
 def write_log(current_time: tuple, log_mode: str, mode: str, level: str):
     """
        write_log.
@@ -135,7 +133,6 @@ def reset_list_size(length: int, scrap_dict: dict):
         """
     for key in scrap_dict.keys():
         scrap_dict.get(key).extend([None for i in range(length)])
-
 
 def extract_time() -> tuple:  # ex)2023_08_16 20:18:33 PM
     """
