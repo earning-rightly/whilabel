@@ -41,10 +41,9 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
                    IndexError : soup을 통해 생성한 title_list, value_list값이 현재 준비해둔 값과 안맞을때 (해결)
         """
         whisky_detail_scrap['link'][url_index] = url
-        if soup.select(
-                '.col-sm-offset-3.col-sm-6.site-error') != []:  # 해당 위스키 페이지가 사라짐 #ex) : https://www.whiskybase.com/whiskies/whisky/170176/aberfeldy-1996-ca
-
+        if soup.select('.col-sm-offset-3.col-sm-6.site-error') != []:  # 해당 위스키 페이지가 사라짐 #ex) : https://www.whiskybase.com/whiskies/whisky/170176/aberfeldy-1996-ca
             pass
+
         else:  # 위스키 사이트가 active일때
             try:
                 whisky_detail_scrap['whisky_name'][url_index] = soup.select('.name header h1')[
@@ -64,6 +63,7 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
                 if dt_list[i].text.strip() == 'Overall rating' or dt_list[i].text.strip() == 'votes' or dt_list[
                     i].text.strip() == 'vote':  # 변경필요 == -> !=으로
                     pass
+
                 else:
                     if dt_list[i].text.strip() == 'Distilleries' or dt_list[i].text.strip() == 'Distillery':
                         dis_dict = {}
@@ -144,7 +144,6 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
             except aiohttp.client_exceptions.ClientConnectorError:  # 비동기식 접속으로 443포트에 대한 접속이 안되는 에러에 대한 예외처리
                 await turn_around_selenum(url, url_index)
 
-
 async def extract_whisky_detail_collector_async(link : list):
     """
         extract_whisky_detail_collector_async.
@@ -158,7 +157,6 @@ async def extract_whisky_detail_collector_async(link : list):
     fts = [asyncio.ensure_future(scrap_whisky_collector_detail(u, semaphore, url_index=url_index)) for url_index, u in
            enumerate(link)]
     await tqdm_asyncio.gather(*fts)
-
 
 def collect(batch_type : str, current_date: str):
     """
