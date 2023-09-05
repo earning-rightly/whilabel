@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/domain/global_provider/current_user_state.dart';
@@ -20,7 +19,9 @@ class UserInfoAdditionalView extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.data == null || !snapshot.hasData) {
           // 현재 유저 정보를 늦게 받아오면
-          LodingProgressIndicator();
+          LodingProgressIndicator(
+            offstage: true,
+          );
         }
 
         return NickNameAttionalPage();
