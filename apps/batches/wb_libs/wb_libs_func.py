@@ -82,7 +82,14 @@ def write_log(current_time: tuple, log_mode: str, mode: str, level: str):
             file.write(finish_log)
             file.close()
 
-def save_resconvert_csv_to_json(current_date: str, dir_path: str, result_dict: object, file_form: str):
+def convert_to_df(obj: object) -> pd.DataFrame:
+    try:
+        return pd.DataFrame(obj)
+    except ValueError:
+        return pd.read_json(obj)
+
+
+def save_res_convert_csv_to_json(current_date: str, dir_path: str, result_dict: object, file_form: str):
     """
         save_results.
             Args:
@@ -95,11 +102,8 @@ def save_resconvert_csv_to_json(current_date: str, dir_path: str, result_dict: o
                 :type result_dict: object
                 :param results_dict_columns:
     """
-    try:
-        results= pd.DataFrame(result_dict)
-
-    except ValueError:
-        results= pd.read_json(result_dict)
+    
+    results = convert_to_df(result_dict)
 
     if dir_path == 'link/':
         results = results[results.whisky_link.duplicated()==False] #위스키 링크 중복 수집 문제 임시방편 해결
