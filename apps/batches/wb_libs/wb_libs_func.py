@@ -141,6 +141,12 @@ def reset_list_size(length: int, scrap_dict: dict):
     for key in scrap_dict.keys():
         scrap_dict.get(key).extend([None for i in range(length)])
 
+def get_current_date() -> str:
+    return datetime.now().replace(tzinfo=timezone(constants.KST)).strftime("%Y_%m_%d")
+
+def get_current_datetime() -> str:
+    return datetime.now().replace(tzinfo=timezone(constants.KST)).strftime("%Y_%m_%d %H:%M:%S %p")
+
 def extract_time() -> tuple:  # ex)2023_08_16 20:18:33 PM
     """
         extract_time.
