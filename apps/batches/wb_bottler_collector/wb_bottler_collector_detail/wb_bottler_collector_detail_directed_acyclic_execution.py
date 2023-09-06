@@ -17,10 +17,10 @@ def bottler_detail_executions(batch_type : BatchType, batch_execution : BatchExe
                 scrap_main 에서 증류소 상세정보 스케줄링 함수
     """
 
-    #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(),log_mode='start',mode=mode,level=level)  # 시작 로그 기록
-    wb_bottler_collector_detail_func.collect(current_date=wb_libs_func.extract_time()[0])  # 증류소 상세정보 수집 함수 호출
-
     current_date = wb_libs_func.get_current_date()
+
+    #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(),log_mode='start',mode=mode,level=level)  # 시작 로그 기록
+    wb_bottler_collector_detail_func.collect(current_date=current_date)  # 증류소 상세정보 수집 함수 호출
 
     # save as csv file
     result_df = wb_libs_func.convert_to_df(detail_scrap)

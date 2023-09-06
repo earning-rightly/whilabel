@@ -14,12 +14,12 @@ def whisky_link_brand_collector_executions(batch_type : BatchType):  # mode allo
                scrap_main 에서 위스키 링크  스케줄링 함수
     """
 
+    current_date = wb_libs_func.get_current_date()
+
     #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), log_mode='start', mode=mode+'_whisky',level=level)  # 시작 로그 기록
     # TODO: logger add
     wb_whisky_collector_link_apply_func.collect(batch_type=BatchType.BRAND_PRE.value,
-                                                current_date=wb_libs_func.extract_time()[0])  # 위스키 링크 수집 함수 호출
-    
-    current_date = wb_libs_func.get_current_date()
+                                                current_date=current_date)  # 위스키 링크 수집 함수 호출
 
     # save as csv file
     result_df = wb_libs_func.convert_to_df(link_scrap)

@@ -199,7 +199,7 @@ def replace_extracted_data_with_wb_whisky_format(extract_data: dict, batchId : s
     whisky_data['overall_rating'] = whisky_data.apply(remake_overall_rate, axis=1)
     whisky_data[['price_unit','price']] = whisky_data.apply(price_information_resize, axis=1,result_type='expand')
     whisky_data[['distillery_id', 'distillery_name']] = whisky_data.apply(distillery_information_resize, axis=1, result_type='expand')
-    whisky_data['batchedAt'] = wb_libs_func.extract_time()[1]
+    whisky_data['batchedAt'] = wb_libs_func.get_current_datetime()
     whisky_data['batchId'] = batchId
 
     whisky_data = whisky_data[

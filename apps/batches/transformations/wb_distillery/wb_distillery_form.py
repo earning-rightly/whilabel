@@ -96,10 +96,14 @@ def replace_extracted_data_with_wb_distillery_formmat(batchId : str = None) -> [
                 수집된 증류소 정보를 병합 및 전처리 를 진행하는 함수
     """
     # 수집된 파일 가져오기 : 파일 주소가 아닌 파라미터로 넘기는게 어떤지...?
-    distillery_detail_data = pd.read_csv(f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{wb_libs_func.extract_time()[0]}/csv/detail/{BatchType.DISTILLERY_DETAIL.value}.csv')
-    distillery_summary_data = pd.read_csv(f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{wb_libs_func.extract_time()[0]}/csv/pre/{BatchType.DISTILLERY_PRE.value}.csv')
+    current_date = wb_libs_func.get_current_date()
+    distillery_detail_data = pd.read_csv(f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{current_date}/csv/detail/{BatchType.DISTILLERY_DETAIL.value}.csv')
+    distillery_summary_data = pd.read_csv(f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{current_date}/csv/pre/{BatchType.DISTILLERY_PRE.value}.csv')
 
     distillery_detail_data_remove_columns = distillery_detail_data.loc[:, new_keys_list]  # 불필요한 컬럼 제거
+
+    current_datetime = wb_libs_func.get_current_datetime()
+
     result_df = pd.merge(distillery_summary_data,
                          distillery_detail_data_remove_columns,  # 증류소 (사전 + 상세) 병합 하기 사전 기준으로 합치기
                          how='left',
@@ -110,7 +114,7 @@ def replace_extracted_data_with_wb_distillery_formmat(batchId : str = None) -> [
     result_df['closed'] = result_df.apply(closed_change_datetime_form, axis=1)  # 스페셜리스트 처리
     result_df['founded'] = result_df.apply(founded_change_datetime_form, axis=1)  # 스페셜리스트 처리
     result_df['specialists'] = result_df.apply(change_specialists_format, axis=1)  # 스페셜리스트 처리
-    result_df['batchedAt'] = wb_libs_func.extract_time()[1]
+    result_df['batchedAt'] = current_datetime
     result_df['batchId'] = batchId
 
     result_df = result_df[['wb_distillery_id', 'distillery_name', 'whiskies', 'votes', 'rating', 'link',
@@ -126,9 +130,9 @@ def replace_extracted_data_with_wb_distillery_formmat(batchId : str = None) -> [
     for result_index in range(len(result_df)):
         result_df_list.append({
             'id': str(uuid.uuid5(uuid.NAMESPACE_URL, result_df.wbLink[result_index])), #네임 스페이스 UUID와 이름의 SHA-1 해시에서 UUID를 생성합니다.,
-            'createdAt': wb_libs_func.extract_time()[1],
+            'createdAt': current_datetime,
             'creator': None,
-            'modifiedAt': wb_libs_func.extract_time()[1],
+            'modifiedAt': current_datetime,
             'modifier': None,
             'name': result_df.name[result_index],
             'country': result_df.country[result_index],
