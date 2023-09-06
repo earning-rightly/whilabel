@@ -108,35 +108,6 @@ def save_to_json(obj: object, path: str, file_name: str):
         outfile = open(f'{path}{file_name}.json', 'w')
         json.dump(obj, outfile, indent=4)
 
-def save_res_convert_csv_to_json(current_date: str, dir_path: str, result_dict: object, file_form: str):
-    """
-        save_results.
-            Args:
-                current_date : 저장된 날짜.
-                dir_path : detail , pre , link 구분
-                result_dict : 읽어올 파일명 ex)  'whisky_colloctor_detail.csv'
-                file_form : 저장할 파일명 형식 ex) 'whisky_colloctor_detail'
-            Note:
-                수집을 통한 결과 파일을 저장하기 위한 함수
-                :type result_dict: object
-                :param results_dict_columns:
-    """
-    
-    results = convert_to_df(result_dict)
-
-    if dir_path == 'link/':
-        results = remove_duplicated_link(results)
-
-    # save as csv file
-    csv_path = f'results/{current_date}/csv/{dir_path}'
-    save_to_csv(results, csv_path, file_form)
-
-    if dir_path == 'link/':
-        result_dict = json.loads(results.to_json()) #위스키 링크 중복 수집 문제 임시방편 해결
-
-    json_path = f'results/{current_date}/json/{dir_path}'
-    save_to_json(result_dict, json_path, file_form)
-
 def reset_list_size(length: int, scrap_dict: dict):
     """
             reset_list_size.
