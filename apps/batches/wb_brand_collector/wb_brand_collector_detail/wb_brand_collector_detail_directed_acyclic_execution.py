@@ -18,17 +18,30 @@ def brand_detail_executions(batch_type : BatchType, batch_execution :  BatchExec
 
     #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(),log_mode='start', mode=mode,level=level)  # 시작 로그 기록
     wb_brand_collector_detail_func.collect(current_date = wb_libs_func.extract_time()[0])  # 브랜드 상세정보 수집 함수 호출
-    wb_libs_func.save_resconvert_csv_to_json(current_date=wb_libs_func.extract_time()[0],
-                                             result_dict=detail_scrap,
-                                             dir_path='detail/',
-                                             file_form=batch_type.value)  # 브랜드 상세정보 저장 함수 호출
-   # wb_libs_func.write_log(current_time=wb_libs_func.extract_time(),log_mode='end', mode=mode,level=level)  # 종료 로그 기록
+
+    current_date = wb_libs_func.get_current_date()
+
+    # save as csv file
+    result_df = wb_libs_func.convert_to_df(detail_scrap)
+    csv_path = f'results/{current_date}/csv/detail/'
+    wb_libs_func.save_to_csv(result_df, csv_path, batch_type.value)
+
+    # save as json file
+    json_path = f'results/{current_date}/json/detail/'
+    wb_libs_func.save_to_json(detail_scrap, json_path, batch_type.value)
+
+    # wb_libs_func.write_log(current_time=wb_libs_func.extract_time(),log_mode='end', mode=mode,level=level)  # 종료 로그 기록
+
     transform_result_list, transform_result_dict = replace_extracted_data_with_wb_brand_formmat(batchId=batch_execution.value)  # 수집된 브랜드 정보 전처리
-    wb_libs_func.save_resconvert_csv_to_json(current_date=wb_libs_func.extract_time()[0],
-                                             # 전처리된 데이터를 csv, json, fire store에 저장
-                                             result_dict=transform_result_dict,
-                                             dir_path='transformation/',
-                                             file_form='wb_brand')
+
+    # save as csv file
+    result_df = wb_libs_func.convert_to_df(transform_result_dict)
+    csv_path = f'results/{current_date}/csv/transformation/'
+    wb_libs_func.save_to_csv(result_df, csv_path, 'wb_brand')
+
+    # save as json file
+    json_path = f'results/{current_date}/json/transformation/'
+    wb_libs_func.save_to_json(transform_result_dict, json_path, 'wb_brand')
 
     save_to_firebase(CollectionName.BRAND, transform_result_list, 'wbId', 'wbBrand')
 

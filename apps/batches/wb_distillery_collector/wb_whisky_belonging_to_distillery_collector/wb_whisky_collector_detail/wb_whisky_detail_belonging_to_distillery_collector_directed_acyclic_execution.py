@@ -25,7 +25,14 @@ def whisky_detail_distillery_collector_executions(batch_type : BatchType, batch_
     #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), mode=mode+'_whisky', log_mode='end', level=level)  # 종료 로그 기록
     # TODO: logger
     transform_result_dict = replace_extracted_data_with_wb_whisky_format(extract_data=whisky_detail_scrap,batchId=batch_id.value)
-    wb_libs_func.save_resconvert_csv_to_json(current_date=wb_libs_func.extract_time()[0],
-                                             result_dict=transform_result_dict,
-                                             dir_path='transformation/',
-                                             file_form=batch_type.value)
+
+    current_date = wb_libs_func.get_current_date()
+
+    # save as csv file
+    result_df = wb_libs_func.convert_to_df(transform_result_dict)
+    csv_path = f'results/{current_date}/csv/transformation/'
+    wb_libs_func.save_to_csv(result_df, csv_path, batch_type.value)
+
+    # save as json file
+    json_path = f'results/{current_date}/json/transformation/'
+    wb_libs_func.save_to_json(transform_result_dict, json_path, batch_type.value)
