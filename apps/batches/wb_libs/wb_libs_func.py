@@ -87,6 +87,9 @@ def convert_to_df(obj: object) -> pd.DataFrame:
         return pd.DataFrame(obj)
     except ValueError:
         return pd.read_json(obj)
+    
+def remove_duplicated_link(df: pd.DataFrame) -> pd.DataFrame:
+    return df[df.whisky_link.duplicated()==False] #위스키 링크 중복 수집 문제 임시방편 해결
 
 
 def save_res_convert_csv_to_json(current_date: str, dir_path: str, result_dict: object, file_form: str):
@@ -106,7 +109,7 @@ def save_res_convert_csv_to_json(current_date: str, dir_path: str, result_dict: 
     results = convert_to_df(result_dict)
 
     if dir_path == 'link/':
-        results = results[results.whisky_link.duplicated()==False] #위스키 링크 중복 수집 문제 임시방편 해결
+        results = remove_duplicated_link(results)
 
     try:
         results.to_csv('results/' + current_date + '/csv/' + dir_path + file_form + '.csv', index=False)  # 수집결과 csv로 저장
