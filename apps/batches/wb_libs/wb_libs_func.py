@@ -92,6 +92,22 @@ def remove_duplicated_link(df: pd.DataFrame) -> pd.DataFrame:
     return df[df.whisky_link.duplicated()==False] #위스키 링크 중복 수집 문제 임시방편 해결
 
 
+def save_to_csv(df: pd.DataFrame, path: str, file_name: str):
+    try:
+        df.to_csv(f'{path}{file_name}.csv', index=False)
+    except OSError:
+        os.makedirs(path)
+        df.to_csv(f'{path}{file_name}.csv', index=False)
+
+def save_to_json(obj: object, path: str, file_name: str):
+    try:
+        outfile = open(f'{path}{file_name}.json', 'w')
+        json.dump(obj, outfile, indent=4)
+    except FileNotFoundError:
+        os.makedirs(path)
+        outfile = open(f'{path}{file_name}.json', 'w')
+        json.dump(obj, outfile, indent=4)
+
 def save_res_convert_csv_to_json(current_date: str, dir_path: str, result_dict: object, file_form: str):
     """
         save_results.
@@ -111,23 +127,15 @@ def save_res_convert_csv_to_json(current_date: str, dir_path: str, result_dict: 
     if dir_path == 'link/':
         results = remove_duplicated_link(results)
 
-    try:
-        results.to_csv('results/' + current_date + '/csv/' + dir_path + file_form + '.csv', index=False)  # 수집결과 csv로 저장
-
-    except OSError:
-        os.makedirs('./results/' + current_date + '/csv/' + dir_path)
-        results.to_csv('results/' + current_date + '/csv/' + dir_path + file_form + '.csv', index=False)  # 수집결과 csv로 저장
+    # save as csv file
+    csv_path = f'results/{current_date}/csv/{dir_path}'
+    save_to_csv(results, csv_path, file_form)
 
     if dir_path == 'link/':
-        result_dict = json.loads(results.to_json())#위스키 링크 중복 수집 문제 임시방편 해결
-    try:
-        outfile = open('results/' + current_date + '/json/' + dir_path + file_form + '.json', 'w')  # 수집결과 json으로 저장
-        json.dump(result_dict, outfile, indent=4)
+        result_dict = json.loads(results.to_json()) #위스키 링크 중복 수집 문제 임시방편 해결
 
-    except FileNotFoundError:
-        os.makedirs('./results/' + current_date + '/json/' + dir_path)
-        outfile = open('results/' + current_date + '/json/' + dir_path + file_form + '.json', 'w')  # 수집결과 json으로 저장
-        json.dump(result_dict, outfile, indent=4)
+    json_path = f'results/{current_date}/json/{dir_path}'
+    save_to_json(result_dict, json_path, file_form)
 
 def reset_list_size(length: int, scrap_dict: dict):
     """
