@@ -125,15 +125,3 @@ def get_current_date() -> str:
 
 def get_current_datetime() -> str:
     return datetime.now().replace(tzinfo=timezone(constants.KST)).strftime("%Y_%m_%d %H:%M:%S %p")
-
-def extract_time() -> tuple:  # ex)2023_08_16 20:18:33 PM
-    """
-        extract_time.
-            Note:
-                write_log()에서 현재 시간을 확인위한 함수
-    """
-    date = datetime.now()
-    current_time = date.replace(tzinfo=timezone(constants.KST))  # 타임존을 한국시간으로 설정
-    request_time = current_time.strftime("%Y_%m_%d %H:%M:%S %p")  # 표시 양식을 2023_08_11 14:14:31 PM 으로 표시
-    request_date = current_time.strftime("%Y_%m_%d")             #표시 양식을 2023_08_11 으로 표시
-    return request_date, request_time
