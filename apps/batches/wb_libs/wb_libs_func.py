@@ -92,3 +92,6 @@ def get_current_date() -> str:
 
 def get_current_datetime() -> str:
     return datetime.now().replace(tzinfo=timezone(constants.KST)).strftime("%Y_%m_%d %H:%M:%S %p")
+
+def initialize_dict(key_list: list) -> dict:
+    return dict.fromkeys(key_list, [])
