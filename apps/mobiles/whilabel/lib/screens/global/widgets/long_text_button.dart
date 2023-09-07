@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/screens/constants/colors_manager.dart';
+import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
 
 class LongTextButton extends StatelessWidget {
   final String buttonText;
@@ -11,6 +12,7 @@ class LongTextButton extends StatelessWidget {
   final Color color;
   final Color borderColor;
   final double height;
+  final ButtonStyle? buttonStyle;
 
   const LongTextButton({
     super.key,
@@ -23,6 +25,7 @@ class LongTextButton extends StatelessWidget {
     this.enabled = true,
     this.height = 50,
     this.buttionTextSize = 15,
+    this.buttonStyle,
   });
 
   @override
@@ -41,20 +44,20 @@ class LongTextButton extends StatelessWidget {
         height: height,
         child: ElevatedButton(
           onPressed: (enabled == false) ? null : onPressedFunc,
-          style: ElevatedButton.styleFrom(
-            elevation: 0,
-            foregroundColor: ColorsManager.white, // 활성화 시 글자색
-            backgroundColor: color, // 활성화 시 배경색
-            disabledForegroundColor: ColorsManager.gray, // 비활성화 시 글자색 todo 미정
-            disabledBackgroundColor: ColorsManager.gray300, // 비활성화 시 배경색
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.zero,
-            ),
-            textStyle: TextStyle(
-              fontSize: buttionTextSize,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
+          style: buttonStyle ??
+              ElevatedButton.styleFrom(
+                elevation: 0,
+                foregroundColor: ColorsManager.white, // 활성화 시 글자색
+                backgroundColor: color, // 활성화 시 배경색
+                disabledForegroundColor:
+                    ColorsManager.gray, // 비활성화 시 글자색 todo 미정
+                disabledBackgroundColor: ColorsManager.gray300, // 비활성화 시 배경색
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(WhilabelRadius.radius12)),
+                ),
+                textStyle: TextStylesManager.bold16,
+              ),
           child: Text(
             buttonText,
             style: TextStyle(color: buttonTextColor),
