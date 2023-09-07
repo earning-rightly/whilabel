@@ -6,39 +6,6 @@ import os
 
 from apps.batches.wb_libs import constants
 
-# def write_log(file_name: str, batch_type: BatchType, log_content: str):
-#     """
-#        write_log.
-#            Args:
-#                file_name: log file name
-#                batch_type: batch type
-#                log_content: log content
-#            Note:
-#                 log.txt파일에 함수 시작과 끝나는 시간을 기록하기 위한 함수
-#     """
-#     try:
-#         file = open(file_name, 'a')
-#         current_date_time: str = current_date_time()
-#         print()
-#         file.write(start_log)
-#         file.close()
-#     except Exception as err:
-#         end_log ='\nstart time : ' + str(current_time[1]) + '\nmode : ' + mode + '\nlevel : ' + level
-#         print(end_log)
-#         file.write(end_log)
-#         file.close()
-
-
-# def current_date_time() -> str:  # ex)2023_08_16 20:18:33 PM
-#     date = datetime.now()
-#     current_time = date.replace(tzinfo=timezone(constants.KST))  # 타임존을 한국시간으로 설정
-#     return current_time.strftime("%Y_%m_%d %H:%M:%S %p")  # 표시 양식을 2023_08_11 14:14:31 PM 으로 표시
-
-# def current_date() -> str:
-#     date = datetime.now()
-#     current_time = date.replace(tzinfo=timezone(constants.KST))  # 타임존을 한국시간으로 설정
-#     return current_time.strftime("%Y_%m_%d")             #표시 양식을 2023_08_11 으로 표시
-
 def write_log(current_time: tuple, log_mode: str, mode: str, level: str):
     """
        write_log.
@@ -82,45 +49,31 @@ def write_log(current_time: tuple, log_mode: str, mode: str, level: str):
             file.write(finish_log)
             file.close()
 
-def save_resconvert_csv_to_json(current_date: str, dir_path: str, result_dict: object, file_form: str):
-    """
-        save_results.
-            Args:
-                current_date : 저장된 날짜.
-                dir_path : detail , pre , link 구분
-                result_dict : 읽어올 파일명 ex)  'whisky_colloctor_detail.csv'
-                file_form : 저장할 파일명 형식 ex) 'whisky_colloctor_detail'
-            Note:
-                수집을 통한 결과 파일을 저장하기 위한 함수
-                :type result_dict: object
-                :param results_dict_columns:
-    """
+def convert_to_df(obj: object) -> pd.DataFrame:
     try:
-        results= pd.DataFrame(result_dict)
-
+        return pd.DataFrame(obj)
     except ValueError:
-        results= pd.read_json(result_dict)
+        return pd.read_json(obj)
+    
+def remove_duplicated_link(df: pd.DataFrame) -> pd.DataFrame:
+    return df[df.whisky_link.duplicated()==False] #위스키 링크 중복 수집 문제 임시방편 해결
 
-    if dir_path == 'link/':
-        results = results[results.whisky_link.duplicated()==False] #위스키 링크 중복 수집 문제 임시방편 해결
 
+def save_to_csv(df: pd.DataFrame, path: str, file_name: str):
     try:
-        results.to_csv('results/' + current_date + '/csv/' + dir_path + file_form + '.csv', index=False)  # 수집결과 csv로 저장
-
+        df.to_csv(f'{path}{file_name}.csv', index=False)
     except OSError:
-        os.makedirs('./results/' + current_date + '/csv/' + dir_path)
-        results.to_csv('results/' + current_date + '/csv/' + dir_path + file_form + '.csv', index=False)  # 수집결과 csv로 저장
+        os.makedirs(path)
+        df.to_csv(f'{path}{file_name}.csv', index=False)
 
-    if dir_path == 'link/':
-        result_dict = json.loads(results.to_json())#위스키 링크 중복 수집 문제 임시방편 해결
+def save_to_json(obj: object, path: str, file_name: str):
     try:
-        outfile = open('results/' + current_date + '/json/' + dir_path + file_form + '.json', 'w')  # 수집결과 json으로 저장
-        json.dump(result_dict, outfile, indent=4)
-
+        outfile = open(f'{path}{file_name}.json', 'w')
+        json.dump(obj, outfile, indent=4)
     except FileNotFoundError:
-        os.makedirs('./results/' + current_date + '/json/' + dir_path)
-        outfile = open('results/' + current_date + '/json/' + dir_path + file_form + '.json', 'w')  # 수집결과 json으로 저장
-        json.dump(result_dict, outfile, indent=4)
+        os.makedirs(path)
+        outfile = open(f'{path}{file_name}.json', 'w')
+        json.dump(obj, outfile, indent=4)
 
 def reset_list_size(length: int, scrap_dict: dict):
     """
@@ -134,14 +87,8 @@ def reset_list_size(length: int, scrap_dict: dict):
     for key in scrap_dict.keys():
         scrap_dict.get(key).extend([None for i in range(length)])
 
-def extract_time() -> tuple:  # ex)2023_08_16 20:18:33 PM
-    """
-        extract_time.
-            Note:
-                write_log()에서 현재 시간을 확인위한 함수
-    """
-    date = datetime.now()
-    current_time = date.replace(tzinfo=timezone(constants.KST))  # 타임존을 한국시간으로 설정
-    request_time = current_time.strftime("%Y_%m_%d %H:%M:%S %p")  # 표시 양식을 2023_08_11 14:14:31 PM 으로 표시
-    request_date = current_time.strftime("%Y_%m_%d")             #표시 양식을 2023_08_11 으로 표시
-    return request_date, request_time
+def get_current_date() -> str:
+    return datetime.now().replace(tzinfo=timezone(constants.KST)).strftime("%Y_%m_%d")
+
+def get_current_datetime() -> str:
+    return datetime.now().replace(tzinfo=timezone(constants.KST)).strftime("%Y_%m_%d %H:%M:%S %p")
