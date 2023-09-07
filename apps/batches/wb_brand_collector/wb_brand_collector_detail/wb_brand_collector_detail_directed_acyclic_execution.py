@@ -28,7 +28,7 @@ def brand_detail_executions(batch_type : BatchType, batch_execution :  BatchExec
                                              # 전처리된 데이터를 csv, json, fire store에 저장
                                              result_dict=transform_result_dict,
                                              dir_path='transformation/',
-                                             file_form='wb_brand')
+                                             file_form=batch_type.value)
 
     save_to_firebase(CollectionName.BRAND, transform_result_list, 'wbId', 'wbBrand')
 

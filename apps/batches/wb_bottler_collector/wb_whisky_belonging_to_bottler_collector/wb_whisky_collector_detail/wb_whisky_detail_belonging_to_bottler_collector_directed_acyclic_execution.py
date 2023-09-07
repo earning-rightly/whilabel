@@ -21,7 +21,7 @@ def whisky_detail_bottler_collector_executions(batch_type : BatchType, batch_id 
                                             current_date=wb_libs_func.extract_time()[0])  # 위스키 사전정보 수집 함수 호출
     wb_libs_func.save_resconvert_csv_to_json(current_date=wb_libs_func.extract_time()[0],
                                              result_dict=whisky_detail_scrap, dir_path='detail/',
-                                            file_form='wb_bottler_whisky_collector_detail')  # 위스키 사전정보 저장 함수 호출
+                                            file_form=batch_type.value)  # 위스키 사전정보 저장 함수 호출
     #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), mode=mode+'_whisky', log_mode='end', level=level)  # 종료 로그 기록
     # TODO: logger
     transform_result_dict = replace_extracted_data_with_wb_whisky_format(batchId=batch_id.value,
