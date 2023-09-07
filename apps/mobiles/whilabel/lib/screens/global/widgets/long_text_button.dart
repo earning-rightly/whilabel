@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/screens/constants/colors_manager.dart';
+import 'package:whilabel/screens/constants/text_styles_manager.dart';
 import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
 
 class LongTextButton extends StatelessWidget {
