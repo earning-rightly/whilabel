@@ -69,8 +69,8 @@ class FirestoreUserRepositoryImpl implements AppUserRepository {
   }
 
   @override
-  Future<bool> isExistedNickName(String nickNaem) async {
-    final querySnapshot = await _ref.whereNickname(isEqualTo: nickNaem).get();
+  Future<bool> isExistedNickName(String nickName) async {
+    final querySnapshot = await _ref.whereNickname(isEqualTo: nickName).get();
 
     if (querySnapshot.docs.isEmpty) {
       return Future(() => false);
