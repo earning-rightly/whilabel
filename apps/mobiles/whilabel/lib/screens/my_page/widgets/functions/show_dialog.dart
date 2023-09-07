@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/global/widgets/pop_up_yes_no_button.dart';
+import 'package:whilabel/screens/home/grid/widgets/pop_up_yes_no_button.dart';
 
 void showLogoutDialog(BuildContext context, {Function()? clickedYesFuc}) {
   final String title = "정말로 로그아웃 하시겠어요?";
@@ -12,8 +12,8 @@ void showLogoutDialog(BuildContext context, {Function()? clickedYesFuc}) {
       titleText: title,
       noText: "취소",
       yesText: "로그아웃",
-      clickYesFunc: clickedYesFuc,
-      clickNoFunc: () {
+      onClickYesFunc: clickedYesFuc,
+      onClickNoFunc: () {
         Navigator.pop(context);
       },
     ),
@@ -32,8 +32,8 @@ void showWithdrawalDialog(BuildContext context, {Function()? clickedYesFuc}) {
             noText: "취소",
             yesText: "탈퇴하기",
             yesButtonColor: ColorsManager.red,
-            clickYesFunc: clickedYesFuc,
-            clickNoFunc: () {
+            onClickYesFunc: clickedYesFuc,
+            onClickNoFunc: () {
               Navigator.pop(context);
             },
           ));
