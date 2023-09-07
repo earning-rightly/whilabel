@@ -74,7 +74,31 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
 
-    - assets/login/   
+    - assets/login/
+    - assets/icon/
+    - assets/icon/_back/
+    - assets/icon/_taste/
+    - assets/icon/_check/
     - assets/config/.env
-
+  fonts:
+  - family: Pretendard
+    fonts:
+      - asset: assets/fonts/pretendard/Pretendard-Thin.ttf
+        weight: 100
+      - asset: assets/fonts/pretendard/Pretendard-ExtraLight.ttf
+        weight: 200
+      - asset: assets/fonts/pretendard/Pretendard-Light.ttf
+        weight: 300
+      - asset: assets/fonts/pretendard/Pretendard-Regular.ttf
+        weight: 400
+      - asset: assets/fonts/pretendard/Pretendard-Medium.ttf
+        weight: 500
+      - asset: assets/fonts/pretendard/Pretendard-SemiBold.ttf
+        weight: 600
+      - asset: assets/fonts/pretendard/Pretendard-Bold.ttf
+        weight: 700
+      - asset: assets/fonts/pretendard/Pretendard-ExtraBold.ttf
+        weight: 800
+      - asset: assets/fonts/pretendard/Pretendard-Black.ttf
+        weight: 900
 
