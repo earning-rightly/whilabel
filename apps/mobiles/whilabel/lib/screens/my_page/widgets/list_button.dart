@@ -7,14 +7,14 @@ import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
 class ListTitleIconButton extends StatelessWidget {
   const ListTitleIconButton({
     super.key,
-    this.onTabFunc,
+    this.onPressedButton,
     this.spacing = 12,
     required this.svgPath,
     required this.titleText,
   });
   final String svgPath;
   final String titleText;
-  final Function()? onTabFunc;
+  final Function()? onPressedButton;
   final double spacing;
 
   @override
@@ -41,7 +41,7 @@ class ListTitleIconButton extends StatelessWidget {
           ],
         ),
       ),
-      onTap: onTabFunc ?? () {},
+      onTap: onPressedButton ?? () {},
     );
   }
 }

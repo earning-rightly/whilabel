@@ -10,11 +10,11 @@ class ListToggleButton extends StatelessWidget {
     super.key,
     required this.title,
     required this.isToggleState,
-    this.onPressedFunc,
+    this.onPressedButton,
   });
   final String title;
   final bool isToggleState;
-  final Function()? onPressedFunc;
+  final Function()? onPressedButton;
 
   String offToggleIconPath = SvgIconPath.toggleOff;
   String onToggleIconPath = SvgIconPath.toggleOn;
@@ -34,7 +34,7 @@ class ListToggleButton extends StatelessWidget {
           ),
           IconButton(
             iconSize: 70,
-            onPressed: onPressedFunc,
+            onPressed: onPressedButton,
             icon: SvgPicture.asset(
                 isToggleState == true ? onToggleIconPath : offToggleIconPath),
           )
