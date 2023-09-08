@@ -8,21 +8,21 @@ class PopUpYesOrNoButton extends StatelessWidget {
   final String titleText;
   final String yesText;
   final Color? yesButtonColor;
-  final Function()? onClickYesFunc;
+  final Function()? onClickYesButton;
 
   final String noText;
   final Color? noButtonColor;
-  final Function()? onClickNoFunc;
+  final Function()? onClickNoButton;
 
   PopUpYesOrNoButton({
     super.key,
     required this.titleText,
     required this.yesText,
     this.yesButtonColor,
-    this.onClickYesFunc,
+    this.onClickYesButton,
     required this.noText,
     this.noButtonColor,
-    this.onClickNoFunc,
+    this.onClickNoButton,
   });
 
   @override
@@ -54,7 +54,7 @@ class PopUpYesOrNoButton extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 10, left: 15, right: 5),
                 child: ElevatedButton(
-                  onPressed: onClickNoFunc,
+                  onPressed: onClickNoButton,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: noButtonColor ?? ColorsManager.black300,
                     foregroundColor: ColorsManager.gray500,
@@ -80,7 +80,7 @@ class PopUpYesOrNoButton extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 10, left: 5, right: 15),
                 child: ElevatedButton(
-                  onPressed: onClickYesFunc,
+                  onPressed: onClickYesButton,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: yesButtonColor ?? ColorsManager.brown100,
                     foregroundColor: ColorsManager.gray500,
