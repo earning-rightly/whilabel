@@ -2,7 +2,7 @@ from apps.batches.wb_whisky_collector.wb_whisky_collector_detail import wb_whisk
 from apps.batches.wb_libs import wb_libs_func
 from apps.batches.transformations.wb_whisky.wb_whisky_pre_form import replace_extracted_data_with_wb_whisky_format
 from apps.batches.wb_libs.enums import BatchType,BatchExecution
-from apps.batches.wb_libs.constants import field_map
+from apps.batches.wb_libs.constants import detail_field_map
 
 def whisky_detail_distillery_collector_executions(batch_type : BatchType, batch_id : BatchExecution, scrap_dict: dict):
     """
@@ -13,7 +13,7 @@ def whisky_detail_distillery_collector_executions(batch_type : BatchType, batch_
             Note:
                 scrap_main 에서 위스키 상세정보 스케줄링 함수
     """
-    scrap_dict = wb_libs_func.initialize_dict(field_map['wb_whisky_collect_detail'])
+    scrap_dict = wb_libs_func.initialize_dict(detail_field_map['wb_whisky_collect_detail'])
 
     current_date = wb_libs_func.get_current_date()
 
