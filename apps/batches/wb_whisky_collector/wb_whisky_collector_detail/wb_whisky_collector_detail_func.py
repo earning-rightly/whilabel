@@ -11,11 +11,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ChromeService
 
-from apps.batches.wb_whisky_collector.wb_whisky_collector_detail.wb_whisky_collector_detail_values import \
-    whisky_collect_detail_scrap as whisky_detail_scrap
 from apps.batches.wb_libs import wb_libs_func
 
-async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url_index : int):
+async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url_index : int, scrap_dict: dict):
     """
         scrap_whisky_collector_detail.
             Args:
@@ -40,13 +38,13 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
                 Raises:
                    IndexError : soup을 통해 생성한 title_list, value_list값이 현재 준비해둔 값과 안맞을때 (해결)
         """
-        whisky_detail_scrap['link'][url_index] = url
+        scrap_dict['link'][url_index] = url
         if soup.select('.col-sm-offset-3.col-sm-6.site-error') != []:  # 해당 위스키 페이지가 사라짐 #ex) : https://www.whiskybase.com/whiskies/whisky/170176/aberfeldy-1996-ca
             pass
 
         else:  # 위스키 사이트가 active일때
             try:
-                whisky_detail_scrap['whisky_name'][url_index] = soup.select('.name header h1')[
+                scrap_dict['whisky_name'][url_index] = soup.select('.name header h1')[
                     0].text.strip()  # 위스키 이름 추출
                 pass
 
@@ -70,15 +68,15 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
                         for link in dd_list[i].div:
                             if link.text.strip() != ',':
                                 dis_dict[link.text.strip()] = link['href']
-                                whisky_detail_scrap["distillery"][url_index] = dis_dict
+                                scrap_dict["distillery"][url_index] = dis_dict
                     else:
 
-                        whisky_detail_scrap[dt_list[i].text.strip().lower().replace(' ', '_')][url_index] = dd_list[
+                        scrap_dict[dt_list[i].text.strip().lower().replace(' ', '_')][url_index] = dd_list[
                             i].text.strip()
             try:
-                whisky_detail_scrap['overall_rating'][url_index] = soup.select('dd.votes-rating')[
+                scrap_dict['overall_rating'][url_index] = soup.select('dd.votes-rating')[
                     0].text.strip()  # 딕셔너리에 넣지않은이유는 vote투표수가 여러개일때와 한개일때의 dt태그명이 다른점과 같은 데이터가 2번 추출된다든점에서 따로 진행
-                whisky_detail_scrap['votes'][url_index] = soup.select('dd.votes-count')[0].text.strip()
+                scrap_dict['votes'][url_index] = soup.select('dd.votes-count')[0].text.strip()
 
             except IndexError:
                 if soup.text in '503':
@@ -88,12 +86,12 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
                     pass
             try:
                 if soup.select('.photo')[0]['href'] != 'https://static.whiskybase.com/storage/whiskies/default/big.png?v4':
-                    whisky_detail_scrap['photo'][url_index] = soup.select('.photo')[0]['href']
+                    scrap_dict['photo'][url_index] = soup.select('.photo')[0]['href']
 
             except IndexError:
                 pass
             try:
-                whisky_detail_scrap['block_price'][url_index] = soup.select('.block-price')[0].text.strip().split('\n')[
+                scrap_dict['block_price'][url_index] = soup.select('.block-price')[0].text.strip().split('\n')[
                     1]  # 위스키 가격이 있는경우
 
             except IndexError:
@@ -107,7 +105,7 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
             tast_list = soup.select('.btn-tastingtag')
             for tast in tast_list:
                 real_tast_num.append(tast['data-num'])
-            whisky_detail_scrap['tag_name'][url_index] = dictionary = dict(  # tastingtag와 해당 맛에 대한 투표수를 딕셔너리로 만들어 저장
+            scrap_dict['tag_name'][url_index] = dictionary = dict(  # tastingtag와 해당 맛에 대한 투표수를 딕셔너리로 만들어 저장
                 zip(real_tag_list, real_tast_num))
 
     async def turn_around_selenum(url : str, url_index : int):
@@ -144,7 +142,7 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
             except aiohttp.client_exceptions.ClientConnectorError:  # 비동기식 접속으로 443포트에 대한 접속이 안되는 에러에 대한 예외처리
                 await turn_around_selenum(url, url_index)
 
-async def extract_whisky_detail_collector_async(link : list):
+async def extract_whisky_detail_collector_async(link : list, scrap_dict: dict):
     """
         extract_whisky_detail_collector_async.
             Args:
@@ -154,18 +152,11 @@ async def extract_whisky_detail_collector_async(link : list):
                 비동식 제한 갯수 설정(Semaphore) 및 수집해야할 홈페이지 반복문 실행
     """
     semaphore = asyncio.Semaphore(30)
-    fts = [asyncio.ensure_future(scrap_whisky_collector_detail(u, semaphore, url_index=url_index)) for url_index, u in
+    fts = [asyncio.ensure_future(scrap_whisky_collector_detail(u, semaphore, url_index=url_index, scrap_dict=scrap_dict)) for url_index, u in
            enumerate(link)]
     await tqdm_asyncio.gather(*fts)
 
-def collect(batch_type : str, current_date: str):
-    """
-        collect.
-        Args:
-                mode : {brand or distillery} mode를 통해 read_csv파일 결정.
-            Note:
-                파일 읽기 및 파일크기에따른 리스트 초기화(reset_list_size) loop생성
-    """
+def collect(batch_type : str, current_date: str, scrap_dict: dict):
     table = pd.read_csv(f'results/{current_date}/csv/link/{batch_type}.csv')
-    wb_libs_func.reset_list_size(len(table), whisky_detail_scrap)
-    asyncio.run(extract_whisky_detail_collector_async(table.whisky_link))
+    wb_libs_func.reset_list_size(len(table), scrap_dict)
+    asyncio.run(extract_whisky_detail_collector_async(table.whisky_link, scrap_dict))
