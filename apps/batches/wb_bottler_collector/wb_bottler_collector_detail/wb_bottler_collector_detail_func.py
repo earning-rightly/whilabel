@@ -13,11 +13,8 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
 from apps.batches.wb_libs import wb_libs_func
-from apps.batches.wb_bottler_collector.wb_bottler_collector_detail.wb_bottler_collector_detail_values import \
-    bottler_collect_detail_scrap as detail_scrap
-from apps.batches.wb_libs.enums import BatchType
 
-async def extract_bottler_collector_detail(url_index : int, url : str, sema : asyncio.Semaphore):
+async def extract_bottler_collector_detail(url_index : int, url : str, sema : asyncio.Semaphore, scrap_dict: dict):
     """
         extract_bottler_collector_detail.
             Args:
@@ -45,12 +42,12 @@ async def extract_bottler_collector_detail(url_index : int, url : str, sema : as
         title_list = soup.select('.title')
         value_list = soup.select('.value')
         try:
-            detail_scrap['company_about'][url_index] = soup.select('.company-about p span')[
+            scrap_dict['company_about'][url_index] = soup.select('.company-about p span')[
                 0].text.strip()  # 증류소 timeline 수집
         except IndexError:  # 증류소 timeline 정보가 없는경우
             pass
         try:
-            detail_scrap['company_address'][url_index] = soup.select('.company-address')[0].text.strip()  # 증류소 주소 수집
+            scrap_dict['company_address'][url_index] = soup.select('.company-address')[0].text.strip()  # 증류소 주소 수집
         except IndexError:  # 증류소 주소 정보가 없는경우
             pass
         for title_index in range(len(title_list)):
@@ -59,9 +56,9 @@ async def extract_bottler_collector_detail(url_index : int, url : str, sema : as
                     specialists_dict = {}
                     for avatar in soup.select('.specialists li'):
                         specialists_dict[avatar.a.text.strip()] = avatar.a['href']
-                        detail_scrap['specialists'][url_index] = specialists_dict
+                        scrap_dict['specialists'][url_index] = specialists_dict
                 else:
-                    detail_scrap[title_list[title_index].text.strip().lower().replace(' ', '_')][url_index] = value_list[title_index].text.strip()  # 나머지 title_list에사 소문자로 변경 및 빈칸을 '_'로
+                    scrap_dict[title_list[title_index].text.strip().lower().replace(' ', '_')][url_index] = value_list[title_index].text.strip()  # 나머지 title_list에사 소문자로 변경 및 빈칸을 '_'로
                     # 채운후 detail_scrap의 키와 비교하여 순서에 맞게 저장
             except:
                 pass
@@ -90,7 +87,7 @@ async def extract_bottler_collector_detail(url_index : int, url : str, sema : as
             except:
                 traceback.print_exc()
 
-async def extract_bottler_collector_detail_async(link):
+async def extract_bottler_collector_detail_async(link : list, scrap_dict: dict):
     """
         extract_bottler_collector_detail_async.
             Args:
@@ -99,11 +96,11 @@ async def extract_bottler_collector_detail_async(link):
                 비동식 제한 갯수 설정(Semaphore) 및 수집해야할 홈페이지 반복문 실행
     """
     semaphore = asyncio.Semaphore(30)  # 비동기 최대 갯수 30개 제한
-    fts = [asyncio.ensure_future(extract_bottler_collector_detail(url_index= url_index, url = url, sema=semaphore)) for url_index, url in
+    fts = [asyncio.ensure_future(extract_bottler_collector_detail(url_index= url_index, url = url, sema=semaphore, scrap_dict=scrap_dict)) for url_index, url in
            enumerate(link)]
     await tqdm_asyncio.gather(*fts)
 
-def collect(current_date: str):
+def collect(batch_type : str, current_date: str, scrap_dict: dict):
     """
         collect.
             Args:
@@ -111,6 +108,6 @@ def collect(current_date: str):
             Note:
                 파일 읽기 및 파일크기에따른 리스트 초기화(reset_list_size) loop생성
     """
-    bottler_table = pd.read_csv(f'results/{current_date}/csv/pre/{BatchType.BOTTER_PRE.value}.csv')
-    wb_libs_func.reset_list_size(len(bottler_table), detail_scrap)
-    asyncio.run(extract_bottler_collector_detail_async(bottler_table.link))
+    bottler_table = pd.read_csv(f'results/{current_date}/csv/pre/{batch_type}.csv')
+    wb_libs_func.reset_list_size(len(bottler_table), scrap_dict)
+    asyncio.run(extract_bottler_collector_detail_async(bottler_table.link, scrap_dict))

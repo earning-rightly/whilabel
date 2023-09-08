@@ -1,7 +1,9 @@
+from types import MappingProxyType
+
 KST = 'Asia/Seoul'  # timezone setting
 
 
-field_map = MappingProxyType(
+detail_field_map = MappingProxyType(
     {
         'wb_whisky_collect_detail': [
             'whisky_name',
@@ -32,5 +34,23 @@ field_map = MappingProxyType(
             'votes',
             'link'
         ],
+        'wb_bottler_collect_detail' : [
+            'company_about',
+            'company_address',
+            'closed',
+            'collection',
+            'country',
+            'founded',
+            'abbreviation',
+            'rating',
+            'specialists',
+            'status',
+            'vote',
+            'votes',
+            'wb_ranking',
+            'website',
+            'whiskies',
+            'views'
+        ]
     }
 )

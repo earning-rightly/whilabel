@@ -93,5 +93,11 @@ def get_current_date() -> str:
 def get_current_datetime() -> str:
     return datetime.now().replace(tzinfo=timezone(constants.KST)).strftime("%Y_%m_%d %H:%M:%S %p")
 
-def initialize_dict(key_list: list) -> dict:
-    return dict.fromkeys(key_list, [])
+def initialize_dict(key_list: list, ) -> dict:
+    scrap_dict = dict.fromkeys(key_list)
+    for key in key_list:  # 딕셔너리 키별 값(value) 초기화
+        scrap_dict[key] = []
+    return scrap_dict
+
+
+
