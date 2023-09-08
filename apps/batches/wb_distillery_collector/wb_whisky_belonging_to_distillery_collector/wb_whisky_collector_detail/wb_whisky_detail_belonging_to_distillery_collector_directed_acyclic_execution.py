@@ -4,7 +4,7 @@ from apps.batches.transformations.wb_whisky.wb_whisky_pre_form import replace_ex
 from apps.batches.wb_libs.enums import BatchType,BatchExecution
 from apps.batches.wb_libs.constants import detail_field_map
 
-def whisky_detail_distillery_collector_executions(batch_type : BatchType, batch_id : BatchExecution, scrap_dict: dict):
+def whisky_detail_distillery_collector_executions(batch_type : BatchType, batch_id : BatchExecution):
     """
         whisky_detail_distillery_collector_executions.
             Args:
