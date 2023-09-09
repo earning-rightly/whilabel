@@ -1,7 +1,5 @@
 from apps.batches.wb_libs import wb_libs_func
 from apps.batches.wb_distillery_collector.wb_distillery_collector_detail import wb_distillery_collector_detail_func
-from apps.batches.wb_distillery_collector.wb_distillery_collector_detail.wb_distillery_collector_detail_values import \
-    distillery_collect_detail_scrap as detail_scrap
 from apps.batches.transformations.wb_distillery.wb_distillery_form import \
     replace_extracted_data_with_wb_distillery_formmat
 from apps.batches.wb_libs.enums import CollectionName, BatchType, BatchExecution
