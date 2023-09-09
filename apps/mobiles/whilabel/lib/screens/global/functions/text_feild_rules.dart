@@ -1,5 +1,5 @@
 String? checkAbleNameRule(String? value) {
-  if (value == null || value.isEmpty) return '한글만 입력가능합니다';
+  if (value == null || value.length < 2) return '2글자 이상 입력해주세요';
 
   if (value.toString().length > 10) return '최대 10자까지 입력 가능';
 
@@ -18,7 +18,7 @@ String? checkAbleNameRule(String? value) {
 }
 
 String? checkAbleNickNameRule(String? value) {
-  if (value == null || value.isEmpty) return '[한글, 영어, 숫자, _ ]만 가능합니다';
+  if (value == null || value.length < 2) return '2글자 이상 입력해주세요';
 
   if (value.toString().length > 15) return '최대 15자까지 입력 가능';
 
