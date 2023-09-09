@@ -6,6 +6,7 @@ import 'package:whilabel/domain/global_provider/current_user_state.dart';
 import 'package:whilabel/screens/constants/path/image_paths.dart' as imagePaths;
 import 'package:whilabel/screens/constants/routes_manager.dart';
 import 'package:whilabel/screens/global/widgets/loding_progress_indicator.dart';
+import 'package:whilabel/screens/login/instargram_login_web_page.dart';
 import 'package:whilabel/screens/login/view_model/login_event.dart';
 import 'package:whilabel/screens/login/view_model/login_view_model.dart';
 import 'package:whilabel/screens/login/widget/each_login_button.dart';
@@ -54,6 +55,11 @@ class _LoginViewState extends State<LoginView> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
+                    TextButton(
+                        onPressed: () {
+                          viewModel.onEvent(LoginEvent.logout(SnsType.KAKAO));
+                        },
+                        child: Text("로그아웃 데트스")),
                     EachLoginButton(
                       buttonText: "카카오로 로그인하기",
                       svgImagePath: imagePaths.kakaoIcon,
@@ -79,9 +85,11 @@ class _LoginViewState extends State<LoginView> {
 
                         // 인스타 로그인은 웹뷰를 띄어줘야 하기에 로직이 다른것들과 다릅니다.
                         if (viewModel.state.userState == UserState.notLogin) {
-                          Navigator.pushReplacementNamed(
+                          Navigator.push(
                             context,
-                            Routes.instargramLoginWebPageRoute,
+                            MaterialPageRoute(
+                              builder: (context) => InstargramLoginWebPage(),
+                            ),
                           );
                         }
                       },
@@ -138,7 +146,7 @@ class _LoginViewState extends State<LoginView> {
     if (isLogined && userState == UserState.initial) {
       Navigator.pushReplacementNamed(
         context,
-        Routes.userInfoAdditionalRoute,
+        Routes.userAdditionalInfoRoute,
       );
 
       // 뉴비가 아닌 유저면 홈 화면으로 이동

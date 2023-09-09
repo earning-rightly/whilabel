@@ -60,7 +60,7 @@ class _InstargramLoginWebPageState extends State<InstargramLoginWebPage> {
                           viewModel.state.userState == UserState.initial) {
                         Navigator.pushNamed(
                           context,
-                          Routes.userInfoAdditionalRoute,
+                          Routes.userAdditionalInfoRoute,
                         );
                       } else if (viewModel.state.isLogined &&
                           viewModel.state.userState == UserState.login) {

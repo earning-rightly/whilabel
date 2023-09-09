@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:whilabel/screens/constants/colors_manager.dart';
 import 'package:whilabel/screens/constants/path/svg_icon_paths.dart';
+import 'package:whilabel/screens/constants/routes_manager.dart';
 import 'package:whilabel/screens/constants/text_styles_manager.dart';
 import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/my_page/announcement_page.dart';
@@ -74,6 +75,12 @@ class MyPageView extends StatelessWidget {
               svgPath: docData["svg_path"],
               titleText: docData["title"],
             ),
+          TextButton(
+            child: Text("muck route"),
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.loginRoute);
+            },
+          ),
         ],
       ),
     );

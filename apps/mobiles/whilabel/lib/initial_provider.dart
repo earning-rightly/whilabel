@@ -7,6 +7,7 @@ import 'package:whilabel/domain/use_case/user_auth/logout_use_case.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 import 'package:whilabel/domain/user/firestore_user_repository_impl.dart';
 import 'package:whilabel/screens/login/view_model/login_view_model.dart';
+import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
 
 List<SingleChildWidget> initialProviders() {
   AppUserCollectionReference appUserRef = usersRef;
@@ -29,12 +30,20 @@ List<SingleChildWidget> initialProviders() {
     logoutUseCase,
   );
 
+  final userAdditionalInfoViewModel = UserAdditionalInfoViewModel(
+    appUserRepository: appUserRepository,
+    currentUserStatus: currentUserStatus,
+  );
+
   return [
     ChangeNotifierProvider(
       create: (context) => currentUserStatus,
     ),
     ChangeNotifierProvider(
       create: (context) => loginViewModel,
+    ),
+    ChangeNotifierProvider(
+      create: (context) => userAdditionalInfoViewModel,
     ),
   ];
 }
