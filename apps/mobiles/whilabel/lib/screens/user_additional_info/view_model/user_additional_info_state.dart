@@ -7,5 +7,5 @@ class UserAdditionalInfoState with _$UserAdditionalInfoState {
   factory UserAdditionalInfoState({
     required bool isAbleNickName,
     required String forbiddenWord,
-  }) = _UserInfoAdditionalState;
+  }) = _UserAdditionalInfoState;
 }
