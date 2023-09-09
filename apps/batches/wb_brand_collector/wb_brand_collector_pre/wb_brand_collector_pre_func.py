@@ -20,7 +20,7 @@ def collect():  # 브랜드의 초기 정보를 수집하는 함수
     # whisky base에 brands 카테고리 홈페이지 정보 수집
     clickable_list = soup.select(".clickable")  # 태그안 클래스명이 clickable인경우 추출, Returns : list
     data_list = soup.select(".data")  # 태그안 클래스명이 data 추출, Returns : list
-    for i in tqdm(range(len(clickable_list))):  # 브랜드 수만큼 반복, 브랜드 사전 정보 수집
+    for i in tqdm(range(1)):#len(clickable_list))):  # 브랜드 수만큼 반복, 브랜드 사전 정보 수집
         pre_scrap['brand_name'].append(clickable_list[i].text.replace("\t", "").replace("\n", ""))  # 브랜드명 수집
         pre_scrap['link'].append(clickable_list[i].a['href'])  # whisky base 브랜드 페이지 수집
         pre_scrap['country'].append(data_list[5 * (i + 1)].text)  # 나라명 수집
