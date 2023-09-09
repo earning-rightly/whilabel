@@ -51,6 +51,11 @@ detail_field_map = MappingProxyType(
             'website',
             'whiskies',
             'views'
+        ],
+        'wb_brand_collect_detail' : [
+            'country',
+            'website',
+            'region'
         ]
     }
 )
