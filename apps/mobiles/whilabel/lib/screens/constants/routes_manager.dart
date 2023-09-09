@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/screens/home/home_view.dart';
+import 'package:whilabel/screens/login/login_view.dart';
+import 'package:whilabel/screens/user_additional_info/user_additional_info_view.dart';
 import 'package:whilabel/screens/whiskey_critique/whiskey_critique_view.dart';
 import 'package:whilabel/screens/whiskey_register/whiskey_register_view.dart';
 
 class Routes {
   static const String cameraRoute = "/carmera";
   static const String homeRoute = "/home";
-  // TODO - Add views related with mycare service.
-  static const String WhiskeyRegisterRoute = "/whiskey_register";
-  static const String WhiskeyCritiqueRoute = "/whiskey_critque";
+  static const String loginRoute = "/login";
+  static const String whiskeyRegisterRoute = "/whiskey_register";
+  static const String whiskeyCritiqueRoute = "/whiskey_critque";
+  static const String userAdditionalInfoRoute = "/user_additional_info";
 }
 
 class RouteGenerator {
@@ -16,12 +19,15 @@ class RouteGenerator {
     switch (routeSettings.name) {
       case Routes.homeRoute:
         return MaterialPageRoute(builder: (_) => const HomeView());
-
-      case Routes.WhiskeyRegisterRoute:
-        return MaterialPageRoute(builder: (_) => const WhiskeyRegisterView());
-      case Routes.WhiskeyCritiqueRoute:
-        return MaterialPageRoute(builder: (_) => const WhiskeyCritiqueView());
-
+      case Routes.loginRoute:
+        return MaterialPageRoute(builder: (_) => LoginView());
+      case Routes.whiskeyRegisterRoute:
+        return MaterialPageRoute(builder: (_) => WhiskeyRegisterView());
+      case Routes.whiskeyCritiqueRoute:
+        return MaterialPageRoute(builder: (_) => WhiskeyCritiqueView());
+      case Routes.userAdditionalInfoRoute:
+        return MaterialPageRoute(
+            builder: (_) => const UserAdditionalInfoView());
       default:
         return undefinedRoute();
     }

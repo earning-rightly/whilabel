@@ -55,6 +55,11 @@ class _LoginViewState extends State<LoginView> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
+                    TextButton(
+                        onPressed: () {
+                          viewModel.onEvent(LoginEvent.logout(SnsType.KAKAO));
+                        },
+                        child: Text("로그아웃 데트스")),
                     EachLoginButton(
                       buttonText: "카카오로 로그인하기",
                       svgImagePath: imagePaths.kakaoIcon,
@@ -141,7 +146,7 @@ class _LoginViewState extends State<LoginView> {
     if (isLogined && userState == UserState.initial) {
       Navigator.pushReplacementNamed(
         context,
-        Routes.userAdditionalInfo,
+        Routes.userAdditionalInfoRoute,
       );
 
       // 뉴비가 아닌 유저면 홈 화면으로 이동
