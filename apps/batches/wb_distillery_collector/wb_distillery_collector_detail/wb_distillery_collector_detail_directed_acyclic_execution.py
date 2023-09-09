@@ -19,7 +19,6 @@ def distillery_detail_executions(batch_type : BatchType, batch_execution : Batch
 
     current_date = wb_libs_func.get_current_date()
 
-    #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), log_mode='start', mode=mode,level=level)  # 시작 로그 기록
     wb_distillery_collector_detail_func.collect(current_date=current_date)  # 증류소 상세정보 수집 함수 호출
 
     # save as csv file
@@ -30,8 +29,6 @@ def distillery_detail_executions(batch_type : BatchType, batch_execution : Batch
     # save as json file
     json_path = f'results/{current_date}/json/detail/'
     wb_libs_func.save_to_json(detail_scrap, json_path, batch_type.value)
-
-    # wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), log_mode='end', mode=mode, level=level)  # 종료 로그 기록
 
     transform_result_list, transform_result_dict = replace_extracted_data_with_wb_distillery_formmat(batchId=batch_execution.value)
     

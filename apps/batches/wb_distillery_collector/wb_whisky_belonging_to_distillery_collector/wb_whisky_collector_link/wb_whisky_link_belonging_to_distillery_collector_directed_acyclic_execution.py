@@ -17,8 +17,6 @@ def whisky_link_distillery_collector_executions(batch_type : BatchType):
 
     current_date = wb_libs_func.get_current_date()
 
-    #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), log_mode='start', mode=mode+'_whisky',level=level)  # 시작 로그 기록
-    #TODO: logger add
     wb_whisky_collector_link_apply_func.collect(batch_type=BatchType.DISTILLERY_PRE.value,
                                                 current_date=current_date)  # 위스키 링크 수집 함수 호출
 
@@ -32,6 +30,3 @@ def whisky_link_distillery_collector_executions(batch_type : BatchType):
     result_json = json.loads(link_scrap.to_json())
     json_path = f'results/{current_date}/json/link/'
     wb_libs_func.save_to_json(result_json, json_path, batch_type.value)
-    
-    # wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), log_mode='end', mode=mode+'_whisky', level=level)  # 종료 로그 기록
-    # TODO: logger add
