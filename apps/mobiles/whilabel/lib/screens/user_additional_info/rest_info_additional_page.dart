@@ -8,9 +8,9 @@ import 'package:whilabel/screens/constants/routes_manager.dart';
 import 'package:whilabel/screens/global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_event.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
-import 'package:whilabel/screens/user_info_additional/widget/gender_choicer.dart';
-import 'package:whilabel/screens/user_info_additional/widget/user_birth_date_picker.dart';
-import 'package:whilabel/screens/user_info_additional/widget/user_name_input_text_field.dart';
+import 'package:whilabel/screens/user_additional_info/widget/user_birth_date_picker.dart';
+import 'package:whilabel/screens/user_additional_info/widget/user_name_input_text_field.dart';
+import 'package:whilabel/screens/user_additional_info/widget/gender_choicer.dart';
 
 // ignore: must_be_immutable
 class RestInfoAddtionalPage extends StatefulWidget {

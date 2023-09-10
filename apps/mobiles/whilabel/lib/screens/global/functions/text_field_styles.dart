@@ -1,26 +1,60 @@
 // 각각의 view 사용될 TextField에 디자인을 return 하는 함수를 모아둔 파일일입니다.
 // TextFormField와 TextField 에서 사용 가능합니다.
 import 'package:flutter/material.dart';
+import 'package:whilabel/screens/constants/colors_manager.dart';
+import 'package:whilabel/screens/constants/text_styles_manager.dart';
+import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
 
 // whiskey_register에서 사용
-InputDecoration makeWhiskeyRegisterTextFieldStyle(
+InputDecoration createBasicTextFieldStyle(
   String hinText,
   bool disable,
 ) {
   return InputDecoration(
+    // 에러가 났을때 전체를 빨간색을 TextFied전체를 감사기 위해서 사용
+    // 버벅거림을 없에기 위해서
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(10)),
+      borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
       borderSide: BorderSide(
-        color: Colors.grey,
-        width: 1,
+        color: ColorsManager.black400,
+        width: 2,
       ),
     ),
+    // 활성화 되기전 스타일
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
+      borderSide: BorderSide(
+        color: ColorsManager.black400,
+        width: 2,
+      ),
+    ),
+    // 활성화 스타일
     contentPadding: EdgeInsets.only(left: 10, right: 10),
+    focusColor: ColorsManager.gray200,
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(width: 2),
+      borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
+      borderSide: BorderSide(color: ColorsManager.gray500, width: 2),
     ),
     hintText: hinText,
-    fillColor: Colors.grey,
-    filled: true,
+    hintStyle: TextStylesManager()
+        .createHadColorTextStyle("R16", ColorsManager.black400),
+  );
+}
+
+InputDecoration createEnableBasicTextFieldStyle(
+  String hinText,
+  bool disable,
+) {
+  return InputDecoration(
+    // 에러가 났을때 전체를 빨간색을 TextFied전체를 감사기 위해서 사용
+    // 버벅거림을 없에기 위해서
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
+      borderSide: BorderSide(
+        color: ColorsManager.black400,
+        width: 2,
+      ),
+    ),
+    // 활성화 되기전 스타일
   );
 }
