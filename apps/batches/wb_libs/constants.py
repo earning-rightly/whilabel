@@ -83,4 +83,10 @@ pre_field_map = MappingProxyType(
         ]
     }
 )
+pre_link_map = {
+        'bottler'  : 'https://www.whiskybase.com/whiskies/bottlers',
+        'brand': 'https://www.whiskybase.com/whiskies/brands',
+        'distillery': 'https://www.whiskybase.com/whiskies/distilleries'
+    }
+
 
