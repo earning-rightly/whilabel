@@ -13,10 +13,8 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
 from apps.batches.wb_libs import wb_libs_func
-from apps.batches.wb_brand_collector.wb_brand_collector_detail.wb_brand_collector_detail_values import \
-    brand_collect_detail_scrap as detail_scrap
 
-async def extract_brand_collector_detail(url_index: int, url : str, sema : asyncio.Semaphore):
+async def extract_brand_collector_detail(url_index: int, url : str, sema : asyncio.Semaphore, scrap_dict : dict):
     """
         extract_brand_collector_detail.
             Args:
@@ -43,7 +41,7 @@ async def extract_brand_collector_detail(url_index: int, url : str, sema : async
         title_list = soup.select('.title')  # 태그안 클래스명이 title인경우 추출, Returns : list
         value_list = soup.select('.value')  # 태그안 클래스명이 value인경우 추출, Returns : list
         for i in range(len(title_list)):
-            detail_scrap[title_list[i].text.strip().lower()][url_index] = value_list[i].text.strip()
+            scrap_dict[title_list[i].text.strip().lower()][url_index] = value_list[i].text.strip()
 
     async with sema:
         async with ClientSession(
@@ -78,7 +76,7 @@ async def extract_brand_collector_detail(url_index: int, url : str, sema : async
                 traceback.print_exc()
 
 
-async def extract_brand_collector_detail_async(link: str):
+async def extract_brand_collector_detail_async(link: str, scrap_dict : dict):
     """
         extract_brand_collector_detail_async.
             Args:
@@ -87,10 +85,10 @@ async def extract_brand_collector_detail_async(link: str):
                 비동식 제한 갯수 설정(Semaphore) 및 수집해야할 홈페이지 반복문 실행
     """
     semaphore = asyncio.Semaphore(30)  # 동시 처리 30개 제한
-    fts = [asyncio.ensure_future(extract_brand_collector_detail(url_index=url_index, url=url, sema=semaphore)) for url_index, url in enumerate(link)]
+    fts = [asyncio.ensure_future(extract_brand_collector_detail(url_index=url_index, url=url, sema=semaphore, scrap_dict = scrap_dict)) for url_index, url in enumerate(link)]
     await tqdm_asyncio.gather(*fts)
 from apps.batches.wb_libs.enums import BatchType
-def collect(current_date: str):
+def collect(batch_type : str, current_date: str, scrap_dict : dict):
     """
         collect.
              Args:
@@ -99,8 +97,5 @@ def collect(current_date: str):
                 파일 읽기 및 파일크기에따른 리스트 초기화(reset_list_size) loop생성
     """
     brand_table = pd.read_csv(f'results/{current_date}/csv/pre/{BatchType.BRAND_PRE.value}.csv')
-    wb_libs_func.reset_list_size(
-        length=len(brand_table),
-        scrap_dict=detail_scrap)  # brand_table에 갯수만큼 저장해야할 리스트 초기화
-    asyncio.run(extract_brand_collector_detail_async(
-        link=brand_table.link))  # 비동기 실행
+    wb_libs_func.reset_list_size(len(brand_table), scrap_dict)  # brand_table에 갯수만큼 저장해야할 리스트 초기화
+    asyncio.run(extract_brand_collector_detail_async(brand_table.link, scrap_dict))  # 비동기 실행

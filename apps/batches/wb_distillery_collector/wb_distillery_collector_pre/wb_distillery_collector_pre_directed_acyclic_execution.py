@@ -13,7 +13,7 @@ def distillery_pre_executions(batch_type : BatchType):
            Note:
                scrap_main 에서 증류소 사전 정보 스케줄링 함수
     """
-    #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(), log_mode='start',mode=batch_type,level=level)  # 시작 로그 기록
+
     wb_distillery_collector_pre_func.collect()  # 증류소 사전정보 수집 함수 호출
 
     current_date = wb_libs_func.get_current_date()
@@ -26,6 +26,3 @@ def distillery_pre_executions(batch_type : BatchType):
     # save as json file
     json_path = f'results/{current_date}/json/pre/'
     wb_libs_func.save_to_json(pre_scrap, json_path, batch_type.value)
-
-    #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(),log_mode='end',mode=mode,level=level)  # 종료 로그 기록
-
