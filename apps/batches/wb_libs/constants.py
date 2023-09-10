@@ -59,3 +59,39 @@ detail_field_map = MappingProxyType(
         ]
     }
 )
+pre_field_map = MappingProxyType(
+    {
+        'wb_brand_collect_pre' : [
+            'brand_name',
+            'country',
+            'whiskies',
+            'votes',
+            'rating',
+            'link',
+            'wb_rank'
+        ],
+        'wb_bottler_collect_pre' : [
+            'bottler_name',
+            'country',
+            'whiskies',
+            'votes',
+            'rating',
+            'link'
+        ],
+        'wb_distillery_collect_pre' : [
+            'distillery_name',
+            'country',
+            'whiskies',
+            'votes',
+            'rating',
+            'link'
+        ]
+    }
+)
+pre_link_map = {
+        'bottler'  : 'https://www.whiskybase.com/whiskies/bottlers',
+        'brand': 'https://www.whiskybase.com/whiskies/brands',
+        'distillery': 'https://www.whiskybase.com/whiskies/distilleries'
+    }
+
+
