@@ -21,13 +21,13 @@ def distillery_pre_executions(batch_type : BatchType):
     current_date = wb_libs_func.get_current_date()
 
     # save as csv file
-    result_df = wb_libs_func.convert_to_df(pre_scrap)
+    result_df = wb_libs_func.convert_to_df(scrap_dict)
     csv_path = f'results/{current_date}/csv/pre/'
     wb_libs_func.save_to_csv(result_df, csv_path, batch_type.value)
 
     # save as json file
     json_path = f'results/{current_date}/json/pre/'
-    wb_libs_func.save_to_json(pre_scrap, json_path, batch_type.value)
+    wb_libs_func.save_to_json(scrap_dict, json_path, batch_type.value)
 
     #wb_libs_func.write_log(current_time=wb_libs_func.extract_time(),log_mode='end',mode=mode,level=level)  # 종료 로그 기록
 
