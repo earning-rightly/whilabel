@@ -1,6 +1,4 @@
 from apps.batches.wb_brand_collector.wb_brand_collector_pre import wb_brand_collector_pre_func
-from apps.batches.wb_brand_collector.wb_brand_collector_pre.wb_brand_collector_pre_values import \
-    brand_summary_collect_data as pre_scrap
 from apps.batches.wb_libs import wb_libs_func
 from apps.batches.wb_libs.enums import BatchType
 from apps.batches.wb_libs.constants import pre_field_map
