@@ -120,7 +120,7 @@ class WhiskeyRegisterView extends StatelessWidget {
                                 SizedBox(height: 20),
                                 Text("한줄평"),
                                 TextFormField(
-                                  decoration: makeWhiskeyRegisterTextFieldStyle(
+                                  decoration: createBasicTextFieldStyle(
                                       "연락처 유저 데이터 수정해야함", true),
                                   initialValue: "너무 맛있다!",
                                   enabled: false,
@@ -128,7 +128,7 @@ class WhiskeyRegisterView extends StatelessWidget {
                                 SizedBox(height: 20),
                                 Text("테이스팅 노트"),
                                 TextFormField(
-                                  decoration: makeWhiskeyRegisterTextFieldStyle(
+                                  decoration: createBasicTextFieldStyle(
                                       "연락처 유저 데이터 수정해야함", true),
                                   initialValue: "스모키하고 스모키한데 스모키해서",
                                   enabled: false,

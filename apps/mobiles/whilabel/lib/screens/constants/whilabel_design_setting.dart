@@ -20,6 +20,7 @@ class WhilabelSpacing {
 
 class WhilablePadding {
   static EdgeInsets basicPadding =
-      EdgeInsets.symmetric(horizontal: 6, vertical: 15);
+      EdgeInsets.only(top: 16, left: 16, right: 16);
+
   static EdgeInsets onlyHoizBasicPadding = EdgeInsets.symmetric(horizontal: 6);
 }
