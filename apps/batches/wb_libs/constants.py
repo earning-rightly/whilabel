@@ -54,3 +54,33 @@ detail_field_map = MappingProxyType(
         ]
     }
 )
+pre_field_map = MappingProxyType(
+    {
+        'wb_brand_collect_pre' : [
+            'brand_name',
+            'country',
+            'whiskies',
+            'votes',
+            'rating',
+            'link',
+            'wb_rank'
+        ],
+        'wb_bottler_collect_pre' : [
+            'bottler_name',
+            'country',
+            'whiskies',
+            'votes',
+            'rating',
+            'link'
+        ],
+        'wb_distillery_collect_pre' : [
+            'distillery_name',
+            'country',
+            'whiskies',
+            'votes',
+            'rating',
+            'link'
+        ]
+    }
+)
+
