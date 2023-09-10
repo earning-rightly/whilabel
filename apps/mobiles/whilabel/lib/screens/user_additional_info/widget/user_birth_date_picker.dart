@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:whilabel/screens/constants/colors_manager.dart';
+import 'package:whilabel/screens/constants/text_styles_manager.dart';
 import 'package:whilabel/screens/global/functions/text_field_styles.dart';
 
 class UserBirthDatePicker extends StatefulWidget {
@@ -18,20 +20,26 @@ class UserBirthDatePicker extends StatefulWidget {
 class _UserBirthDatePickerState extends State<UserBirthDatePicker> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "생년월일",
             style: TextStyle(color: Colors.white),
           ),
+          SizedBox(height: 12),
           GestureDetector(
             child: TextFormField(
-              enabled: false,
-              decoration: makeWhiskeyRegisterTextFieldStyle("", true),
+              style: TextStylesManager()
+                  .createHadColorTextStyle("R16", ColorsManager.gray500),
+              keyboardType: TextInputType.none,
+              showCursor: false,
+              enableInteractiveSelection: false,
+              decoration: createBasicTextFieldStyle("", true),
               controller: widget.birthDayTextController,
+              onTap: useDatePicker,
             ),
-            onTap: useDatePicker,
           ),
         ],
       ),
@@ -52,18 +60,29 @@ class _UserBirthDatePickerState extends State<UserBirthDatePicker> {
             child: Stack(
               children: [
                 Container(
-                  color: Colors.white,
+                  color: ColorsManager.black200,
                   height: 230,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 30),
-                    child: CupertinoDatePicker(
-                      mode: CupertinoDatePickerMode.date,
-                      onDateTimeChanged: (DateTime date) {
-                        // 사용자가 선택한 날짜를 저장
-                        setState(() {
-                          dateTime = date;
-                        });
-                      },
+                    child: CupertinoTheme(
+                      data: CupertinoThemeData(
+                        textTheme: CupertinoTextThemeData(
+                          dateTimePickerTextStyle: TextStylesManager()
+                              .createHadColorTextStyle(
+                                  "R24", ColorsManager.white),
+                        ),
+                      ),
+                      child: CupertinoDatePicker(
+                        minimumYear: 1920,
+                        maximumYear: DateTime.now().year,
+                        mode: CupertinoDatePickerMode.date,
+                        onDateTimeChanged: (DateTime date) {
+                          // 사용자가 선택한 날짜를 저장
+                          setState(() {
+                            dateTime = date;
+                          });
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -79,7 +98,11 @@ class _UserBirthDatePickerState extends State<UserBirthDatePicker> {
 
                       Navigator.pop(context);
                     },
-                    child: Text("완료"),
+                    child: Text(
+                      "완료",
+                      style: TextStylesManager().createHadColorTextStyle(
+                          "M16", ColorsManager.gray500),
+                    ),
                   ),
                 ),
               ],

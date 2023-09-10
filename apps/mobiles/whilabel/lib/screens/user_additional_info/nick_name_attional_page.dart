@@ -64,7 +64,7 @@ class _NickNameAttionalPageState extends State<NickNameAttionalPage> {
                         TextFormField(
                           maxLength: 20,
                           controller: nickNameText,
-                          decoration: makeWhiskeyRegisterTextFieldStyle(
+                          decoration: createBasicTextFieldStyle(
                               "[한글, 영어, 숫자, _ ] 만 가능", true),
                           validator: (value) {
                             erroMessage = checkAbleNickNameRule(value!);
