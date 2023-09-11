@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/screens/home/widgets/build_widfets/build_home_appbar.dart';
 import 'package:whilabel/screens/home/widgets/home_tab_bar.dart';
+import 'package:whilabel/screens/my_page/my_page_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -19,11 +20,7 @@ class _HomeViewState extends State<HomeView> {
       'camer',
       style: TextStyle(color: Colors.white),
     ),
-    Text(
-      // test값
-      'my page',
-      style: TextStyle(color: Colors.white),
-    ),
+    MyPageView()
   ];
 
   void _onItemTapped(int index) {
@@ -36,6 +33,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     int myWhiskeyCounters = 26;
+
     return DefaultTabController(
       // tabBar를 사용하기 필요한 widget
       length: 2,
@@ -57,21 +55,11 @@ class _HomeViewState extends State<HomeView> {
                 ),
               );
             case 2:
-              return AppBar(
-                title: Container(
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "MY PAGE",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-              );
+              break;
           }
         })(),
-        body: Center(
-            child: bottomNavigationBodyRoutes
-                .elementAt(selectedBottomNavigationIndex)),
+        body:
+            bottomNavigationBodyRoutes.elementAt(selectedBottomNavigationIndex),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.black,

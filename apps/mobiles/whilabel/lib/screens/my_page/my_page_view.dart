@@ -17,71 +17,77 @@ class MyPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final myPageData = MyPageData();
-    return SingleChildScrollView(
-      padding: WhilablePadding.basicPadding,
-      child: Column(
-        children: [
-          // 마이페이지 최상상단 부분 (닉네임과 설정 아이콘)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "닉네임님",
-                style: TextStylesManager()
-                    .createHadColorTextStyle("B24", ColorsManager.gray500),
-              ),
-              IconButton(
-                icon: SvgPicture.asset(myPageData.settingIconPath),
-                onPressed: () {
+
+    return SafeArea(
+      child: SingleChildScrollView(
+        padding: WhilablePadding.basicPadding,
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            // 마이페이지 최상상단 부분 (닉네임과 설정 아이콘)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    "닉네임님",
+                    style: TextStylesManager()
+                        .createHadColorTextStyle("B24", ColorsManager.gray500),
+                    maxLines: 2,
+                  ),
+                ),
+                IconButton(
+                  icon: SvgPicture.asset(myPageData.settingIconPath),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SettingPage(),
+                      ),
+                    );
+                  },
+                )
+              ],
+            ),
+            // 유저가 마신 위스키와 브랜드 갯수를 보여준다
+            ShortWhiskeyCounter(),
+
+            // 마이페이지 리스트 중에 설정과 공지사랑으로 이동시켜주는 리스트 버튼
+            for (Map<String, dynamic> data in myPageData.myPageViewButtonDatas)
+              ListTitleIconButton(
+                svgPath: data["svg_path"],
+                titleText: data["title"],
+                onPressedButton: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SettingPage(),
+                      builder: (context) => AnnouncementPage(),
                     ),
                   );
                 },
-              )
-            ],
-          ),
-          // 유저가 마신 위스키와 브랜드 갯수를 보여준다
-          ShortWhiskeyCounter(),
+              ),
 
-          // 마이페이지 리스트 중에 설정과 공지사랑으로 이동시켜주는 리스트 버튼
-          for (Map<String, dynamic> data in myPageData.myPageViewButtonDatas)
-            ListTitleIconButton(
-              svgPath: data["svg_path"],
-              titleText: data["title"],
-              onPressedButton: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AnnouncementPage(),
-                  ),
-                );
+            // 마이페이지 설정보기 과 문서보기를 구분 지어주는 선
+            Divider(
+              color: ColorsManager.black200,
+              thickness: 2,
+            ),
+
+            // 마이페이지 문서보기 리스트 버튼
+            for (Map<String, dynamic> docData
+                in myPageData.myPageViewDucButtonDatas)
+              ListTitleIconButton(
+                svgPath: docData["svg_path"],
+                titleText: docData["title"],
+              ),
+            TextButton(
+              child: Text("muck route"),
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.loginRoute);
               },
             ),
-
-          // 마이페이지 설정보기 과 문서보기를 구분 지어주는 선
-          Divider(
-            color: ColorsManager.black200,
-            height: WhilabelSpacing.spac16,
-            thickness: 2,
-          ),
-
-          // 마이페이지 문서보기 리스트 버튼
-          for (Map<String, dynamic> docData
-              in myPageData.myPageViewDucButtonDatas)
-            ListTitleIconButton(
-              svgPath: docData["svg_path"],
-              titleText: docData["title"],
-            ),
-          TextButton(
-            child: Text("muck route"),
-            onPressed: () {
-              Navigator.pushNamed(context, Routes.loginRoute);
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
