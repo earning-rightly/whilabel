@@ -18,6 +18,8 @@ class TextStylesManager {
       TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
 
   //regular
+  static TextStyle regular24 =
+      TextStyle(fontSize: 24, fontWeight: FontWeight.w400);
   static TextStyle regular20 =
       TextStyle(fontSize: 20, fontWeight: FontWeight.w400);
   static TextStyle regular18 =
@@ -60,6 +62,7 @@ class TextStylesManager {
   };
 
   final Map<String, TextStyle> _regularMap = {
+    "R24": regular24,
     "R20": regular20,
     "R18": regular18,
     "R16": regular16,
