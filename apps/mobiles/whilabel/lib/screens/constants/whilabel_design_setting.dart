@@ -22,5 +22,5 @@ class WhilablePadding {
   static EdgeInsets basicPadding =
       EdgeInsets.only(top: 16, left: 16, right: 16);
 
-  static EdgeInsets onlyHoizBasicPadding = EdgeInsets.symmetric(horizontal: 6);
+  static EdgeInsets onlyHoizBasicPadding = EdgeInsets.symmetric(horizontal: 16);
 }
