@@ -81,6 +81,9 @@ field_map = MappingProxyType(
             'votes',
             'rating',
             'link'
+        ],
+        'wb_whisky_link' : [
+            'whisky_link'
         ]
     }
 )
