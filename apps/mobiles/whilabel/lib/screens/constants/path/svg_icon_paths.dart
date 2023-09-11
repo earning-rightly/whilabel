@@ -9,4 +9,8 @@ class SvgIconPath {
   static String backBold = "assets/icon/_back/back_bold.svg";
   static String close = "assets/icon/close.svg";
   static String notification = "assets/icon/notification.svg";
+  static String onBoardingStep1 =
+      "assets/icon/on_boarding/on_boarding_step1.svg";
+  static String onBoardingStep2 =
+      "assets/icon/on_boarding/on_boarding_step2.svg";
 }
