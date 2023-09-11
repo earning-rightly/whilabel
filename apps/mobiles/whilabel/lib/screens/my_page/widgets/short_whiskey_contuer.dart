@@ -11,7 +11,7 @@ class ShortWhiskeyCounter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 30),
+      margin: EdgeInsets.only(top: 21, bottom: 16),
       width: MediaQuery.of(context).size.width,
       height: 90,
       decoration: BoxDecoration(

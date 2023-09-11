@@ -8,7 +8,7 @@ class ListTitleIconButton extends StatelessWidget {
   const ListTitleIconButton({
     super.key,
     this.onPressedButton,
-    this.spacing = 12,
+    this.spacing = 8,
     required this.svgPath,
     required this.titleText,
   });
@@ -21,7 +21,7 @@ class ListTitleIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: WhilabelSpacing.spac12),
+        padding: EdgeInsets.symmetric(vertical: WhilabelSpacing.spac16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
