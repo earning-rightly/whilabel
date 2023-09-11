@@ -37,10 +37,13 @@ class LongTextButton extends StatelessWidget {
         width: double.infinity,
         decoration: enabled!
             ? BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(WhilabelRadius.radius12),
+                ),
                 border: Border.all(
-                width: 0.5,
-                color: borderColor,
-              ))
+                  width: 0.5,
+                  color: borderColor,
+                ))
             : null,
         height: height,
         child: ElevatedButton(

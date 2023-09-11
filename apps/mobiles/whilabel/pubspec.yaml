@@ -79,6 +79,7 @@ flutter:
     - assets/icon/_back/
     - assets/icon/_taste/
     - assets/icon/_check/
+    - assets/icon/on_boarding/
     - assets/config/.env
   fonts:
   - family: Pretendard

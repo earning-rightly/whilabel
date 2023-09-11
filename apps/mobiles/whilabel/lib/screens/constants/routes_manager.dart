@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/screens/home/home_view.dart';
 import 'package:whilabel/screens/login/login_view.dart';
+import 'package:whilabel/screens/onboarding/onboarding_step1.dart';
 import 'package:whilabel/screens/user_additional_info/user_additional_info_view.dart';
 import 'package:whilabel/screens/whiskey_critique/whiskey_critique_view.dart';
 import 'package:whilabel/screens/whiskey_register/whiskey_register_view.dart';
@@ -12,6 +13,7 @@ class Routes {
   static const String whiskeyRegisterRoute = "/whiskey_register";
   static const String whiskeyCritiqueRoute = "/whiskey_critque";
   static const String userAdditionalInfoRoute = "/user_additional_info";
+  static const String onBoardingRoute = "/on_boarding";
 }
 
 class RouteGenerator {
@@ -28,6 +30,8 @@ class RouteGenerator {
       case Routes.userAdditionalInfoRoute:
         return MaterialPageRoute(
             builder: (_) => const UserAdditionalInfoView());
+      case Routes.onBoardingRoute:
+        return MaterialPageRoute(builder: (_) => const OnboardingStep1Page());
       default:
         return undefinedRoute();
     }
