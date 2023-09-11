@@ -4,7 +4,7 @@ import 'package:whilabel/screens/constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/constants/text_styles_manager.dart';
 import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/global/widgets/long_text_button.dart';
-import 'package:whilabel/screens/home/grid/widgets/app_bars.dart';
+import 'package:whilabel/screens/global/widgets/app_bars.dart';
 import 'package:whilabel/screens/my_page/widgets/functions/show_dialog.dart';
 
 // ignore: must_be_immutable
