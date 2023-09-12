@@ -3,11 +3,11 @@ import 'package:flutter/rendering.dart';
 class TextStylesManager {
 // bold style
   static TextStyle bold28 =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 28, fontWeight: FontWeight.bold);
   static TextStyle bold24 =
-      TextStyle(fontSize: 26, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
   static TextStyle bold20 =
-      TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static TextStyle bold18 =
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static TextStyle bold16 =
