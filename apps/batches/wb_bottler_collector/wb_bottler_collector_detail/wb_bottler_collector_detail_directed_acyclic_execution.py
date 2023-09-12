@@ -4,7 +4,7 @@ from apps.batches.transformations.wb_bottler.wb_bottler_form import \
     replace_extracted_data_with_wb_bottler_formmat
 from apps.batches.wb_libs.enums import BatchType, CollectionName, BatchExecution
 from apps.batches.wb_libs.lib_firebase import save_to_firebase
-from apps.batches.wb_libs.constants import detail_field_map
+from apps.batches.wb_libs.constants import field_map
 
 
 def bottler_detail_executions(batch_type: BatchType, batch_execution: BatchExecution):
@@ -17,7 +17,7 @@ def bottler_detail_executions(batch_type: BatchType, batch_execution: BatchExecu
                 scrap_main 에서 증류소 상세정보 스케줄링 함수
     """
 
-    scrap_dict = wb_libs_func.initialize_dict(detail_field_map['wb_bottler_collect_detail'])
+    scrap_dict = wb_libs_func.initialize_dict(field_map['wb_bottler_collect_detail'])
 
     current_date = wb_libs_func.get_current_date()
 

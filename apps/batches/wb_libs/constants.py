@@ -3,7 +3,7 @@ from types import MappingProxyType
 KST = 'Asia/Seoul'  # timezone setting
 
 
-detail_field_map = MappingProxyType(
+field_map = MappingProxyType(
     {
         'wb_whisky_collect_detail': [
             'whisky_name',
@@ -56,11 +56,7 @@ detail_field_map = MappingProxyType(
             'country',
             'website',
             'region'
-        ]
-    }
-)
-pre_field_map = MappingProxyType(
-    {
+        ],
         'wb_brand_collect_pre' : [
             'brand_name',
             'country',
@@ -85,13 +81,19 @@ pre_field_map = MappingProxyType(
             'votes',
             'rating',
             'link'
+        ],
+        'wb_whisky_link' : [
+            'whisky_link'
         ]
     }
 )
-pre_link_map = {
+
+link_map = MappingProxyType(
+    {
         'bottler'  : 'https://www.whiskybase.com/whiskies/bottlers',
         'brand': 'https://www.whiskybase.com/whiskies/brands',
         'distillery': 'https://www.whiskybase.com/whiskies/distilleries'
     }
+)
 
 

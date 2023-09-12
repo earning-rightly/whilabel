@@ -3,7 +3,7 @@ from apps.batches.transformations.wb_brand.wb_brand_form import replace_extracte
 from apps.batches.wb_libs.enums import BatchType,CollectionName,BatchExecution
 from apps.batches.wb_libs.lib_firebase import save_to_firebase
 from apps.batches.wb_libs import wb_libs_func
-from apps.batches.wb_libs.constants import detail_field_map
+from apps.batches.wb_libs.constants import field_map
 
 def brand_detail_executions(batch_type : BatchType, batch_execution :  BatchExecution):  # mode allows you to choose between distilleries and brands to collect { mode : distillery, brand} * default = distillery
     """
@@ -15,7 +15,7 @@ def brand_detail_executions(batch_type : BatchType, batch_execution :  BatchExec
                 scrap_main 에서 브랜드 상세정보 스케줄링 함수
     """
 
-    scrap_dict = wb_libs_func.initialize_dict(detail_field_map['wb_brand_collect_detail'])
+    scrap_dict = wb_libs_func.initialize_dict(field_map['wb_brand_collect_detail'])
 
     current_date = wb_libs_func.get_current_date()
 
