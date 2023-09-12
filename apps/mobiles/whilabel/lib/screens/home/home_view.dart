@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whilabel/screens/camera/camera_view.dart';
 import 'package:whilabel/screens/home/widgets/build_widfets/build_home_appbar.dart';
 import 'package:whilabel/screens/home/widgets/home_tab_bar.dart';
 import 'package:whilabel/screens/my_page/my_page_view.dart';
@@ -15,11 +16,7 @@ class _HomeViewState extends State<HomeView> {
 
   final List<Widget> bottomNavigationBodyRoutes = <Widget>[
     HomeTabBar(),
-    Text(
-      // test값
-      'camer',
-      style: TextStyle(color: Colors.white),
-    ),
+    CameraView(),
     MyPageView()
   ];
 
@@ -44,16 +41,7 @@ class _HomeViewState extends State<HomeView> {
             case 0:
               return buildHomeAppbar(context, myWhiskeyCounters);
             case 1:
-              return AppBar(
-                title: Container(
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "CAMER",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-              );
+              break;
             case 2:
               break;
           }
