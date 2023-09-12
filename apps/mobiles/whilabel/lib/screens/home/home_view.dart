@@ -41,16 +41,7 @@ class _HomeViewState extends State<HomeView> {
             case 0:
               return buildHomeAppbar(context, myWhiskeyCounters);
             case 1:
-              return AppBar(
-                title: Container(
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "CAMER",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-              );
+              break;
             case 2:
               break;
           }
