@@ -75,6 +75,7 @@ flutter:
   assets:
 
     - assets/login/
+    - assets/camera/
     - assets/icon/
     - assets/icon/_back/
     - assets/icon/_taste/
