@@ -1,10 +1,7 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:whilabel/data/distillery/distillery.dart';
-import 'package:whilabel/data/taste/taste_vote.dart';
+import 'package:whilabel/data/taste/taste_feature.dart';
 import 'package:whilabel/data/whisky/whisky_category.dart';
 
 part 'archiving_post.g.dart';
@@ -18,86 +15,78 @@ const firestoreSerializable = JsonSerializable(
 @firestoreSerializable
 class ArchivingPost {
   ArchivingPost({
-    required this.whiskyWbId,
-    required this.whiskeyName,
+    required this.whiskyId,
     required this.barcode,
-    this.distilleryWbIds,
-    this.distillerys,
-    this.distilleryNames,
+    required this.whiskyName,
     this.category,
-    this.contury,
+    this.location, //생산지
     this.strength,
-    this.calculatedAge,
-    this.tasteVotes,
-    required this.uid,
-    this.createDate,
-    required this.modifyDate,
-    this.imageUrl,
+    required this.postId,
+    required this.userId,
+    required this.createAt,
+    this.modifyAt,
+    required this.imageUrl,
     required this.starValue,
+    required this.note,
+    required this.tasteFeature,
   });
 
   // DB에서 받아올 정보
-  final String whiskyWbId;
-  final String whiskeyName;
+  final String whiskyId;
   final String barcode;
-  final List<String?>? distilleryWbIds;
-  final List<Distillery>? distillerys;
-  final List<String?>? distilleryNames;
+  final String whiskyName;
   final WhiskyCategory? category;
-  final String? contury;
+  final String? location;
   final String? strength;
-  final String? calculatedAge;
-  final List<TasteVote>? tasteVotes;
 
   // 앱에서 입력할 정보
-  final String uid;
-  final Timestamp? createDate;
-  final String modifyDate;
-  final String? imageUrl;
-  final double starValue;
+  final String postId;
+  final String userId;
+  final Timestamp? createAt;
+  final Timestamp? modifyAt;
 
-  ArchivingPost copyWith({
-    String? whiskyWbId,
-    String? whiskeyName,
-    String? barcode,
-    List<String?>? distilleryWbIds,
-    List<Distillery>? distillerys,
-    List<String?>? distilleryNames,
-    WhiskyCategory? category,
-    String? contury,
-    String? strength,
-    String? calculatedAge,
-    List<TasteVote>? tasteVotes,
-    String? uid,
-    Timestamp? createDate,
-    String? modifyDate,
-    String? imageUrl,
-    String? oneLineCommnet,
-    double? starValue,
-  }) {
-    return ArchivingPost(
-      whiskyWbId: whiskyWbId ?? this.whiskyWbId,
-      whiskeyName: whiskeyName ?? this.whiskeyName,
-      barcode: barcode ?? this.barcode,
-      distilleryWbIds: distilleryWbIds ?? this.distilleryWbIds,
-      distillerys: distillerys ?? this.distillerys,
-      distilleryNames: distilleryNames ?? this.distilleryNames,
-      category: category ?? this.category,
-      contury: contury ?? this.contury,
-      strength: strength ?? this.strength,
-      calculatedAge: calculatedAge ?? this.calculatedAge,
-      tasteVotes: tasteVotes ?? this.tasteVotes,
-      uid: uid ?? this.uid,
-      createDate: createDate ?? this.createDate,
-      modifyDate: modifyDate ?? this.modifyDate,
-      imageUrl: imageUrl ?? this.imageUrl,
-      starValue: starValue ?? this.starValue,
-    );
-  }
+  final String imageUrl;
+  final double starValue;
+  final String note;
+  final TasteFeature tasteFeature;
 
   factory ArchivingPost.fromJson(Map<String, dynamic> json) =>
       _$ArchivingPostFromJson(json);
   Map<String, Object?> toJson() => _$ArchivingPostToJson(this);
+
+  ArchivingPost copyWith({
+    String? whiskyId,
+    String? barcode,
+    String? name,
+    WhiskyCategory? category,
+    String? location,
+    String? strength,
+    String? postId,
+    String? userId,
+    Timestamp? createAt,
+    Timestamp? modifyAt,
+    String? imageUrl,
+    double? starValue,
+    String? note,
+    TasteFeature? tasteFeature,
+  }) {
+    return ArchivingPost(
+      whiskyId: whiskyId ?? this.whiskyId,
+      barcode: barcode ?? this.barcode,
+      whiskyName: name ?? this.whiskyName,
+      category: category ?? this.category,
+      location: location ?? this.location,
+      strength: strength ?? this.strength,
+      postId: postId ?? this.postId,
+      userId: userId ?? this.userId,
+      createAt: createAt ?? this.createAt,
+      modifyAt: modifyAt ?? this.modifyAt,
+      imageUrl: imageUrl ?? this.imageUrl,
+      starValue: starValue ?? this.starValue,
+      note: note ?? this.note,
+      tasteFeature: tasteFeature ?? this.tasteFeature,
+    );
+  }
 }
 
 @Collection<ArchivingPost>('archiving_post')
