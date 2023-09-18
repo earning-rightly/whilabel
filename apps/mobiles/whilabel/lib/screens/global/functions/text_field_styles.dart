@@ -17,7 +17,7 @@ InputDecoration createBasicTextFieldStyle(
       borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
       borderSide: BorderSide(
         color: ColorsManager.black400,
-        width: 2,
+        width: 1,
       ),
     ),
     // 활성화 되기전 스타일
@@ -25,7 +25,7 @@ InputDecoration createBasicTextFieldStyle(
       borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
       borderSide: BorderSide(
         color: ColorsManager.black400,
-        width: 2,
+        width: 1,
       ),
     ),
     // 활성화 스타일
@@ -56,5 +56,35 @@ InputDecoration createEnableBasicTextFieldStyle(
       ),
     ),
     // 활성화 되기전 스타일
+  );
+}
+
+InputDecoration createLargeTextFieldStyle(
+  String hinText,
+  // bool disable,
+) {
+  return InputDecoration(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
+      borderSide: BorderSide(
+        color: ColorsManager.black400,
+        width: 1,
+      ),
+    ),
+    // 활성화 되기전 스타일
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
+      borderSide: BorderSide(
+        color: ColorsManager.black400,
+        width: 1,
+      ),
+    ),
+    // 활성화 스타일
+    contentPadding: EdgeInsets.only(top: 3, bottom: 12, left: 12, right: 12),
+    focusColor: ColorsManager.gray200,
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
+      borderSide: BorderSide(color: ColorsManager.gray500, width: 2),
+    ),
   );
 }
