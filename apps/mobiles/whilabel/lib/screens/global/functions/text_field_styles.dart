@@ -7,7 +7,7 @@ import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
 
 // whiskey_register에서 사용
 InputDecoration createBasicTextFieldStyle(
-  String hinText,
+  String hintText,
   bool disable,
 ) {
   return InputDecoration(
@@ -35,14 +35,14 @@ InputDecoration createBasicTextFieldStyle(
       borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
       borderSide: BorderSide(color: ColorsManager.gray500, width: 2),
     ),
-    hintText: hinText,
+    hintText: hintText,
     hintStyle: TextStylesManager()
         .createHadColorTextStyle("R16", ColorsManager.black400),
   );
 }
 
 InputDecoration createEnableBasicTextFieldStyle(
-  String hinText,
+  String hintText,
   bool disable,
 ) {
   return InputDecoration(

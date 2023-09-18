@@ -69,7 +69,7 @@ class _GalleryAlbumPickerState extends State<GalleryAlbumPicker> {
 }
 
 InputDecoration returnTextFieldDropDownStyle(
-  String hinText,
+  String hintText,
   bool disable,
 ) {
   return InputDecoration(
@@ -80,7 +80,7 @@ InputDecoration returnTextFieldDropDownStyle(
     border: _outlineInputBorder(ColorsManager.gray500),
     errorBorder: _outlineInputBorder(Colors.red),
     contentPadding: EdgeInsets.only(left: 10, right: 10),
-    hintText: hinText,
+    hintText: hintText,
     fillColor: disable ? Colors.amber : null,
     filled: true,
     suffixIconConstraints: BoxConstraints(minHeight: 20, minWidth: 20),
