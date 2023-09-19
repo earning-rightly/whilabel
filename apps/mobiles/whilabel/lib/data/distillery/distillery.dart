@@ -20,19 +20,20 @@ const firestoreSerializable = JsonSerializable(
 
 @firestoreSerializable
 class Distillery {
-  Distillery(
-      {required this.id,
-      required this.createdAt,
-      required this.creator,
-      required this.modifiedAt,
-      required this.modifier,
-      this.wbId,
-      this.name,
-      this.link,
-      this.country,
-      this.address,
-      this.tasteFeature,
-      this.wbDistillery});
+  Distillery({
+    required this.id,
+    required this.createdAt,
+    required this.creator,
+    required this.modifiedAt,
+    required this.modifier,
+    this.wbId,
+    this.name,
+    this.link,
+    this.country,
+    this.address,
+    this.tasteFeature,
+    this.wbDistillery,
+  });
 
   final String id; // 증류소 id (guid 사용)
 
@@ -57,3 +58,6 @@ class Distillery {
   // 배치가 생성할 필드 (만약 이미 존재하는 증류소면 이 필드만 변경)
   final WbDistillery? wbDistillery;
 }
+
+@Collection<Distillery>('distillery')
+final distilleryRef = DistilleryCollectionReference();

@@ -28,25 +28,28 @@ class Brand {
     this.name,
     this.country,
     this.link,
-    this.wbBrand
+    this.wbBrand,
   });
 
-  final String id;                        // 브랜드 id (guid 사용)
+  final String id; // 브랜드 id (guid 사용)
 
   // 관리용 필드
-  final Timestamp createdAt;             // 생성일
-  final String creator;                  // 생성자
-  final Timestamp modifiedAt;             // 수정일
-  final String modifier;                  // 수정인
+  final Timestamp createdAt; // 생성일
+  final String creator; // 생성자
+  final Timestamp modifiedAt; // 수정일
+  final String modifier; // 수정인
 
   // 관리자가 수정 가능한 필드
-  final String? wbId;                      // wb 브랜드 id
+  final String? wbId; // wb 브랜드 id
 
   // 관리자 '만' 수정할 수 있는 필드
-  final String? name;                      // 위스키 이름
-  final String? country;                  // 나라 - Scotland
-  final String? link;                     // 브랜드 공식 url - aberlour.com
+  final String? name; // 위스키 이름
+  final String? country; // 나라 - Scotland
+  final String? link; // 브랜드 공식 url - aberlour.com
 
   // 배치가 생성할 필드 (만약 이미 존재하는 증류소면 이 필드만 변경)
   final WbBrand? wbBrand;
 }
+
+@Collection<Brand>('brand')
+final drandRef = BrandCollectionReference();
