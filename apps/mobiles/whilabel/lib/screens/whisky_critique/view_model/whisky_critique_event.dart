@@ -6,10 +6,8 @@ part 'whisky_critique_event.freezed.dart';
 @freezed
 abstract class WhiskyCritiqueEvnet with _$WhiskyCritiqueEvnet {
   const factory WhiskyCritiqueEvnet.saveArchivingPostOnDb(
-      String userid,
-      double starValue,
-      String note,
-      TasteFeature tasteFeature) = SaveArchivingPostOnDb;
+          double starValue, String note, TasteFeature tasteFeature) =
+      SaveArchivingPostOnDb;
   const factory WhiskyCritiqueEvnet.addTastNoteOnProvider(String tasteNote) =
       AddTastNoteOnProvider;
   const factory WhiskyCritiqueEvnet.addStarValueOnProvider(double value) =

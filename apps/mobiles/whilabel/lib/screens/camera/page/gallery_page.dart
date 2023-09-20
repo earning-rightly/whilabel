@@ -85,7 +85,12 @@ class _GalleryPageState extends State<GalleryPage> {
       appBar: AppBar(
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            Timer(Duration(seconds: 5), () {
+              Navigator.of(context).pop();
+            });
+          },
+          // => Navigator.of(context).pop(),
           icon: Icon(
             Icons.arrow_back_ios,
             color: ColorsManager.gray500,

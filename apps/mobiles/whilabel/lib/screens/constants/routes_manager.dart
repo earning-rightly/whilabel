@@ -3,8 +3,8 @@ import 'package:whilabel/screens/home/home_view.dart';
 import 'package:whilabel/screens/login/login_view.dart';
 import 'package:whilabel/screens/onboarding/onboarding_step1.dart';
 import 'package:whilabel/screens/user_additional_info/user_additional_info_view.dart';
-import 'package:whilabel/screens/whiskey_critique/whiskey_critique_view.dart';
-import 'package:whilabel/screens/whiskey_register/whiskey_register_view.dart';
+import 'package:whilabel/screens/whisky_register/whisky_register_view.dart';
+import 'package:whilabel/screens/whisky_critique/whisky_critique_view.dart';
 
 class Routes {
   static const String cameraRoute = "/carmera";
@@ -24,9 +24,9 @@ class RouteGenerator {
       case Routes.loginRoute:
         return MaterialPageRoute(builder: (_) => LoginView());
       case Routes.whiskeyRegisterRoute:
-        return MaterialPageRoute(builder: (_) => WhiskeyRegisterView());
+        return MaterialPageRoute(builder: (_) => WhiskyRegisterView());
       case Routes.whiskeyCritiqueRoute:
-        return MaterialPageRoute(builder: (_) => WhiskeyCritiqueView());
+        return MaterialPageRoute(builder: (_) => WhiskyCritiqueView());
       case Routes.userAdditionalInfoRoute:
         return MaterialPageRoute(
             builder: (_) => const UserAdditionalInfoView());

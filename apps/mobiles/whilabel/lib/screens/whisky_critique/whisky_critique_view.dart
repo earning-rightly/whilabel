@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/taste/taste_feature.dart';
-import 'package:whilabel/initial_provider.dart';
+import 'package:whilabel/provider_manager.dart';
 import 'package:whilabel/screens/constants/colors_manager.dart';
 import 'package:whilabel/screens/constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/constants/text_styles_manager.dart';
