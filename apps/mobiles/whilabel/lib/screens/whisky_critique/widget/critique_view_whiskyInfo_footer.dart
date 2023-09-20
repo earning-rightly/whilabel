@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:whilabel/domain/global_provider/current_user_state.dart';
 import 'package:whilabel/screens/constants/colors_manager.dart';
 import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';
@@ -20,7 +19,7 @@ class CritiqueViewWhiskyInfoFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = context.watch<WhiskyCritiqueViewModel>();
     final state = viewModel.state;
-    final appUserViewModel = context.watch<CurrentUserStatus>();
+
     return FutureBuilder<bool>(
       future: viewModel.isChangeStareValue(),
       builder: (context, snapshot) {
@@ -88,10 +87,8 @@ class CritiqueViewWhiskyInfoFooter extends StatelessWidget {
                   onPressed: isfilled == false
                       ? null
                       : () async {
-                          final appUser = await appUserViewModel.getAppUser();
                           viewModel.onEvent(
                             SaveArchivingPostOnDb(
-                              appUser!.uid,
                               viewModel.state.starValue,
                               viewModel.state.tasteNote.toString(),
                               viewModel.state.tasteFeature!,
