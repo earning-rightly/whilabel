@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whilabel/screens/global/functions/create_star_rating.dart';
 
 import 'package:whilabel/screens/global/functions/text_field_styles.dart';
-import 'package:whilabel/screens/whiskey_register/widgets/flavor_range.dart';
+import 'package:whilabel/screens/global/widgets/flavor_range.dart';
 
 const String whiskeyName = "위스키 이름";
 const double whiskeyLcoholPercentagea = 40;
@@ -157,19 +157,19 @@ class WhiskeyRegisterView extends StatelessWidget {
                                   title: "바디감",
                                   subTitleLeft: "무거움",
                                   subTitleRight: "가변움",
-                                  filledCount: 3,
+                                  initialCount: 3,
                                 ),
                                 FlavorRange(
                                   title: "향",
                                   subTitleLeft: "스모키함",
                                   subTitleRight: "섬세함",
-                                  filledCount: 3,
+                                  initialCount: 3,
                                 ),
                                 FlavorRange(
                                   title: "피트감",
                                   subTitleLeft: "피트함",
                                   subTitleRight: "언피트",
-                                  filledCount: 3,
+                                  initialCount: 3,
                                 ),
                               ],
                             ),
