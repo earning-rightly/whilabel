@@ -30,4 +30,11 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <!-- photo_gallery -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
 </manifest>

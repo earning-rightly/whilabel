@@ -52,4 +52,4 @@ class Brand {
 }
 
 @Collection<Brand>('brand')
-final drandRef = BrandCollectionReference();
+final brandRef = BrandCollectionReference();

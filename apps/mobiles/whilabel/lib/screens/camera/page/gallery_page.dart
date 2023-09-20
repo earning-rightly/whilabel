@@ -77,33 +77,27 @@ class _GalleryPageState extends State<GalleryPage> {
     // 로딩 처리 코드
     if (_loading) {
       return SafeArea(
-        child: Stack(
-          children: [
-            Positioned(
-              top: 30,
-              left: 0,
-              right: 0,
-              // right: ,
-              child: CircularProgressIndicator(),
-            ),
-          ],
-        ),
+        child: Center(child: CircularProgressIndicator()),
       );
     }
 
     return Scaffold(
       appBar: AppBar(
-        bottom: PreferredSize(
-            child: Center(
-              child: SizedBox(
-                width: 200,
-                child: GalleryAlbumPicker(
-                  albumNameList: _albumNames,
-                  onChangeAlbum: changeAlbum,
-                ),
-              ),
-            ),
-            preferredSize: const Size.fromHeight(4.0)),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: ColorsManager.gray500,
+          ),
+        ),
+        title: SizedBox(
+          width: 200,
+          child: GalleryAlbumPicker(
+            albumNameList: _albumNames,
+            onChangeAlbum: changeAlbum,
+          ),
+        ),
       ),
       body: SafeArea(
         child: _loading
@@ -120,8 +114,8 @@ class _GalleryPageState extends State<GalleryPage> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, //1 개의 행에 보여줄 item 개수
                   childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
-                  mainAxisSpacing: 10, //수평 Padding
-                  crossAxisSpacing: 10, //수직 Padding
+                  mainAxisSpacing: 4, //수평 Padding
+                  crossAxisSpacing: 4, //수직 Padding
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   Medium medium = _media[index];

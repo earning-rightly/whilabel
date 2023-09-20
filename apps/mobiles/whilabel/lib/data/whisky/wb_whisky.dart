@@ -20,14 +20,14 @@ const firestoreSerializable = JsonSerializable(
 @firestoreSerializable
 class WbWhisky {
   WbWhisky(
-      {required this.wbId,
+      {required this.wbID,
       required this.barcode,
       required this.name,
       this.strength,
       this.imageUrl,
       this.price,
       this.priceUnit,
-      this.wbDistilleryId,
+      this.wbDistilleryIds,
       this.distilleryName,
       this.category,
       this.tasteVotes,
@@ -43,16 +43,16 @@ class WbWhisky {
       this.rating});
 
   // 위라밸 데이터에서 공유할 부분
-  final String wbId; // wb 증류소 id - 90642
-  final String barcode;
+  final String wbID; // wb 증류소 id - 90642
+  final String? barcode;
   final String name; // 위스키 이름 - Aberlour
 
-  final double? strength; // 도수 - 43.0
+  final String? strength; // 도수 - 43.0
   final String? imageUrl; // 대표 사진
   final double? price; // 가격 - 83.8
   final String? priceUnit; // 가격 단위 - 달러 유로 etc..
 
-  final String? wbDistilleryId; // wb 증류소 id - 90642
+  final List<String>? wbDistilleryIds; // wb 증류소 id - 90642
   final String? distilleryName;
 
   final WhiskyCategory? category; // 종류 - Blended Malt / Single Malt ...
@@ -60,8 +60,8 @@ class WbWhisky {
   final List<TasteVote>? tasteVotes;
 
   // 관리용 필드
-  final Timestamp batchedAt; // 데이터 생성 배치가 돈 시각
-  final String batchId; // 데이터 배치 종류
+  final Timestamp? batchedAt; // 데이터 생성 배치가 돈 시각
+  final String? batchId; // 데이터 배치 종류
 
   // 일단 가지고 있을 필드
   final String? bottler;

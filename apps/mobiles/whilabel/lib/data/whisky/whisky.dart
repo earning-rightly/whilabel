@@ -32,7 +32,7 @@ class Whisky {
     this.imageUrl,
     this.price,
     this.priceUnit,
-    this.distilleryId,
+    this.distilleryIds,
     this.category,
     this.tasteVotes,
     this.wbId,
@@ -40,22 +40,22 @@ class Whisky {
   });
 
   final String id; // 증류소 id (guid 사용)
-  final String barcode;
+  final String? barcode;
 
   // 관리용 필드
-  final Timestamp createdAt; // 생성일
-  final String creator; // 생성자
-  final Timestamp modifiedAt; // 수정일
-  final String modifier; // 수정인
+  final Timestamp? createdAt; // 생성일
+  final String? creator; // 생성자
+  final Timestamp? modifiedAt; // 수정일
+  final String? modifier; // 수정인
 
   // 관리자 '만' 수정할 수 있는 필드
   final String? name; // 위스키 이름
-  final double? strength; // 도수 - 43.0
+  final String? strength; // 도수 - 43.0
   final String? imageUrl; // 대표 사진
   final double? price; // 가격 - 83.8
   final String? priceUnit; // 가격 단위 - 달러 유로 etc..
 
-  final String? distilleryId;
+  final List<String>? distilleryIds;
   final WhiskyCategory? category; // 종류 - Blended Malt / Single Malt ...
 
   final List<TasteVote>? tasteVotes;

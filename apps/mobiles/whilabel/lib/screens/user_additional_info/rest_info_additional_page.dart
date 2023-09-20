@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/user/enum/gender.dart';
-import 'package:whilabel/domain/global_provider/current_user_state.dart';
+import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/screens/constants/colors_manager.dart';
 import 'package:whilabel/screens/constants/routes_manager.dart';
 import 'package:whilabel/screens/constants/text_styles_manager.dart';

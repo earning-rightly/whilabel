@@ -6,7 +6,7 @@ import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/user/auth_user.dart';
 import 'package:whilabel/data/user/sns_type.dart';
 import 'package:whilabel/domain/functions/create_firebase_token.dart';
-import 'package:whilabel/domain/global_provider/current_user_state.dart';
+import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/domain/login_services/googel_oauth.dart';
 import 'package:whilabel/domain/login_services/instargram_oauth.dart';
 import 'package:whilabel/domain/login_services/kakao_oauth.dart';

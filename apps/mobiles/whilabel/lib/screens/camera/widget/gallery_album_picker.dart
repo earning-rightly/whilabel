@@ -34,7 +34,8 @@ class _GalleryAlbumPickerState extends State<GalleryAlbumPicker> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
-      alignment: Alignment.center,
+      elevation: 0,
+      // alignment: Alignment.center,
       icon: Icon(
         Icons.arrow_drop_down,
         color: ColorsManager.gray500,
@@ -77,7 +78,8 @@ InputDecoration returnTextFieldDropDownStyle(
     focusColor: ColorsManager.gray500,
     prefixIconColor: ColorsManager.gray500,
     focusedBorder: _outlineInputBorder(ColorsManager.black100),
-    border: _outlineInputBorder(ColorsManager.gray500),
+    border: _outlineInputBorder(ColorsManager.black100),
+    enabledBorder: _outlineInputBorder(ColorsManager.black100),
     errorBorder: _outlineInputBorder(Colors.red),
     contentPadding: EdgeInsets.only(left: 10, right: 10),
     hintText: hintText,

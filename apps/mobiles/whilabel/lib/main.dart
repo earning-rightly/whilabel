@@ -5,7 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/firebase_options.dart';
-import 'package:whilabel/initial_provider.dart';
+import 'package:whilabel/provider_manager.dart';
 import 'package:whilabel/screens/constants/routes_manager.dart';
 import 'package:whilabel/screens/constants/themedata_manager.dart';
 
@@ -21,7 +21,7 @@ void main() async {
 
   runApp(
     MultiProvider(
-      providers: initialProviders(),
+      providers: ProvidersManager.initialProviders(),
       child: MainApp(),
     ),
   );
