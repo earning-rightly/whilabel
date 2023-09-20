@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
-import 'package:whilabel/domain/global_provider/current_user_state.dart';
+import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/screens/global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/user_additional_info/nick_name_attional_page.dart';
 

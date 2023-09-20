@@ -23,4 +23,6 @@ class WhilablePadding {
       EdgeInsets.only(top: 16, left: 16, right: 16);
 
   static EdgeInsets onlyHoizBasicPadding = EdgeInsets.symmetric(horizontal: 16);
+  static EdgeInsets bottomButtomPadding =
+      EdgeInsets.only(bottom: 8, left: 16, right: 16);
 }
