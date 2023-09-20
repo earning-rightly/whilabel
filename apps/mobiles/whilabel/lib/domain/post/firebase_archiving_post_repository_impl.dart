@@ -9,7 +9,7 @@ class FirestoreArchivingPostRepositoryImple implements ArchivingPostRepository {
   );
   @override
   Future<void> insertArchivingPost(ArchivingPost archivingPost) async {
-    _archivingPostRef.add(archivingPost);
+    _archivingPostRef.doc(archivingPost.postId).set(archivingPost);
   }
 
   @override

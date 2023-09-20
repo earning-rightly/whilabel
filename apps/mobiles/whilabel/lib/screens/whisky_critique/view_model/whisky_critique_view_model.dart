@@ -1,35 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:uuid/uuid.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/taste/taste_feature.dart';
-import 'package:whilabel/domain/global_provider/current_user_state.dart';
-import 'package:whilabel/domain/global_provider/whisky_archiving_post_status.dart';
+import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/domain/post/archiving_post_repository.dart';
+import 'package:whilabel/domain/use_case/whisky_archiving_post_use_case.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_state.dart';
 
 class WhiskyCritiqueViewModel with ChangeNotifier {
   final CurrentUserStatus _currentUserStatus;
-  final WhiskyNewArchivingPostStatus _whiskyNewArchivingPostStatus;
+  final WhiskyNewArchivingPostUseCase _whiskyNewArchivingPostUseCase;
   final ArchivingPostRepository _archivingPostRepository;
   WhiskyCritiqueViewModel({
     required CurrentUserStatus currentUserStatus,
-    required WhiskyNewArchivingPostStatus whiskyNewArchivingPostStatus,
+    required WhiskyNewArchivingPostUseCase whiskyNewArchivingPostUseCase,
     required ArchivingPostRepository archivingPostRepository,
   })  : _currentUserStatus = currentUserStatus,
-        _whiskyNewArchivingPostStatus = whiskyNewArchivingPostStatus,
+        _whiskyNewArchivingPostUseCase = whiskyNewArchivingPostUseCase,
         _archivingPostRepository = archivingPostRepository;
 
   late WhiskyCritiqueState _state = WhiskyCritiqueState(
       whiskyName:
-          _whiskyNewArchivingPostStatus.getState().archivingPost.whiskyName,
+          _whiskyNewArchivingPostUseCase.getState().archivingPost.whiskyName,
       strength:
-          _whiskyNewArchivingPostStatus.getState().archivingPost.strength!,
-      image: _whiskyNewArchivingPostStatus.getState().images!,
+          _whiskyNewArchivingPostUseCase.getState().archivingPost.strength!,
+      image: _whiskyNewArchivingPostUseCase.getState().images!,
       whiskyLocation:
-          _whiskyNewArchivingPostStatus.getState().archivingPost.location,
+          _whiskyNewArchivingPostUseCase.getState().archivingPost.location,
       starValue: -1,
       tasteFeature: TasteFeature(bodyRate: 1, flavorRate: 1, peatRate: 1));
 
@@ -67,19 +67,22 @@ class WhiskyCritiqueViewModel with ChangeNotifier {
     return true;
   }
 
-  Future<void> saveArchivingPostOnDb(String userId, double starValue,
-      String note, TasteFeature tasteFeature) async {
+  Future<void> saveArchivingPostOnDb(
+      double starValue, String note, TasteFeature tasteFeature) async {
     final timeStampNow = Timestamp.now();
+    final appUser = await _currentUserStatus.getAppUser();
+    final uuid = Uuid();
+
     ArchivingPost newArchivingPost =
-        _whiskyNewArchivingPostStatus.getState().archivingPost;
+        _whiskyNewArchivingPostUseCase.getState().archivingPost;
     final downloadUrl = await _SaveImageOnStorage(timeStampNow.toString());
 
     if (downloadUrl.isEmpty) {
       debugPrint("이미지 저장과정에서 오류가 일어났습니다.\n 앱을 다시 시작해 주세요");
     }
     newArchivingPost = newArchivingPost.copyWith(
-      userId: userId,
-      postId: timeStampNow.toString(),
+      userId: appUser!.uid,
+      postId: "${uuid.v1()}^${appUser.uid}}",
       createAt: timeStampNow,
       modifyAt: timeStampNow,
       starValue: starValue,
@@ -89,8 +92,11 @@ class WhiskyCritiqueViewModel with ChangeNotifier {
     );
     _state = _state.copyWith(archivingPost: newArchivingPost);
     notifyListeners();
-
-    _archivingPostRepository.insertArchivingPost(newArchivingPost);
+    try {
+      _archivingPostRepository.insertArchivingPost(newArchivingPost);
+    } catch (error) {
+      debugPrint("archivingPost를 저장하는 과정에서 문제가 생겼습니다");
+    }
   }
 
   Future<String> _SaveImageOnStorage(String imageName) async {
