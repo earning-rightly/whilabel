@@ -35,7 +35,7 @@ class _GalleryAlbumPickerState extends State<GalleryAlbumPicker> {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
       elevation: 0,
-      alignment: Alignment.center,
+      // alignment: Alignment.center,
       icon: Icon(
         Icons.arrow_drop_down,
         color: ColorsManager.gray500,

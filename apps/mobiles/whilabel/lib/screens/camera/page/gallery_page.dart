@@ -83,6 +83,7 @@ class _GalleryPageState extends State<GalleryPage> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: Icon(
@@ -91,23 +92,12 @@ class _GalleryPageState extends State<GalleryPage> {
           ),
         ),
         title: SizedBox(
-          width: 150,
+          width: 200,
           child: GalleryAlbumPicker(
             albumNameList: _albumNames,
             onChangeAlbum: changeAlbum,
           ),
         ),
-        // bottom: PreferredSize(
-        //     child: Center(
-        //       child: SizedBox(
-        //         width: 150,
-        //         child: GalleryAlbumPicker(
-        //           albumNameList: _albumNames,
-        //           onChangeAlbum: changeAlbum,
-        //         ),
-        //       ),
-        //     ),
-        //     preferredSize: const Size.fromHeight(4.0)),
       ),
       body: SafeArea(
         child: _loading
