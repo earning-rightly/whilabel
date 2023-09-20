@@ -59,5 +59,8 @@
 			</array>
 		</dict>
 	</array>
+	<!-- photo_gallery -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Example usage description</string>
 </dict>
 </plist>
