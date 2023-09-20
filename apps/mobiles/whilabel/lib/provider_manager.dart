@@ -19,6 +19,7 @@ import 'package:whilabel/domain/whisky_brand_distillery/whisky_brand_distillery_
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 import 'package:whilabel/screens/login/view_model/login_view_model.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
+import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_view_model.dart';
 
 class ProvidersManager {
   static final AppUserCollectionReference appUserRef = usersRef;
@@ -35,7 +36,7 @@ class ProvidersManager {
       _whiskyBrandDistilleryRepository =
       FirebaseWhiskyBrandDistilleryRepositoryImpl(
           _whiskyRef, _brandRef, _distilleryRef);
-  static final whiskeyNewArchivingPostStatus = WhiskyNewArchivingPostUseCase();
+  static final whiskeyNewArchivingPostUseCase = WhiskyNewArchivingPostUseCase();
   static final ArchivingPostRepository _archivingPostRepository =
       FirestoreArchivingPostRepositoryImple(_archivingPostRef);
 
@@ -65,7 +66,7 @@ class ProvidersManager {
     );
     final carmeraViewModel = CarmeraViewModel(
       searchWhiskeyBarcodeUseCase: searchWhiskeyBarcodeUseCase,
-      archivingPostStatus: whiskeyNewArchivingPostStatus,
+      archivingPostStatus: whiskeyNewArchivingPostUseCase,
     );
 
     return [
@@ -82,5 +83,13 @@ class ProvidersManager {
         create: (context) => carmeraViewModel,
       ),
     ];
+  }
+
+  static WhiskyCritiqueViewModel WhiskyCritiqueViewProvider() {
+    final whiskyCritiqueViewModel = WhiskyCritiqueViewModel(
+        currentUserStatus: _currentUserStatus,
+        whiskyNewArchivingPostUseCase: whiskeyNewArchivingPostUseCase,
+        archivingPostRepository: _archivingPostRepository);
+    return whiskyCritiqueViewModel;
   }
 }
