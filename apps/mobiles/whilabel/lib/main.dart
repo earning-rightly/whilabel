@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -8,6 +10,7 @@ import 'package:whilabel/firebase_options.dart';
 import 'package:whilabel/provider_manager.dart';
 import 'package:whilabel/screens/constants/routes_manager.dart';
 import 'package:whilabel/screens/constants/themedata_manager.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async {
   await dotenv.load(fileName: 'assets/config/.env');
@@ -18,6 +21,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  HttpOverrides.global = MyHttpOverrides();
 
   runApp(
     MultiProvider(
@@ -44,6 +49,25 @@ class _MainAppState extends State<MainApp> {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: RouteGenerator.getRoute,
       initialRoute: Routes.homeRoute,
+      builder: EasyLoading.init(),
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
+class NoCheckCertificateHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
