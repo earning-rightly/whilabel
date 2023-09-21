@@ -71,9 +71,6 @@ class _GalleryPageState extends State<GalleryPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final viewModel =
-    // final viewModel = context.read<CarmeraViewModel>();
-
     // 로딩 처리 코드
     if (_loading) {
       return SafeArea(
@@ -86,11 +83,10 @@ class _GalleryPageState extends State<GalleryPage> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            Timer(Duration(seconds: 5), () {
+            Timer(Duration(milliseconds: 50), () {
               Navigator.of(context).pop();
             });
           },
-          // => Navigator.of(context).pop(),
           icon: Icon(
             Icons.arrow_back_ios,
             color: ColorsManager.gray500,
@@ -175,7 +171,6 @@ class _GalleryPageState extends State<GalleryPage> {
     setState(() {
       _albums = albums;
       _media = mediaPage.items;
-      // _loading = false;
     });
     print("change tite====> $albumTitle");
   }

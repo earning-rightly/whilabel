@@ -27,8 +27,22 @@ class FirestoreArchivingPostRepositoryImple implements ArchivingPostRepository {
   }
 
   @override
-  Future<ArchivingPost?> getArchivingPost(String uid, String postId) {
-    // TODO: implement getArchivingPost
-    throw UnimplementedError();
+  Future<void> updateArchivingPost(ArchivingPost archivingPost) async {
+    final querySnapshot = await _archivingPostRef
+        .wherePostId(isEqualTo: archivingPost.postId)
+        .get();
+
+    // 쿼리 결과는 반드시 1개만 존재해야 함.
+    assert(querySnapshot.docs.length == 1);
+    final docId = querySnapshot.docs.first.id;
+
+    _archivingPostRef.doc(docId).set(archivingPost);
+  }
+
+  @override
+  Future<ArchivingPost?> getArchivingPost(String postId) async {
+    final querySnapshot =
+        await _archivingPostRef.wherePostId(isEqualTo: postId).get();
+    return querySnapshot.docs.first.data;
   }
 }

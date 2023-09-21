@@ -7,8 +7,8 @@ part 'taste_vote.g.dart';
 @freezed
 class TasteVote with _$TasteVote {
   factory TasteVote({
-    required TasteTag tasteTag,
-    required int voteCount,
+    required TasteTag? tasteTag,
+    required int? voteCount,
   }) = _TasteVote;
 
   factory TasteVote.fromJson(Map<String, dynamic> json) =>

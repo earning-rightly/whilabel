@@ -16,6 +16,7 @@ import 'package:whilabel/domain/user/app_user_repository.dart';
 import 'package:whilabel/domain/user/firestore_user_repository_impl.dart';
 import 'package:whilabel/domain/whisky_brand_distillery/firebase_whisky_brand_distillery_repository_impl.dart';
 import 'package:whilabel/domain/whisky_brand_distillery/whisky_brand_distillery_repository.dart';
+import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 import 'package:whilabel/screens/login/view_model/login_view_model.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
@@ -91,5 +92,12 @@ class ProvidersManager {
         whiskyNewArchivingPostUseCase: whiskeyNewArchivingPostUseCase,
         archivingPostRepository: _archivingPostRepository);
     return whiskyCritiqueViewModel;
+  }
+
+  static ArchivingPostDetailViewModel WhiskyRegisterViewModleProvider() {
+    final archivingPostDetailViewModel = ArchivingPostDetailViewModel(
+        whiskyBrandDistilleryRepository: _whiskyBrandDistilleryRepository,
+        archivingPostRepository: _archivingPostRepository);
+    return archivingPostDetailViewModel;
   }
 }
