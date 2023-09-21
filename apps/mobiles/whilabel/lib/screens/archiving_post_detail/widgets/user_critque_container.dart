@@ -58,7 +58,7 @@ class UserCritiqueContainer extends StatelessWidget {
           SizedBox(height: 20),
           Text("테이스팅 노트", style: TextStylesManager.bold14),
           TextFormField(
-            decoration: createLargeTextFieldStyle("당신의 의견을 기다릴게요", true),
+            decoration: createLargeTextFieldStyle("당신의 의견을 기다릴게요"),
             // initialValue: tasteNoteController,
             controller: tasteNoteController,
             maxLines: isModify ? 7 : tasteNoteMaxLine,

@@ -1,11 +1,10 @@
 name: whilabel
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0+1
 
-
 environment:
-  sdk: '>=3.1.0-260.0.dev <4.0.0'
+  sdk: ">=3.1.0-260.0.dev <4.0.0"
 
 dependencies:
   flutter:
@@ -18,15 +17,12 @@ dependencies:
   freezed_annotation: ^2.2.0
   build: ^2.0.1
   collection: ^1.15.0
-  graphs: '>=2.0.0 <2.3.0'
+  graphs: ">=2.0.0 <2.3.0"
 
   # 간편로그인 패키지
   kakao_flutter_sdk: ^1.5.0
   kakao_flutter_sdk_user: ^1.5.0
   google_sign_in: ^6.1.5
-
-
-
 
   # firebase 패키지
   firebase_core: ^2.15.1
@@ -53,14 +49,14 @@ dependencies:
   transparent_image: ^2.0.1
   firebase_storage: ^11.2.7
   uuid: ^4.0.0
-  
-
+  flutter_easyloading: ^3.0.5
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  
+
   # 불변객체 만들때 사용하는 패키지
   build_runner: 2.4.3
   freezed: ^2.3.5
@@ -69,7 +65,6 @@ dev_dependencies:
   cloud_firestore_odm_generator: ^1.0.0-dev.58
 
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -77,7 +72,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-
     - assets/login/
     - assets/camera/
     - assets/icon/
@@ -87,24 +81,23 @@ flutter:
     - assets/icon/on_boarding/
     - assets/config/.env
   fonts:
-  - family: Pretendard
-    fonts:
-      - asset: assets/fonts/pretendard/Pretendard-Thin.ttf
-        weight: 100
-      - asset: assets/fonts/pretendard/Pretendard-ExtraLight.ttf
-        weight: 200
-      - asset: assets/fonts/pretendard/Pretendard-Light.ttf
-        weight: 300
-      - asset: assets/fonts/pretendard/Pretendard-Regular.ttf
-        weight: 400
-      - asset: assets/fonts/pretendard/Pretendard-Medium.ttf
-        weight: 500
-      - asset: assets/fonts/pretendard/Pretendard-SemiBold.ttf
-        weight: 600
-      - asset: assets/fonts/pretendard/Pretendard-Bold.ttf
-        weight: 700
-      - asset: assets/fonts/pretendard/Pretendard-ExtraBold.ttf
-        weight: 800
-      - asset: assets/fonts/pretendard/Pretendard-Black.ttf
-        weight: 900
-
+    - family: Pretendard
+      fonts:
+        - asset: assets/fonts/pretendard/Pretendard-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/pretendard/Pretendard-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/pretendard/Pretendard-Light.ttf
+          weight: 300
+        - asset: assets/fonts/pretendard/Pretendard-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/pretendard/Pretendard-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/pretendard/Pretendard-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/pretendard/Pretendard-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/pretendard/Pretendard-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/pretendard/Pretendard-Black.ttf
+          weight: 900

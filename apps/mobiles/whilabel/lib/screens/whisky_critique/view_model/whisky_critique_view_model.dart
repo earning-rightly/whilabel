@@ -73,16 +73,18 @@ class WhiskyCritiqueViewModel with ChangeNotifier {
     final appUser = await _currentUserStatus.getAppUser();
     final uuid = Uuid();
 
+    String postId = "${uuid.v1()}^${appUser!.uid}}";
     ArchivingPost newArchivingPost =
         _whiskyNewArchivingPostUseCase.getState().archivingPost;
-    final downloadUrl = await _SaveImageOnStorage(timeStampNow.toString());
+    final downloadUrl = await _SaveImageOnStorage(postId);
 
     if (downloadUrl.isEmpty) {
       debugPrint("이미지 저장과정에서 오류가 일어났습니다.\n 앱을 다시 시작해 주세요");
     }
+
     newArchivingPost = newArchivingPost.copyWith(
-      userId: appUser!.uid,
-      postId: "${uuid.v1()}^${appUser.uid}}",
+      userId: appUser.uid,
+      postId: postId,
       createAt: timeStampNow,
       modifyAt: timeStampNow,
       starValue: starValue,
@@ -99,11 +101,15 @@ class WhiskyCritiqueViewModel with ChangeNotifier {
     }
   }
 
+  Future<ArchivingPost?> getLastArchivingPost(String postId) async {
+    return await _archivingPostRepository.getArchivingPost(postId);
+  }
+
   Future<String> _SaveImageOnStorage(String imageName) async {
     final FirebaseStorage _storage = FirebaseStorage.instance;
     final appUser = await _currentUserStatus.getAppUser();
     final imgageStoragePath =
-        "${appUser!.snsType}/${appUser.uid}/$imageName.jpg";
+        "post/archiving_post/${appUser!.uid}/$imageName.jpg";
     String downloadUrl = "";
 
     try {

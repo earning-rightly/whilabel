@@ -32,7 +32,7 @@ class FlavorRecorder extends StatelessWidget {
             SizedBox(height: (WhilabelSpacing.spac16)),
             FlavorRange(
                 disable: disable,
-                initialCount: 1,
+                initialCount: tastFeature?.bodyRate.toDouble() ?? 1,
                 title: "바디감",
                 subTitleLeft: "가벼움",
                 subTitleRight: "무거움",
@@ -41,7 +41,7 @@ class FlavorRecorder extends StatelessWidget {
             SizedBox(height: (WhilabelSpacing.spac16)),
             FlavorRange(
                 disable: disable,
-                initialCount: 1,
+                initialCount: tastFeature?.flavorRate.toDouble() ?? 1,
                 title: "향",
                 subTitleLeft: "섬세함",
                 subTitleRight: "스모크함",

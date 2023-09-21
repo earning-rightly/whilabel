@@ -79,9 +79,16 @@ InputDecoration createLargeTextFieldStyle(
         width: 1,
       ),
     ),
+    disabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
+      borderSide: BorderSide(
+        color: ColorsManager.gray300,
+        width: 1,
+      ),
+    ),
     // 활성화 스타일
-    contentPadding: EdgeInsets.only(top: 3, bottom: 12, left: 12, right: 12),
-    focusColor: ColorsManager.gray200,
+    contentPadding: EdgeInsets.only(top: 10, bottom: 12, left: 12, right: 12),
+    focusColor: ColorsManager.yellow,
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
       borderSide: BorderSide(color: ColorsManager.gray500, width: 2),

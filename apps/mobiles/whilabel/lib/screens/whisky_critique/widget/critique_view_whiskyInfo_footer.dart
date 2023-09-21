@@ -1,18 +1,28 @@
 // ignore: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
+import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/screens/constants/colors_manager.dart';
+import 'package:whilabel/screens/constants/routes_manager.dart';
 import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_view_model.dart';
 
 // ignore: must_be_immutable
-class CritiqueViewWhiskyInfoFooter extends StatelessWidget {
+class CritiqueViewWhiskyInfoFooter extends StatefulWidget {
   CritiqueViewWhiskyInfoFooter({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<CritiqueViewWhiskyInfoFooter> createState() =>
+      _CritiqueViewWhiskyInfoFooterState();
+}
+
+class _CritiqueViewWhiskyInfoFooterState
+    extends State<CritiqueViewWhiskyInfoFooter> {
   bool isfilled = false;
 
   @override
@@ -87,13 +97,28 @@ class CritiqueViewWhiskyInfoFooter extends StatelessWidget {
                   onPressed: isfilled == false
                       ? null
                       : () async {
-                          viewModel.onEvent(
+                          EasyLoading.show(
+                            maskType: EasyLoadingMaskType.black,
+                          );
+
+                          await viewModel.onEvent(
                             SaveArchivingPostOnDb(
                               viewModel.state.starValue,
-                              viewModel.state.tasteNote.toString(),
+                              viewModel.state.tasteNote ?? "",
                               viewModel.state.tasteFeature!,
                             ),
-                            callback: () {},
+                            callback: () async {
+                              setState(() {});
+
+                              print(
+                                  " last post id ===>  ${state.archivingPost?.postId.toString()}");
+                              ArchivingPost? lastArArchivingPost =
+                                  await viewModel.getLastArchivingPost(
+                                      viewModel.state.archivingPost!.postId);
+                              Navigator.pushNamed(
+                                  context, Routes.whiskeyRegisterRoute,
+                                  arguments: lastArArchivingPost);
+                            },
                           );
                         },
                 ),
