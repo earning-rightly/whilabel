@@ -23,11 +23,11 @@ def whisky_detail_bottler_collector_executions(batch_type : BatchType, batch_id 
     # save as csv file
     result_df = wb_libs_func.convert_to_df(scrap_dict)
     csv_path = f'results/{current_date}/csv/detail/'
-    wb_libs_func.save_to_csv(result_df, csv_path, 'wb_bottler_whisky_collector_detail')
+    wb_libs_func.save_to_csv(result_df, csv_path, batch_type.value)
 
     # save as json file
     json_path = f'results/{current_date}/json/detail/'
-    wb_libs_func.save_to_json(scrap_dict, json_path, 'wb_bottler_whisky_collector_detail')
+    wb_libs_func.save_to_json(scrap_dict, json_path, batch_type.value)
 
     transform_result_dict = replace_extracted_data_with_wb_whisky_format(batchId=batch_id.value, extract_data= scrap_dict)
 
