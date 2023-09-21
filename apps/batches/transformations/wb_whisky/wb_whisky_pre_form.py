@@ -184,6 +184,8 @@ def distillery_information_resize(table):
 
 def replace_extracted_data_with_wb_whisky_format(extract_data: dict, batchId : str = None) -> json:
 
+    #SettingWithCopyWarning:
+    pd.set_option('mode.chained_assignment', None)  # <==== 경고를 끈다
 
     whisky_data = pd.DataFrame.from_dict(data=extract_data, orient='columns')
     whisky_data.to_csv("test_whisky.csv")
