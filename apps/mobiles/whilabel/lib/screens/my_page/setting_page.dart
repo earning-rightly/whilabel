@@ -7,10 +7,10 @@ import 'package:whilabel/screens/constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/constants/routes_manager.dart';
 import 'package:whilabel/screens/constants/text_styles_manager.dart';
 import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
-import 'package:whilabel/screens/global/widgets/app_bars.dart';
+import 'package:whilabel/screens/_global/widgets/app_bars.dart';
 import 'package:whilabel/screens/login/view_model/login_event.dart';
 import 'package:whilabel/screens/login/view_model/login_view_model.dart';
-import 'package:whilabel/screens/my_page/widgets/functions/show_dialog.dart';
+import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/my_page/widgets/list_toggel_button.dart';
 import 'package:whilabel/screens/my_page/withdrawal_page.dart';
 

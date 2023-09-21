@@ -6,15 +6,15 @@ import 'package:whilabel/screens/constants/colors_manager.dart';
 import 'package:whilabel/screens/constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/constants/text_styles_manager.dart';
 import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
-import 'package:whilabel/screens/global/functions/text_feild_rules.dart';
-import 'package:whilabel/screens/global/functions/text_field_styles.dart';
-import 'package:whilabel/screens/global/widgets/app_bars.dart';
-import 'package:whilabel/screens/global/widgets/loding_progress_indicator.dart';
-import 'package:whilabel/screens/global/widgets/long_text_button.dart';
+import 'package:whilabel/screens/_global/functions/text_feild_rules.dart';
+import 'package:whilabel/screens/_global/functions/text_field_styles.dart';
+import 'package:whilabel/screens/_global/widgets/app_bars.dart';
+import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
+import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/user_additional_info/rest_info_additional_page.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_event.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
-import 'package:whilabel/screens/global/functions/show_simple_dialog.dart';
+import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
 
 class NickNameAttionalPage extends StatefulWidget {
   const NickNameAttionalPage({super.key});

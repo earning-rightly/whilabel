@@ -4,7 +4,7 @@ import 'package:whilabel/screens/constants/colors_manager.dart';
 import 'package:whilabel/screens/constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/constants/text_styles_manager.dart';
 import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
-import 'package:whilabel/screens/global/widgets/long_text_button.dart';
+import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/onboarding/onboarding_step2.dart';
 
 class OnboardingStep1Page extends StatelessWidget {

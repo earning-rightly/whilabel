@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/global/widgets/long_text_button.dart';
+import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 
 void showSimpleDialog(
     BuildContext context, String title, String subTitle) async {

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
+import 'package:whilabel/screens/_global/widgets/pop_up_yes_no_button.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_event.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
 import 'package:whilabel/screens/constants/colors_manager.dart';
 import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 
 // ignore: must_be_immutable
 class ArchivingPostDetailFooter extends StatelessWidget {
@@ -90,9 +93,30 @@ class ArchivingPostDetailFooter extends StatelessWidget {
                 ),
                 onPressed: isModify
                     ? () {
-                        viewModel.onEvent(
-                          UpdateUserCritique(),
+                        showUpdatePostDialog(
+                          context,
+                          onClickedYesButton: () {
+                            viewModel.onEvent(
+                              UpdateUserCritique(),
+                              callback: () {},
+                            );
+                          },
                         );
+                        // Widget build(BuildContext context) {
+                        //   return PopUpYesOrNoButton(
+                        //     titleText: "변경사항을 저장하사겠습니까?",
+                        //     yesText: "네",
+                        //     noText: "아니오",
+                        //     onClickYesButton: () {
+
+                        //     },
+                        //     onClickNoButton: () {
+                        //       Navigator.pop(context);
+                        //     },
+                        //   );
+                        // }
+
+                        // showSimpleDialog(context, "변경사항을 저장하사겠습니까?", "");
                       }
                     : null),
           )

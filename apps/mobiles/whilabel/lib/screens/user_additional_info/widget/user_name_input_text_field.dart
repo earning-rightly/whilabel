@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/screens/constants/colors_manager.dart';
 import 'package:whilabel/screens/constants/text_styles_manager.dart';
-import 'package:whilabel/screens/global/functions/text_feild_rules.dart';
-import 'package:whilabel/screens/global/functions/text_field_styles.dart';
+import 'package:whilabel/screens/_global/functions/text_feild_rules.dart';
+import 'package:whilabel/screens/_global/functions/text_field_styles.dart';
 
 typedef StringValueSetter<String> = void Function(String? value);
 

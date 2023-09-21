@@ -6,16 +6,19 @@ import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/taste/taste_vote.dart';
 import 'package:whilabel/data/whisky/whisky.dart';
 import 'package:whilabel/provider_manager.dart';
+import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/archiving_post_detail_footer.dart';
+import 'package:whilabel/screens/archiving_post_detail/widgets/cancel_text_button.dart';
+import 'package:whilabel/screens/archiving_post_detail/widgets/modify_text_button.dart';
+import 'package:whilabel/screens/archiving_post_detail/widgets/taste_feature_grid.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/user_critque_container.dart';
 import 'package:whilabel/screens/constants/colors_manager.dart';
 import 'package:whilabel/screens/constants/path/image_paths.dart';
 import 'package:whilabel/screens/constants/text_styles_manager.dart';
 import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
-import 'package:whilabel/screens/global/widgets/loding_progress_indicator.dart';
-import 'package:whilabel/screens/whisky_critique/widget/taste_feature_grid.dart';
-import 'package:whilabel/screens/global/widgets/whilabel_divier.dart';
+import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
+import 'package:whilabel/screens/_global/widgets/whilabel_divier.dart';
 import 'package:whilabel/screens/whisky_critique/widget/flavor_recorder.dart';
 import 'package:intl/intl.dart';
 
@@ -186,28 +189,14 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStylesManager.bold18,
                                           ),
-                                          TextButton(
-                                            style: TextButton.styleFrom(
-                                                minimumSize: Size.zero,
-                                                padding: EdgeInsets.zero,
-                                                tapTargetSize:
-                                                    MaterialTapTargetSize
-                                                        .shrinkWrap,
-                                                foregroundColor:
-                                                    ColorsManager.black400),
-                                            onPressed: () {
-                                              setState(() {
-                                                isModify = true;
-                                              });
-                                            },
-                                            child: Text(
-                                              "수정",
-                                              style: TextStylesManager()
-                                                  .createHadColorTextStyle(
-                                                      "R14",
-                                                      ColorsManager.brown100),
-                                            ),
-                                          ),
+                                          isModify
+                                              ? CancelTextButton(
+                                                  onClickButton:
+                                                      cancelModifyfeature)
+                                              : ModifyTextButton(
+                                                  onClickButton:
+                                                      useModifyfeature,
+                                                )
                                         ],
                                       ),
                                       SizedBox(height: WhilabelSpacing.spac4),
@@ -333,5 +322,18 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
         }),
       ),
     );
+  }
+
+  void useModifyfeature() {
+    setState(() {
+      isModify = true;
+    });
+  }
+
+  void cancelModifyfeature() {
+    // setState(() {
+    //   isModify = false;
+    // });
+    showMoveHomeDialog(context);
   }
 }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/taste/taste_feature.dart';
+import 'package:whilabel/screens/_global/widgets/text_field_length_counter.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_event.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
 import 'package:whilabel/screens/constants/colors_manager.dart';
 import 'package:whilabel/screens/constants/text_styles_manager.dart';
 import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
-import 'package:whilabel/screens/global/functions/create_star_rating.dart';
-import 'package:whilabel/screens/global/functions/text_field_styles.dart';
+import 'package:whilabel/screens/_global/functions/create_star_rating.dart';
+import 'package:whilabel/screens/_global/functions/text_field_styles.dart';
 import 'package:whilabel/screens/whisky_critique/widget/flavor_recorder.dart';
 
 class UserCritiqueContainer extends StatelessWidget {
@@ -68,6 +69,17 @@ class UserCritiqueContainer extends StatelessWidget {
                 : TextStylesManager()
                     .createHadColorTextStyle("R16", ColorsManager.gray200),
             enabled: isModify,
+            maxLength: 1000,
+            buildCounter: (
+              _, {
+              required currentLength,
+              maxLength,
+              required isFocused,
+            }) =>
+                TextFieldLengthCounter(
+              currentLength: currentLength,
+              maxLength: maxLength!,
+            ),
 
             onChanged: (text) {
               viewModel.onEvent(

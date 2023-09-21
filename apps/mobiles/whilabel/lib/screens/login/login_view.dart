@@ -5,7 +5,7 @@ import 'package:whilabel/data/user/sns_type.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/screens/constants/path/image_paths.dart' as imagePaths;
 import 'package:whilabel/screens/constants/routes_manager.dart';
-import 'package:whilabel/screens/global/widgets/loding_progress_indicator.dart';
+import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/login/instargram_login_web_page.dart';
 import 'package:whilabel/screens/login/view_model/login_event.dart';
 import 'package:whilabel/screens/login/view_model/login_view_model.dart';
