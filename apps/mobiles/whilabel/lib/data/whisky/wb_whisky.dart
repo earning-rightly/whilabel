@@ -24,7 +24,7 @@ class WbWhisky {
       required this.barcode,
       required this.name,
       this.strength,
-      this.imageUrl,
+      this.image_url,
       this.price,
       this.priceUnit,
       this.wbDistilleryIds,
@@ -48,7 +48,7 @@ class WbWhisky {
   final String name; // 위스키 이름 - Aberlour
 
   final String? strength; // 도수 - 43.0
-  final String? imageUrl; // 대표 사진
+  final String? image_url; // 대표 사진
   final double? price; // 가격 - 83.8
   final String? priceUnit; // 가격 단위 - 달러 유로 etc..
 
