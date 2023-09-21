@@ -22,11 +22,11 @@ const firestoreSerializable = JsonSerializable(
 class Whisky {
   Whisky({
     required this.id,
-    required this.barcode,
-    required this.createdAt,
-    required this.creator,
-    required this.modifiedAt,
-    required this.modifier,
+    this.barcode,
+    this.createdAt,
+    this.creator,
+    this.modifiedAt,
+    this.modifier,
     this.name,
     this.strength,
     this.imageUrl,

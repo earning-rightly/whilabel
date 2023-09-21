@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:whilabel/data/post/archiving_post.dart';
+import 'package:whilabel/screens/archiving_post_detail/archiving_post_detail_view.dart';
 import 'package:whilabel/screens/home/home_view.dart';
 import 'package:whilabel/screens/login/login_view.dart';
 import 'package:whilabel/screens/onboarding/onboarding_step1.dart';
 import 'package:whilabel/screens/user_additional_info/user_additional_info_view.dart';
-import 'package:whilabel/screens/whisky_register/whisky_register_view.dart';
 import 'package:whilabel/screens/whisky_critique/whisky_critique_view.dart';
 
 class Routes {
@@ -24,7 +25,12 @@ class RouteGenerator {
       case Routes.loginRoute:
         return MaterialPageRoute(builder: (_) => LoginView());
       case Routes.whiskeyRegisterRoute:
-        return MaterialPageRoute(builder: (_) => WhiskyRegisterView());
+        final whiskyRegisterViewArgs = routeSettings.arguments as ArchivingPost;
+
+        return MaterialPageRoute(
+            builder: (_) => ArchivingPostDetailView(
+                  archivingPost: whiskyRegisterViewArgs,
+                ));
       case Routes.whiskeyCritiqueRoute:
         return MaterialPageRoute(builder: (_) => WhiskyCritiqueView());
       case Routes.userAdditionalInfoRoute:

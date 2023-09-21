@@ -15,4 +15,17 @@ class SvgIconPath {
       "assets/icon/on_boarding/on_boarding_step1.svg";
   static String onBoardingStep2 =
       "assets/icon/on_boarding/on_boarding_step2.svg";
+  // taste icon
+  static String tasteChocolat = "assets/icon/_taste/taste_chocolate.svg";
+  static String tasteCitric = "assets/icon/_taste/taste_citric.svg";
+  static String tasteDriedFruit = "assets/icon/_taste/taste_dried_fruit.svg";
+  static String tasteFreshFruit = "assets/icon/_taste/taste_fresh_fruit.svg";
+  static String tasteHony = "assets/icon/_taste/taste_honey.svg";
+  static String tasteHusky = "assets/icon/_taste/taste_husky.svg";
+  static String tasteMedicinal = "assets/icon/_taste/taste_medicinal.svg";
+  static String tasteNutty = "assets/icon/_taste/taste_nutty.svg";
+  static String tasteSherried = "assets/icon/_taste/taste_sherried.svg";
+  static String tasteSmokey = "assets/icon/_taste/taste_smokey.svg";
+  static String tasteTobacco = "assets/icon/_taste/taste_tobacco.svg";
+  static String tasteVanilla = "assets/icon/_taste/taste_vanilla.svg";
 }

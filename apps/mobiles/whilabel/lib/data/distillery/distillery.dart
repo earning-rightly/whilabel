@@ -22,10 +22,10 @@ const firestoreSerializable = JsonSerializable(
 class Distillery {
   Distillery({
     required this.id,
-    required this.createdAt,
-    required this.creator,
-    required this.modifiedAt,
-    required this.modifier,
+    this.createdAt,
+    this.creator,
+    this.modifiedAt,
+    this.modifier,
     this.wbId,
     this.name,
     this.link,
@@ -38,10 +38,10 @@ class Distillery {
   final String id; // 증류소 id (guid 사용)
 
   // 관리용 필드
-  final Timestamp createdAt; // 생성일
-  final String creator; // 생성자
-  final Timestamp modifiedAt; // 수정일
-  final String modifier; // 수정인
+  final Timestamp? createdAt; // 생성일
+  final String? creator; // 생성자
+  final Timestamp? modifiedAt; // 수정일
+  final String? modifier; // 수정인
 
   // 관리자가 수정 가능한 필드
   final String? wbId; // wb 증류소 id
