@@ -9,9 +9,9 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 
 // ignore: must_be_immutable
-class EachWhisketListView extends StatelessWidget {
+class EachListArchivingPostCard extends StatelessWidget {
   final ArchivingPost archivingPost;
-  EachWhisketListView({super.key, required this.archivingPost});
+  EachListArchivingPostCard({super.key, required this.archivingPost});
   String creatDate = "";
 
   void initState() {
@@ -26,19 +26,13 @@ class EachWhisketListView extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, Routes.archivingPostDetailRoute,
-            // context, Routes.whiskeyRegisterRoute, (route) => false,
             arguments: archivingPost);
       },
-      child: Container(
+      child: SizedBox(
         width: 350,
         height: 110,
-        padding: const EdgeInsets.only(bottom: 1, left: 1, right: 1),
         child: Row(
-          // mainAxisAlignment: MainAxisAlignment.start,
-          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Flexible은 child widget이 parent widget의 공간에서
-            // 차지하는 공간을 등분하여 얼만큼 나눠 가질 것인지 정할 수 있는 widet입니다.
             Expanded(
               flex: 80,
               child: ClipRRect(
@@ -71,6 +65,8 @@ class EachWhisketListView extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       IconButton(
+                        splashColor: ColorsManager.black300,
+                        splashRadius: 15,
                         icon: SvgPicture.asset(SvgIconPath.menu),
                         padding: EdgeInsets.zero,
                         constraints:
@@ -79,7 +75,6 @@ class EachWhisketListView extends StatelessWidget {
                           minimumSize: Size.zero,
                           padding: EdgeInsets.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          foregroundColor: ColorsManager.black400,
                         ),
                         onPressed: () {},
                       )
@@ -96,10 +91,6 @@ class EachWhisketListView extends StatelessWidget {
                     fit: FlexFit.tight, // 나머지 모든 공간을 차지
                     child: Container(
                       padding: EdgeInsets.only(left: 1, right: 1),
-                      // width: 250,
-                      // decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.all(Radius.circular(15)),
-                      //     color: Colors.grey),
                       child: SizedBox(
                         child: Text(
                           "\"archivingPost.note\"",
@@ -124,9 +115,6 @@ class EachWhisketListView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(Icons.star, color: ColorsManager.yellow, size: 16),
-                        // SvgPicture.asset(
-                        //   SvgIconPath.star,
-                        // ),
                         Text(
                           "${archivingPost.starValue}",
                           style: TextStylesManager().createHadColorTextStyle(

@@ -9,7 +9,7 @@ import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/app_bars.dart';
 import 'package:whilabel/screens/home/grid/grid_whiskey_view.dart';
-import 'package:whilabel/screens/home/list/list_whiskey_view.dart';
+import 'package:whilabel/screens/home/list/list_archiving_post_page.dart';
 import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 
 class HomeView extends StatefulWidget {
@@ -86,7 +86,7 @@ class _HomeViewState extends State<HomeView>
               padding: WhilablePadding.basicPadding,
               child: TabBarView(
                   controller: _tabController,
-                  children: [ListWhiskeyView(), GrideWhiskeyView()]),
+                  children: [ListArchivingPostPage(), GridArchivingPostPage()]),
             ),
           )
         ],

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:whilabel/mock_data/mock_whiskey_data_list.dart';
 import 'package:whilabel/screens/home/grid/widgets/each_whiskey_grid_view.dart';
 
-class GrideWhiskeyView extends StatelessWidget {
-  const GrideWhiskeyView({super.key});
+class GridArchivingPostPage extends StatelessWidget {
+  const GridArchivingPostPage({super.key});
 
   @override
   Widget build(BuildContext context) {
