@@ -74,6 +74,7 @@ flutter:
   assets:
     - assets/login/
     - assets/icon/
+    - assets/screen_image/
     - assets/icon/_back/
     - assets/icon/_taste/
     - assets/icon/_check/
