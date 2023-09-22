@@ -13,7 +13,7 @@ import 'package:whilabel/screens/_global/widgets/whilabel_divier.dart';
 import 'package:whilabel/screens/home/grid/widgets/app_bars.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_view_model.dart';
-import 'package:whilabel/screens/whisky_critique/widget/critique_view_whiskyInfo_footer.dart';
+import 'package:whilabel/screens/whisky_critique/widget/critique_view_whisky_Info_footer.dart';
 import 'package:whilabel/screens/whisky_critique/widget/flavor_recorder.dart';
 
 // ignore: must_be_immutable
