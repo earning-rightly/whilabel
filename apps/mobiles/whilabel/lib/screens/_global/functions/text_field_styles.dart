@@ -1,9 +1,9 @@
 // 각각의 view 사용될 TextField에 디자인을 return 하는 함수를 모아둔 파일일입니다.
 // TextFormField와 TextField 에서 사용 가능합니다.
 import 'package:flutter/material.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/text_styles_manager.dart';
-import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 
 // whiskey_register에서 사용
 InputDecoration createBasicTextFieldStyle(
@@ -61,7 +61,6 @@ InputDecoration createEnableBasicTextFieldStyle(
 
 InputDecoration createLargeTextFieldStyle(
   String hinText,
-  // bool disable,
 ) {
   return InputDecoration(
     border: OutlineInputBorder(

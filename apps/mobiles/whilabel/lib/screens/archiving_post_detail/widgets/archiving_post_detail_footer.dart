@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_event.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 
 // ignore: must_be_immutable
 class ArchivingPostDetailFooter extends StatelessWidget {
@@ -90,8 +92,19 @@ class ArchivingPostDetailFooter extends StatelessWidget {
                 ),
                 onPressed: isModify
                     ? () {
-                        viewModel.onEvent(
-                          UpdateUserCritique(),
+                        showUpdatePostDialog(
+                          context,
+                          onClickedYesButton: () {
+                            viewModel.onEvent(
+                              UpdateUserCritique(),
+                              callback: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  Routes.rootRoute,
+                                );
+                              },
+                            );
+                          },
                         );
                       }
                     : null),

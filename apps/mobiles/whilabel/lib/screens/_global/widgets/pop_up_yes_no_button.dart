@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/text_styles_manager.dart';
-import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 
 // 예, 아니오 두 가지 경우로 구성 되는 팝업
 class PopUpYesOrNoButton extends StatelessWidget {

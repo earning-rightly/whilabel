@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 
 class GenderChoicer extends StatelessWidget {
   const GenderChoicer({

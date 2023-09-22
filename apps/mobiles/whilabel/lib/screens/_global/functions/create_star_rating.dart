@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
 
 // 5개의 별점 widget을 만들어주는 함수입니다. 0.5개도 가능합니다.
 // flutter flutter_rating_bar package입니다.

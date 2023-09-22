@@ -1,17 +1,14 @@
-// ignore: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
-import 'package:whilabel/data/post/archiving_post.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/routes_manager.dart';
-import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_view_model.dart';
 
-// ignore: must_be_immutable
 class CritiqueViewWhiskyInfoFooter extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
   CritiqueViewWhiskyInfoFooter({
     Key? key,
   }) : super(key: key);
@@ -101,6 +98,8 @@ class _CritiqueViewWhiskyInfoFooterState
                             maskType: EasyLoadingMaskType.black,
                           );
 
+                          // if(EasyLoading.)
+
                           await viewModel.onEvent(
                             SaveArchivingPostOnDb(
                               viewModel.state.starValue,
@@ -110,14 +109,11 @@ class _CritiqueViewWhiskyInfoFooterState
                             callback: () async {
                               setState(() {});
 
-                              print(
-                                  " last post id ===>  ${state.archivingPost?.postId.toString()}");
-                              ArchivingPost? lastArArchivingPost =
-                                  await viewModel.getLastArchivingPost(
-                                      viewModel.state.archivingPost!.postId);
-                              Navigator.pushNamed(
-                                  context, Routes.whiskeyRegisterRoute,
-                                  arguments: lastArArchivingPost);
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                Routes.rootRoute,
+                                (route) => false,
+                              );
                             },
                           );
                         },

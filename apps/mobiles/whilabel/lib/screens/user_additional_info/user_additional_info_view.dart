@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
-import 'package:whilabel/screens/global/widgets/loding_progress_indicator.dart';
+import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/user_additional_info/nick_name_attional_page.dart';
 
 // UserInfoAdditionalView의 view model과 이름이 햇갈리지 읺기 위해서

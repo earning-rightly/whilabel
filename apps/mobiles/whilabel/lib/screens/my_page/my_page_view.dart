@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/path/svg_icon_paths.dart';
-import 'package:whilabel/screens/constants/routes_manager.dart';
-import 'package:whilabel/screens/constants/text_styles_manager.dart';
-import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/my_page/announcement_page.dart';
 import 'package:whilabel/screens/my_page/setting_page.dart';
 import 'package:whilabel/screens/my_page/widgets/list_button.dart';

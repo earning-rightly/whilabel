@@ -5,10 +5,10 @@ import 'package:photo_gallery/photo_gallery.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/path/svg_icon_paths.dart';
-import 'package:whilabel/screens/constants/routes_manager.dart';
-import 'package:whilabel/screens/global/widgets/long_text_button.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
+import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 
 class ImagePage extends StatefulWidget {
   final Medium medium;

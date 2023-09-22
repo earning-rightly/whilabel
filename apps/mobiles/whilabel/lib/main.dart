@@ -8,8 +8,8 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/firebase_options.dart';
 import 'package:whilabel/provider_manager.dart';
-import 'package:whilabel/screens/constants/routes_manager.dart';
-import 'package:whilabel/screens/constants/themedata_manager.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
+import 'package:whilabel/screens/_constants/themedata_manager.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async {
@@ -48,7 +48,7 @@ class _MainAppState extends State<MainApp> {
       theme: whilabelTheme,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: RouteGenerator.getRoute,
-      initialRoute: Routes.homeRoute,
+      initialRoute: Routes.rootRoute,
       builder: EasyLoading.init(),
     );
   }

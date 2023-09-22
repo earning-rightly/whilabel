@@ -18,6 +18,7 @@ import 'package:whilabel/domain/whisky_brand_distillery/firebase_whisky_brand_di
 import 'package:whilabel/domain/whisky_brand_distillery/whisky_brand_distillery_repository.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
+import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 import 'package:whilabel/screens/login/view_model/login_view_model.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_view_model.dart';
@@ -70,6 +71,9 @@ class ProvidersManager {
       archivingPostStatus: whiskeyNewArchivingPostUseCase,
     );
 
+    final homeViewModel =
+        HomeViewModel(archivingPostRepository: _archivingPostRepository);
+
     return [
       ChangeNotifierProvider(
         create: (context) => _currentUserStatus,
@@ -83,10 +87,13 @@ class ProvidersManager {
       ChangeNotifierProvider(
         create: (context) => carmeraViewModel,
       ),
+      ChangeNotifierProvider(
+        create: (context) => homeViewModel,
+      ),
     ];
   }
 
-  static WhiskyCritiqueViewModel WhiskyCritiqueViewProvider() {
+  static WhiskyCritiqueViewModel callWhiskyCritiqueViewModel() {
     final whiskyCritiqueViewModel = WhiskyCritiqueViewModel(
         currentUserStatus: _currentUserStatus,
         whiskyNewArchivingPostUseCase: whiskeyNewArchivingPostUseCase,
@@ -94,7 +101,7 @@ class ProvidersManager {
     return whiskyCritiqueViewModel;
   }
 
-  static ArchivingPostDetailViewModel WhiskyRegisterViewModleProvider() {
+  static ArchivingPostDetailViewModel callArchvingPostDetailViewModel() {
     final archivingPostDetailViewModel = ArchivingPostDetailViewModel(
         whiskyBrandDistilleryRepository: _whiskyBrandDistilleryRepository,
         archivingPostRepository: _archivingPostRepository);

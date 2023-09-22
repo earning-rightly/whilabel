@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:whilabel/screens/camera/page/gallery_page.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/text_styles_manager.dart';
-import 'package:whilabel/screens/global/functions/text_field_styles.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_global/functions/text_field_styles.dart';
 
 class MockCameraRoute extends StatefulWidget {
   const MockCameraRoute({super.key});

@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/taste/taste_feature.dart';
 import 'package:whilabel/provider_manager.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/path/svg_icon_paths.dart';
-import 'package:whilabel/screens/constants/text_styles_manager.dart';
-import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
-import 'package:whilabel/screens/global/functions/create_star_rating.dart';
-import 'package:whilabel/screens/global/functions/text_field_styles.dart';
-import 'package:whilabel/screens/global/widgets/text_field_length_counter.dart';
-import 'package:whilabel/screens/global/widgets/whilabel_divier.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_global/functions/create_star_rating.dart';
+import 'package:whilabel/screens/_global/functions/text_field_styles.dart';
+import 'package:whilabel/screens/_global/widgets/text_field_length_counter.dart';
+import 'package:whilabel/screens/_global/widgets/whilabel_divier.dart';
 import 'package:whilabel/screens/home/grid/widgets/app_bars.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_view_model.dart';
-import 'package:whilabel/screens/whisky_critique/widget/critique_view_whiskyInfo_footer.dart';
+import 'package:whilabel/screens/whisky_critique/widget/critique_view_whisky_Info_footer.dart';
 import 'package:whilabel/screens/whisky_critique/widget/flavor_recorder.dart';
 
 // ignore: must_be_immutable
@@ -30,7 +30,7 @@ class WhiskyCritiqueView extends StatelessWidget {
       appBar: createScaffoldAppBar(context, SvgIconPath.close, "나의 평가"),
       body: ChangeNotifierProvider<WhiskyCritiqueViewModel>(
         create: (BuildContext context) =>
-            ProvidersManager.WhiskyCritiqueViewProvider(),
+            ProvidersManager.callWhiskyCritiqueViewModel(),
         child: SafeArea(
           child: Stack(
             clipBehavior: Clip.none,

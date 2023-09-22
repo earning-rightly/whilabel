@@ -7,7 +7,7 @@ import 'package:whilabel/data/user/sns_type.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/domain/login_services/instargram_oauth.dart';
 
-import 'package:whilabel/screens/constants/routes_manager.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/login/view_model/login_event.dart';
 import 'package:whilabel/screens/login/view_model/login_view_model.dart';
 
@@ -66,7 +66,7 @@ class _InstargramLoginWebPageState extends State<InstargramLoginWebPage> {
                           viewModel.state.userState == UserState.login) {
                         Navigator.pushNamed(
                           context,
-                          Routes.homeRoute,
+                          Routes.rootRoute,
                         );
                       } else {
                         debugPrint("로그인 오류 발생");
