@@ -11,7 +11,7 @@ class Routes {
   static const String cameraRoute = "/carmera";
   static const String rootRoute = "/root";
   static const String loginRoute = "/login";
-  static const String whiskeyRegisterRoute = "/whiskey_register";
+  static const String archivingPostDetailRoute = "/whiskey_register";
   static const String whiskeyCritiqueRoute = "/whiskey_critque";
   static const String userAdditionalInfoRoute = "/user_additional_info";
   static const String onBoardingRoute = "/on_boarding";
@@ -24,7 +24,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const AppRoot());
       case Routes.loginRoute:
         return MaterialPageRoute(builder: (_) => LoginView());
-      case Routes.whiskeyRegisterRoute:
+      case Routes.archivingPostDetailRoute:
         final whiskyRegisterViewArgs = routeSettings.arguments as ArchivingPost;
 
         return MaterialPageRoute(

@@ -61,7 +61,8 @@ void showUpdatePostDialog(BuildContext context,
 }
 
 void showMoveHomeDialog(BuildContext context,
-    {Function()? onClickedYesButton, String title = "홈으로 이동하시겠습니까?"}) {
+    {Function()? onClickedYesButton,
+    String title = "홈으로 이동하시겠습니까?\n 변경사항은 저장되지 않습니다"}) {
   // final String title = "변경 사항을 저장하시겠습니까?";
 
   showDialog(
