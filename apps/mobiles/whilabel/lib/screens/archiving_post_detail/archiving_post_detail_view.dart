@@ -146,6 +146,11 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                                         TextOverflow.ellipsis,
                                                     style: TextStylesManager
                                                         .bold20),
+                                                SizedBox(
+                                                  height:
+                                                      WhilabelSpacing.spac12 /
+                                                          2,
+                                                ),
                                                 Text(
                                                   "${widget.archivingPost.strength}/\t${widget.archivingPost.location ?? ""}",
                                                   maxLines: 2,
@@ -306,7 +311,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                       right: 0,
                       child: ArchivingPostDetailFooter(
                         isModify: isModify,
-                        postImageUrl: firebaseImage,
+                        postImageUrl: widget.archivingPost.imageUrl,
                         whiskyName: widget.archivingPost.whiskyName,
                         strength: widget.archivingPost.strength.toString(),
                       ),

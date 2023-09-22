@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_event.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
@@ -96,7 +97,12 @@ class ArchivingPostDetailFooter extends StatelessWidget {
                           onClickedYesButton: () {
                             viewModel.onEvent(
                               UpdateUserCritique(),
-                              callback: () {},
+                              callback: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  Routes.rootRoute,
+                                );
+                              },
                             );
                           },
                         );
