@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/taste/taste_feature.dart';
-import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/flavor_range.dart';
 
 class FlavorRecorder extends StatelessWidget {

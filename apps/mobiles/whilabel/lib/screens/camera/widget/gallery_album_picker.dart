@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
 
 class GalleryAlbumPicker extends StatefulWidget {
   final List<String> albumNameList;

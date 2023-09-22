@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/user/enum/gender.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/routes_manager.dart';
-import 'package:whilabel/screens/constants/text_styles_manager.dart';
-import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/text_feild_rules.dart';
 import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
@@ -135,7 +135,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                                     AddUserInfo(newUser),
                                     callback: () {
                                       Navigator.pushNamed(
-                                          context, Routes.homeRoute);
+                                          context, Routes.rootRoute);
                                     },
                                   );
                                 }

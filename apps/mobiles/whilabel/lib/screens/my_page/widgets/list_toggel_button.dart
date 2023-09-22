@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/path/svg_icon_paths.dart';
-import 'package:whilabel/screens/constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 
 // ignore: must_be_immutable
 class ListToggleButton extends StatelessWidget {

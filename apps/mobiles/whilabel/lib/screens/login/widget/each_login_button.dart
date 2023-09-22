@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:whilabel/screens/constants/styles/button_styles.dart'
+import 'package:whilabel/screens/_constants/styles/button_styles.dart'
     as btnStyle;
 
 class EachLoginButton extends StatefulWidget {

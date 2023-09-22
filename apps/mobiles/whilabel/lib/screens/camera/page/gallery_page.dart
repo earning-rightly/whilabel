@@ -6,8 +6,8 @@ import 'package:photo_gallery/photo_gallery.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:whilabel/screens/camera/page/image_page.dart';
 import 'package:whilabel/screens/camera/widget/gallery_album_picker.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 
 class GalleryPage extends StatefulWidget {
   const GalleryPage({super.key});

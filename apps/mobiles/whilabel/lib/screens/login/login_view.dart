@@ -3,8 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/sns_type.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
-import 'package:whilabel/screens/constants/path/image_paths.dart' as imagePaths;
-import 'package:whilabel/screens/constants/routes_manager.dart';
+import 'package:whilabel/screens/_constants/path/image_paths.dart'
+    as imagePaths;
+import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/login/instargram_login_web_page.dart';
 import 'package:whilabel/screens/login/view_model/login_event.dart';
@@ -153,7 +154,7 @@ class _LoginViewState extends State<LoginView> {
     } else if (isLogined && userState == UserState.login) {
       Navigator.pushReplacementNamed(
         context,
-        Routes.homeRoute,
+        Routes.rootRoute,
       );
     } // TODO: login하는 과정에서 에러가 발생하면 알림 띄우기
     else {
