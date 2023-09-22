@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/whilabel_divier.dart';
-import 'package:whilabel/screens/home/list/widgets/each_whiskey_list_card.dart';
+import 'package:whilabel/screens/home/list/widgets/each_list_archiving_post_card.dart';
 import 'package:whilabel/screens/home/list/widgets/whiskey_aligned_button_list.dart';
 import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 
