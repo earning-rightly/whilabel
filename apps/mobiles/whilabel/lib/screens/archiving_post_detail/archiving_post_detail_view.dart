@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/taste/taste_vote.dart';
@@ -13,10 +11,10 @@ import 'package:whilabel/screens/archiving_post_detail/widgets/cancel_text_butto
 import 'package:whilabel/screens/archiving_post_detail/widgets/modify_text_button.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/taste_feature_grid.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/user_critque_container.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/path/image_paths.dart';
-import 'package:whilabel/screens/constants/text_styles_manager.dart';
-import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/path/image_paths.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/_global/widgets/whilabel_divier.dart';
 import 'package:whilabel/screens/whisky_critique/widget/flavor_recorder.dart';
@@ -57,13 +55,12 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
   String creatDate = "";
 
   @override
-  @override
   void initState() {
     super.initState();
-    EasyLoading.dismiss();
+    // EasyLoading.dismiss();
     final DateTime date1 = DateTime.fromMicrosecondsSinceEpoch(
         widget.archivingPost.createAt!.microsecondsSinceEpoch);
-    print(date1);
+
     creatDate = DateFormat("yyyy.MM.dd").format(date1);
     tasteNoteController.text = widget.archivingPost.note;
   }
@@ -75,7 +72,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
     return Scaffold(
       body: ChangeNotifierProvider<ArchivingPostDetailViewModel>(
         create: (BuildContext context) =>
-            ProvidersManager.WhiskyRegisterViewModleProvider(),
+            ProvidersManager.callArchvingPostDetailViewModel(),
         child: Builder(builder: (context) {
           final viewModel = context.watch<ArchivingPostDetailViewModel>();
 

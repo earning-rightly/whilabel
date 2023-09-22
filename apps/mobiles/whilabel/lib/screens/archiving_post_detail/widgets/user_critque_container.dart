@@ -4,13 +4,14 @@ import 'package:whilabel/data/taste/taste_feature.dart';
 import 'package:whilabel/screens/_global/widgets/text_field_length_counter.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_event.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/text_styles_manager.dart';
-import 'package:whilabel/screens/constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/create_star_rating.dart';
 import 'package:whilabel/screens/_global/functions/text_field_styles.dart';
 import 'package:whilabel/screens/whisky_critique/widget/flavor_recorder.dart';
 
+// ignore: must_be_immutable
 class UserCritiqueContainer extends StatelessWidget {
   final bool isModify;
   final TextEditingController tasteNoteController;
