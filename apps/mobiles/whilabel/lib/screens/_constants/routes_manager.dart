@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/screens/archiving_post_detail/archiving_post_detail_view.dart';
-import 'package:whilabel/screens/home/home_view.dart';
+import 'package:whilabel/app_root.dart';
 import 'package:whilabel/screens/login/login_view.dart';
 import 'package:whilabel/screens/onboarding/onboarding_step1.dart';
 import 'package:whilabel/screens/user_additional_info/user_additional_info_view.dart';
@@ -9,7 +9,7 @@ import 'package:whilabel/screens/whisky_critique/whisky_critique_view.dart';
 
 class Routes {
   static const String cameraRoute = "/carmera";
-  static const String homeRoute = "/home";
+  static const String rootRoute = "/root";
   static const String loginRoute = "/login";
   static const String whiskeyRegisterRoute = "/whiskey_register";
   static const String whiskeyCritiqueRoute = "/whiskey_critque";
@@ -20,8 +20,8 @@ class Routes {
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      case Routes.homeRoute:
-        return MaterialPageRoute(builder: (_) => const HomeView());
+      case Routes.rootRoute:
+        return MaterialPageRoute(builder: (_) => const AppRoot());
       case Routes.loginRoute:
         return MaterialPageRoute(builder: (_) => LoginView());
       case Routes.whiskeyRegisterRoute:

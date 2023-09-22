@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
 
 class BasicDivider extends StatelessWidget {
   final Color? color;

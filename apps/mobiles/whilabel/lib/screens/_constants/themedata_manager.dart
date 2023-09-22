@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
 
 final ThemeData whilabelTheme = ThemeData(
+  colorScheme: ColorScheme.fromSwatch().copyWith(
+    secondary: ColorsManager.black100, // Your accent color
+  ),
   fontFamily: 'Pretendard',
   scaffoldBackgroundColor: ColorsManager.black100,
   appBarTheme: AppBarTheme(backgroundColor: ColorsManager.black100),

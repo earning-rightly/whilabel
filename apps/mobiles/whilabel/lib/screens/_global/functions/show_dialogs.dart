@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_global/widgets/pop_up_yes_no_button.dart';
-import 'package:whilabel/screens/constants/routes_manager.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
 
 void showLogoutDialog(BuildContext context, {Function()? onClickedYesButton}) {
   final String title = "정말로 로그아웃 하시겠어요?";
@@ -73,7 +73,7 @@ void showMoveHomeDialog(BuildContext context,
       yesText: "네",
       onClickYesButton: onClickedYesButton ??
           () {
-            Navigator.pushNamed(context, Routes.homeRoute);
+            Navigator.pushNamed(context, Routes.rootRoute);
           },
       onClickNoButton: () {
         Navigator.pop(context);

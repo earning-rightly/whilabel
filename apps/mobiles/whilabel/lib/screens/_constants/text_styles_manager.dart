@@ -9,13 +9,13 @@ class TextStylesManager {
   static TextStyle bold20 =
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static TextStyle bold18 =
-      TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
-  static TextStyle bold16 =
       TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
-  static TextStyle bold14 =
+  static TextStyle bold16 =
       TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
-  static TextStyle bold12 =
+  static TextStyle bold14 =
       TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
+  static TextStyle bold12 =
+      TextStyle(fontSize: 12, fontWeight: FontWeight.bold);
 
   //regular
   static TextStyle regular24 =
@@ -39,7 +39,7 @@ class TextStylesManager {
   static TextStyle medium16 =
       TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
   static TextStyle medium14 =
-      TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
+      TextStyle(fontSize: 14, fontWeight: FontWeight.w500);
   static TextStyle medium12 =
       TextStyle(fontSize: 12, fontWeight: FontWeight.w500);
 

@@ -2,6 +2,8 @@ class SvgIconPath {
   static String announce = "assets/icon/announce.svg";
   static String icCheck = "assets/icon/ic-check.svg";
   static String customer = "assets/icon/customer.svg";
+  static String star = "assets/icon/star.svg";
+
   static String document = "assets/icon/document.svg";
   static String setting = "assets/icon/settings.svg";
   static String toggleOff = "assets/icon/toggle_off.svg";
@@ -9,7 +11,14 @@ class SvgIconPath {
   static String backBold = "assets/icon/_back/back_bold.svg";
   static String close = "assets/icon/close.svg";
   static String notification = "assets/icon/notification.svg";
+  static String notificationNew = "assets/icon/notification_new.svg";
+
   static String downLoad = "assets/icon/download.svg";
+  static String list = "assets/icon/list.svg";
+  static String grid = "assets/icon/grid.svg";
+
+  static String menu = "assets/icon/menu.svg";
+  static String album = "assets/icon/album.svg";
 
   static String onBoardingStep1 =
       "assets/icon/on_boarding/on_boarding_step1.svg";
