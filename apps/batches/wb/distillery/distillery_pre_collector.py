@@ -3,7 +3,7 @@ import cfscrape
 from tqdm import tqdm
 
 
-def collect(scrap_dict: dict, url: str):  # 증류소의 초기 정보를 수집하는 함수
+def collect_distillery_pre(scrap_dict: dict, url: str):  # 증류소의 초기 정보를 수집하는 함수
     """
         collect.
             Note:

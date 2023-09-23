@@ -1,5 +1,5 @@
 from apps.batches.wb.common import wb_libs_func
-from apps.batches.wb.distillery import distillery_collector, distillery_pre_collector
+from apps.batches.wb.distillery import distillery_detail_collector, distillery_pre_collector
 from apps.batches.wb.distillery.transform import transform_raw_to_wb_distillery
 from apps.batches.wb.common.enums import CollectionName, BatchType
 from apps.batches.libs.lib_firebase.firebase_funcs import save_to_firebase
@@ -20,7 +20,7 @@ def distillery_execution():
     '''
     pre_scrap_dict = wb_libs_func.initialize_dict(field_map['wb_distillery_collect_pre'])
 
-    distillery_pre_collector.collect(pre_scrap_dict, link_map['distillery'])  # 증류소 사전정보 수집 함수 호출
+    distillery_pre_collector.collect_distillery_pre(pre_scrap_dict, link_map['distillery'])  # 증류소 사전정보 수집 함수 호출
 
     # save raw pre data as csv file
     result_df = wb_libs_func.convert_to_df(pre_scrap_dict)
@@ -36,7 +36,7 @@ def distillery_execution():
     '''
     scrap_dict = wb_libs_func.initialize_dict(field_map['wb_distillery_collect_detail'])
 
-    distillery_collector.collect_distillery_detail(BatchType.DISTILLERY_DETAIL.value, current_date, scrap_dict)
+    distillery_detail_collector.collect_distillery_detail(BatchType.DISTILLERY_DETAIL.value, current_date, scrap_dict)
 
     # save raw detail data as csv file
     result_df = wb_libs_func.convert_to_df(scrap_dict)
