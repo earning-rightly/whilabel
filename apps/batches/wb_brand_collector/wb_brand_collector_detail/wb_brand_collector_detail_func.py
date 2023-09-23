@@ -13,11 +13,12 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
 from apps.batches.wb.common import wb_libs_func
+from apps.batches.wb.common.enums import BatchType
 
 
-async def extract_brand_collector_detail(url_index: int, url : str, sema : asyncio.Semaphore, scrap_dict : dict):
+async def extract_brand_detail(url_index: int, url: str, sema: asyncio.Semaphore, scrap_dict: dict):
     """
-        extract_brand_collector_detail.
+        extract_brand_detail.
             Args:
                 url : 수집해야할 홈페이지 링크.
                 sema : 비동기식 해당 스레드 위치주소.
@@ -28,37 +29,38 @@ async def extract_brand_collector_detail(url_index: int, url : str, sema : async
                aiohttp.client_exceptions.ClientConnectorError : ssl connect 문제 (해결)
     """
 
-    def extract_information_related_with_brand(soup: bs4.BeautifulSoup, url_index: int):
+    def extract_title_and_value(sp: bs4.BeautifulSoup, index: int):
         """
-            extract_information_related_brand.
+            extract_title_and_value.
                 Args:
-                    soup : 수집해야할 홈페이지 정보.
-                    url : 수집해야할 홈페이지 링크.
+                    sp : 수집해야할 홈페이지 정보.
+                    index : 수집해야할 홈페이지 링크 인덱스.
                 Note:
                     실직적으로 브랜드 상세 정보를 수집하는 함수
                 Raises:
                    IndexError : soup을 통해 생성한 title_list, value_list값이 현재 준비해둔 값과 안맞을때 (해결)
         """
-        title_list = soup.select('.title')  # 태그안 클래스명이 title인경우 추출, Returns : list
-        value_list = soup.select('.value')  # 태그안 클래스명이 value인경우 추출, Returns : list
+        title_list = sp.select('.title')
+        value_list = sp.select('.value')
         for i in range(len(title_list)):
-            scrap_dict[title_list[i].text.strip().lower()][url_index] = value_list[i].text.strip()
+            title = title_list[i].text.strip().lower()
+            scrap_dict[title][index] = value_list[i].text.strip()
 
     async with sema:
         async with ClientSession(
                 trust_env=True,
-                connector=TCPConnector(ssl=False)) as session:  # 세션 생성
+                connector=TCPConnector(ssl=False)
+        ) as session:  # 세션 생성
             await asyncio.sleep(random.randrange(10))  # 세션 차단을 방지하기위한  15초내외로 난수 딜레이
             try:
                 async with session.get(
                         url=url[:url.rfind(('/'))] + '/about',
-                        ssl=False) as response:  # 세션에 브랜드 상세주소 페이지 호출
+                        ssl=False
+                ) as response:  # 세션에 브랜드 상세주소 페이지 호출
                     r = await response.read()
                     soup = BeautifulSoup(markup=r,
                                          features='lxml')  # BeautifulSoup을 통해 수집된 페이지 검색
-                    extract_information_related_with_brand(
-                        soup=soup,
-                        url_index=url_index)
+                    extract_title_and_value(soup, url_index)
 
             except aiohttp.client_exceptions.ClientConnectorError:  # 비동기식 접속으로 443포트에 대한 접속이 안되는 에러에 대한 예외처리
                 chrome_options = Options()
@@ -69,27 +71,28 @@ async def extract_brand_collector_detail(url_index: int, url : str, sema : async
                 driver.implicitly_wait(3)
                 soup = BeautifulSoup(markup=driver.page_source,
                                      features='lxml')  # BeautifulSoup을 통해 수집된 페이지 검색
-                extract_information_related_with_brand(
-                                                    soup=soup,
-                                                    url_index=url_index)
+                extract_title_and_value(
+                    sp=soup,
+                    index=url_index)
                 driver.close()
             except:
                 traceback.print_exc()
 
 
-async def extract_brand_collector_detail_async(link: str, scrap_dict : dict):
+async def run_brand_detail_collector(link: str, scrap_dict: dict):
     """
-        extract_brand_collector_detail_async.
+        run_brand_detail_collector.
             Args:
                 link : 수집해야할 홈페이지 전체 링크.
             Note:
                 비동식 제한 갯수 설정(Semaphore) 및 수집해야할 홈페이지 반복문 실행
     """
-    semaphore = asyncio.Semaphore(30)  # 동시 처리 30개 제한
-    fts = [asyncio.ensure_future(extract_brand_collector_detail(url_index=url_index, url=url, sema=semaphore, scrap_dict = scrap_dict)) for url_index, url in enumerate(link)]
+    sm = asyncio.Semaphore(30)  # 동시 처리 30개 제한
+    fts = [asyncio.ensure_future(extract_brand_detail(idx, u, sm, scrap_dict)) for idx, u in enumerate(link)]
     await tqdm_asyncio.gather(*fts)
-from apps.batches.wb.common.enums import BatchType
-def collect(batch_type : str, current_date: str, scrap_dict : dict):
+
+
+def collect_brand_detail(current_date: str, scrap_dict: dict):
     """
         collect.
              Args:
@@ -99,4 +102,4 @@ def collect(batch_type : str, current_date: str, scrap_dict : dict):
     """
     brand_table = pd.read_csv(f'results/{current_date}/csv/pre/{BatchType.BRAND_PRE.value}.csv')
     wb_libs_func.reset_list_size(len(brand_table), scrap_dict)  # brand_table에 갯수만큼 저장해야할 리스트 초기화
-    asyncio.run(extract_brand_collector_detail_async(brand_table.link, scrap_dict))  # 비동기 실행
+    asyncio.run(run_brand_detail_collector(brand_table.link, scrap_dict))  # 비동기 실행

@@ -20,7 +20,7 @@ def brand_detail_executions(batch_type : BatchType, batch_execution :  BatchExec
 
     current_date = wb_libs_func.get_current_date()
 
-    wb_brand_collector_detail_func.collect(batch_type.BRAND_PRE.value, current_date, scrap_dict)  # 브랜드 상세정보 수집 함수 호출
+    wb_brand_collector_detail_func.collect_brand_detail(current_date, scrap_dict)  # 브랜드 상세정보 수집 함수 호출
 
     # save as csv file
     result_df = wb_libs_func.convert_to_df(scrap_dict)
