@@ -1,6 +1,5 @@
 from apps.batches.wb.common import wb_libs_func
-from apps.batches.wb_bottler_collector.wb_bottler_collector_detail import wb_bottler_collector_detail_func
-from apps.batches.transformations.wb_bottler.transform import \
+from apps.batches.wb.bottler.transform import \
     transform_raw_to_wb_bottler
 from apps.batches.wb.common.enums import BatchType, CollectionName, BatchExecution
 from apps.batches.libs.lib_firebase.firebase_funcs import save_to_firebase
