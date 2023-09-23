@@ -1,4 +1,4 @@
-from apps.batches.wb_distillery_collector.wb_distillery_collector_pre import wb_distillery_collector_pre_func
+from apps.batches.wb.distillery import distillery_pre_collector
 from apps.batches.wb.common import wb_libs_func
 from apps.batches.wb.common.enums import BatchType
 from apps.batches.wb.common.constants import field_map
@@ -17,7 +17,7 @@ def distillery_pre_executions(batch_type : BatchType):
 
     scrap_dict = wb_libs_func.initialize_dict(field_map['wb_distillery_collect_pre'])
 
-    wb_distillery_collector_pre_func.collect(scrap_dict,  link_map['distillery'])  # 증류소 사전정보 수집 함수 호출
+    distillery_pre_collector.collect(scrap_dict, link_map['distillery'])  # 증류소 사전정보 수집 함수 호출
 
     current_date = wb_libs_func.get_current_date()
 
