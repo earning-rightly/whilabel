@@ -19,8 +19,8 @@ def bottler_detail_executions(batch_type: BatchType, batch_execution: BatchExecu
 
     current_date = wb_libs_func.get_current_date()
 
-    wb_bottler_collector_detail_func.collect(BatchType.BOTTER_PRE.value, current_date,
-                                             scrap_dict)  # 증류소 상세정보 수집 함수 호출
+    wb_bottler_collector_detail_func.collect_bottler_detail(BatchType.BOTTER_PRE.value, current_date,
+                                                            scrap_dict)  # 증류소 상세정보 수집 함수 호출
 
     # save as csv file
     result_df = wb_libs_func.convert_to_df(scrap_dict)
