@@ -6,12 +6,9 @@ from apps.batches.wb.common import wb_libs_func
 from apps.batches.wb.common.constants import field_map, link_map
 
 
-def brand_detail_execution():
+def brand_execution():
     """
         brand_detail_executions.
-            Args:
-                mode : mode값을 받아, 하위 함수르 호출할때 현재 상태를 전달.
-                detail : detail값을 받아, 하위 함수르 호출할때 현재 상태를 전달.
             Note:
                 scrap_main 에서 브랜드 상세정보 스케줄링 함수
     """

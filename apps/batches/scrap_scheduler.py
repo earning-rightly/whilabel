@@ -2,13 +2,11 @@ import time
 from apscheduler.schedulers.background import BackgroundScheduler
 
 # 브랜드, 증류소, bottler 사전 정보 수집
-from apps.batches.wb_brand_collector.wb_brand_collector_pre.wb_brand_collector_pre_directed_acyclic_execution import \
-    brand_pre_executions
 from apps.batches.wb_bottler_collector.wb_bottler_collector_pre.wb_bottler_collector_pre_directed_acyclic_execution import \
     bottler_pre_executions
 
 # 브랜드, 증류소, bottler 상세정보 수집
-from apps.batches.wb.brand.brand_detail_execution import brand_detail_execution
+from apps.batches.wb.brand.brand_execution import brand_execution
 from apps.batches.wb.distillery.distillery_execution import distillery_execution
 from apps.batches.wb_bottler_collector.wb_bottler_collector_detail.wb_bottler_collector_detail_directed_acyclic_execution import \
     bottler_detail_executions
@@ -36,17 +34,7 @@ scheduler = BackgroundScheduler()
 batch_day = {'brand_day': 31, 'distillery_day': 1, 'bottler_day': 2}  # 배치 날짜 딕셔너리 선언
 
 scheduler.add_job(
-    brand_pre_executions,
-    'cron',
-    day=batch_day['brand_day'],
-    hour=16,
-    minute=11,
-    id="brand_pre_executions",
-    timezone='Asia/Seoul',
-    kwargs={'batch_type': BatchType.BRAND_PRE}
-)
-scheduler.add_job(
-    brand_detail_execution,
+    brand_execution,
     'cron',
     day=batch_day['brand_day'],
     hour=16,
