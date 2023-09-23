@@ -6,7 +6,7 @@ from apps.batches.wb.common import wb_libs_func
 from apps.batches.wb.common.constants import field_map
 
 
-def brand_detail_executions(batch_type : BatchType, batch_execution :  BatchExecution):  # mode allows you to choose between distilleries and brands to collect { mode : distillery, brand} * default = distillery
+def brand_detail_execution():
     """
         brand_detail_executions.
             Args:
@@ -25,13 +25,13 @@ def brand_detail_executions(batch_type : BatchType, batch_execution :  BatchExec
     # save as csv file
     result_df = wb_libs_func.convert_to_df(scrap_dict)
     csv_path = f'results/{current_date}/csv/detail/'
-    wb_libs_func.save_to_csv(result_df, csv_path, batch_type.value)
+    wb_libs_func.save_to_csv(result_df, csv_path, BatchType.BRAND_DETAIL.value)
 
     # save as json file
     json_path = f'results/{current_date}/json/detail/'
-    wb_libs_func.save_to_json(scrap_dict, json_path, batch_type.value)
+    wb_libs_func.save_to_json(scrap_dict, json_path, BatchType.BRAND_DETAIL.value)
 
-    transform_result_list, transform_result_dict = transform_raw_to_wb_brand(batch_id=batch_execution.value)  # 수집된 브랜드 정보 전처리
+    transform_result_list, transform_result_dict = transform_raw_to_wb_brand(BatchType.BRAND_TRANSFORM.value)
 
     # save as csv file
     result_df = wb_libs_func.convert_to_df(transform_result_dict)
