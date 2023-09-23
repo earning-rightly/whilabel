@@ -8,8 +8,7 @@ from apps.batches.wb_bottler_collector.wb_bottler_collector_pre.wb_bottler_colle
     bottler_pre_executions
 
 # 브랜드, 증류소, bottler 상세정보 수집
-from apps.batches.wb_brand_collector.wb_brand_collector_detail.wb_brand_collector_detail_directed_acyclic_execution import \
-    brand_detail_execution
+from apps.batches.wb.brand.brand_detail_execution import brand_detail_execution
 from apps.batches.wb.distillery.distillery_execution import distillery_execution
 from apps.batches.wb_bottler_collector.wb_bottler_collector_detail.wb_bottler_collector_detail_directed_acyclic_execution import \
     bottler_detail_executions
