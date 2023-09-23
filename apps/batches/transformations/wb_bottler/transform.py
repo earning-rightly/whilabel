@@ -1,28 +1,18 @@
-import uuid
-
-import json
-
 import pandas
 import pandas as pd
 from apps.batches.wb.common import wb_libs_func
 import numpy as np
 from datetime import datetime
+import json
+import uuid
 from apps.batches.wb.common.enums import BatchType
 
 
-def extract_distillery_id(table: pd.Series) -> int or None:  # fusion 가능
+def extract_bottler_id(table: pd.Series) -> int or None:  # fusion 가능
     try:
         return table.link.split('/')[-2]  # 증류소 id 값 추출
     except IndexError:  # link값이 없는경우 null 반환
         return None
-
-
-def divide_capacity_with_per_year_and_unit(table: pd.Series) -> [int, str]:  # fusion 가능
-    try:
-        split_data = table.capacity_per_year.split(' ')
-        return split_data[0], split_data[1]  # capacity_per_year : 65000, capacity_per_year_unit : Liters로 분리
-    except AttributeError:  # capacity_per_year 값이 없는경우
-        return None, None  # null, null로 반환
 
 
 def reformat_specialists(table: pd.Series) -> dict or None:
@@ -43,8 +33,6 @@ def extract_closed_date(table: pd.Series) -> datetime or None:
         return datetime_result.strftime("%Y-%m-%d")
     except TypeError:
         return None
-    except ValueError:
-        pass
 
 
 def extract_founded_date(table: pd.Series) -> datetime or None:
@@ -56,73 +44,69 @@ def extract_founded_date(table: pd.Series) -> datetime or None:
         return None
 
 
-def read_raw_csv_files() -> [pd.DataFrame, pd.DataFrame]:
+def divide_capacity_with_per_year_and_unit(table: pd.Series) -> [int, str]:  # fusion 가능
+    try:
+        # capacity_per_year : 65000, capacity_per_year_unit : Liters로 분리
+        split_data = table.capacity_per_year.split(' ')
+        return split_data[0], split_data[1]
+    except AttributeError:  # capacity_per_year 값이 없는경우
+        return None, None  # null, null로 반환
+
+
+def read_raw_csv_file() -> [pandas.DataFrame, pandas.DataFrame]:
     current_date = wb_libs_func.get_current_date()
-    distillery_detail_data = pd.read_csv(
-        f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{current_date}/csv/detail/{BatchType.DISTILLERY_DETAIL.value}.csv'
+    bottler_detail_data = pd.read_csv(
+        f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{current_date}/csv/detail/{BatchType.BOTTER_DETAIL.value}.csv'
     )
-    distillery_summary_data = pd.read_csv(
-        f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{current_date}/csv/pre/{BatchType.DISTILLERY_PRE.value}.csv'
+    bottler_summary_data = pd.read_csv(
+        f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{current_date}/csv/pre/{BatchType.BOTTER_PRE.value}.csv'
     )
-    return distillery_detail_data, distillery_summary_data
+    return bottler_detail_data, bottler_summary_data
 
 
-def filter_unused_fields(df: pandas.DataFrame) -> pd.DataFrame:
-    # 증류소 상세 정보에서 수집할 컬럼 리스트
+def filter_unused_fields(df: pandas.DataFrame) -> pandas.DataFrame:
+    # 보틀러 상세 정보에서 수집할 컬럼 리스트
     field_list = [
         'company_about',
         'company_address',
         'closed',
-        'founded',
-        'owner',
-        'spirit_stills',
-        'status',
-        'specialists',
-        'capacity_per_year',
         'collection',
-        'wishlist',
+        'founded',
+        'abbreviation',
+        'specialists',
+        'status',
         'wb_ranking',
-        'wash_stills',
         'website',
         'views'
     ]
     return df.loc[:, field_list]
 
 
-def transform_raw_to_wb_distillery(batch_id: str = None) -> [list, dict]:
-    """
-        transform_raw_to_wb_distillery
-            Note:
-                수집된 증류소 정보를 병합 및 전처리 를 진행하는 함수
-    """
+def transform_raw_to_wb_bottler(batch_id: str = None) -> [list, dict]:
     # 수집된 파일 가져오기 : 파일 주소가 아닌 파라미터로 넘기는게 어떤지...?
-    distillery_detail_data, distillery_summary_data = read_raw_csv_files()
+    bottler_detail_data, bottler_summary_data = read_raw_csv_file()
 
     current_datetime = wb_libs_func.get_current_datetime()
 
-    # 증류소 (사전 + 상세) 병합 하기 사전 기준으로 합치기
+    # 보틀러 (사전 + 상세) 병합 하기 사전 기준으로 합치기
     result_df = pd.merge(
-        distillery_summary_data,
-        filter_unused_fields(distillery_detail_data),
+        bottler_summary_data,
+        filter_unused_fields(bottler_detail_data),
         how='left',
         left_index=True,
         right_index=True
     )
-
-    result_df['wb_distillery_id'] = result_df.apply(extract_distillery_id, axis=1)  # 증류소 id 처리
-    result_df[['capacity_per_year', 'capacity_per_year_unit']] = result_df.apply(divide_capacity_with_per_year_and_unit,
-                                                                                 axis=1,
-                                                                                 result_type='expand')  # 한해 생산량 전처리
-    result_df['closed'] = result_df.apply(extract_closed_date, axis=1)  # 스페셜리스트 처리
-    result_df['founded'] = result_df.apply(extract_founded_date, axis=1)  # 스페셜리스트 처리
+    result_df['wb_bottler_id'] = result_df.apply(extract_bottler_id, axis=1)  # 보틀러 id 처리
     result_df['specialists'] = result_df.apply(reformat_specialists, axis=1)  # 스페셜리스트 처리
+    result_df['closed'] = result_df.apply(extract_closed_date, axis=1)
+    result_df['founded'] = result_df.apply(extract_founded_date, axis=1)
     result_df['batchedAt'] = current_datetime
     result_df['batchId'] = batch_id
 
     result_df = result_df[
         [
-            'wb_distillery_id',
-            'distillery_name',
+            'wb_bottler_id',
+            'bottler_name',
             'whiskies',
             'votes',
             'rating',
@@ -131,9 +115,6 @@ def transform_raw_to_wb_distillery(batch_id: str = None) -> [list, dict]:
             'closed',
             'country',
             'founded',
-            'wash_stills',
-            'owner',
-            'spirit_stills',
             'status',
             'views',
             'wb_ranking',
@@ -145,16 +126,14 @@ def transform_raw_to_wb_distillery(batch_id: str = None) -> [list, dict]:
 
     result_df.rename(
         columns={
-            'wb_distillery_id': 'wbId',
-            'distillery_name': 'name',
+            'wb_bottler_id': 'wbId',
+            'bottler_name': 'name',
             'whiskies': 'whiskyCount',
             'votes': 'voteCount',
             'link': 'wbLink',
             'website': 'link',
-            'spirit_stills': 'spiritStills',
             'views': 'viewCount',
             'wb_ranking': 'wbRanking',
-            'wash_stills': 'washStills',
             'company_address': 'address'
         },
         inplace=True
@@ -173,9 +152,8 @@ def transform_raw_to_wb_distillery(batch_id: str = None) -> [list, dict]:
             'name': result_df.name[result_index],
             'country': result_df.country[result_index],
             'link': result_df.link[result_index],
-            'tasteFeature': None,  # 보류
             'wbId': result_df.wbId[result_index],
-            'wbDistillery': json.loads(result_df.loc[result_index, :].to_json()),
+            'wbBottler': json.loads(result_df.loc[result_index, :].to_json()),
         })
 
     return result_df_list, json.loads(result_df.to_json())
