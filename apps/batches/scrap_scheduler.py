@@ -8,8 +8,7 @@ from apps.batches.wb_bottler_collector.wb_bottler_collector_pre.wb_bottler_colle
 # 브랜드, 증류소, bottler 상세정보 수집
 from apps.batches.wb.brand.brand_execution import brand_execution
 from apps.batches.wb.distillery.distillery_execution import distillery_execution
-from apps.batches.wb_bottler_collector.wb_bottler_collector_detail.wb_bottler_collector_detail_directed_acyclic_execution import \
-    bottler_detail_executions
+from apps.batches.wb.bottler.bottler_execution import bottler_execution
 
 # 브랜드, 증류소, bottler 위스키 링크 수집
 from apps.batches.wb_distillery_collector.wb_whisky_belonging_to_distillery_collector.wb_whisky_collector_link.wb_whisky_link_belonging_to_distillery_collector_directed_acyclic_execution import \
@@ -104,14 +103,13 @@ scheduler.add_job(
     kwargs={'batch_type': BatchType.BOTTER_PRE}
 )
 scheduler.add_job(
-    bottler_detail_executions,
+    bottler_execution,
     'cron',
     day=batch_day['bottler_day'],
     hour=17,
     minute=59,
     id="bottler_detail_executions",
-    timezone='Asia/Seoul',
-    kwargs={'batch_type': BatchType.BOTTER_DETAIL, 'batch_execution': BatchExecution.PRETEST}
+    timezone='Asia/Seoul'
 )
 
 scheduler.add_job(
