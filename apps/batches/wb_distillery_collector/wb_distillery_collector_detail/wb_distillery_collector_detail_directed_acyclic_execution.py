@@ -3,7 +3,7 @@ from apps.batches.wb_distillery_collector.wb_distillery_collector_detail import 
 from apps.batches.transformations.wb_distillery.wb_distillery_form import \
     replace_extracted_data_with_wb_distillery_formmat
 from apps.batches.wb.common.enums import CollectionName, BatchType, BatchExecution
-from apps.batches.wb_libs.lib_firebase import save_to_firebase
+from apps.batches.libs.lib_firebase.firebase_funcs import save_to_firebase
 from apps.batches.wb.common.constants import field_map
 
 

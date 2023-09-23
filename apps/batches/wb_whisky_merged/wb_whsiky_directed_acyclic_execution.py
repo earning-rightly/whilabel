@@ -1,6 +1,6 @@
 from apps.batches.transformations.wb_whisky.wb_whisky_form import merged_whisky_data_preprocess
 from apps.batches.wb.common.enums import BatchType, CollectionName
-from apps.batches.wb_libs.lib_firebase import save_to_firebase
+from apps.batches.libs.lib_firebase.firebase_funcs import save_to_firebase
 from apps.batches.wb.common import wb_libs_func
 
 

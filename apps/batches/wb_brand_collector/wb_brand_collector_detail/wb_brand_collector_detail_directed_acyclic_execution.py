@@ -1,7 +1,7 @@
 from apps.batches.wb_brand_collector.wb_brand_collector_detail import wb_brand_collector_detail_func
 from apps.batches.transformations.wb_brand.wb_brand_form import replace_extracted_data_with_wb_brand_formmat
 from apps.batches.wb.common.enums import BatchType,CollectionName,BatchExecution
-from apps.batches.wb_libs.lib_firebase import save_to_firebase
+from apps.batches.libs.lib_firebase.firebase_funcs import save_to_firebase
 from apps.batches.wb.common import wb_libs_func
 from apps.batches.wb.common.constants import field_map
 

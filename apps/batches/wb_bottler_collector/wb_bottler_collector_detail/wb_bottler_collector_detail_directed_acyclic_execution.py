@@ -3,7 +3,7 @@ from apps.batches.wb_bottler_collector.wb_bottler_collector_detail import wb_bot
 from apps.batches.transformations.wb_bottler.wb_bottler_form import \
     replace_extracted_data_with_wb_bottler_formmat
 from apps.batches.wb.common.enums import BatchType, CollectionName, BatchExecution
-from apps.batches.wb_libs.lib_firebase import save_to_firebase
+from apps.batches.libs.lib_firebase.firebase_funcs import save_to_firebase
 from apps.batches.wb.common.constants import field_map
 
 
