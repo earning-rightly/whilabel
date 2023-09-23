@@ -1,5 +1,5 @@
 from apps.batches.wb_brand_collector.wb_brand_collector_detail import wb_brand_collector_detail_func
-from apps.batches.transformations.wb_brand.wb_brand_form import replace_extracted_data_with_wb_brand_formmat
+from apps.batches.transformations.wb_brand.wb_brand_form import transform_raw_to_wb_brand
 from apps.batches.wb.common.enums import BatchType,CollectionName,BatchExecution
 from apps.batches.libs.lib_firebase.firebase_funcs import save_to_firebase
 from apps.batches.wb.common import wb_libs_func
@@ -31,7 +31,7 @@ def brand_detail_executions(batch_type : BatchType, batch_execution :  BatchExec
     json_path = f'results/{current_date}/json/detail/'
     wb_libs_func.save_to_json(scrap_dict, json_path, batch_type.value)
 
-    transform_result_list, transform_result_dict = replace_extracted_data_with_wb_brand_formmat(batchId=batch_execution.value)  # 수집된 브랜드 정보 전처리
+    transform_result_list, transform_result_dict = transform_raw_to_wb_brand(batch_id=batch_execution.value)  # 수집된 브랜드 정보 전처리
 
     # save as csv file
     result_df = wb_libs_func.convert_to_df(transform_result_dict)
