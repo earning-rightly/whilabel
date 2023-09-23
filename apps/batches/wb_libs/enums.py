@@ -16,6 +16,8 @@ class BatchType(Enum):
     BOTTER_WHISKY_LINK = 'BOTTER_WHISKY_LINK'
     BOTTER_WHISKY_DETAIL = 'BOTTER_WHISKY_DETAIL'
 
+    WHISKY = 'WHISKY'
+
 class CollectionName(Enum):
     WHISKY = 'whisky'
     DISTILLERY = 'distillery'
