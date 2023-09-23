@@ -12,7 +12,7 @@ from apps.batches.wb_bottler_collector.wb_bottler_collector_pre.wb_bottler_colle
 # 브랜드, 증류소, bottler 상세정보 수집
 from apps.batches.wb_brand_collector.wb_brand_collector_detail.wb_brand_collector_detail_directed_acyclic_execution import \
     brand_detail_executions
-from apps.batches.wb_distillery_collector.wb_distillery_collector_detail.wb_distillery_collector_detail_directed_acyclic_execution import \
+from apps.batches.wb.distillery.wb_distillery_collector_detail_directed_acyclic_execution import \
     distillery_detail_executions
 from apps.batches.wb_bottler_collector.wb_bottler_collector_detail.wb_bottler_collector_detail_directed_acyclic_execution import \
     bottler_detail_executions
