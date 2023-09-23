@@ -113,7 +113,7 @@ async def run_distillery_detail_collector(link: list, scrap_dict: dict):
     await tqdm_asyncio.gather(*fts)
 
 
-def collect(batch_type: str, current_date: str, scrap_dict: dict):
+def collect_distillery_detail(batch_type: str, current_date: str, scrap_dict: dict):
     """
         collect.
             Args:

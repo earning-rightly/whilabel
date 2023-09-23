@@ -12,8 +12,7 @@ from apps.batches.wb_bottler_collector.wb_bottler_collector_pre.wb_bottler_colle
 # 브랜드, 증류소, bottler 상세정보 수집
 from apps.batches.wb_brand_collector.wb_brand_collector_detail.wb_brand_collector_detail_directed_acyclic_execution import \
     brand_detail_executions
-from apps.batches.wb.distillery.wb_distillery_collector_detail_directed_acyclic_execution import \
-    distillery_detail_executions
+from apps.batches.wb.distillery.distillery_detail_execution import distillery_detail_execution
 from apps.batches.wb_bottler_collector.wb_bottler_collector_detail.wb_bottler_collector_detail_directed_acyclic_execution import \
     bottler_detail_executions
 
@@ -49,7 +48,7 @@ scheduler.add_job(whisky_detail_brand_collector_executions, 'cron', day=batch_da
 
 scheduler.add_job(distillery_pre_executions, 'cron', day=batch_day['distillery_day'], hour=17, minute=11, id="distillery_pre_executions",
                   timezone='Asia/Seoul', kwargs={'batch_type': BatchType.DISTILLERY_PRE})
-scheduler.add_job(distillery_detail_executions, 'cron', day=batch_day['distillery_day'], hour=17, minute=59, id="distillery_detail_executions",
+scheduler.add_job(distillery_detail_execution, 'cron', day=batch_day['distillery_day'], hour=17, minute=59, id="distillery_detail_execution",
                   timezone='Asia/Seoul',kwargs={'batch_type' : BatchType.DISTILLERY_DETAIL, 'batch_execution' : BatchExecution.PRETEST})
 scheduler.add_job(whisky_link_distillery_collector_executions, 'cron', day=batch_day['distillery_day'], hour=20, minute=0,
                   id="whisky_link_distillery_collector_executions", timezone='Asia/Seoul',kwargs={'batch_type' : BatchType.DISTILLERY_WHISKY_LINK})
