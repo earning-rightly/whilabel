@@ -1,14 +1,13 @@
 from apps.batches.transformations.wb_whisky.wb_whisky_form import merged_whisky_data_preprocess
-from apps.batches.wb_libs.enums import BatchType, CollectionName, BatchExecution
+from apps.batches.wb.common.enums import BatchType, CollectionName
 from apps.batches.wb_libs.lib_firebase import save_to_firebase
-from apps.batches.wb_libs import wb_libs_func
+from apps.batches.wb.common import wb_libs_func
+
 
 def merged_whisky_executions(batch_type: BatchType):
     """
         distillery_detail_executions.
             Args:
-                mode : mode값을 받아, 하위 함수르 호출할때 현재 상태를 전달.
-                detail : detail값을 받아, 하위 함수르 호출할때 현재 상태를 전달.
             Note:
                 scrap_main 에서 증류소 상세정보 스케줄링 함수
     """

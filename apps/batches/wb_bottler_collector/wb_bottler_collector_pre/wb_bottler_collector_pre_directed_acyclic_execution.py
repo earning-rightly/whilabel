@@ -1,15 +1,14 @@
 from apps.batches.wb_bottler_collector.wb_bottler_collector_pre import wb_bottler_collector_pre_func
-from apps.batches.wb_libs import wb_libs_func
-from apps.batches.wb_libs.enums import BatchType
-from apps.batches.wb_libs.constants import field_map
-from apps.batches.wb_libs.constants import link_map
+from apps.batches.wb.common import wb_libs_func
+from apps.batches.wb.common.enums import BatchType
+from apps.batches.wb.common.constants import field_map
+from apps.batches.wb.common.constants import link_map
+
 
 def bottler_pre_executions(batch_type : BatchType):
     """
        bottler_pre_executions.
            Args:
-               mode : mode값을 받아, 하위 함수르 호출할때 현재 상태를 전달.
-               detail : detail값을 받아, 하위 함수르 호출할때 현재 상태를 전달.
            Note:
                scrap_main 에서 bottler 사전 정보 스케줄링 함수
     """

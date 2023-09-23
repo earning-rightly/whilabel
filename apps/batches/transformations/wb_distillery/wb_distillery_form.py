@@ -2,10 +2,10 @@ import uuid
 
 import json
 import pandas as pd
-from apps.batches.wb_libs import wb_libs_func
+from apps.batches.wb.common import wb_libs_func
 import numpy as np
 from datetime import datetime
-from apps.batches.wb_libs.enums import BatchType
+from apps.batches.wb.common.enums import BatchType
 
 new_keys_list = ['company_about', 'company_address', 'closed', 'founded', 'owner'
     , 'spirit_stills', 'status','specialists','capacity_per_year','collection','wishlist',

@@ -1,14 +1,14 @@
 import pandas as pd
-from apps.batches.wb_libs import wb_libs_func
+from apps.batches.wb.common import wb_libs_func
 import numpy as np
 from datetime import datetime
 import json
 import uuid
-from apps.batches.wb_libs.enums import BatchType,BatchExecution
-
+from apps.batches.wb.common.enums import BatchType
 
 new_keys_list = ['company_about', 'company_address', 'closed','collection', 'founded', 'abbreviation',
                  'specialists', 'status', 'wb_ranking', 'website', 'views']  # 증류소 상세 정보에서 수집할 컬럼 리스트
+
 
 def make_bottler_id(table: pd.Series) -> int or None:  # fusion 가능
     """
@@ -103,6 +103,7 @@ def trans_capacity_per_year(table: pd.Series) -> [int, str]:  # fusion 가능
 
     except AttributeError:  # capacity_per_year 값이 없는경우
         return None, None  # null, null로 반환
+
 
 def replace_extracted_data_with_wb_bottler_formmat(batchId : str = None) -> [list, dict]:
     """

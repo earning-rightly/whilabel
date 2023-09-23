@@ -1,7 +1,8 @@
 from apps.batches.wb_whisky_collector.wb_whisky_collector_link import wb_whisky_collector_link_apply_func
-from apps.batches.wb_libs import wb_libs_func
-from apps.batches.wb_libs.enums import BatchType
-from apps.batches.wb_libs.constants import field_map
+from apps.batches.wb.common import wb_libs_func
+from apps.batches.wb.common.enums import BatchType
+from apps.batches.wb.common.constants import field_map
+
 
 def whisky_link_distillery_collector_executions(batch_type : BatchType):
     """

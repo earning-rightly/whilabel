@@ -33,7 +33,7 @@ from apps.batches.wb_distillery_collector.wb_whisky_belonging_to_distillery_coll
 from apps.batches.wb_bottler_collector.wb_whisky_belonging_to_bottler_collector.wb_whisky_collector_detail.wb_whisky_detail_belonging_to_bottler_collector_directed_acyclic_execution import \
     whisky_detail_bottler_collector_executions
 
-from apps.batches.wb_libs.enums import BatchExecution,BatchType
+from apps.batches.wb.common.enums import BatchExecution,BatchType
 scheduler = BackgroundScheduler()
 
 batch_day = {'brand_day' : 31, 'distillery_day' : 1, 'bottler_day' : 2} #배치 날짜 딕셔너리 선언

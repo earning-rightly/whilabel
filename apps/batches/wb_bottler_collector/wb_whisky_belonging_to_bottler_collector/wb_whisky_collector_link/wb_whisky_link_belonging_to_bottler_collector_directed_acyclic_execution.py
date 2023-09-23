@@ -1,14 +1,13 @@
-from apps.batches.wb_libs import wb_libs_func
+from apps.batches.wb.common import wb_libs_func
 from apps.batches.wb_whisky_collector.wb_whisky_collector_link import wb_whisky_collector_link_apply_func
-from apps.batches.wb_libs.enums import BatchType
-from apps.batches.wb_libs.constants import field_map
+from apps.batches.wb.common.enums import BatchType
+from apps.batches.wb.common.constants import field_map
+
 
 def whisky_link_bottler_collector_executions(batch_type : BatchType):
     """
        whisky_link_bottler_collector_executions.
            Args:
-               mode : mode값을 받아, 하위 함수르 호출할때 현재 상태를 전달.
-               detail : detail값을 받아, 하위 함수르 호출할때 현재 상태를 전달.
            Note:
                scrap_main 에서 위스키 링크  스케줄링 함수
     """

@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
-from apps.batches.wb_libs import wb_libs_func
+from apps.batches.wb.common import wb_libs_func
 import json
 import uuid
-from apps.batches.wb_libs.enums import BatchType
+from apps.batches.wb.common.enums import BatchType
 
 new_keys_list = ['website', 'region']  # 증류소 상세 정보에서 수집할 컬럼 리스트
 
@@ -22,6 +22,7 @@ def make_brand_id(table: pd.Series) -> int:  # fusion 가능
 
     except IndexError:  # link값이 없는경우 null 반환
         return None
+
 
 def replace_extracted_data_with_wb_brand_formmat(batchId : str = None) -> [list, dict]:
     """

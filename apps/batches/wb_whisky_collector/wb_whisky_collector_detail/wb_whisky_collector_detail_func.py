@@ -11,7 +11,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ChromeService
 
-from apps.batches.wb_libs import wb_libs_func
+from apps.batches.wb.common import wb_libs_func
+
 
 async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url_index : int, scrap_dict: dict):
     """
@@ -141,6 +142,7 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
 
             except aiohttp.client_exceptions.ClientConnectorError:  # 비동기식 접속으로 443포트에 대한 접속이 안되는 에러에 대한 예외처리
                 await turn_around_selenum(url, url_index)
+
 
 async def extract_whisky_detail_collector_async(link : list, scrap_dict: dict):
     """

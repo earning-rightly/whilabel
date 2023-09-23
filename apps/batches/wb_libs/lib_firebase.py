@@ -1,10 +1,10 @@
-from apps.batches.wb_libs.enums import CollectionName
+from apps.batches.wb.common.enums import CollectionName
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-import timeit
 
 from google.cloud.firestore_v1 import FieldFilter
+
 
 def save_to_firebase(collection_name: CollectionName, data: list, query_field: str, update_field: str):
     """
@@ -31,6 +31,7 @@ def save_to_firebase(collection_name: CollectionName, data: list, query_field: s
             doc_ref = db.collection(collection_name.value).document(doc[query_field])
             doc_ref.update({update_field: doc[update_field]}) # 특정 필드 업데이트
 
+
     # TODO: logger 로 대체
 def connect_app():
     cred = credentials.Certificate('whilabel-firebase-adminsdk-wpf10-c0d0c95e63.json')  # sdk키 호출
@@ -39,6 +40,7 @@ def connect_app():
                                       options={'projectId': 'whilabel'})
     else:  # 이미 firebase에 연결이 되어있는 경우 get_app을 통해 admin생성
         firebase_admin.get_app()
+
 
 def extract_to_firebase(collection_name: CollectionName) -> dict:
     """

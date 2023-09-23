@@ -12,7 +12,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
-from apps.batches.wb_libs import wb_libs_func
+from apps.batches.wb.common import wb_libs_func
+
 
 async def extract_brand_collector_detail(url_index: int, url : str, sema : asyncio.Semaphore, scrap_dict : dict):
     """
@@ -87,7 +88,7 @@ async def extract_brand_collector_detail_async(link: str, scrap_dict : dict):
     semaphore = asyncio.Semaphore(30)  # 동시 처리 30개 제한
     fts = [asyncio.ensure_future(extract_brand_collector_detail(url_index=url_index, url=url, sema=semaphore, scrap_dict = scrap_dict)) for url_index, url in enumerate(link)]
     await tqdm_asyncio.gather(*fts)
-from apps.batches.wb_libs.enums import BatchType
+from apps.batches.wb.common.enums import BatchType
 def collect(batch_type : str, current_date: str, scrap_dict : dict):
     """
         collect.

@@ -12,7 +12,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
-from apps.batches.wb_libs import wb_libs_func
+from apps.batches.wb.common import wb_libs_func
+
 
 async def extract_bottler_collector_detail(url_index : int, url : str, sema : asyncio.Semaphore, scrap_dict: dict):
     """
@@ -86,6 +87,7 @@ async def extract_bottler_collector_detail(url_index : int, url : str, sema : as
                 driver.close()
             except:
                 traceback.print_exc()
+
 
 async def extract_bottler_collector_detail_async(link : list, scrap_dict: dict):
     """

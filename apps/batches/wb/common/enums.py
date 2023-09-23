@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class BatchType(Enum):
     BRAND_PRE = 'BRAND_PRE'
     BRAND_DETAIL = 'BRAND_DETAIL'
@@ -18,6 +19,7 @@ class BatchType(Enum):
 
     WHISKY = 'WHISKY'
 
+
 class CollectionName(Enum):
     WHISKY = 'whisky'
     DISTILLERY = 'distillery'
@@ -26,8 +28,8 @@ class CollectionName(Enum):
     WHISKY_CATEGORY = 'whisky_category'
     TASTETAG = 'taste_tag'
 
+
 class BatchExecution(Enum):
     PRETEST = 'pre_test'
     DAILY = 'daily'
     ERRORTEST = 'error_test'
-
