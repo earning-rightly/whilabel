@@ -1,5 +1,5 @@
 from apps.batches.wb_brand_collector.wb_brand_collector_detail import wb_brand_collector_detail_func
-from apps.batches.transformations.wb_brand.wb_brand_form import transform_raw_to_wb_brand
+from apps.batches.wb.brand.transform import transform_raw_to_wb_brand
 from apps.batches.wb.common.enums import BatchType,CollectionName,BatchExecution
 from apps.batches.libs.lib_firebase.firebase_funcs import save_to_firebase
 from apps.batches.wb.common import wb_libs_func
