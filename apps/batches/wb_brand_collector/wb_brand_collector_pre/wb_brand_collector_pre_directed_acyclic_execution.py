@@ -15,7 +15,7 @@ def brand_pre_executions(batch_type : BatchType):
 
     scrap_dict = wb_libs_func.initialize_dict(field_map['wb_brand_collect_pre'])
 
-    wb_brand_collector_pre_func.collect(scrap_dict, link_map['brand'])  # 증류소 사전정보 수집 함수 호출
+    wb_brand_collector_pre_func.collect_brand_pre(scrap_dict, link_map['brand'])  # 증류소 사전정보 수집 함수 호출
 
     current_date = wb_libs_func.get_current_date()
 
