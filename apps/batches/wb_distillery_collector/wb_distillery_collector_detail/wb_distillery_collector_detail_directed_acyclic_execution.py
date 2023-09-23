@@ -1,6 +1,6 @@
 from apps.batches.wb.common import wb_libs_func
 from apps.batches.wb_distillery_collector.wb_distillery_collector_detail import wb_distillery_collector_detail_func
-from apps.batches.wb.distillery.wb_distillery_form import \
+from apps.batches.wb.distillery.transform import \
     transform_raw_to_wb_distillery
 from apps.batches.wb.common.enums import CollectionName, BatchType, BatchExecution
 from apps.batches.libs.lib_firebase.firebase_funcs import save_to_firebase
