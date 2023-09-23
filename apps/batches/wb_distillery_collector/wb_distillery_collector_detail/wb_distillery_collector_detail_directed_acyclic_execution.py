@@ -1,7 +1,7 @@
 from apps.batches.wb.common import wb_libs_func
 from apps.batches.wb_distillery_collector.wb_distillery_collector_detail import wb_distillery_collector_detail_func
 from apps.batches.transformations.wb_distillery.wb_distillery_form import \
-    replace_extracted_data_with_wb_distillery_formmat
+    transform_raw_to_wb_distillery
 from apps.batches.wb.common.enums import CollectionName, BatchType, BatchExecution
 from apps.batches.libs.lib_firebase.firebase_funcs import save_to_firebase
 from apps.batches.wb.common.constants import field_map
@@ -35,8 +35,8 @@ def distillery_detail_executions(batch_type: BatchType, batch_execution: BatchEx
     json_path = f'results/{current_date}/json/detail/'
     wb_libs_func.save_to_json(scrap_dict, json_path, batch_type.value)
 
-    transform_result_list, transform_result_dict = (replace_extracted_data_with_wb_distillery_formmat
-                                                    (batchId=batch_execution.value))
+    transform_result_list, transform_result_dict = (transform_raw_to_wb_distillery
+                                                    (batch_id=batch_execution.value))
 
     # save as csv file
     result_df = wb_libs_func.convert_to_df(transform_result_dict)
