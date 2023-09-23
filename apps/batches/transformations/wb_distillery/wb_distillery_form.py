@@ -1,15 +1,13 @@
 import uuid
 
 import json
+
+import pandas
 import pandas as pd
 from apps.batches.wb.common import wb_libs_func
 import numpy as np
 from datetime import datetime
 from apps.batches.wb.common.enums import BatchType
-
-new_keys_list = ['company_about', 'company_address', 'closed', 'founded', 'owner'
-    , 'spirit_stills', 'status', 'specialists', 'capacity_per_year', 'collection', 'wishlist',
-                 'wb_ranking', 'wash_stills', 'website', 'views']  # 증류소 상세 정보에서 수집할 컬럼 리스트
 
 
 def extract_distillery_id(table: pd.Series) -> int or None:  # fusion 가능
@@ -61,10 +59,34 @@ def extract_founded_date(table: pd.Series) -> datetime or None:
 def read_raw_csv_files() -> [pd.DataFrame, pd.DataFrame]:
     current_date = wb_libs_func.get_current_date()
     distillery_detail_data = pd.read_csv(
-        f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{current_date}/csv/detail/{BatchType.DISTILLERY_DETAIL.value}.csv')
+        f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{current_date}/csv/detail/{BatchType.DISTILLERY_DETAIL.value}.csv'
+    )
     distillery_summary_data = pd.read_csv(
-        f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{current_date}/csv/pre/{BatchType.DISTILLERY_PRE.value}.csv')
-    return [distillery_detail_data, distillery_summary_data]
+        f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{current_date}/csv/pre/{BatchType.DISTILLERY_PRE.value}.csv'
+    )
+    return distillery_detail_data, distillery_summary_data
+
+
+def filter_unused_fields(df: pandas.DataFrame) -> pd.DataFrame:
+    # 증류소 상세 정보에서 수집할 컬럼 리스트
+    field_list = [
+        'company_about',
+        'company_address',
+        'closed',
+        'founded',
+        'owner',
+        'spirit_stills',
+        'status',
+        'specialists',
+        'capacity_per_year',
+        'collection',
+        'wishlist',
+        'wb_ranking',
+        'wash_stills',
+        'website',
+        'views'
+    ]
+    return df.loc[:, field_list]
 
 
 def transform_raw_to_wb_distillery(batch_id: str = None) -> [list, dict]:
@@ -74,17 +96,19 @@ def transform_raw_to_wb_distillery(batch_id: str = None) -> [list, dict]:
                 수집된 증류소 정보를 병합 및 전처리 를 진행하는 함수
     """
     # 수집된 파일 가져오기 : 파일 주소가 아닌 파라미터로 넘기는게 어떤지...?
-    [distillery_detail_data, distillery_summary_data] = read_raw_csv_files()
-
-    distillery_detail_data_remove_columns = distillery_detail_data.loc[:, new_keys_list]  # 불필요한 컬럼 제거
+    distillery_detail_data, distillery_summary_data = read_raw_csv_files()
 
     current_datetime = wb_libs_func.get_current_datetime()
 
-    result_df = pd.merge(distillery_summary_data,
-                         distillery_detail_data_remove_columns,  # 증류소 (사전 + 상세) 병합 하기 사전 기준으로 합치기
-                         how='left',
-                         left_index=True,
-                         right_index=True)
+    # 증류소 (사전 + 상세) 병합 하기 사전 기준으로 합치기
+    result_df = pd.merge(
+        distillery_summary_data,
+        filter_unused_fields(distillery_detail_data),
+        how='left',
+        left_index=True,
+        right_index=True
+    )
+
     result_df['wb_distillery_id'] = result_df.apply(extract_distillery_id, axis=1)  # 증류소 id 처리
     result_df[['capacity_per_year', 'capacity_per_year_unit']] = result_df.apply(divide_capacity_with_per_year_and_unit,
                                                                                  axis=1,
@@ -153,4 +177,5 @@ def transform_raw_to_wb_distillery(batch_id: str = None) -> [list, dict]:
             'wbId': result_df.wbId[result_index],
             'wbDistillery': json.loads(result_df.loc[result_index, :].to_json()),
         })
+
     return result_df_list, json.loads(result_df.to_json())
