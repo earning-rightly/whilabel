@@ -36,7 +36,7 @@ def distillery_execution():
     '''
     scrap_dict = wb_libs_func.initialize_dict(field_map['wb_distillery_collect_detail'])
 
-    distillery_detail_collector.collect_distillery_detail(BatchType.DISTILLERY_DETAIL.value, current_date, scrap_dict)
+    distillery_detail_collector.collect_distillery_detail(current_date, scrap_dict)
 
     # save raw detail data as csv file
     result_df = wb_libs_func.convert_to_df(scrap_dict)

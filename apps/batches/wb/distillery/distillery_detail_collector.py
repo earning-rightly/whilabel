@@ -12,11 +12,12 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from apps.batches.wb.common import wb_libs_func
+from apps.batches.wb.common.enums import BatchType
 
 
 async def extract_distillery_detail(url_index: int, url: str, sema: asyncio.Semaphore, scrap_dict: dict):
     """
-        extract_brand_collector_detail.
+        extract_distillery_detail.
             Args:
                 url : 수집해야할 홈페이지 링크.
                 sema : 비동기식 해당 스레드 위치주소.
@@ -29,7 +30,7 @@ async def extract_distillery_detail(url_index: int, url: str, sema: asyncio.Sema
 
     def extract_title_and_value(sp: bs4.BeautifulSoup, index: int):
         """
-            extract_information_related_distillery.
+            extract_title_and_value.
                 Args:
                     sp : 수집해야할 홈페이지 정보.
                     index : 수집해야할 홈페이지 링크 index.
@@ -70,10 +71,16 @@ async def extract_distillery_detail(url_index: int, url: str, sema: asyncio.Sema
                 pass
 
     async with sema:
-        async with ClientSession(trust_env=True, connector=TCPConnector(ssl=False)) as session:
+        async with ClientSession(
+                trust_env=True,
+                connector=TCPConnector(ssl=False)
+        ) as session:
             await asyncio.sleep(random.randrange(15))  # 세션 차단을 방지하기위한  15초내외로 난수 딜레이
             try:
-                async with session.get(url[:url.rfind(('/'))] + '/about', ssl=False) as response:
+                async with session.get(
+                        url[:url.rfind(('/'))] + '/about',
+                        ssl=False
+                ) as response:
                     r = await response.read()
                     soup = BeautifulSoup(markup=r, features='lxml')
                     extract_title_and_value(soup, url_index)
@@ -102,7 +109,7 @@ async def extract_distillery_detail(url_index: int, url: str, sema: asyncio.Sema
 
 async def run_distillery_detail_collector(link: list, scrap_dict: dict):
     """
-        extract_distillery_collector_detail_async.
+        run_distillery_detail_collector.
             Args:
                 link : 수집해야할 홈페이지 전체 링크.
             Note:
@@ -113,13 +120,12 @@ async def run_distillery_detail_collector(link: list, scrap_dict: dict):
     await tqdm_asyncio.gather(*fts)
 
 
-def collect_distillery_detail(batch_type: str, current_date: str, scrap_dict: dict):
+def collect_distillery_detail(current_date: str, scrap_dict: dict):
     """
         collect.
-            Args:
             Note:
                 파일 읽기 및 파일크기에따른 리스트 초기화(reset_list_size) loop생성
     """
-    distillery_table = pd.read_csv(f'results/{current_date}/csv/pre/{batch_type}.csv')
+    distillery_table = pd.read_csv(f'results/{current_date}/csv/pre/{BatchType.DISTILLERY_PRE}.csv')
     wb_libs_func.reset_list_size(len(distillery_table), scrap_dict)
     asyncio.run(run_distillery_detail_collector(distillery_table.link, scrap_dict))
