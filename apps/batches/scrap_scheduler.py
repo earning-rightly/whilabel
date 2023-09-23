@@ -1,10 +1,6 @@
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
 
-# 브랜드, 증류소, bottler 사전 정보 수집
-from apps.batches.wb_bottler_collector.wb_bottler_collector_pre.wb_bottler_collector_pre_directed_acyclic_execution import \
-    bottler_pre_executions
-
 # 브랜드, 증류소, bottler 상세정보 수집
 from apps.batches.wb.brand.brand_execution import brand_execution
 from apps.batches.wb.distillery.distillery_execution import distillery_execution
@@ -92,16 +88,6 @@ scheduler.add_job(
     kwargs={'batch_type': BatchType.DISTILLERY_WHISKY_DETAIL, 'batch_id': BatchExecution.PRETEST}
 )
 
-scheduler.add_job(
-    bottler_pre_executions,
-    'cron',
-    day=batch_day['bottler_day'],
-    hour=17,
-    minute=11,
-    id="bottler_pre_executions",
-    timezone='Asia/Seoul',
-    kwargs={'batch_type': BatchType.BOTTER_PRE}
-)
 scheduler.add_job(
     bottler_execution,
     'cron',
