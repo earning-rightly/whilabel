@@ -6,7 +6,7 @@ from apps.batches.libs.lib_firebase.firebase_funcs import save_to_firebase
 from apps.batches.wb.common.constants import field_map
 
 
-def distillery_detail_executions(batch_type: BatchType, batch_execution: BatchExecution):
+def distillery_detail_executions(batch_type: BatchType):
     """
         distillery_detail_executions.
             Args:
@@ -18,8 +18,8 @@ def distillery_detail_executions(batch_type: BatchType, batch_execution: BatchEx
 
     current_date = wb_libs_func.get_current_date()
 
-    wb_distillery_collector_detail_func.collect(batch_type.DISTILLERY_PRE.value, current_date,
-                                                scrap_dict)  # 증류소 상세정보 수집 함수 호출
+    # 증류소 상세정보 수집 함수 호출
+    wb_distillery_collector_detail_func.collect(batch_type.DISTILLERY_PRE.value, current_date, scrap_dict)
 
     # save as csv file
     result_df = wb_libs_func.convert_to_df(scrap_dict)
@@ -30,8 +30,8 @@ def distillery_detail_executions(batch_type: BatchType, batch_execution: BatchEx
     json_path = f'results/{current_date}/json/detail/'
     wb_libs_func.save_to_json(scrap_dict, json_path, batch_type.value)
 
-    transform_result_list, transform_result_dict = (transform_raw_to_wb_distillery
-                                                    (batch_id=batch_execution.value))
+    # TODO: pre, detail 모두가 실행된 후 실행돼야하는 함수 -> 별도 분리 필요
+    transform_result_list, transform_result_dict = transform_raw_to_wb_distillery(batch_type.value)
 
     # save as csv file
     result_df = wb_libs_func.convert_to_df(transform_result_dict)
