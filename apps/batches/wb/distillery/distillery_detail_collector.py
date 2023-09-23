@@ -126,6 +126,6 @@ def collect_distillery_detail(current_date: str, scrap_dict: dict):
             Note:
                 파일 읽기 및 파일크기에따른 리스트 초기화(reset_list_size) loop생성
     """
-    distillery_table = pd.read_csv(f'results/{current_date}/csv/pre/{BatchType.DISTILLERY_PRE}.csv')
+    distillery_table = pd.read_csv(f'results/{current_date}/csv/pre/{BatchType.DISTILLERY_PRE.value}.csv')
     wb_libs_func.reset_list_size(len(distillery_table), scrap_dict)
     asyncio.run(run_distillery_detail_collector(distillery_table.link, scrap_dict))
