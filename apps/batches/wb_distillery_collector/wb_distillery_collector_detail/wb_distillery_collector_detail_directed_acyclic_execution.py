@@ -1,7 +1,6 @@
 from apps.batches.wb.common import wb_libs_func
 from apps.batches.wb_distillery_collector.wb_distillery_collector_detail import wb_distillery_collector_detail_func
-from apps.batches.wb.distillery.transform import \
-    transform_raw_to_wb_distillery
+from apps.batches.wb.distillery.transform import transform_raw_to_wb_distillery
 from apps.batches.wb.common.enums import CollectionName, BatchType, BatchExecution
 from apps.batches.libs.lib_firebase.firebase_funcs import save_to_firebase
 from apps.batches.wb.common.constants import field_map
@@ -11,8 +10,6 @@ def distillery_detail_executions(batch_type: BatchType, batch_execution: BatchEx
     """
         distillery_detail_executions.
             Args:
-                mode : mode값을 받아, 하위 함수르 호출할때 현재 상태를 전달.
-                detail : detail값을 받아, 하위 함수르 호출할때 현재 상태를 전달.
             Note:
                 scrap_main 에서 증류소 상세정보 스케줄링 함수
     """
@@ -21,8 +18,6 @@ def distillery_detail_executions(batch_type: BatchType, batch_execution: BatchEx
 
     current_date = wb_libs_func.get_current_date()
 
-    wb_distillery_collector_detail_func.collect(batch_type.DISTILLERY_PRE.value, current_date,
-                                                scrap_dict)  # 증류소 상세정보 수집 함수 호출
     wb_distillery_collector_detail_func.collect(batch_type.DISTILLERY_PRE.value, current_date,
                                                 scrap_dict)  # 증류소 상세정보 수집 함수 호출
 
