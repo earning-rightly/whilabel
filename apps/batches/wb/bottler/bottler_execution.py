@@ -33,7 +33,7 @@ def bottler_execution():
     wb_libs_func.save_to_json(pre_scrap_dict, json_path, BatchType.BOTTLER_PRE.value)
 
     '''
-    bottler 상세 정보 수집
+    보틀러 상세 정보 수집
     '''
     # 상세 정보 수집을 위한 빈 딕셔너리 초기화
     scrap_dict = wb_libs_func.initialize_dict(field_map['wb_bottler_collect_detail'])
