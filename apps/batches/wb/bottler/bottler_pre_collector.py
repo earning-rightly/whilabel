@@ -10,6 +10,7 @@ def collect_bottler_pre(scrap_dict: dict, url: str):
             scrap_dict (dict): 수집한 정보를 담을 딕셔너리.
             url (str): 수집해야할 홈페이지ㄴ
         Notes:
+            보틀러 사전 정보를 수집하는 함수입니다.
 
     """
 
