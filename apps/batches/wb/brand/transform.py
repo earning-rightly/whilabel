@@ -8,6 +8,17 @@ from apps.batches.wb.common.enums import BatchType
 
 
 def extract_brand_id(table: pd.Series) -> int or None:  # fusion 가능
+    """
+    extract_brand_id
+        Args:
+            table: pandas.Series
+                데이터가 담긴 pandas Series 객체
+        Returns:
+            int or None:
+                브랜드 ID를 추출하거나, 없을 경우 None 반환
+        Notes:
+            브랜드 ID 값을 추출하는 함수
+    """
     try:
         return table.link.split('/')[-2]  # 브랜드 id 값 추출
     except IndexError:  # link값이 없는경우 null 반환
@@ -36,10 +47,10 @@ def filter_unused_fields(df: pandas.DataFrame) -> pd.DataFrame:
 
 def transform_raw_to_wb_brand(batch_id: str = None) -> [list, dict]:
     """
-        replace_extracted_data_with_wb_brand_formmat
+    transform_raw_to_wb_brand
 
-            Note:
-                수집된 브랜드 정보를 병합 및 전처리 를 진행하는 함수
+        Note:
+            수집된 브랜드 정보를 병합 및 전처리 를 진행하는 함수
     """
     # 수집된 파일 가져오기 : 파일 주소가 아닌 파라미터로 넘기는게 어떤지...?
     brand_detail_data, brand_summary_data = read_raw_csv_files()
