@@ -119,6 +119,8 @@ def collect_bottler_detail(current_date: str, scrap_dict: dict):
         Args:
             current_date (str): 현재 날짜.
             scrap_dict (dict): 수집한 정보를 담을 딕셔너리.
+        Notes:
+            보틀러 상세정보를 수집하는 함수입니다.
     """
     # 증류소 정보가 포함된 CSV 파일을 읽어옵니다.
     bottler_table = pd.read_csv(f'results/{current_date}/csv/pre/{BatchType.BOTTLER_PRE.value}.csv')
