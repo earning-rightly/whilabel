@@ -1,8 +1,9 @@
 from apps.batches.wb_whisky_collector.wb_whisky_collector_detail import wb_whisky_collector_detail_func
-from apps.batches.wb_libs import wb_libs_func
+from apps.batches.wb.common import wb_libs_func
 from apps.batches.transformations.wb_whisky.wb_whisky_pre_form import replace_extracted_data_with_wb_whisky_format
-from apps.batches.wb_libs.enums import BatchType,BatchExecution
-from apps.batches.wb_libs.constants import field_map
+from apps.batches.wb.common.enums import BatchType,BatchExecution
+from apps.batches.wb.common.constants import field_map
+
 
 def whisky_detail_bottler_collector_executions(batch_type : BatchType, batch_id : BatchExecution):
     """

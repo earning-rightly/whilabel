@@ -1,9 +1,10 @@
 import pandas as pd
 import numpy as np
 import json
-from apps.batches.wb_libs.enums import BatchType
+from apps.batches.wb.common.enums import BatchType
 import uuid
 import os
+
 
 def merged_whisky_data_preprocess() -> [list, dict]:
     """

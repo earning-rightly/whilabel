@@ -4,7 +4,8 @@ from datetime import datetime
 from pytz import timezone
 import os
 
-from apps.batches.wb_libs import constants
+from apps.batches.wb.common import constants
+
 
 def write_log(current_time: tuple, log_mode: str, mode: str, level: str):
     """
@@ -49,12 +50,14 @@ def write_log(current_time: tuple, log_mode: str, mode: str, level: str):
             file.write(finish_log)
             file.close()
 
+
 def convert_to_df(obj: object) -> pd.DataFrame:
     try:
         return pd.DataFrame(obj)
     except ValueError:
         return pd.read_json(obj)
-    
+
+
 def remove_duplicated_link(df: pd.DataFrame) -> pd.DataFrame:
     return df[df.whisky_link.duplicated()==False] #위스키 링크 중복 수집 문제 임시방편 해결
 
@@ -66,6 +69,7 @@ def save_to_csv(df: pd.DataFrame, path: str, file_name: str):
         os.makedirs(path)
         df.to_csv(f'{path}{file_name}.csv', index=False)
 
+
 def save_to_json(obj: object, path: str, file_name: str):
     try:
         outfile = open(f'{path}{file_name}.json', 'w')
@@ -74,6 +78,7 @@ def save_to_json(obj: object, path: str, file_name: str):
         os.makedirs(path)
         outfile = open(f'{path}{file_name}.json', 'w')
         json.dump(obj, outfile, indent=4)
+
 
 def reset_list_size(length: int, scrap_dict: dict):
     """
@@ -87,17 +92,17 @@ def reset_list_size(length: int, scrap_dict: dict):
     for key in scrap_dict.keys():
         scrap_dict.get(key).extend([None for i in range(length)])
 
+
 def get_current_date() -> str:
     return datetime.now().replace(tzinfo=timezone(constants.KST)).strftime("%Y_%m_%d")
+
 
 def get_current_datetime() -> str:
     return datetime.now().replace(tzinfo=timezone(constants.KST)).strftime("%Y_%m_%d %H:%M:%S %p")
 
+
 def initialize_dict(key_list: list, ) -> dict:
-    scrap_dict = dict.fromkeys(key_list)
-    for key in key_list:  # 딕셔너리 키별 값(value) 초기화
-        scrap_dict[key] = []
-    return scrap_dict
+    return {key: None for key in key_list}
 
 
 

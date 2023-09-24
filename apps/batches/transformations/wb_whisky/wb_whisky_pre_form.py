@@ -1,11 +1,7 @@
-import uuid
-
 import pandas as pd
 import numpy as np
 import json
-from apps.batches.wb_libs.enums import CollectionName
-from apps.batches.wb_libs.lib_firebase import extract_to_firebase
-from apps.batches.wb_libs import wb_libs_func
+from apps.batches.wb.common import wb_libs_func
 
 
 def make_whisky_id(table: pd.Series) -> int:  # fusion 가능
@@ -89,7 +85,6 @@ def make_distillery_information(table):
         return None
 
 
-
 def remake_size(table):
     if type(table.size) != type(None):
         try:
@@ -99,6 +94,7 @@ def remake_size(table):
 
     else:
         return None
+
 
 def remake_block_price(table):
     try:
@@ -129,6 +125,7 @@ def make_vintage_year(table):
     except TypeError:
         return None
 
+
 def remake_strength(table):
     try:
         return table.strength.split('%')[0]
@@ -144,6 +141,7 @@ def remake_strength(table):
         else:
             return None
 
+
 def remake_overall_rate(table):
     try:
         return float(table.overall_rating.split('/')[0])
@@ -152,6 +150,7 @@ def remake_overall_rate(table):
         return None
     except AttributeError:
         return None
+
 
 def price_information_resize(table):
     if table.price_information is not None:
@@ -167,6 +166,8 @@ def price_information_resize(table):
 
     else:
         return None, None
+
+
 def distillery_information_resize(table):
     if table.distillery_information is not None:
         distillery_id = None
@@ -181,6 +182,7 @@ def distillery_information_resize(table):
 
     else:
         return None, None
+
 
 def replace_extracted_data_with_wb_whisky_format(extract_data: dict, batchId : str = None) -> json:
 
