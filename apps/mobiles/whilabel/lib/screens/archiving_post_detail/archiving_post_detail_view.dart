@@ -23,7 +23,7 @@ import 'package:intl/intl.dart';
 const String distilleryImageURL =
     "https://ichibankobe.com/ko/wdps/wp-content/uploads/2016/05/01-6.jpg";
 const String placeHolderWhiskyImageUrl =
-    "gs://whilabel.appspot.com/whilable/place_holder/whisky_place_holder.png";
+    "gs://whilabel.appspot.com/whilabel/place_holder/whisky_place_holder.png";
 
 const String firebaseImage =
     "https://firebasestorage.googleapis.com/v0/b/whilabel.appspot.com/o/SnsType.KAKAO%2Fkakao:2964055896%2FTimestamp(seconds=1694666852,%20nanoseconds=898934000).jpg?alt=media&token=e578991f-c092-465d-8201-e3df5085a36c";
@@ -72,7 +72,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
     return Scaffold(
       body: ChangeNotifierProvider<ArchivingPostDetailViewModel>(
         create: (BuildContext context) =>
-            ProvidersManager.callArchvingPostDetailViewModel(),
+            ProvidersManager.callArchivingPostDetailViewModel(),
         child: Builder(builder: (context) {
           final viewModel = context.watch<ArchivingPostDetailViewModel>();
 
@@ -172,7 +172,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                               ),
                               SizedBox(height: WhilabelSpacing.spac12),
                               Padding(
-                                padding: WhilablePadding.onlyHoizBasicPadding,
+                                padding: WhilabelPadding.onlyHoizBasicPadding,
                                 child: SizedBox(
                                   width: mediaQueryWidthSize,
                                   child: Column(

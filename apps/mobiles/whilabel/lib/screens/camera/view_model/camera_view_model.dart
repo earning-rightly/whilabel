@@ -37,7 +37,7 @@ class CarmeraViewModel with ChangeNotifier {
         .getSearchedWhiskyDataResult(whiskeyBarcode);
 
     if (archivingPost != null) {
-      _archivingPostStatus.saveArchivingPost(archivingPost);
+      _archivingPostStatus.storeArchivingPost(archivingPost);
       // 검색한 위스키가 DB에 있다면 true로 변환
       _state = _state.copyWith(isFindWhiskyData: true);
 
@@ -46,7 +46,7 @@ class CarmeraViewModel with ChangeNotifier {
   }
 
   Future<void> saveImageFileOnProvider(File imageFile) async {
-    _archivingPostStatus.saveImageFile(imageFile);
+    _archivingPostStatus.storeImageFile(imageFile);
   }
 
   Future<void> useBarCodeScanner(BuildContext context) async {

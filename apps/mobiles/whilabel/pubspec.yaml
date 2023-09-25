@@ -30,6 +30,7 @@ dependencies:
   cloud_firestore: ^4.7.0
   firebase_auth: ^4.6.3
   flutter_svg: ^2.0.7
+  firebase_storage: ^11.2.7
 
   # hive 패키지
   hive: ^2.2.3
@@ -38,6 +39,11 @@ dependencies:
 
   # UI & 디자인 패키지
   flutter_spinkit: ^5.2.0
+  flutter_easyloading: ^3.0.5
+
+  # image 관련 패키지
+  photo_gallery: ^2.1.1
+  transparent_image: ^2.0.1
 
   # 기타 패키지
   dartx: ^1.2.0
@@ -45,12 +51,12 @@ dependencies:
   get: ^4.6.5
   http: ^1.1.0
   permission_handler: ^11.0.0
-  photo_gallery: ^2.1.1
-  transparent_image: ^2.0.1
-  firebase_storage: ^11.2.7
   uuid: ^4.0.0
-  flutter_easyloading: ^3.0.5
   intl: ^0.18.1
+
+  flutter_native_image: ^0.0.6+1
+
+  popup_banner: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +85,7 @@ flutter:
     - assets/icon/_taste/
     - assets/icon/_check/
     - assets/icon/on_boarding/
+    - assets/icon/pop_menu/
     - assets/config/.env
   fonts:
     - family: Pretendard

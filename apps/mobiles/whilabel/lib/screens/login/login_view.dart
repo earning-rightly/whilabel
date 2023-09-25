@@ -44,7 +44,7 @@ class _LoginViewState extends State<LoginView> {
               left: 0,
               right: 0,
               child: SvgPicture.asset(
-                imagePaths.whilableIcon,
+                imagePaths.whilabelIcon,
                 width: 270,
               ),
             ),

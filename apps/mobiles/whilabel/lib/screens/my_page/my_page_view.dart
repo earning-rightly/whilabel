@@ -20,7 +20,7 @@ class MyPageView extends StatelessWidget {
 
     return SafeArea(
       child: SingleChildScrollView(
-        padding: WhilablePadding.basicPadding,
+        padding: WhilabelPadding.basicPadding,
         scrollDirection: Axis.vertical,
         child: Column(
           children: [

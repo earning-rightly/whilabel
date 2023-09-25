@@ -39,7 +39,7 @@ class WhiskyCritiqueView extends StatelessWidget {
                 builder: (context) {
                   final viewModel = context.watch<WhiskyCritiqueViewModel>();
                   return SingleChildScrollView(
-                    padding: WhilablePadding.basicPadding,
+                    padding: WhilabelPadding.basicPadding,
                     scrollDirection: Axis.vertical,
                     child: SizedBox(
                       height: MediaQuery.of(context).size.width * 2.1,

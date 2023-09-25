@@ -25,7 +25,7 @@ class _CritiqueViewWhiskyInfoFooterState
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<WhiskyCritiqueViewModel>();
-    final state = viewModel.state;
+    final currentPostData = viewModel.state.whiskyNewArchivingPostUseCaseState;
 
     return FutureBuilder<bool>(
       future: viewModel.isChangeStareValue(),
@@ -46,7 +46,7 @@ class _CritiqueViewWhiskyInfoFooterState
             children: [
               Expanded(
                 flex: 40,
-                child: Image.file(fit: BoxFit.cover, state.image!),
+                child: Image.file(fit: BoxFit.cover, currentPostData.images!),
               ),
               SizedBox(width: WhilabelSpacing.spac12),
               Expanded(
@@ -57,16 +57,16 @@ class _CritiqueViewWhiskyInfoFooterState
                   children: [
                     SizedBox(
                       child: Text(
-                        state.whiskyName,
+                        currentPostData.archivingPost.whiskyName,
                         style: TextStyle(fontSize: 14),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
                     ),
-                    state.whiskyLocation != null
+                    currentPostData.archivingPost.location != null
                         ? SizedBox(
                             child: Text(
-                              "${state.whiskyLocation}\t${state.strength}%",
+                              "${currentPostData.archivingPost.location}\t${currentPostData.archivingPost.strength}%",
                               style: TextStyle(fontSize: 12),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -74,7 +74,7 @@ class _CritiqueViewWhiskyInfoFooterState
                           )
                         : SizedBox(
                             child: Text(
-                              "\t${state.strength}%",
+                              "\t${currentPostData.archivingPost.strength}%",
                               style: TextStyle(fontSize: 12),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,

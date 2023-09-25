@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:whilabel/data/user/enum/post_sort_order.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
+import 'package:whilabel/screens/home/view_model/home_event.dart';
+import 'package:whilabel/screens/home/view_model/home_view_model.dart';
+import 'package:whilabel/screens/home/view_model/local_provider/whisky_aligned_button_status.dart';
 
 class WhiskeyAlignedButtonList extends StatefulWidget {
   const WhiskeyAlignedButtonList({super.key});
@@ -9,78 +16,79 @@ class WhiskeyAlignedButtonList extends StatefulWidget {
 }
 
 class _WhiskeyAlignedButtonListState extends State<WhiskeyAlignedButtonList> {
-  final List<WhiskeyAlignedButton> _buttons = [
-    WhiskeyAlignedButton(
-      buttonText: "최신순",
-      index: 0,
-    ),
-    WhiskeyAlignedButton(
-      buttonText: "오래된 순",
-      index: 1,
-    ),
-    WhiskeyAlignedButton(
-      buttonText: "평점 높은 순",
-      index: 2,
-    ),
-    WhiskeyAlignedButton(
-      buttonText: "평점 낮은 순",
-      index: 3,
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: _buttons.length,
-      itemBuilder: (context, index) {
-        return Row(
-          children: [
-            _buttons[index],
-            SizedBox(width: 5),
-          ],
-        );
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => whiskyAlignedButtonStatus(),
+        ),
+      ],
+      child: Consumer<whiskyAlignedButtonStatus>(
+        builder: (context, viewModel, _) => ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: viewModel.buttonStates.length,
+          itemBuilder: (context, index) {
+            return Row(
+              children: [
+                // _buttons[index],
+                WhiskeyAlignedButton(
+                    postButtonOrder:
+                        viewModel.buttonStates[index].postButtonOrder,
+                    index: index,
+                    isSelected: viewModel.isSelected(index)),
+                SizedBox(width: 8),
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }
 
 class WhiskeyAlignedButton extends StatelessWidget {
-  final String buttonText;
+  final PostButtonOrder postButtonOrder;
   final int index;
+  final bool isSelected;
 
   WhiskeyAlignedButton({
     super.key, // 이유없능 오류가 있기에 사용
-    required this.buttonText,
+    required this.postButtonOrder,
     required this.index,
+    required this.isSelected,
   });
 
   @override
   Widget build(BuildContext context) {
+    final alignedButtonsProvider = context.watch<whiskyAlignedButtonStatus>();
+    final homeViewModel = context.watch<HomeViewModel>();
+
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        alignedButtonsProvider.makeAllButtonsUnSelectedExceptOne(index);
+        homeViewModel.onEvent(HomeEvent.changeButtonOrder(postButtonOrder));
+      },
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.all(0),
+        foregroundColor:
+            isSelected ? ColorsManager.black200 : ColorsManager.black300,
+        backgroundColor:
+            isSelected ? ColorsManager.black300 : ColorsManager.black200,
+        padding: EdgeInsets.symmetric(horizontal: 8),
         elevation: 0,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            side: BorderSide(color: Colors.grey)),
-        // 나중에 함수로 다시 구성해야 할 부분입니다.
-        // 버튼안에 글자수에 따라서 버튼의 width를 결정하는 코드입니다
-        fixedSize: buttonText.length * 14 < 90
-            ? Size(buttonText.length * 14, 40)
-            : Size(90, 40),
+            side: isSelected
+                ? BorderSide(color: Colors.transparent)
+                : BorderSide(color: ColorsManager.black300)),
       ),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Center(
-          child: Text(
-            buttonText,
-            maxLines: 1,
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        ),
-      ),
+      child: Text(postButtonOrder.displayName,
+          maxLines: 1,
+          style: isSelected
+              ? TextStylesManager()
+                  .createHadColorTextStyle("M14", ColorsManager.gray300)
+              : TextStylesManager()
+                  .createHadColorTextStyle("M14", ColorsManager.black300)),
     );
   }
 }

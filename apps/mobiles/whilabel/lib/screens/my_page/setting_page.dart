@@ -34,7 +34,7 @@ class _SettingPageState extends State<SettingPage> {
       appBar: buildScaffoldAppBar(context, SvgIconPath.backBold, ""),
       body: SafeArea(
         child: Padding(
-          padding: WhilablePadding.onlyHoizBasicPadding,
+          padding: WhilabelPadding.onlyHoizBasicPadding,
           child: SizedBox(
             height: 200,
             child: Column(

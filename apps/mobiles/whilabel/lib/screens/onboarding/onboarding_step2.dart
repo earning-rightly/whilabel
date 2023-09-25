@@ -56,7 +56,7 @@ class OnboardingStep2Page extends StatelessWidget {
                   left: 0,
                   right: 0,
                   child: Padding(
-                    padding: WhilablePadding.onlyHoizBasicPadding,
+                    padding: WhilabelPadding.onlyHoizBasicPadding,
                     child: LongTextButton(
                       buttonText: "위라벨 시작하기",
                       buttonTextColor: ColorsManager.brown100,
