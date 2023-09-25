@@ -6,6 +6,7 @@ import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/text_field_styles.dart';
+import 'package:whilabel/screens/whisky_critique/pages/successful_upload_post_page.dart';
 
 class MockCameraRoute extends StatefulWidget {
   const MockCameraRoute({super.key});
@@ -62,6 +63,15 @@ class _MockCameraRouteState extends State<MockCameraRoute> {
                 );
               },
               child: Text("garellery")),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SuccessfulUploadPostPage()),
+                );
+              },
+              child: Text("SuccessfulUploadPostPage")),
         ],
       )),
     );
