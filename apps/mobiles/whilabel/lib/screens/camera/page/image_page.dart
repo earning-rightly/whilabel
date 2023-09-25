@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:photo_gallery/photo_gallery.dart';
 import 'package:provider/provider.dart';
@@ -65,7 +66,17 @@ class _ImagePageState extends State<ImagePage> {
                 color: ColorsManager.brown100,
                 onPressedFunc: () async {
                   try {
-                    final File imageFile = await widget.medium.getFile();
+                    // final File imageFile = await widget.medium.getFile()..writeAsBytes(await Im.encodeNamedImage(smallerImage, realExt));
+                    File _imageFile = await widget.medium.getFile();
+
+                    // todo if문으로 사진에 크기가 1mb 이하면 더 이상 줄이지 않고 드대로 업로드
+                    // if (_imageFile.)
+                    final imageFile = await FlutterNativeImage.compressImage(
+                        _imageFile.path,
+                        quality: 90,
+                        targetHeight: 1411,
+                        targetWidth: 1058);
+
                     viewModel.saveImageFileOnProvider(imageFile);
 
                     Navigator.pushNamed(context, Routes.whiskeyCritiqueRoute);

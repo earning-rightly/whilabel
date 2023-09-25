@@ -6,6 +6,7 @@ import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/whisky/whisky.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
+import 'package:whilabel/domain/use_case/sort_archiving_post_use_case.dart';
 import 'package:whilabel/domain/use_case/whisky_archiving_post_use_case.dart';
 import 'package:whilabel/domain/post/archiving_post_repository.dart';
 import 'package:whilabel/domain/post/firebase_archiving_post_repository_impl.dart';
@@ -38,7 +39,8 @@ class ProvidersManager {
       _whiskyBrandDistilleryRepository =
       FirebaseWhiskyBrandDistilleryRepositoryImpl(
           _whiskyRef, _brandRef, _distilleryRef);
-  static final whiskeyNewArchivingPostUseCase = WhiskyNewArchivingPostUseCase();
+  static final whiskeyNewArchivingPostUseCase = WhiskyNewArchivingPostUseCase(
+      archivingPostRepository: _archivingPostRepository);
   static final ArchivingPostRepository _archivingPostRepository =
       FirestoreArchivingPostRepositoryImple(_archivingPostRef);
 
@@ -55,6 +57,9 @@ class ProvidersManager {
       appUserRepository: _appUserRepository,
       whiskyBrandDistilleryRepository: _whiskyBrandDistilleryRepository,
     );
+    final loadArchivingPostUseCase = LoadArchivingPostUseCase(
+        archivingPostRepository: _archivingPostRepository,
+        currentUserStatus: _currentUserStatus);
 
 // view model Provider
     final loginViewModel = LoginViewModel(
@@ -71,8 +76,10 @@ class ProvidersManager {
       archivingPostStatus: whiskeyNewArchivingPostUseCase,
     );
 
-    final homeViewModel =
-        HomeViewModel(archivingPostRepository: _archivingPostRepository);
+    final homeViewModel = HomeViewModel(
+      loadArchivingPostUseCase: loadArchivingPostUseCase,
+      archivingPostRepository: _archivingPostRepository,
+    );
 
     return [
       ChangeNotifierProvider(
@@ -101,7 +108,7 @@ class ProvidersManager {
     return whiskyCritiqueViewModel;
   }
 
-  static ArchivingPostDetailViewModel callArchvingPostDetailViewModel() {
+  static ArchivingPostDetailViewModel callArchivingPostDetailViewModel() {
     final archivingPostDetailViewModel = ArchivingPostDetailViewModel(
         whiskyBrandDistilleryRepository: _whiskyBrandDistilleryRepository,
         archivingPostRepository: _archivingPostRepository);

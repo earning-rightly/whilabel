@@ -22,7 +22,7 @@ class WithdrawalPage extends StatelessWidget {
     return Scaffold(
       appBar: buildScaffoldAppBar(context, SvgIconPath.close, "탈퇴하기"),
       body: Padding(
-        padding: WhilablePadding.basicPadding,
+        padding: WhilabelPadding.basicPadding,
         child: SafeArea(
           child: Stack(
             children: [

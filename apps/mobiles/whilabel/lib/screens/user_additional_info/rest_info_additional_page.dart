@@ -58,7 +58,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
           AppUser currentUser = snapshot.data!;
 
           return Padding(
-            padding: WhilablePadding.basicPadding,
+            padding: WhilabelPadding.basicPadding,
             child: Form(
               key: _formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,

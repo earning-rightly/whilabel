@@ -56,7 +56,7 @@ class OnboardingStep1Page extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: Padding(
-                  padding: WhilablePadding.onlyHoizBasicPadding,
+                  padding: WhilabelPadding.onlyHoizBasicPadding,
                   child: LongTextButton(
                     buttonText: "알겠어요",
                     buttonTextColor: ColorsManager.brown100,

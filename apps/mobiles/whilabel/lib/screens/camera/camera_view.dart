@@ -15,7 +15,7 @@ class CameraView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Padding(
-      padding: WhilablePadding.onlyHoizBasicPadding,
+      padding: WhilabelPadding.onlyHoizBasicPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

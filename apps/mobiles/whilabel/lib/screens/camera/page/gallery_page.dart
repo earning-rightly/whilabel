@@ -152,7 +152,7 @@ class _GalleryPageState extends State<GalleryPage> {
                         image: ThumbnailProvider(
                           mediumId: medium.id,
                           mediumType: medium.mediumType,
-                          highQuality: true,
+                          highQuality: false,
                         ),
                       ),
                     ),

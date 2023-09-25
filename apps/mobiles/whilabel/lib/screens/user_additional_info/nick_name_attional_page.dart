@@ -45,7 +45,7 @@ class _NickNameAttionalPageState extends State<NickNameAttionalPage> {
             );
           }
           return Padding(
-            padding: WhilablePadding.basicPadding,
+            padding: WhilabelPadding.basicPadding,
             child: SafeArea(
               child: Stack(
                 children: [
