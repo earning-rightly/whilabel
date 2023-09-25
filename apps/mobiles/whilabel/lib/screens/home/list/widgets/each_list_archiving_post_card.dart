@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
+import 'package:whilabel/screens/_global/whilabel_context_menu.dart';
+import 'package:whilabel/screens/home/view_model/home_event.dart';
+import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 
 // ignore: must_be_immutable
 class EachListArchivingPostCard extends StatelessWidget {
   final ArchivingPost archivingPost;
   EachListArchivingPostCard({super.key, required this.archivingPost});
   String creatDate = "";
+  GlobalKey key = GlobalKey(); // declare a global key
 
   void initState() {
     final DateTime date1 = DateTime.fromMicrosecondsSinceEpoch(
@@ -23,6 +29,8 @@ class EachListArchivingPostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final homeViewModel = context.watch<HomeViewModel>();
+
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, Routes.archivingPostDetailRoute,
@@ -72,11 +80,44 @@ class EachListArchivingPostCard extends StatelessWidget {
                         constraints:
                             const BoxConstraints(minWidth: 10, minHeight: 10),
                         style: IconButton.styleFrom(
-                          minimumSize: Size.zero,
                           padding: EdgeInsets.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          RenderBox box = key.currentContext?.findRenderObject()
+                              as RenderBox;
+                          Offset position = box.localToGlobal(
+                              Offset.zero); //this is global position
+                          await WhilabelContextMenu.showContextMenu(
+                                  context, position.dx + 1000, position.dy)
+                              .then((menuValue) {
+                            switch (menuValue) {
+                              case "share":
+                                break;
+                              case "modify":
+                                Navigator.pushNamed(
+                                    context, Routes.archivingPostDetailRoute,
+                                    arguments: archivingPost);
+                                break;
+                              case "delete":
+                                showDeletePostDialog(
+                                  context,
+                                  onClickedYesButton: () {
+                                    homeViewModel.onEvent(
+                                        HomeEvent.deleteArchivingPost(
+                                            archivingPost.postId),
+                                        callback: () {
+                                      Navigator.pushReplacementNamed(
+                                        context,
+                                        Routes.rootRoute,
+                                      );
+                                      homeViewModel.state.archivingPosts.length;
+                                    });
+                                  },
+                                );
+                            }
+                          });
+                        },
                       )
                     ],
                   ),
@@ -142,3 +183,5 @@ class EachListArchivingPostCard extends StatelessWidget {
     );
   }
 }
+
+void callItemValue(BuildContext context, String itemValue) {}

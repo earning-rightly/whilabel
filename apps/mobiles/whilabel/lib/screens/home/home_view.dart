@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:whilabel/domain/global_provider/current_user_status.dart';
+import 'package:whilabel/data/user/enum/post_sort_order.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/app_bars.dart';
 import 'package:whilabel/screens/home/grid/grid_archiving_post_page.dart';
 import 'package:whilabel/screens/home/list/list_archiving_post_page.dart';
+import 'package:whilabel/screens/home/view_model/home_event.dart';
 import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 
 class HomeView extends StatefulWidget {
@@ -23,12 +24,8 @@ class _HomeViewState extends State<HomeView>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List<Tab> myTabs = <Tab>[
-    Tab(
-      icon: SvgPicture.asset(SvgIconPath.list),
-    ),
-    Tab(
-      icon: SvgPicture.asset(SvgIconPath.grid),
-    ),
+    Tab(icon: SvgPicture.asset(SvgIconPath.list)),
+    Tab(icon: SvgPicture.asset(SvgIconPath.grid)),
   ];
   @override
   void initState() {
@@ -51,10 +48,10 @@ class _HomeViewState extends State<HomeView>
   }
 
   void laodPostAsync() async {
-    final appUser = await context.read<CurrentUserStatus>().getAppUser();
     final viewModel = context.read<HomeViewModel>();
 
-    await viewModel.loadArchivingPost(appUser!.uid);
+    await viewModel
+        .onEvent(HomeEvent.loadArchivingPost(PostButtonOrder.LATEST));
   }
 
   @override
@@ -62,12 +59,8 @@ class _HomeViewState extends State<HomeView>
     return SafeArea(
       child: Column(
         children: [
-          HomeAppBar(
-            myWhiskeyCounters: 25,
-          ),
-          SizedBox(
-            height: WhilabelSpacing.spac12,
-          ),
+          HomeAppBar(myWhiskeyCounters: 25),
+          SizedBox(height: WhilabelSpacing.spac12),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
@@ -83,7 +76,7 @@ class _HomeViewState extends State<HomeView>
           ),
           Expanded(
             child: Padding(
-              padding: WhilablePadding.basicPadding,
+              padding: WhilabelPadding.basicPadding,
               child: TabBarView(
                   controller: _tabController,
                   children: [ListArchivingPostPage(), GridArchivingPostPage()]),
