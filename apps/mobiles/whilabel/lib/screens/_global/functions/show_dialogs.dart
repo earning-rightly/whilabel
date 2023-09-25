@@ -63,8 +63,6 @@ void showUpdatePostDialog(BuildContext context,
 void showMoveHomeDialog(BuildContext context,
     {Function()? onClickedYesButton,
     String title = "홈으로 이동하시겠습니까?\n 변경사항은 저장되지 않습니다"}) {
-  // final String title = "변경 사항을 저장하시겠습니까?";
-
   showDialog(
     context: context,
     // 주의) builder parameter에 있는 context 객체를 사용하면 Provider 객체를 불러올 수 없음.
@@ -76,6 +74,24 @@ void showMoveHomeDialog(BuildContext context,
           () {
             Navigator.pushNamed(context, Routes.rootRoute);
           },
+      onClickNoButton: () {
+        Navigator.pop(context);
+      },
+    ),
+  );
+}
+
+void showDeletePostDialog(BuildContext context,
+    {Function()? onClickedYesButton,
+    String title = "게시물을 삭제하시 겠습니까?\n삭제 후 복구할 수 없습니다"}) {
+  showDialog(
+    context: context,
+    // 주의) builder parameter에 있는 context 객체를 사용하면 Provider 객체를 불러올 수 없음.
+    builder: (BuildContext _) => PopUpYesOrNoButton(
+      titleText: title,
+      noText: "취소",
+      yesText: "네",
+      onClickYesButton: onClickedYesButton ?? () {},
       onClickNoButton: () {
         Navigator.pop(context);
       },
