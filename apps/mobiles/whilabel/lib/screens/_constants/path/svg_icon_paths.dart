@@ -37,4 +37,9 @@ class SvgIconPath {
   static String tasteSmokey = "assets/icon/_taste/taste_smokey.svg";
   static String tasteTobacco = "assets/icon/_taste/taste_tobacco.svg";
   static String tasteVanilla = "assets/icon/_taste/taste_vanilla.svg";
+
+  // pop menu
+  static String delete = "assets/icon/pop_menu/delete.svg";
+  static String modify = "assets/icon/pop_menu/modify.svg";
+  static String share = "assets/icon/pop_menu/share.svg";
 }
