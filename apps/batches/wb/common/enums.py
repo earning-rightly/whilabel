@@ -39,3 +39,7 @@ class BatchExecution(Enum):
     PRETEST = 'pre_test'  # 사전 테스트
     DAILY = 'daily'  # 평소
     ERRORTEST = 'error_test'  # 오류 테스트
+
+class LogMode(Enum):
+    START = 'Start'
+    END = 'End'
