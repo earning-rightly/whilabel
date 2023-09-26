@@ -12,7 +12,7 @@ import 'package:whilabel/domain/post/archiving_post_repository.dart';
 import 'package:whilabel/domain/post/firebase_archiving_post_repository_impl.dart';
 import 'package:whilabel/domain/use_case/user_auth/login_use_case.dart';
 import 'package:whilabel/domain/use_case/user_auth/logout_use_case.dart';
-import 'package:whilabel/domain/use_case/search_whisky_barcode_use_case.dart';
+import 'package:whilabel/domain/use_case/search_whisky_data_use_case.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 import 'package:whilabel/domain/user/firestore_user_repository_impl.dart';
 import 'package:whilabel/domain/whisky_brand_distillery/firebase_whisky_brand_distillery_repository_impl.dart';
@@ -53,7 +53,7 @@ class ProvidersManager {
     final logoutUseCase = LogoutUseCase(
       currentUserStatus: _currentUserStatus,
     );
-    final searchWhiskeyBarcodeUseCase = SearchWhiskeyBarcodeUseCase(
+    final searchWhiskeyBarcodeUseCase = SearchWhiskeyDataUseCase(
       appUserRepository: _appUserRepository,
       whiskyBrandDistilleryRepository: _whiskyBrandDistilleryRepository,
     );
@@ -72,7 +72,7 @@ class ProvidersManager {
       currentUserStatus: _currentUserStatus,
     );
     final carmeraViewModel = CarmeraViewModel(
-      searchWhiskeyBarcodeUseCase: searchWhiskeyBarcodeUseCase,
+      searchWhiskeyDataUseCase: searchWhiskeyBarcodeUseCase,
       archivingPostStatus: whiskeyNewArchivingPostUseCase,
     );
 
@@ -113,5 +113,10 @@ class ProvidersManager {
         whiskyBrandDistilleryRepository: _whiskyBrandDistilleryRepository,
         archivingPostRepository: _archivingPostRepository);
     return archivingPostDetailViewModel;
+  }
+
+  static FirebaseWhiskyBrandDistilleryRepositoryImpl testWhiskDB() {
+    return FirebaseWhiskyBrandDistilleryRepositoryImpl(
+        _whiskyRef, _brandRef, _distilleryRef);
   }
 }

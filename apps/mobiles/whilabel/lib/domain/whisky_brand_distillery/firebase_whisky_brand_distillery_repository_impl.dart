@@ -1,6 +1,7 @@
 import 'package:flutter/rendering.dart';
 import 'package:whilabel/data/brand/brand.dart';
 import 'package:whilabel/data/distillery/distillery.dart';
+import 'package:whilabel/data/whisky/short_whisky.dart';
 import 'package:whilabel/data/whisky/whisky.dart';
 import 'package:whilabel/domain/whisky_brand_distillery/whisky_brand_distillery_repository.dart';
 
@@ -18,7 +19,7 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
 
   // todo 나중에 barcode로 검색을 돌리는 로직으로 변동
   @override
-  Future<Whisky?> getWhiskyData(String barcode) async {
+  Future<Whisky?> getWhiskyDataWithBarcode(String barcode) async {
     WhiskyQueryDocumentSnapshot? whiskySnapshot;
 
     try {
@@ -38,6 +39,55 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
     }
 
     return whiskySnapshot.data;
+  }
+
+  @override
+  Future<List<WhiskyQueryDocumentSnapshot>> getWhiskyDataWithName(
+      String whiskyName, List<String> findedWhiskyNames,
+      {WhiskyDocumentSnapshot? startAtDoc}) async {
+    // WhiskyQueryDocumentSnapshot? whiskySnapshot;
+    // List<ShortWhisky> shortWhisky = [];
+
+    // List<String> findedWhiskyNames = [""];
+
+    List<WhiskyQueryDocumentSnapshot> result;
+
+    print("getWhiskyDataWithName ==> $findedWhiskyNames");
+
+    try {
+      final _whiskyQuerySnapshot = await _whiskyRef
+          .whereName(isGreaterThanOrEqualTo: "Balven")
+          .whereName(whereNotIn: findedWhiskyNames)
+          // .orderByBarcode()
+          // .orderByName()
+          // .orderByBarcode()
+          .limit(10)
+          .get();
+      // findedWhiskyNames.add(_whiskyQuerySnapshot.docs.first.data.name!);
+
+      if (_whiskyQuerySnapshot.docs.isEmpty) {
+        debugPrint("whisky 데이터가 비어 있습니다.");
+
+        return Future(() => []);
+      }
+      print(
+          "_whiskyQuerySnapshot.docs[6] ===> ${_whiskyQuerySnapshot.docs[6].data}");
+      return _whiskyQuerySnapshot.docs;
+
+      // for (WhiskyQueryDocumentSnapshot doc in _whiskyQuerySnapshot.docs)
+      //   // print(doc.data.name);
+      //   shortWhisky.add(ShortWhisky(
+      //       barcode: doc.data.barcode!,
+      //       name: doc.data.name!,
+      //       strength: doc.data.strength!));
+      // whiskySnapshot = _whiskyQuerySnapshot.docs.first;
+    } catch (error) {
+      debugPrint("whisky 데이터를 찾을 수 없습니다.");
+      debugPrint("$error");
+      return Future(() => []);
+    }
+
+    // return result;
   }
 
   @override

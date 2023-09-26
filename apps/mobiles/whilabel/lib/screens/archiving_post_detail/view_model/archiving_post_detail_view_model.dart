@@ -58,7 +58,8 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
   }
 
   Future<Whisky> getInitalData(String whiskyId, String postId) async {
-    final whiskyData = await _whiskyRepository.getWhiskyData(whiskyId);
+    final whiskyData =
+        await _whiskyRepository.getWhiskyDataWithBarcode(whiskyId);
     if (_state.currentPostId.isEmpty) {
       _state = _state.copyWith(currentPostId: postId);
       notifyListeners();
