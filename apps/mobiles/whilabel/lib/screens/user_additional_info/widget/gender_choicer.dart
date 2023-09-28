@@ -22,8 +22,7 @@ class GenderChoicer extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(
           "성별",
-          style: TextStylesManager()
-              .createHadColorTextStyle("B14", ColorsManager.gray500),
+          style: TextStylesManager.bold14,
         ),
         SizedBox(height: 12),
         Row(
@@ -47,8 +46,7 @@ class GenderChoicer extends StatelessWidget {
                 ),
                 child: Text(
                   "남성",
-                  style: TextStylesManager()
-                      .createHadColorTextStyle("B16", ColorsManager.gray500),
+                  style: TextStylesManager.bold16,
                 ),
               ),
             ),
@@ -73,8 +71,7 @@ class GenderChoicer extends StatelessWidget {
                 ),
                 child: Text(
                   "여성",
-                  style: TextStylesManager()
-                      .createHadColorTextStyle("B16", ColorsManager.gray500),
+                  style: TextStylesManager.bold16,
                 ),
               ),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 
 void showSimpleDialog(
@@ -25,17 +26,10 @@ void showSimpleDialog(
               children: [
                 Text(
                   title,
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: ColorsManager.gray500,
-                      fontWeight: FontWeight.bold),
+                  style: TextStylesManager.bold20,
                 ),
                 SizedBox(height: 20),
-                Text(subTitle,
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: ColorsManager.gray500,
-                        fontWeight: FontWeight.w400)),
+                Text(subTitle, style: TextStylesManager.regular16),
                 SizedBox(height: 30),
                 LongTextButton(
                   buttonText: "확인",

@@ -29,8 +29,7 @@ class _MockCameraRouteState extends State<MockCameraRoute> {
             child: Column(
           children: [
             TextField(
-              style: TextStylesManager()
-                  .createHadColorTextStyle("R16", ColorsManager.gray500),
+              style: TextStylesManager.regular16,
               decoration: createBasicTextFieldStyle("숫자만 가능", true),
               onChanged: (value) {
                 setState(() {

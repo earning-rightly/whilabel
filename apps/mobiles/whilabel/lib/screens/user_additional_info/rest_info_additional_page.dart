@@ -89,9 +89,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                                 padding: const EdgeInsets.only(bottom: 32),
                                 child: Text(
                                   "${widget.nickName}님에 대해서\n조금만 더 알려주세요",
-                                  style: TextStylesManager()
-                                      .createHadColorTextStyle(
-                                          "B24", ColorsManager.gray500),
+                                  style: TextStylesManager.bold24,
                                 ),
                               ),
                             ),

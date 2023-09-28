@@ -58,15 +58,13 @@ class _NickNameAttionalPageState extends State<NickNameAttionalPage> {
                         children: [
                           Text(
                             "닉네임을 설정해주세요",
-                            style: TextStylesManager().createHadColorTextStyle(
-                                "B24", ColorsManager.gray500),
+                            style: TextStylesManager.bold24,
                           ),
                           SizedBox(
                             height: 32,
                           ),
                           TextFormField(
-                            style: TextStylesManager().createHadColorTextStyle(
-                                "R16", ColorsManager.gray500),
+                            style: TextStylesManager.regular16,
                             maxLength: 20,
                             controller: nickNameText,
                             decoration: createBasicTextFieldStyle(

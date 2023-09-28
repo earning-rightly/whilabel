@@ -80,8 +80,7 @@ class _SpreadListTitleState extends State<SpreadListTitle> {
         ListTile(
           title: Text(
             widget.title,
-            style: TextStylesManager()
-                .createHadColorTextStyle("B16", ColorsManager.gray500),
+            style: TextStylesManager.bold16,
           ),
           onTap: () {
             setState(() {
@@ -96,8 +95,7 @@ class _SpreadListTitleState extends State<SpreadListTitle> {
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             child: Text(
               widget.readMoreText.split(".").join("\n"),
-              style: TextStylesManager()
-                  .createHadColorTextStyle("R16", ColorsManager.gray500),
+              style: TextStylesManager.regular16,
             ),
           )
       ],

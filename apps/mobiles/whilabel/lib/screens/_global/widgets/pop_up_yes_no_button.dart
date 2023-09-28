@@ -39,8 +39,7 @@ class PopUpYesOrNoButton extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       ),
-      titleTextStyle: TextStylesManager()
-          .createHadColorTextStyle("B16", ColorsManager.gray500),
+      titleTextStyle: TextStylesManager.bold16,
       shape: RoundedRectangleBorder(
           borderRadius:
               BorderRadius.all(Radius.circular(WhilabelRadius.radius16))),

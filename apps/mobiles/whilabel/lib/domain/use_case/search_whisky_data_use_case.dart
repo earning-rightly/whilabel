@@ -73,19 +73,6 @@ class SearchWhiskeyDataUseCase {
     return null;
   }
 
-  Future<List<Distillery>> _getDistilleryDatas(
-      List<String> wbDistilleryIds) async {
-    List<Distillery> distilleryDatas = [];
-
-    for (String wbDistilleryId in wbDistilleryIds) {
-      final _distilleryData = await whiskyBrandDistilleryRepository
-          .getDistilleryData(wbDistilleryId);
-      if (_distilleryData != null) distilleryDatas.add(_distilleryData);
-    }
-
-    return distilleryDatas;
-  }
-
   Future<List<ShortWhiskyData>> useWhiskyName(String whiskName) async {
     List<String> findedWhiskyNames = [""];
 
@@ -111,6 +98,20 @@ class SearchWhiskeyDataUseCase {
     }
 
     print("result===> ${result.length}");
+    result = result.toSet().toList();
     return result;
+  }
+
+  Future<List<Distillery>> _getDistilleryDatas(
+      List<String> wbDistilleryIds) async {
+    List<Distillery> distilleryDatas = [];
+
+    for (String wbDistilleryId in wbDistilleryIds) {
+      final _distilleryData = await whiskyBrandDistilleryRepository
+          .getDistilleryData(wbDistilleryId);
+      if (_distilleryData != null) distilleryDatas.add(_distilleryData);
+    }
+
+    return distilleryDatas;
   }
 }

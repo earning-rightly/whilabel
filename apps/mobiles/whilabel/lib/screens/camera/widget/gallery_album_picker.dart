@@ -43,8 +43,7 @@ class _GalleryAlbumPickerState extends State<GalleryAlbumPicker> {
       ),
       dropdownColor: ColorsManager.black200,
       menuMaxHeight: 300,
-      style: TextStylesManager()
-          .createHadColorTextStyle(("R14"), ColorsManager.gray500),
+      style: TextStylesManager.regular14,
       value: _dropDownText,
       decoration: returnTextFieldDropDownStyle("", false),
       iconSize: 13,

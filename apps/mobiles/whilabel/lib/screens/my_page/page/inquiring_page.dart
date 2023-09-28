@@ -51,8 +51,7 @@ class InquiringPage extends StatelessWidget {
                           "B16", ColorsManager.gray200),
                     ),
                     TextFormField(
-                      style: TextStylesManager().createHadColorTextStyle(
-                          "R16", ColorsManager.gray500),
+                      style: TextStylesManager.regular16,
                       decoration: createLargeTextFieldStyle(""),
                       controller: userEmailTextContoller,
                       scrollPadding: EdgeInsets.symmetric(vertical: 20),
@@ -65,8 +64,7 @@ class InquiringPage extends StatelessWidget {
                           "B16", ColorsManager.gray200),
                     ),
                     TextFormField(
-                      style: TextStylesManager().createHadColorTextStyle(
-                          "R16", ColorsManager.gray500),
+                      style: TextStylesManager.regular16,
                       decoration: createLargeTextFieldStyle(""),
                       controller: subjectTextContoller,
                       scrollPadding: EdgeInsets.symmetric(vertical: 20),
@@ -89,8 +87,7 @@ class InquiringPage extends StatelessWidget {
                           "B16", ColorsManager.gray200),
                     ),
                     TextFormField(
-                      style: TextStylesManager().createHadColorTextStyle(
-                          "R16", ColorsManager.gray500),
+                      style: TextStylesManager.regular16,
                       decoration: createLargeTextFieldStyle(""),
                       controller: messageTextContoller,
                       scrollPadding: EdgeInsets.symmetric(vertical: 20),

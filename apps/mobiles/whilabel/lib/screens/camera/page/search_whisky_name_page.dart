@@ -19,16 +19,14 @@ class SerachWhiskyNamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //  final viewModel =
     final viewModel = context.watch<CarmeraViewModel>();
     final state = viewModel.state;
 
     return Scaffold(
         appBar: AppBar(
           title: TextField(
-            style: TextStylesManager()
-                .createHadColorTextStyle("R16", ColorsManager.gray500),
-            decoration: createBasicTextFieldStyle("숫자만 가능", true),
+            style: TextStylesManager.regular16,
+            decoration: createBasicTextFieldStyle("영어랑 숫자만 가능", true),
             // onChanged: (value) {
             //   setState(() {
             //     barCodeText = value;
@@ -73,25 +71,40 @@ class SearchedWhiskyListTitle extends StatefulWidget {
 }
 
 class _SearchedWhiskyListTitleState extends State<SearchedWhiskyListTitle> {
+  late String whiskyName;
+  late String whiskyStrength;
+  late String whiskyBarcode;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    whiskyName = widget.data.name;
+    whiskyStrength = widget.data.strength;
+    whiskyBarcode = widget.data.barcode;
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<CarmeraViewModel>();
 
     return ListTile(
+      shape:
+          Border(bottom: BorderSide(color: ColorsManager.black400, width: 1)),
       title: Text(
-        widget.data.name,
-        style: TextStylesManager().createHadColorTextStyle("B16", Colors.white),
+        whiskyName,
+        style: TextStylesManager.bold16,
       ),
       trailing: Text(
-        "${widget.data.strength}%",
-        style: TextStylesManager().createHadColorTextStyle("R14", Colors.white),
+        "$whiskyStrength%",
+        style: TextStylesManager.bold14,
       ),
       subtitle: Text(
-        "barCode ${widget.data.barcode}",
-        style: TextStylesManager().createHadColorTextStyle("R14", Colors.white),
+        "barCode $whiskyBarcode",
+        style: TextStylesManager.regular14,
       ),
       onTap: () {
-        viewModel.onEvent(CarmeraEvent.searchWhiskeyWithBarcode("1"),
+        viewModel.onEvent(CarmeraEvent.searchWhiskeyWithBarcode(whiskyBarcode),
             callback: () {
           setState(() {});
           if (viewModel.state.isFindWhiskyData) {

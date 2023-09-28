@@ -1,10 +1,26 @@
-class ShortWhiskyData {
-  final String name;
-  final String barcode;
-  final String strength;
-  ShortWhiskyData({
-    required this.name,
-    required this.barcode,
-    required this.strength,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'short_whisky.freezed.dart';
+part 'short_whisky.g.dart';
+
+// @freezed
+// class Person with _$Person {
+//   factory Person({
+//     required int id,
+//     required String name,
+//     required int age,
+//   }) = _Person;
+
+//   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
+// }
+
+@freezed
+class ShortWhiskyData with _$ShortWhiskyData {
+  factory ShortWhiskyData({
+    required String name,
+    required String barcode,
+    required String strength,
+  }) = _ShortWhiskyData;
+  factory ShortWhiskyData.fromJson(Map<String, dynamic> json) =>
+      _$ShortWhiskyDataFromJson(json);
 }

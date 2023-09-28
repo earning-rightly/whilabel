@@ -44,11 +44,18 @@ class CarmeraViewModel with ChangeNotifier {
 
     if (archivingPost != null) {
       _archivingPostStatus.storeArchivingPost(archivingPost);
-      // 검색한 위스키가 DB에 있다면 true로 변환
+      // 검색한 위스키가 whisky collection DB에 있다면 true로 변환
       _state = _state.copyWith(isFindWhiskyData: true);
 
       notifyListeners();
     }
+  }
+
+  Future<void> searchWhiskyWithName(String whiskyName) async {
+    final shortWhiskyDatas =
+        await _searchWhiskeyDataUseCase.useWhiskyName(whiskyName);
+    _state = _state.copyWith(shortWhisyDatas: shortWhiskyDatas);
+    notifyListeners();
   }
 
   Future<void> saveImageFileOnProvider(File imageFile) async {
@@ -68,13 +75,6 @@ class CarmeraViewModel with ChangeNotifier {
   }
 
   Future<void> useBarCodeScanner(BuildContext context) async {
-    notifyListeners();
-  }
-
-  Future<void> searchWhiskyWithName(String whiskyName) async {
-    final shortWhiskyDatas =
-        await _searchWhiskeyDataUseCase.useWhiskyName(whiskyName);
-    _state = _state.copyWith(shortWhisyDatas: shortWhiskyDatas);
     notifyListeners();
   }
 

@@ -9,16 +9,14 @@ class WhilabelContextMenu {
     {
       "title": "공유하기",
       "value": "share",
-      "title_style": TextStylesManager()
-          .createHadColorTextStyle("R16", ColorsManager.gray500),
+      "title_style": TextStylesManager.regular16,
       "icon_path": SvgIconPath.share,
       "icon_color": ColorsManager.white,
     },
     {
       "title": "수정하기",
       "value": "modify",
-      "title_style": TextStylesManager()
-          .createHadColorTextStyle("R16", ColorsManager.gray500),
+      "title_style": TextStylesManager.regular16,
       "icon_path": SvgIconPath.modify,
       "icon_color": ColorsManager.white,
     },

@@ -49,8 +49,7 @@ class AnnouncmentPageEmpty extends StatelessWidget {
                   Text(
                     announcementPageTitle,
                     maxLines: 2,
-                    style: TextStylesManager()
-                        .createHadColorTextStyle("B20", ColorsManager.gray500),
+                    style: TextStylesManager.bold20,
                   ),
                   SizedBox(height: WhilabelSpacing.spac12),
                   Text(
