@@ -21,6 +21,7 @@ import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 import 'package:whilabel/screens/login/view_model/login_view_model.dart';
+import 'package:whilabel/screens/my_page/view_model/my_page_view_model.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_view_model.dart';
 
@@ -44,27 +45,27 @@ class ProvidersManager {
   static final ArchivingPostRepository _archivingPostRepository =
       FirestoreArchivingPostRepositoryImple(_archivingPostRef);
 
-  static List<SingleChildWidget> initialProviders() {
-    // use case provider
-    final loginUseCase = LoginUseCase(
-      appUserRepository: _appUserRepository,
-      currentUserStatus: _currentUserStatus,
-    );
-    final logoutUseCase = LogoutUseCase(
-      currentUserStatus: _currentUserStatus,
-    );
-    final searchWhiskeyBarcodeUseCase = SearchWhiskeyDataUseCase(
-      appUserRepository: _appUserRepository,
-      whiskyBrandDistilleryRepository: _whiskyBrandDistilleryRepository,
-    );
-    final loadArchivingPostUseCase = LoadArchivingPostUseCase(
-        archivingPostRepository: _archivingPostRepository,
-        currentUserStatus: _currentUserStatus);
+  // use case provider
+  static final _loginUseCase = LoginUseCase(
+    appUserRepository: _appUserRepository,
+    currentUserStatus: _currentUserStatus,
+  );
+  static final _logoutUseCase = LogoutUseCase(
+    currentUserStatus: _currentUserStatus,
+  );
+  static final _searchWhiskeyBarcodeUseCase = SearchWhiskeyDataUseCase(
+    appUserRepository: _appUserRepository,
+    whiskyBrandDistilleryRepository: _whiskyBrandDistilleryRepository,
+  );
+  static final _loadArchivingPostUseCase = LoadArchivingPostUseCase(
+      archivingPostRepository: _archivingPostRepository,
+      currentUserStatus: _currentUserStatus);
 
+  static List<SingleChildWidget> initialProviders() {
 // view model Provider
     final loginViewModel = LoginViewModel(
-      loginUseCase,
-      logoutUseCase,
+      _loginUseCase,
+      _logoutUseCase,
     );
 
     final userAdditionalInfoViewModel = UserAdditionalInfoViewModel(
@@ -72,13 +73,16 @@ class ProvidersManager {
       currentUserStatus: _currentUserStatus,
     );
     final carmeraViewModel = CarmeraViewModel(
-      searchWhiskeyDataUseCase: searchWhiskeyBarcodeUseCase,
+      searchWhiskeyDataUseCase: _searchWhiskeyBarcodeUseCase,
       archivingPostStatus: whiskeyNewArchivingPostUseCase,
     );
 
     final homeViewModel = HomeViewModel(
-      loadArchivingPostUseCase: loadArchivingPostUseCase,
+      loadArchivingPostUseCase: _loadArchivingPostUseCase,
       archivingPostRepository: _archivingPostRepository,
+    );
+    final myPageViewModel = MyPageViewModel(
+      appUserRepository: _appUserRepository,
     );
 
     return [
@@ -97,8 +101,26 @@ class ProvidersManager {
       ChangeNotifierProvider(
         create: (context) => homeViewModel,
       ),
+      ChangeNotifierProvider(
+        create: (context) => myPageViewModel,
+      ),
     ];
   }
+
+  // static CarmeraViewModel callCameraViewModel() {
+  //   // final whiskyCritiqueViewModel = WhiskyCritiqueViewModel(
+  //   //     currentUserStatus: _currentUserStatus,
+  //   //     whiskyNewArchivingPostUseCase: whiskeyNewArchivingPostUseCase,
+  //   //     archivingPostRepository: _archivingPostRepository);
+  //   // return whiskyCritiqueViewModel;
+
+  //   final carmeraViewModel = CarmeraViewModel(
+  //     searchWhiskeyDataUseCase: _searchWhiskeyBarcodeUseCase,
+  //     archivingPostStatus: whiskeyNewArchivingPostUseCase,
+  //   );
+
+  //   return carmeraViewModel;
+  // }
 
   static WhiskyCritiqueViewModel callWhiskyCritiqueViewModel() {
     final whiskyCritiqueViewModel = WhiskyCritiqueViewModel(

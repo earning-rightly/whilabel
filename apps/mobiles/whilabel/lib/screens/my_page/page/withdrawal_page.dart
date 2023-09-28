@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
-import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
@@ -137,12 +136,9 @@ class WithdrawalPage extends StatelessWidget {
                               loginViewModel.onEvent(
                                 LoginEvent.logout(appUser.snsType),
                                 callback: () {
-                                  Navigator.pushNamed(
-                                      context, Routes.loginRoute);
+                                  SystemNavigator.pop();
                                 },
                               );
-
-                              // SystemNavigator.pop();
                             },
                           );
                         },

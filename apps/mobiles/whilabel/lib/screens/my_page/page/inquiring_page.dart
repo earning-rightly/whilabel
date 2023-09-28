@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:emailjs/emailjs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
@@ -30,7 +27,7 @@ class InquiringPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<MyPageViewModel>();
-    // final AppUser appUser = context.watch<CurrentUserStatus>().getAppUser();
+    final AppUser appUser = context.watch<CurrentUserStatus>().state.appUser;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -126,6 +123,7 @@ class InquiringPage extends StatelessWidget {
                           );
 
                           final value = await viewModel.sendEmail(
+                              uid: appUser.uid,
                               userEmail: userEmailTextContoller.text,
                               subject: subjectTextContoller.text,
                               message: messageTextContoller.text);

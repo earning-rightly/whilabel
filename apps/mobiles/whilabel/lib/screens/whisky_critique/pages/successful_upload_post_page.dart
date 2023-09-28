@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
@@ -8,10 +11,21 @@ import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/button_style.dart';
 
 class SuccessfulUploadPostPage extends StatelessWidget {
-  const SuccessfulUploadPostPage({super.key});
+  final int currentWhiskyCount;
+  const SuccessfulUploadPostPage({
+    Key? key,
+    required this.currentWhiskyCount,
+  }) : super(key: key);
+
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
+    if (EasyLoading.isShow) {
+      Timer(Duration(milliseconds: 1000), () {
+        EasyLoading.dismiss();
+      });
+    }
     return Scaffold(
       body: SafeArea(
           child: Stack(
@@ -35,7 +49,7 @@ class SuccessfulUploadPostPage extends StatelessWidget {
                 ),
                 SizedBox(height: WhilabelSpacing.spac16),
                 Text(
-                  "27번째 위스키에요!",
+                  "${currentWhiskyCount + 1}번째 위스키에요!",
                   style: TextStylesManager()
                       .createHadColorTextStyle("M16", ColorsManager.brown100),
                 ),

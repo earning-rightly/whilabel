@@ -56,10 +56,12 @@ class _HomeViewState extends State<HomeView>
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<HomeViewModel>();
+    final state = viewModel.state;
     return SafeArea(
       child: Column(
         children: [
-          HomeAppBar(myWhiskeyCounters: 25),
+          HomeAppBar(myWhiskeyCounters: state.archivingPosts.length),
           SizedBox(height: WhilabelSpacing.spac12),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10),

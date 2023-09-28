@@ -1,6 +1,6 @@
 class SvgIconPath {
   static String announce = "assets/icon/announce.svg";
-  static String icCheck = "assets/icon/ic-check.svg";
+  static String faq = "assets/icon/f_a_q.svg";
   static String customer = "assets/icon/customer.svg";
   static String star = "assets/icon/star.svg";
 

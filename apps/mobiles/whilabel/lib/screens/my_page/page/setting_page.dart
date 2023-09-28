@@ -61,15 +61,19 @@ class _SettingPageState extends State<SettingPage> {
                     Expanded(
                       flex: 2,
                       child: ListToggleButton(
-                          title: "푸시알림",
-                          isToggleState: appUser!.isPushNotificationEnabled!,
-                          onPressedButton: () async {
-                            // final appUser =
-                            //     await currentUserStatus.getAppUser();
-                            viewModel.onEvent(
-                              MyPageEvent.changePushAlimValue(appUser.uid),
-                            );
-                          }),
+                        title: "푸시알림",
+                        isToggleState: appUser!.isPushNotificationEnabled!,
+                        onPressedButton: () async {
+                          // final appUser =
+                          //     await currentUserStatus.getAppUser();
+                          viewModel.onEvent(
+                            MyPageEvent.changePushAlimValue(appUser.uid),
+                            callback: () async {
+                              await currentUserStatus.updateUserState();
+                            },
+                          );
+                        },
+                      ),
                     ),
 
                     // 마케팅 정보 알림
@@ -82,6 +86,9 @@ class _SettingPageState extends State<SettingPage> {
                           onPressedButton: () {
                             viewModel.onEvent(
                               MyPageEvent.changeMarketingAlimValue(appUser.uid),
+                              callback: () async {
+                                await currentUserStatus.updateUserState();
+                              },
                             );
                           }),
                     ),

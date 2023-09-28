@@ -126,7 +126,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                           onPressedFunc: isfilledAllData
                               ? () {
                                   AppUser newUser = currentUser.copyWith(
-                                      nickname: widget.nickName,
+                                      nickName: widget.nickName,
                                       birthDay: birthDayTextController.text,
                                       gender: widget.gender,
                                       name: nameTextController.text);
@@ -134,8 +134,14 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                                   viewModel.onEvent(
                                     AddUserInfo(newUser),
                                     callback: () {
-                                      Navigator.pushNamed(
-                                          context, Routes.rootRoute);
+                                      // Navigator.pushNamed(
+                                      //     context, Routes.rootRoute);
+
+                                      Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        Routes.rootRoute,
+                                        (route) => false,
+                                      );
                                     },
                                   );
                                 }

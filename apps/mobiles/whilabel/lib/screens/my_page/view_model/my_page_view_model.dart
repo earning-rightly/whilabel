@@ -1,22 +1,15 @@
 import 'package:emailjs/emailjs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:whilabel/data/user/app_user.dart';
-import 'package:whilabel/domain/global_provider/current_user_status.dart';
-import 'package:whilabel/domain/use_case/user_auth/logout_use_case.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 import 'package:whilabel/screens/my_page/view_model/my_page_event.dart';
 
 class MyPageViewModel with ChangeNotifier {
-  final CurrentUserStatus _currentUserStatus;
   final AppUserRepository _appUserRepository;
-  final LogoutUseCase _logoutUseCase;
+
   MyPageViewModel({
-    required CurrentUserStatus currentUserStatus,
     required AppUserRepository appUserRepository,
-    required LogoutUseCase logoutUseCase,
-  })  : _currentUserStatus = currentUserStatus,
-        _appUserRepository = appUserRepository,
-        _logoutUseCase = logoutUseCase;
+  }) : _appUserRepository = appUserRepository;
 
   Future<void> onEvent(MyPageEvent event, {VoidCallback? callback}) async {
     VoidCallback after = callback ?? () {};
@@ -38,7 +31,6 @@ class MyPageViewModel with ChangeNotifier {
         isPushNotificationEnabled: !(appUser.isPushNotificationEnabled!));
 
     await _appUserRepository.updateUser(uid, newAppUser);
-    await _currentUserStatus.updateUserState();
   }
 
   Future<void> changeMarketingAlimValue(String uid) async {
@@ -48,9 +40,8 @@ class MyPageViewModel with ChangeNotifier {
     final newAppUser = appUser.copyWith(
         isMarketingNotificationEnabled:
             !(appUser.isMarketingNotificationEnabled!));
-    // appUser
+
     await _appUserRepository.updateUser(uid, newAppUser);
-    await _currentUserStatus.updateUserState();
   }
 
   Future<void> withdrawAccount(String uid) async {
@@ -60,10 +51,11 @@ class MyPageViewModel with ChangeNotifier {
     final newAppUser = appUser.copyWith(isDeleted: true);
 
     await _appUserRepository.updateUser(uid, newAppUser);
-    await _currentUserStatus.updateUserState();
   }
 
+  // InquiringPage()가 stless이기 때문에 현재 event안에 넣지 않고 사용
   Future<bool> sendEmail({
+    required String uid,
     required String userEmail,
     required String subject,
     required String message,
@@ -72,16 +64,15 @@ class MyPageViewModel with ChangeNotifier {
     final templateId = "template_my18n2o";
     final publicKey = "_Qt-1oUmn42sVZh02";
     final privateKey = "x29hnJw91Yh5FnQi5EEyA";
-    final appUser = await _currentUserStatus.getAppUser();
 
     try {
       await EmailJS.send(
         serviceId,
         templateId,
-        // templateParams,
+        //  emailjs에 들어갈 정보
         {
           'subject': subject,
-          'name': "${appUser!.nickName}/${appUser.uid}",
+          'name': uid,
           'user_email': userEmail,
           'message': message,
         },

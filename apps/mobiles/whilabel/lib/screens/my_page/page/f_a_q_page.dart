@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:readmore/readmore.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
-import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 
 class FaqPage extends StatelessWidget {
   FaqPage({super.key});
@@ -45,7 +43,6 @@ class FaqPage extends StatelessWidget {
             child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               for (Map<String, String> data in faqData)
                 SpreadListTitle(
