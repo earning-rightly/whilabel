@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
-import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/home/view_model/home_view_model.dart';
+import 'package:whilabel/screens/whisky_critique/pages/successful_upload_post_page.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_view_model.dart';
 
@@ -25,6 +26,8 @@ class _CritiqueViewWhiskyInfoFooterState
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<WhiskyCritiqueViewModel>();
+    final homeViewModel = context.watch<HomeViewModel>();
+    final homeState = homeViewModel.state;
     final currentPostData = viewModel.state.whiskyNewArchivingPostUseCaseState;
 
     return FutureBuilder<bool>(
@@ -98,8 +101,6 @@ class _CritiqueViewWhiskyInfoFooterState
                             maskType: EasyLoadingMaskType.black,
                           );
 
-                          // if(EasyLoading.)
-
                           await viewModel.onEvent(
                             SaveArchivingPostOnDb(
                               viewModel.state.starValue,
@@ -108,12 +109,15 @@ class _CritiqueViewWhiskyInfoFooterState
                             ),
                             callback: () async {
                               setState(() {});
-
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                Routes.rootRoute,
-                                (route) => false,
-                              );
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          SuccessfulUploadPostPage(
+                                            currentWhiskyCount:
+                                                homeState.archivingPosts.length,
+                                          )),
+                                  (route) => false);
                             },
                           );
                         },

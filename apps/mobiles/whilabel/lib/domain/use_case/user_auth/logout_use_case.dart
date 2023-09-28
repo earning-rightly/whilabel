@@ -14,10 +14,7 @@ class LogoutUseCase {
   });
 
   Future<bool> call(SnsType snsType) async {
-    // if (currentUserStatus.userState != UserState.login) {
-    //   debugPrint("정상 로그아웃 실패, 로그인 상태는 유지됨...");
-    //   return false;
-    // }
+    // 로그인한 플랫폼마다 로그아웃 방식을 다르게 설정
     switch (snsType) {
       case SnsType.KAKAO:
         await KaKaoOauth().logout();
@@ -34,7 +31,7 @@ class LogoutUseCase {
     }
 
     await FirebaseAuth.instance.signOut();
-    currentUserStatus.updateUserState();
+    await currentUserStatus.updateUserState();
 
     return true;
   }

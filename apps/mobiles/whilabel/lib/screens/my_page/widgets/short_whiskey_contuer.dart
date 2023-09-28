@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 
 class ShortWhiskeyCounter extends StatelessWidget {
   const ShortWhiskeyCounter({super.key});
@@ -10,6 +12,8 @@ class ShortWhiskeyCounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeState = context.watch<HomeViewModel>().state;
+
     return Container(
       margin: EdgeInsets.only(top: 21, bottom: 16),
       width: MediaQuery.of(context).size.width,
@@ -37,7 +41,7 @@ class ShortWhiskeyCounter extends StatelessWidget {
               SizedBox(height: WhilabelSpacing.spac4),
               //todo 데이터 연결
               Text(
-                "30종",
+                "${HomeState.archivingPosts.length}개",
                 style: TextStylesManager()
                     .createHadColorTextStyle("B18", ColorsManager.brown100),
               )

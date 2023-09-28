@@ -26,12 +26,14 @@ class CurrentUserStatus extends ChangeNotifier {
   late CurrentUserState _state = CurrentUserState(
       userState: UserState.initial,
       appUser: AppUser(
+          name: "",
           uid: "",
-          nickname: "",
+          nickName: "",
           snsUserInfo: {},
           snsType: SnsType.EMPTY,
           isDeleted: false,
-          allowNotification: false));
+          isPushNotificationEnabled: false,
+          isMarketingNotificationEnabled: true));
   CurrentUserState get state => _state;
 
   CurrentUserStatus(this._repository) {
@@ -40,12 +42,12 @@ class CurrentUserStatus extends ChangeNotifier {
 
   Future<AppUser?> getAppUser() async {
     AppUser? result = await _repository.getCurrentUser();
-    print("getAppUser => ${result?.toJson()}");
+    // print("getAppUser => ${result?.toJson()}");
     if (result != null) {
       _state = _state.copyWith(appUser: result);
       notifyListeners();
     }
-    print("Future<AppUser?> getAppUser() ====> ${result?.toJson()}");
+    // print("Future<AppUser?> getAppUser() ====> ${result?.toJson()}");
     return result;
   }
 
@@ -54,7 +56,7 @@ class CurrentUserStatus extends ChangeNotifier {
     if (appUser == null) {
       _state = _state.copyWith(userState: UserState.notLogin);
       print("----- userState----\n ===>>>>>>  notLogin");
-    } else if (appUser.nickname == "") {
+    } else if (appUser.nickName == "") {
       print("----- userState----\n ===>>>>>>  inital");
 
       _state = _state.copyWith(userState: UserState.initial);

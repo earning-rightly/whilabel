@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
@@ -6,6 +9,10 @@ import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/_global/widgets/app_bars.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
+import 'package:whilabel/screens/login/view_model/login_event.dart';
+import 'package:whilabel/screens/login/view_model/login_view_model.dart';
+import 'package:whilabel/screens/my_page/view_model/my_page_event.dart';
+import 'package:whilabel/screens/my_page/view_model/my_page_view_model.dart';
 
 // ignore: must_be_immutable
 class WithdrawalPage extends StatelessWidget {
@@ -19,6 +26,10 @@ class WithdrawalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<MyPageViewModel>();
+    final loginViewModel = context.watch<LoginViewModel>();
+    final appUser = context.watch<CurrentUserStatus>().state.appUser;
+
     return Scaffold(
       appBar: buildScaffoldAppBar(context, SvgIconPath.close, "탈퇴하기"),
       body: Padding(
@@ -104,7 +115,7 @@ class WithdrawalPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      // 탈퇴 보루 버튼 //todo 어느 곳을 이동?
+                      // 탈퇴 보류 버튼 //todo 어느 곳을 이동?
                       LongTextButton(
                         buttonText: "위라벨 계속 사용하기",
                         buttonTextColor: ColorsManager.gray500,
@@ -116,8 +127,20 @@ class WithdrawalPage extends StatelessWidget {
                         buttonText: "탈퇴하기",
                         buttonTextColor: ColorsManager.gray500,
                         color: ColorsManager.black100,
-                        onPressedFunc: () {
-                          showWithdrawalDialog(context);
+                        onPressedFunc: () async {
+                          showWithdrawalDialog(
+                            context,
+                            onClickedYesButton: () {
+                              viewModel.onEvent(
+                                  MyPageEvent.withdrawAccount(appUser.uid));
+                              loginViewModel.onEvent(
+                                LoginEvent.logout(appUser.snsType),
+                                callback: () {
+                                  SystemNavigator.pop();
+                                },
+                              );
+                            },
+                          );
                         },
                       ),
                     ],

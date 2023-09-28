@@ -80,6 +80,7 @@ class _GalleryPageState extends State<GalleryPage> {
 
     return Scaffold(
       appBar: AppBar(
+        excludeHeaderSemantics: true,
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
@@ -94,11 +95,14 @@ class _GalleryPageState extends State<GalleryPage> {
         ),
         title: SizedBox(
           width: 200,
+          // height: 50,
           child: GalleryAlbumPicker(
             albumNameList: _albumNames,
             onChangeAlbum: changeAlbum,
           ),
         ),
+
+        // toolbarHeight: 100,
       ),
       body: SafeArea(
         child: _loading
@@ -152,7 +156,7 @@ class _GalleryPageState extends State<GalleryPage> {
                         image: ThumbnailProvider(
                           mediumId: medium.id,
                           mediumType: medium.mediumType,
-                          highQuality: false,
+                          highQuality: true,
                         ),
                       ),
                     ),

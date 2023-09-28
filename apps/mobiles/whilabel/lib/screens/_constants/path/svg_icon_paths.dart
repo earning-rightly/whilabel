@@ -1,6 +1,6 @@
 class SvgIconPath {
   static String announce = "assets/icon/announce.svg";
-  static String icCheck = "assets/icon/ic-check.svg";
+  static String faq = "assets/icon/f_a_q.svg";
   static String customer = "assets/icon/customer.svg";
   static String star = "assets/icon/star.svg";
 
@@ -12,6 +12,11 @@ class SvgIconPath {
   static String close = "assets/icon/close.svg";
   static String notification = "assets/icon/notification.svg";
   static String notificationNew = "assets/icon/notification_new.svg";
+  static String whisky = "assets/icon/whisky.svg";
+  static String camera = "assets/icon/camera.svg";
+  static String user = "assets/icon/user.svg";
+
+  static String checkBold = "assets/icon/_check/check_Bold.svg";
 
   static String downLoad = "assets/icon/download.svg";
   static String list = "assets/icon/list.svg";

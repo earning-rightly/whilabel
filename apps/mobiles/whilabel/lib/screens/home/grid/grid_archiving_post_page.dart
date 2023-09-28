@@ -10,22 +10,20 @@ class GridArchivingPostPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = context.watch<HomeViewModel>();
     final state = viewModel.state;
-    return Expanded(
-      child: GridView.builder(
-        padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-        itemCount: state.archivingPosts.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1 / 1.25,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-        ),
-        itemBuilder: (context, index) {
-          return EachWhiskeyGridView(
-            archivingPost: state.archivingPosts[index],
-          );
-        },
+    return GridView.builder(
+      padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+      itemCount: state.archivingPosts.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 1 / 1.25,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
       ),
+      itemBuilder: (context, index) {
+        return EachWhiskeyGridView(
+          archivingPost: state.archivingPosts[index],
+        );
+      },
     );
   }
 }

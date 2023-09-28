@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:whilabel/screens/_constants/styles/button_styles.dart'
-    as btnStyle;
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_global/functions/button_style.dart';
 
 class EachLoginButton extends StatefulWidget {
   final Function()? onPressedFunc; // 파라미터로 받아서 실행할 로직
@@ -25,7 +25,7 @@ class _EachLoginButtonState extends State<EachLoginButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      style: btnStyle.oauthLoginBtnStyle,
+      style: createBasicButtonStyle(ColorsManager.white),
       onPressed: (widget.onPressedFunc != null) ? widget.onPressedFunc : () {},
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -33,9 +33,7 @@ class _EachLoginButtonState extends State<EachLoginButton> {
           SvgPicture.asset(
             widget.svgImagePath,
             width: 30,
-            // height: 20,
           ),
-          // SizedBox(width: 18),
           Text(
             widget.buttonText,
             style: TextStyle(

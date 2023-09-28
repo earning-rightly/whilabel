@@ -6,6 +6,7 @@ import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/screens/_constants/path/image_paths.dart'
     as imagePaths;
 import 'package:whilabel/screens/_constants/routes_manager.dart';
+import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
 import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/login/instargram_login_web_page.dart';
 import 'package:whilabel/screens/login/view_model/login_event.dart';
@@ -71,9 +72,10 @@ class _LoginViewState extends State<LoginView> {
                             callback: () {
                           // 로그인 후 이동할 경로 확인
                           checkNextRoute(
-                            context,
-                            viewModel.state.isLogined,
-                            viewModel.state.userState,
+                            context: context,
+                            isLogined: viewModel.state.isLogined,
+                            isDeleted: viewModel.state.isDeleted,
+                            userState: viewModel.state.userState,
                           );
                         });
                       },
@@ -105,9 +107,10 @@ class _LoginViewState extends State<LoginView> {
                             callback: () {
                           // 로그인 후 이동할 경로 확인
                           checkNextRoute(
-                            context,
-                            viewModel.state.isLogined,
-                            viewModel.state.userState,
+                            context: context,
+                            isLogined: viewModel.state.isLogined,
+                            isDeleted: viewModel.state.isDeleted,
+                            userState: viewModel.state.userState,
                           );
                         });
                       },
@@ -131,34 +134,51 @@ class _LoginViewState extends State<LoginView> {
     });
   }
 
-  void loginError() {
+  void loginError(BuildContext context) {
     turnOnOffoffstage();
+    showSimpleDialog(context, "로그인 에러!!", "앱을 종료하고 다시 시작해주세요");
     debugPrint("로그인 오류 발생");
   }
 
-  void checkNextRoute(
-    BuildContext context,
-    bool isLogined,
-    UserState userState,
-  ) {
+// 삭제 처리중인 계정으로 로그인할 경우
+  void loginWithdrawingAccount(BuildContext context) {
+    turnOnOffoffstage();
+
+    showSimpleDialog(context, "삭제 처리중 계정입니다",
+        "삭체처리 취소나 문의가 있는 아래로 해주세요\nwhilabel23@gmail.com");
+    debugPrint("삭제 요청을한 계정 로그인 오류 발생");
+  }
+
+  void checkNextRoute({
+    required BuildContext context,
+    required bool isLogined,
+    required bool isDeleted,
+    required UserState userState,
+  }) {
     setState(() {});
 
     // 뉴비면 유저 추가 정보를 받는 화면으로 이동
     if (isLogined && userState == UserState.initial) {
-      Navigator.pushReplacementNamed(
+      Navigator.pushNamedAndRemoveUntil(
         context,
         Routes.userAdditionalInfoRoute,
+        (route) => false,
       );
 
       // 뉴비가 아닌 유저면 홈 화면으로 이동
-    } else if (isLogined && userState == UserState.login) {
-      Navigator.pushReplacementNamed(
+    } else if (isDeleted) {
+      loginWithdrawingAccount(context);
+    } // TODO: l
+
+    else if (isLogined && userState == UserState.login) {
+      Navigator.pushNamedAndRemoveUntil(
         context,
         Routes.rootRoute,
+        (route) => false,
       );
     } // TODO: login하는 과정에서 에러가 발생하면 알림 띄우기
     else {
-      loginError();
+      loginError(context);
     }
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/camera/camera_view.dart';
 import 'package:whilabel/screens/home/home_view.dart';
 import 'package:whilabel/screens/my_page/my_page_view.dart';
@@ -34,10 +37,6 @@ class _AppRootState extends State<AppRoot> {
     // TODO: implement initState
     super.initState();
     initAsync();
-
-    // Future.microtask(() async {
-    //   appUser = await context.read<CurrentUserStatus>().getAppUser();
-    // });
   }
 
   void initAsync() async {
@@ -53,45 +52,62 @@ class _AppRootState extends State<AppRoot> {
       length: 2,
       initialIndex: 0,
       child: Scaffold(
-        // appBar: (() {
-        //   switch (selectedBottomNavigationIndex) {
-        //     case 0:
-        //       // return buildHomeAppbar(context, myWhiskeyCounters);
-        //       return buildHomeAppbar(context, myWhiskeyCounters);
-        //     case 1:
-        //       break;
-        //     case 2:
-        //       break;
-        //   }
-        // })(),
         body:
             bottomNavigationBodyRoutes.elementAt(selectedBottomNavigationIndex),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.black,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.wordpress_sharp),
-              label: '위스키',
-              backgroundColor: Colors.white,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.camera),
-              label: '카메라',
-              backgroundColor: Colors.white,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.square),
-              label: '마이',
-            ),
-          ],
-          currentIndex: selectedBottomNavigationIndex,
-          selectedItemColor: Colors.orange,
-          unselectedItemColor: Colors.white,
-          unselectedLabelStyle: TextStyle(
-            color: Colors.grey,
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            border: Border(
+                top: BorderSide(color: ColorsManager.black300, width: 1.0)),
           ),
-          onTap: _onItemTapped,
+          child: BottomNavigationBar(
+            showSelectedLabels: false,
+            backgroundColor: ColorsManager.black100,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  SvgIconPath.whisky,
+                  colorFilter:
+                      ColorFilter.mode(ColorsManager.black300, BlendMode.srcIn),
+                ),
+                activeIcon: SvgPicture.asset(
+                  SvgIconPath.whisky,
+                  colorFilter:
+                      ColorFilter.mode(ColorsManager.brown100, BlendMode.srcIn),
+                ),
+                label: 'whisky',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  SvgIconPath.camera,
+                  colorFilter:
+                      ColorFilter.mode(ColorsManager.black300, BlendMode.srcIn),
+                ),
+                activeIcon: SvgPicture.asset(
+                  SvgIconPath.camera,
+                  colorFilter:
+                      ColorFilter.mode(ColorsManager.brown100, BlendMode.srcIn),
+                ),
+                label: 'camera',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  SvgIconPath.user,
+                  colorFilter:
+                      ColorFilter.mode(ColorsManager.black300, BlendMode.srcIn),
+                ),
+                activeIcon: SvgPicture.asset(
+                  SvgIconPath.user,
+                  colorFilter:
+                      ColorFilter.mode(ColorsManager.brown100, BlendMode.srcIn),
+                ),
+                label: 'myPage',
+              ),
+            ],
+            currentIndex: selectedBottomNavigationIndex,
+            selectedItemColor: ColorsManager.brown100,
+            unselectedItemColor: ColorsManager.black100,
+            onTap: _onItemTapped,
+          ),
         ),
       ),
     );

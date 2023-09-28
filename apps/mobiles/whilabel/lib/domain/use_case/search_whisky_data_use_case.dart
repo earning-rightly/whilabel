@@ -2,23 +2,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:whilabel/data/distillery/distillery.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/taste/taste_feature.dart';
+import 'package:whilabel/data/whisky/short_whisky.dart';
+import 'package:whilabel/data/whisky/whisky.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 import 'package:whilabel/domain/whisky_brand_distillery/whisky_brand_distillery_repository.dart';
 
-class SearchWhiskeyBarcodeUseCase {
+class SearchWhiskeyDataUseCase {
   final AppUserRepository appUserRepository;
   final WhiskyBrandDistilleryRepository whiskyBrandDistilleryRepository;
 
-  SearchWhiskeyBarcodeUseCase({
+  SearchWhiskeyDataUseCase({
     required this.appUserRepository,
     required this.whiskyBrandDistilleryRepository,
   });
 
-  Future<ArchivingPost?> getSearchedWhiskyDataResult(String barcode) async {
+  Future<ArchivingPost?> useWhiskyBarcode(String barcode) async {
     List<String> wbDistilleryIds = [];
 
     final whiskyData =
-        await whiskyBrandDistilleryRepository.getWhiskyData(barcode);
+        await whiskyBrandDistilleryRepository.getWhiskyDataWithBarcode(barcode);
 
     // whisky데이터 있는지 확인
     if (whiskyData != null) {
@@ -82,5 +84,33 @@ class SearchWhiskeyBarcodeUseCase {
     }
 
     return distilleryDatas;
+  }
+
+  Future<List<ShortWhiskyData>> useWhiskyName(String whiskName) async {
+    List<String> findedWhiskyNames = [""];
+
+    List<ShortWhiskyData> result = [];
+    WhiskyQueryDocumentSnapshot? starAtDoc;
+    for (int i = 0; i < 6; i++) {
+      final whiskyQueryDocs = await whiskyBrandDistilleryRepository
+          .getWhiskyDataWithName(whiskName, findedWhiskyNames,
+              startAtDoc: starAtDoc);
+      for (WhiskyQueryDocumentSnapshot queryDoc in whiskyQueryDocs) {
+        result.add(
+          ShortWhiskyData(
+            barcode: queryDoc.data.barcode ?? queryDoc.data.wbWhisky!.barcode!,
+            name: queryDoc.data.name!,
+            strength:
+                queryDoc.data.strength ?? queryDoc.data.wbWhisky!.strength!,
+          ),
+        );
+        findedWhiskyNames.add(queryDoc.data.name!);
+        findedWhiskyNames = findedWhiskyNames.toSet().toList();
+      }
+      if (whiskyQueryDocs.isNotEmpty) starAtDoc = whiskyQueryDocs.last;
+    }
+
+    print("result===> ${result.length}");
+    return result;
   }
 }
