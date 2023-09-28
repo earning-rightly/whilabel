@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:whilabel/data/user/enum/gender.dart';
-
 import 'package:whilabel/data/user/sns_type.dart';
 
 // This doesn't exist yet...! See "Next Steps"
@@ -22,11 +21,12 @@ const firestoreSerializable = JsonSerializable(
 class AppUser {
   AppUser({
     required this.uid,
-    required this.nickname,
+    required this.nickName,
     required this.snsUserInfo,
     required this.snsType,
-    required this.isDeleted,
-    required this.allowNotification, // 푸시알림이 어떻게 작동되는지 알아야함
+    this.isDeleted,
+    this.isPushNotificationEnabled, // 푸시알림이 어떻게 작동되는지 알아야함
+    this.isMarketingNotificationEnabled,
     this.name,
     this.age,
     this.birthDay,
@@ -36,11 +36,13 @@ class AppUser {
   });
 
   final String uid;
-  final String nickname;
+  final String nickName;
   final Map snsUserInfo;
   final SnsType snsType;
-  bool isDeleted = false;
-  bool allowNotification = false;
+  bool? isDeleted = false;
+  bool? isPushNotificationEnabled = false;
+  bool? isMarketingNotificationEnabled = false;
+
   String? birthDay;
   String? name;
   int? age;
@@ -57,35 +59,67 @@ class AppUser {
   static AppUser creatEmptyAppUser() {
     return AppUser(
         uid: "",
-        nickname: "",
+        nickName: "",
         snsUserInfo: {},
         snsType: SnsType.EMPTY,
         isDeleted: false,
-        allowNotification: false);
+        isPushNotificationEnabled: false,
+        isMarketingNotificationEnabled: true,
+        name: "");
   }
+
+  // AppUser copyWith(
+  //     {String? uid,
+  //     String? nickname,
+  //     Map? snsUserInfo,
+  //     // SnsType? snsType,
+
+  //     String? name,
+  //     Gender? gender,
+  //     String? birthDay,
+  //     int? age}) {
+  //   return AppUser(
+  //     age: age ?? this.age,
+  //     gender: gender,
+  //     birthDay: birthDay,
+  //     name: name,
+  //     imageUrl: this.imageUrl,
+  //     isMarketingNotificationEnabled: isMarketingNotificationEnabled,
+  //     email: this.email,
+  //     isPushNotificationEnabled: true,
+  //     isDeleted: false,
+  //     uid: this.uid,
+  //     nickName: nickname ?? this.nickName,
+  //     snsUserInfo: snsUserInfo ?? this.snsUserInfo,
+  //     snsType: this.snsType,
+  //   );
+  // }
 
   AppUser copyWith(
       {String? uid,
-      String? nickname,
+      String? nickName,
       Map? snsUserInfo,
-      // SnsType? snsType,
+      SnsType? snsType,
+      bool? isDeleted,
+      bool? isPushNotificationEnabled,
+      bool? isMarketingNotificationEnabled,
       String? name,
       Gender? gender,
       String? birthDay,
       int? age}) {
     return AppUser(
-      age: age ?? this.age,
-      gender: gender,
-      birthDay: birthDay,
-      name: name,
-      imageUrl: this.imageUrl,
-      email: this.email,
-      allowNotification: true,
-      isDeleted: false,
-      uid: this.uid,
-      nickname: nickname ?? this.nickname,
+      uid: uid ?? this.uid,
+      nickName: nickName ?? this.nickName,
       snsUserInfo: snsUserInfo ?? this.snsUserInfo,
-      snsType: this.snsType,
+      snsType: snsType ?? this.snsType,
+      isDeleted: isDeleted ?? this.isDeleted,
+      isPushNotificationEnabled:
+          isPushNotificationEnabled ?? this.isPushNotificationEnabled,
+      isMarketingNotificationEnabled:
+          isMarketingNotificationEnabled ?? this.isMarketingNotificationEnabled,
+      name: name ?? this.name,
+      gender: gender ?? this.gender,
+      birthDay: birthDay ?? this.birthDay,
     );
   }
 }

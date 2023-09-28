@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/domain/use_case/whisky_archiving_post_use_case.dart';
 import 'package:whilabel/domain/use_case/search_whisky_data_use_case.dart';
@@ -50,7 +52,19 @@ class CarmeraViewModel with ChangeNotifier {
   }
 
   Future<void> saveImageFileOnProvider(File imageFile) async {
-    _archivingPostStatus.storeImageFile(imageFile);
+    final imageFileSize = await _getFileSize(imageFile.path, 1);
+
+    // image가 1.3MBx 작으면 바로 DB에 등록
+    if (imageFileSize <= 1.3) {
+      _archivingPostStatus.storeImageFile(imageFile);
+    } else {
+      final newImageFile = await FlutterNativeImage.compressImage(
+          imageFile.path,
+          quality: 100,
+          targetHeight: 1411,
+          targetWidth: 1058);
+      _archivingPostStatus.storeImageFile(newImageFile);
+    }
   }
 
   Future<void> useBarCodeScanner(BuildContext context) async {
@@ -62,5 +76,15 @@ class CarmeraViewModel with ChangeNotifier {
         await _searchWhiskeyDataUseCase.useWhiskyName(whiskyName);
     _state = _state.copyWith(shortWhisyDatas: shortWhiskyDatas);
     notifyListeners();
+  }
+
+  Future<double> _getFileSize(String filepath, int decimals) async {
+    var file = File(filepath);
+    int bytes = await file.length();
+    if (bytes <= 0) return 0;
+
+    var i = (log(bytes) / log(1024)).floor();
+    // double.parse(targetNum)
+    return double.parse((bytes / pow(1024, i)).toStringAsFixed(2));
   }
 }

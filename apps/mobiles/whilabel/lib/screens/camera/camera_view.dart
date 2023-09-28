@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:searchfield/searchfield.dart';
 import 'package:whilabel/mock_data/mock_camera_route.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/image_paths.dart';
@@ -13,8 +11,6 @@ class CameraView extends StatelessWidget {
   final focus = FocusNode();
   @override
   Widget build(BuildContext context) {
-    final suggestions = List.generate(10, (index) => 'suggestion $index');
-
     return SafeArea(
         child: Padding(
       padding: WhilabelPadding.onlyHoizBasicPadding,
@@ -69,75 +65,6 @@ class CameraView extends StatelessWidget {
                       ),
                       Expanded(flex: 10, child: SizedBox()),
                     ],
-                  ),
-                  SearchField(
-                    searchStyle: TextStylesManager()
-                        .createHadColorTextStyle("B16", ColorsManager.gray500),
-                    // suggestions: countries
-                    //     .map(
-                    //       (e) => SearchFieldListItem<Country>(
-                    //         e.name,
-                    //         item: e,
-                    //         // Use child to show Custom Widgets in the suggestions
-                    //         // defaults to Text widget
-                    //         child: Padding(
-                    //           padding: const EdgeInsets.all(8.0),
-                    //           child: Row(
-                    //             children: [
-                    //               CircleAvatar(
-                    //                 backgroundImage: NetworkImage(e.flag),
-                    //               ),
-                    //               SizedBox(
-                    //                 width: 10,
-                    //               ),
-                    //               Text(
-                    //                 e.name,
-                    //                 style: TextStylesManager()
-                    //                     .createHadColorTextStyle(
-                    //                         "B16", ColorsManager.black100),
-                    //               ),
-                    //             ],
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     )
-                    //     .toList(),
-
-                    // -------------
-                    key: const Key('searchfield'),
-                    focusNode: focus,
-                    suggestionState: Suggestion.expand,
-                    onSuggestionTap: (SearchFieldListItem<String> x) {
-                      focus.unfocus();
-                    },
-
-                    suggestions: suggestions
-                        .map((e) => SearchFieldListItem<String>(e,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 4.0),
-                              child: Text(e,
-                                  style: TextStyle(
-                                      fontSize: 24, color: Colors.red)),
-                            )))
-                        .toList(),
-                    onSearchTextChanged: (query) {
-                      final filter = suggestions
-                          .where((element) => element
-                              .toLowerCase()
-                              .contains(query.toLowerCase()))
-                          .toList();
-                      return filter
-                          .map((e) => SearchFieldListItem<String>(e,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                child: Text(e,
-                                    style: TextStyle(
-                                        fontSize: 24, color: Colors.red)),
-                              )))
-                          .toList();
-                    },
                   ),
                 ],
               ),

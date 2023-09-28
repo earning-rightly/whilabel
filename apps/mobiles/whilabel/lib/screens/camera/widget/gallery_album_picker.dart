@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 
@@ -42,7 +43,8 @@ class _GalleryAlbumPickerState extends State<GalleryAlbumPicker> {
       ),
       dropdownColor: ColorsManager.black200,
       menuMaxHeight: 300,
-      style: TextStyle(color: ColorsManager.gray500),
+      style: TextStylesManager()
+          .createHadColorTextStyle(("R14"), ColorsManager.gray500),
       value: _dropDownText,
       decoration: returnTextFieldDropDownStyle("", false),
       iconSize: 13,
@@ -64,7 +66,7 @@ class _GalleryAlbumPickerState extends State<GalleryAlbumPicker> {
           ),
         );
       }).toList(),
-      isExpanded: false,
+      isExpanded: true,
     );
   }
 }
