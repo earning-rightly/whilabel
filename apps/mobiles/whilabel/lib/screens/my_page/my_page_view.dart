@@ -11,8 +11,10 @@ import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/my_page/page/announcement_page.dart';
 import 'package:whilabel/screens/my_page/page/inquiring_page.dart';
 import 'package:whilabel/screens/my_page/page/setting_page.dart';
+import 'package:whilabel/screens/my_page/page/term_condition_service_page.dart';
 import 'package:whilabel/screens/my_page/widgets/list_button.dart';
 import 'package:whilabel/screens/my_page/widgets/short_whiskey_contuer.dart';
+import 'package:whilabel/screens/onboarding/onboarding_step1.dart';
 
 import 'page/f_a_q_page.dart';
 
@@ -85,6 +87,14 @@ class MyPageView extends StatelessWidget {
                 ListTitleIconButton(
                   svgPath: docData["svg_path"],
                   titleText: docData["title"],
+                  onPressedButton: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => docData["rotue"],
+                      ),
+                    );
+                  },
                 ),
               TextButton(
                 child: Text("muck route"),
@@ -108,18 +118,30 @@ class MyPageData {
       "title": "공지사항",
       "rotue": AnnouncementPage()
     },
-    {"svg_path": SvgIconPath.faq, "title": "FAQ", "rotue": FaqPage()},
+    {
+      "svg_path": SvgIconPath.faq,
+      "title": "FAQ",
+      "rotue": FaqPage(),
+    },
     {
       "svg_path": SvgIconPath.customer,
       "title": "1:1 문의하기",
       "rotue": InquiringPage()
     },
-    {"svg_path": SvgIconPath.announce, "title": "위라벨 소개", "rotue": ""},
+    {
+      "svg_path": SvgIconPath.announce,
+      "title": "위라벨 소개",
+      "rotue": OnboardingStep1Page()
+    },
   ];
 //  todo "rotue 키값 value를 채워야 한다."
 
   List<Map<String, dynamic>> myPageViewDucButtonDatas = [
-    {"svg_path": SvgIconPath.document, "title": "서비스, 이용약관", "rotue": ""},
+    {
+      "svg_path": SvgIconPath.document,
+      "title": "서비스, 이용약관",
+      "rotue": TermConditionServicePage(),
+    },
     {
       "svg_path": SvgIconPath.document,
       "title": "개인정보 처리방침",

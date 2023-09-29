@@ -15,8 +15,6 @@ import 'package:whilabel/screens/login/view_model/login_view_model.dart';
 class InstargramLoginWebPage extends StatefulWidget {
   InstargramLoginWebPage({super.key});
 
-  String instargramCode = "";
-
   @override
   State<InstargramLoginWebPage> createState() => _InstargramLoginWebPageState();
 }
@@ -33,7 +31,7 @@ class _InstargramLoginWebPageState extends State<InstargramLoginWebPage> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<LoginViewModel>();
-    String initUrl = dotenv.get("INIT_URL");
+    String initUrl = dotenv.get("INSTARGRAM_INIT_URL");
     String redirectUri = dotenv.get("REDIRECT_URL");
 
     return Scaffold(
