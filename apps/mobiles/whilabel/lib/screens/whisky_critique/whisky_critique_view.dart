@@ -84,9 +84,7 @@ class WhiskyCritiqueView extends StatelessWidget {
                               ),
                               SizedBox(height: WhilabelSpacing.spac12),
                               TextField(
-                                style: TextStylesManager()
-                                    .createHadColorTextStyle(
-                                        "R16", ColorsManager.gray500),
+                                style: TextStylesManager.regular16,
                                 decoration: createLargeTextFieldStyle(""),
                                 controller: tastingNoteTextContoller,
                                 scrollPadding:

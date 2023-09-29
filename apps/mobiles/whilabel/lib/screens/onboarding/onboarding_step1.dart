@@ -45,8 +45,7 @@ class OnboardingStep1Page extends StatelessWidget {
                     child: SizedBox(
                       child: Text(
                         onBoardingText,
-                        style: TextStylesManager().createHadColorTextStyle(
-                            "B24", ColorsManager.gray500),
+                        style: TextStylesManager.bold24,
                         maxLines: 2,
                       ),
                     )),

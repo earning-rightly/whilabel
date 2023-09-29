@@ -23,8 +23,7 @@ class CameraView extends StatelessWidget {
               padding: EdgeInsets.only(top: 32),
               child: Text(
                 "위스키 기록",
-                style: TextStylesManager()
-                    .createHadColorTextStyle("B24", ColorsManager.gray500),
+                style: TextStylesManager.bold24,
               ),
             ),
           ),
@@ -39,8 +38,7 @@ class CameraView extends StatelessWidget {
                   SizedBox(height: WhilabelSpacing.spac32),
                   Text(
                     "오늘 마신 위시키를 기록해볼까요?",
-                    style: TextStylesManager()
-                        .createHadColorTextStyle("B20", ColorsManager.gray500),
+                    style: TextStylesManager.bold20,
                     textAlign: TextAlign.left,
                   ),
                   SizedBox(height: WhilabelSpacing.spac24),

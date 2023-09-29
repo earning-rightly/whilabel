@@ -18,10 +18,7 @@ AppBar buildScaffoldAppBar(BuildContext context, String svgPath, String title) {
     ),
     title: Text(
       title,
-      style: TextStylesManager().createHadColorTextStyle(
-        "B16",
-        ColorsManager.gray500,
-      ),
+      style: TextStylesManager.bold16,
     ),
   );
 }
@@ -85,20 +82,14 @@ class BodyAppBar extends StatelessWidget {
             child: Text(
               centerTitle,
               textAlign: TextAlign.center,
-              style: TextStylesManager().createHadColorTextStyle(
-                "B16",
-                ColorsManager.gray500,
-              ),
+              style: TextStylesManager.bold16,
             ),
           ),
           Expanded(
             child: Text(
               rightTitle ?? "",
               textAlign: TextAlign.center,
-              style: TextStylesManager().createHadColorTextStyle(
-                "B16",
-                ColorsManager.gray500,
-              ),
+              style: TextStylesManager.bold16,
             ),
           )
         ],

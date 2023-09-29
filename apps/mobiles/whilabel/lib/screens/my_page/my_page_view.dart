@@ -37,8 +37,7 @@ class MyPageView extends StatelessWidget {
                   Flexible(
                     child: Text(
                       "${currentAppUser.nickName}님",
-                      style: TextStylesManager().createHadColorTextStyle(
-                          "B24", ColorsManager.gray500),
+                      style: TextStylesManager.bold24,
                       maxLines: 2,
                     ),
                   ),

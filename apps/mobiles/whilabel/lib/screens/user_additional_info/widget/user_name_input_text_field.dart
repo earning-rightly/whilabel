@@ -30,15 +30,10 @@ class _UserNameInputTextFieldState extends State<UserNameInputTextField> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            userNameInputWidgetTitle,
-            style: TextStylesManager()
-                .createHadColorTextStyle("B14", ColorsManager.gray500),
-          ),
+          Text(userNameInputWidgetTitle, style: TextStylesManager.bold14),
           SizedBox(height: 12),
           TextFormField(
-            style: TextStylesManager()
-                .createHadColorTextStyle("R16", ColorsManager.gray500),
+            style: TextStylesManager.regular16,
             decoration: createBasicTextFieldStyle("", true),
             controller: widget.nameTextController,
             validator: (value) => checkAbleNameRule(value),

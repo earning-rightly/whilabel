@@ -23,7 +23,7 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
 
     try {
       final _whiskyQuerySnapshot =
-          await _whiskyRef.whereWbId(isEqualTo: barcode).get();
+          await _whiskyRef.whereId(isEqualTo: barcode).get();
 
       if (_whiskyQuerySnapshot.docs.isEmpty) {
         debugPrint("whisky 데이터가 비어 있습니다.");
@@ -44,18 +44,13 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
   Future<List<WhiskyQueryDocumentSnapshot>> getWhiskyDataWithName(
       String whiskyName, List<String> findedWhiskyNames,
       {WhiskyDocumentSnapshot? startAtDoc}) async {
-    // WhiskyQueryDocumentSnapshot? whiskySnapshot;
-    // List<ShortWhisky> shortWhisky = [];
-
-    // List<String> findedWhiskyNames = [""];
-
-    List<WhiskyQueryDocumentSnapshot> result;
-
     print("getWhiskyDataWithName ==> $findedWhiskyNames");
+
+    final _whiskyName = _capitalizeFirstLetter(whiskyName);
 
     try {
       final _whiskyQuerySnapshot = await _whiskyRef
-          .whereName(isGreaterThanOrEqualTo: "Balven")
+          .whereName(isGreaterThanOrEqualTo: _whiskyName)
           .whereName(whereNotIn: findedWhiskyNames)
           // .orderByBarcode()
           // .orderByName()
@@ -126,5 +121,17 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
     }
 
     return distillerySnapshot.data;
+  }
+
+  // 맨 앞의 문자만 대문자로 변환
+  String _capitalizeFirstLetter(String str) {
+    if (str.isEmpty) {
+      return str;
+    }
+
+    String firstLetter = str[0].toUpperCase();
+    String restOfString = str.substring(1);
+
+    return firstLetter + restOfString;
   }
 }
