@@ -41,7 +41,9 @@ class ProvidersManager {
       FirebaseWhiskyBrandDistilleryRepositoryImpl(
           _whiskyRef, _brandRef, _distilleryRef);
   static final whiskeyNewArchivingPostUseCase = WhiskyNewArchivingPostUseCase(
-      archivingPostRepository: _archivingPostRepository);
+    archivingPostRepository: _archivingPostRepository,
+    appUserRepository: _appUserRepository,
+  );
   static final ArchivingPostRepository _archivingPostRepository =
       FirestoreArchivingPostRepositoryImple(_archivingPostRef);
 

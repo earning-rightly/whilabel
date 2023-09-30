@@ -75,6 +75,7 @@ class SearchWhiskeyDataUseCase {
 
   Future<List<ShortWhiskyData>> useWhiskyName(String whiskName) async {
     List<String> findedWhiskyNames = [""];
+    print("getWhiskyDataWithName ==> $whiskName");
 
     List<ShortWhiskyData> result = [];
     WhiskyQueryDocumentSnapshot? starAtDoc;

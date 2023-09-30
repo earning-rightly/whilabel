@@ -4,6 +4,6 @@ abstract class ArchivingPostRepository {
   Future<void> insertArchivingPost(ArchivingPost archivingPost);
   Future<void> updateArchivingPost(ArchivingPost archivingPost);
   Future<List<ArchivingPost>> getArchivingPosts(String uid);
-  Future<ArchivingPost?> getArchivingPost(String id);
+  Future<ArchivingPost?> getArchivingPost(String Postid);
   Future<void> deleteArchivingPost(String postId);
 }

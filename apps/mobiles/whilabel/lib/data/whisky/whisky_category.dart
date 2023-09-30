@@ -1,34 +1,34 @@
 import 'package:json_annotation/json_annotation.dart';
 
 enum WhiskyCategory {
-  @JsonValue("american_whisky")
+  @JsonValue("American Whisky")
   americanWhisky,
-  @JsonValue("blend")
+  @JsonValue("Blend")
   blend,
-  @JsonValue("blended_grain")
+  @JsonValue("Blended Grain")
   blendedGrain,
-  @JsonValue("blended_malt")
+  @JsonValue("Blended Malt")
   blendedMalt,
-  @JsonValue("bourbon")
+  @JsonValue("Bourbon")
   bourbon,
-  @JsonValue("canadian_whisky")
+  @JsonValue("Canadian Whisky")
   canadianWhisky,
-  @JsonValue("corn")
+  @JsonValue("Corn")
   corn,
-  @JsonValue("rice")
+  @JsonValue("Rice")
   rice,
-  @JsonValue("rye")
+  @JsonValue("Rye")
   rye,
   @JsonValue("Single Grain")
   singleGrain,
   @JsonValue("Single Malt")
   singleMalt,
-  @JsonValue("single_pod_still")
+  @JsonValue("Single Pod Still")
   singlePodStill,
-  @JsonValue("spirit")
+  @JsonValue("Spirit")
   spirit,
-  @JsonValue("tennessee")
+  @JsonValue("Tennessee")
   tennessee,
-  @JsonValue("wheat")
+  @JsonValue("Wheat")
   wheat,
 }

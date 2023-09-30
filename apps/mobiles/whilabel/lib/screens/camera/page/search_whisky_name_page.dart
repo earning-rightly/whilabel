@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/whisky/short_whisky.dart';
 import 'package:whilabel/provider_manager.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/text_field_styles.dart';
 import 'package:whilabel/screens/camera/page/gallery_page.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
@@ -16,6 +20,7 @@ class SerachWhiskyNamePage extends StatelessWidget {
   final testWhikyDB = ProvidersManager.testWhiskDB();
 
   List<ShortWhiskyData> searchedResult = [];
+  final whiskyNameTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +31,7 @@ class SerachWhiskyNamePage extends StatelessWidget {
         appBar: AppBar(
           title: TextField(
             style: TextStylesManager.regular16,
+            controller: whiskyNameTextController,
             decoration: createBasicTextFieldStyle("영어랑 숫자만 가능", true),
             // onChanged: (value) {
             //   setState(() {
@@ -35,9 +41,20 @@ class SerachWhiskyNamePage extends StatelessWidget {
             onSubmitted: (value) async {
               // searchedResult = await testWhikyDB.getWhiskyDataWithName(value);
               // viewModel.searchWhiskyWithName(value);
+              print(value);
+
+              EasyLoading.show(
+                status: 'Searching...',
+                maskType: EasyLoadingMaskType.black,
+              );
+
               viewModel.onEvent(CarmeraEvent.searchWhiskyWithName(value),
                   callback: () {
-                // setState(() {});
+                if (EasyLoading.isShow) {
+                  Timer(Duration(milliseconds: 1000), () {
+                    EasyLoading.dismiss();
+                  });
+                }
               });
             },
           ),
@@ -46,12 +63,14 @@ class SerachWhiskyNamePage extends StatelessWidget {
           child: Stack(children: [
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
-              child: Column(children: [
-                for (ShortWhiskyData data in state.shortWhisyDatas)
-                  SearchedWhiskyListTitle(
-                    data: data,
-                  )
-              ]),
+              child: state.shortWhisyDatas.isEmpty
+                  ? NoSearchResult()
+                  : Column(children: [
+                      for (ShortWhiskyData data in state.shortWhisyDatas)
+                        SearchedWhiskyListTitle(
+                          data: data,
+                        )
+                    ]),
             )
           ]),
         ));
@@ -117,6 +136,49 @@ class _SearchedWhiskyListTitleState extends State<SearchedWhiskyListTitle> {
           }
         });
       },
+    );
+  }
+}
+
+class NoSearchResult extends StatelessWidget {
+  const NoSearchResult({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: ColorsManager.black200, width: 4),
+      ),
+      margin: EdgeInsets.all(12),
+      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "위스키를 찾지 못했습니다",
+              style: TextStylesManager()
+                  .createHadColorTextStyle("B24", ColorsManager.sky),
+            ),
+            Icon(
+              Icons.find_in_page,
+              color: ColorsManager.black400,
+              size: 35,
+            ),
+          ],
+        ),
+        SizedBox(height: WhilabelSpacing.spac8),
+        Text("영어와 한글만 입력해주세요.\n아래 예시를 차고하고 입력해주세요"),
+        SizedBox(
+          height: WhilabelSpacing.spac24,
+        ),
+        Text("ex)", textAlign: TextAlign.left),
+        Text(
+          "Balvenie12-year-old\nTomatin12-year-old\nHighland Park2003",
+          style: TextStylesManager.regular14,
+        ),
+        SizedBox(height: WhilabelSpacing.spac32)
+      ]),
     );
   }
 }
