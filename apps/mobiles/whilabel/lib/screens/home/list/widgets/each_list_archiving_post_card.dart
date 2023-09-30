@@ -16,20 +16,24 @@ import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 // ignore: must_be_immutable
 class EachListArchivingPostCard extends StatelessWidget {
   final ArchivingPost archivingPost;
-  EachListArchivingPostCard({super.key, required this.archivingPost});
+  final int sameWhiskyNameCounter;
+  EachListArchivingPostCard({
+    Key? key,
+    required this.archivingPost,
+    required this.sameWhiskyNameCounter,
+  }) : super(key: key);
   String creatDate = "";
   GlobalKey key = GlobalKey(); // declare a global key
 
-  void initState() {
-    final DateTime date1 = DateTime.fromMicrosecondsSinceEpoch(
-        archivingPost.createAt!.microsecondsSinceEpoch);
-
-    creatDate = DateFormat("yyyy.MM.dd").format(date1);
-  }
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
     final homeViewModel = context.watch<HomeViewModel>();
+    final DateTime date1 = DateTime.fromMicrosecondsSinceEpoch(
+        archivingPost.createAt!.microsecondsSinceEpoch);
+
+    creatDate = DateFormat("yyyy.MM.dd").format(date1);
 
     return GestureDetector(
       onTap: () {
@@ -41,6 +45,7 @@ class EachListArchivingPostCard extends StatelessWidget {
         height: 110,
         child: Row(
           children: [
+            // 리스트 왼쪽 위스키 사진
             Expanded(
               flex: 80,
               child: ClipRRect(
@@ -56,7 +61,7 @@ class EachListArchivingPostCard extends StatelessWidget {
               ),
             ),
             SizedBox(width: WhilabelSpacing.spac16),
-            //
+            // 사진을 제외한 모든 공간
             Expanded(
               flex: 247,
               child: Column(
@@ -66,12 +71,14 @@ class EachListArchivingPostCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
+                        // whisky이름이 12자 이상이면 그 뒤로는 ... 표시
                         archivingPost.whiskyName.length > 12
                             ? archivingPost.whiskyName.substring(0, 12)
                             : "${archivingPost.whiskyName}...",
                         style: TextStylesManager.bold16,
                         overflow: TextOverflow.ellipsis,
                       ),
+                      // 누르면 item meun 보여주는 아이콘 버튼
                       IconButton(
                         splashColor: ColorsManager.black300,
                         splashRadius: 15,
@@ -105,8 +112,11 @@ class EachListArchivingPostCard extends StatelessWidget {
                                   onClickedYesButton: () {
                                     homeViewModel.onEvent(
                                         HomeEvent.deleteArchivingPost(
-                                            archivingPost.postId),
-                                        callback: () {
+                                            archivingPostId:
+                                                archivingPost.postId,
+                                            userid: archivingPost.userId,
+                                            whiskyName: archivingPost
+                                                .whiskyName), callback: () {
                                       Navigator.pushReplacementNamed(
                                         context,
                                         Routes.rootRoute,
@@ -164,7 +174,12 @@ class EachListArchivingPostCard extends StatelessWidget {
                         Text(
                           "\t$creatDate",
                           style: TextStylesManager().createHadColorTextStyle(
-                              "M12", ColorsManager.yellow),
+                              "M12", ColorsManager.gray),
+                        ),
+                        Text(
+                          "\t\t- $sameWhiskyNameCounter잔",
+                          style: TextStylesManager().createHadColorTextStyle(
+                              "M12", ColorsManager.gray),
                         ),
                         Text(
                           archivingPost.location ?? "",

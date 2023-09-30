@@ -125,6 +125,7 @@ class _SearchedWhiskyListTitleState extends State<SearchedWhiskyListTitle> {
       onTap: () {
         viewModel.onEvent(CarmeraEvent.searchWhiskeyWithBarcode(whiskyBarcode),
             callback: () {
+          showSuccedDialog();
           setState(() {});
           if (viewModel.state.isFindWhiskyData) {
             Navigator.push(
@@ -137,6 +138,18 @@ class _SearchedWhiskyListTitleState extends State<SearchedWhiskyListTitle> {
         });
       },
     );
+  }
+
+  Future<void> showSuccedDialog() async {
+    await EasyLoading.show(
+      maskType: EasyLoadingMaskType.black,
+    );
+    if (EasyLoading.isShow) {
+      // await Future.delayed(const Duration(seconds: 3));
+      Timer(Duration(milliseconds: 2000), () {
+        EasyLoading.dismiss();
+      });
+    }
   }
 }
 

@@ -2,14 +2,15 @@ import 'package:flutter/foundation.dart';
 import 'package:whilabel/data/user/sns_type.dart';
 import 'package:whilabel/data/user/vaild_account.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
+import 'package:whilabel/domain/use_case/short_archiving_post_use_case.dart';
 import 'package:whilabel/domain/use_case/user_auth/login_use_case.dart';
 import 'package:whilabel/domain/use_case/user_auth/logout_use_case.dart';
 import 'package:whilabel/screens/login/view_model/login_event.dart';
 import 'package:whilabel/screens/login/view_model/login_state.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  final LoginUseCase loginUseCase;
-  final LogoutUseCase logoutUseCase;
+  final LoginUseCase _loginUseCase;
+  final LogoutUseCase _logoutUseCase;
 
   LoginState _state = LoginState(
     isLogined: false,
@@ -20,9 +21,10 @@ class LoginViewModel extends ChangeNotifier {
   LoginState get state => _state;
 
   LoginViewModel(
-    this.loginUseCase,
-    this.logoutUseCase,
-  );
+    LoginUseCase loginUseCase,
+    LogoutUseCase logoutUseCase,
+  )   : _loginUseCase = loginUseCase,
+        _logoutUseCase = logoutUseCase;
 
   Future<void> onEvent(LoginEvent event, {VoidCallback? callback}) async {
     VoidCallback after = callback ?? () {};
@@ -35,7 +37,7 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   Future<void> _login(SnsType snsType) async {
-    VaildAccount vailAccount = await loginUseCase.call(snsType);
+    VaildAccount vailAccount = await _loginUseCase.call(snsType);
     UserState userState;
     debugPrint("isLogined ===> ${vailAccount.isLogined}");
     debugPrint("isNewbie ===> ${vailAccount.isNewbie}");
@@ -65,7 +67,7 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   Future<void> _logout(SnsType snsType) async {
-    bool isLogined = await logoutUseCase.call(snsType);
+    bool isLogined = await _logoutUseCase.call(snsType);
     _state = _state.copyWith(
       isLogined: isLogined,
       userState: UserState.notLogin,

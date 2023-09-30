@@ -21,7 +21,7 @@ class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.rootRoute:
-        return MaterialPageRoute(builder: (_) => const AppRoot());
+        return MaterialPageRoute(builder: (_) => AppRoot());
       case Routes.loginRoute:
         return MaterialPageRoute(builder: (_) => LoginView());
       case Routes.archivingPostDetailRoute:

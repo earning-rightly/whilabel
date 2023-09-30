@@ -107,7 +107,7 @@ class BarCodeScanPage extends StatelessWidget {
               },
               child: const Text('Open Scanner'),
             ),
-            StreamBuilder<Object>(
+            StreamBuilder<int>(
                 stream: _events.stream,
                 builder: (context, snapshot) {
                   return Text('Barcode Result: ${snapshot.data.toString()}');

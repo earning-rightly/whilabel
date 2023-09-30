@@ -9,6 +9,8 @@ abstract class HomeEvent with _$HomeEvent {
       LoadArchivingPost;
   const factory HomeEvent.changeButtonOrder(PostButtonOrder postButtonOrder) =
       ChangeButtonOrder;
-  const factory HomeEvent.deleteArchivingPost(String postId) =
-      saveCurrentArchivingPost;
+  const factory HomeEvent.deleteArchivingPost(
+      {required String archivingPostId,
+      required String userid,
+      required String whiskyName}) = DeleteArchivingPost;
 }

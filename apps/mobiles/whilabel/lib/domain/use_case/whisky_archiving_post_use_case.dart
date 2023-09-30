@@ -10,6 +10,7 @@ import 'package:whilabel/data/post/short_archiving_post.dart';
 import 'package:whilabel/data/taste/taste_feature.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/domain/post/archiving_post_repository.dart';
+import 'package:whilabel/domain/use_case/short_archiving_post_use_case.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 
 part 'whisky_archiving_post_use_case.freezed.dart';
@@ -30,11 +31,14 @@ class WhiskyNewArchivingPostUseCaseState
 class WhiskyNewArchivingPostUseCase extends ChangeNotifier {
   final ArchivingPostRepository _archivingPostRepository;
   final AppUserRepository _appUserRepository;
-  WhiskyNewArchivingPostUseCase(
-      {required ArchivingPostRepository archivingPostRepository,
-      required AppUserRepository appUserRepository})
-      : _archivingPostRepository = archivingPostRepository,
-        _appUserRepository = appUserRepository;
+  final ShortArchivingPostUseCase _shortArchivingPostUseCase;
+  WhiskyNewArchivingPostUseCase({
+    required ArchivingPostRepository archivingPostRepository,
+    required AppUserRepository appUserRepository,
+    required ShortArchivingPostUseCase shortArchivingPostUseCase,
+  })  : _archivingPostRepository = archivingPostRepository,
+        _appUserRepository = appUserRepository,
+        _shortArchivingPostUseCase = shortArchivingPostUseCase;
 
   WhiskyNewArchivingPostUseCaseState get state => _state;
   WhiskyNewArchivingPostUseCaseState _state =
@@ -111,6 +115,14 @@ class WhiskyNewArchivingPostUseCase extends ChangeNotifier {
 
     try {
       await _archivingPostRepository.insertArchivingPost(newArchivingPost);
+      // downloadUrl이 생성이 되는 곳에서 실행하는 것이 오류가 없을 것으로 판단하여서
+      // 여기에 위치시켰습니다
+      await _shortArchivingPostUseCase.addShortArchivingPost(
+        userId: uid,
+        whiskyName: newArchivingPost.whiskyName,
+        imageUrl: downloadUrl,
+        postId: postId,
+      );
       // final isWhiskySaved = await _hasWhiskyBeenSaved(
       //   imageUrl: downloadUrl,
       //   postId: postId,
