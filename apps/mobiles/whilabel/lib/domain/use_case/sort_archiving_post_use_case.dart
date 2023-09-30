@@ -6,18 +6,15 @@ import 'package:whilabel/domain/post/archiving_post_repository.dart';
 
 class LoadArchivingPostUseCase {
   final ArchivingPostRepository archivingPostRepository;
-  final CurrentUserStatus currentUserStatus;
+
   LoadArchivingPostUseCase({
     required this.archivingPostRepository,
-    required this.currentUserStatus,
   });
 
   Future<List<ArchivingPost>> call(
-    PostButtonOrder postButtonOrder,
-  ) async {
-    final appUser = await currentUserStatus.getAppUser();
+      String uerId, PostButtonOrder postButtonOrder) async {
     List<ArchivingPost> archivingPosts =
-        await archivingPostRepository.getArchivingPosts(appUser!.uid); //
+        await archivingPostRepository.getArchivingPosts(uerId); //
 
     switch (postButtonOrder) {
       case PostButtonOrder.LATEST:

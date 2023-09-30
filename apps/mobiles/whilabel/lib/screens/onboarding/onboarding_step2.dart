@@ -62,7 +62,11 @@ class OnboardingStep2Page extends StatelessWidget {
                       borderColor: ColorsManager.gray500,
                       color: ColorsManager.gray500,
                       onPressedFunc: () {
-                        Navigator.pushNamed(context, Routes.rootRoute);
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          Routes.rootRoute,
+                          (route) => false,
+                        );
                       },
                     ),
                   ))

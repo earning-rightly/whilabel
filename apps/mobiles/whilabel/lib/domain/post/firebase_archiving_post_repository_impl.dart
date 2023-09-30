@@ -28,6 +28,13 @@ class FirestoreArchivingPostRepositoryImple implements ArchivingPostRepository {
   }
 
   @override
+  Future<ArchivingPost?> getArchivingPost(String postId) async {
+    final querySnapshot =
+        await _archivingPostRef.wherePostId(isEqualTo: postId).get();
+    return querySnapshot.docs.first.data;
+  }
+
+  @override
   Future<void> updateArchivingPost(ArchivingPost archivingPost) async {
     final querySnapshot = await _archivingPostRef
         .wherePostId(isEqualTo: archivingPost.postId)
@@ -38,13 +45,6 @@ class FirestoreArchivingPostRepositoryImple implements ArchivingPostRepository {
     final docId = querySnapshot.docs.first.id;
 
     _archivingPostRef.doc(docId).set(archivingPost);
-  }
-
-  @override
-  Future<ArchivingPost?> getArchivingPost(String postId) async {
-    final querySnapshot =
-        await _archivingPostRef.wherePostId(isEqualTo: postId).get();
-    return querySnapshot.docs.first.data;
   }
 
 // https://firebasestorage.googleapis.com/v0/b/whilabel.appspot.com/o/

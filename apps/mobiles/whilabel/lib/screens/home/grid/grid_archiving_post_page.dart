@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:whilabel/data/post/short_archiving_post.dart';
 import 'package:whilabel/screens/home/grid/widgets/each_whiskey_grid_view.dart';
 import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 
@@ -9,10 +10,12 @@ class GridArchivingPostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<HomeViewModel>();
-    final state = viewModel.state;
+    Map<String, List<ShortArchivingPost>> shortArchivingPostMap =
+        viewModel.state.shortArchivingPostMap;
+
     return GridView.builder(
       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-      itemCount: state.archivingPosts.length,
+      itemCount: shortArchivingPostMap.keys.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 1 / 1.25,
@@ -20,8 +23,9 @@ class GridArchivingPostPage extends StatelessWidget {
         mainAxisSpacing: 10,
       ),
       itemBuilder: (context, index) {
+        final whiskyName = shortArchivingPostMap.keys.elementAt(index);
         return EachWhiskeyGridView(
-          archivingPost: state.archivingPosts[index],
+          shortArchivingPosts: shortArchivingPostMap[whiskyName] ?? [],
         );
       },
     );

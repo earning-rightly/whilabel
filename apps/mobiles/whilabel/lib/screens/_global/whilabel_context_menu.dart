@@ -35,7 +35,7 @@ class WhilabelContextMenu {
     final RenderObject? overlay =
         Overlay.of(context).context.findRenderObject();
 
-    final String result = await showMenu(
+    final result = await showMenu(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(16.0))),
       color: ColorsManager.black400,
@@ -84,7 +84,7 @@ class WhilabelContextMenu {
       ],
     );
 
-    return result;
+    return result ?? "";
   }
 }
 

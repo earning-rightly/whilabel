@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:whilabel/data/taste/taste_feature.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/domain/post/archiving_post_repository.dart';
+import 'package:whilabel/domain/use_case/short_archiving_post_use_case.dart';
 import 'package:whilabel/domain/use_case/whisky_archiving_post_use_case.dart';
+import 'package:whilabel/domain/user/app_user_repository.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_state.dart';
 
 class WhiskyCritiqueViewModel with ChangeNotifier {
-  final CurrentUserStatus _currentUserStatus;
+  final AppUserRepository _appUserRepository;
   final WhiskyNewArchivingPostUseCase _whiskyNewArchivingPostUseCase;
 
   WhiskyCritiqueViewModel({
-    required CurrentUserStatus currentUserStatus,
+    required AppUserRepository appUserRepository,
     required WhiskyNewArchivingPostUseCase whiskyNewArchivingPostUseCase,
-    required ArchivingPostRepository archivingPostRepository,
-  })  : _currentUserStatus = currentUserStatus,
+  })  : _appUserRepository = appUserRepository,
         _whiskyNewArchivingPostUseCase = whiskyNewArchivingPostUseCase;
 
 // 앞에서 검색해서 얻은 whisky 정보와 image 파일을
@@ -61,7 +62,7 @@ class WhiskyCritiqueViewModel with ChangeNotifier {
 
   Future<void> _saveArchivingPostOnDb(
       double starValue, String tasteNote, TasteFeature tasteFeature) async {
-    final appUser = await _currentUserStatus.getAppUser();
+    final appUser = await _appUserRepository.getCurrentUser();
 
     _whiskyNewArchivingPostUseCase.storeStarValue(starValue);
     _whiskyNewArchivingPostUseCase.storeTasteNote(tasteNote);

@@ -111,8 +111,13 @@ class _SettingPageState extends State<SettingPage> {
                               loginViewModel.onEvent(
                                 LoginEvent.logout(currentAppUser!.snsType),
                                 callback: () {
-                                  Navigator.pushNamed(
-                                      context, Routes.loginRoute);
+                                  // Navigator.pushNamed(
+                                  //     context, Routes.loginRoute);
+                                  Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    Routes.loginRoute,
+                                    (route) => false,
+                                  );
                                 },
                               );
                             },

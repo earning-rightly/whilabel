@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:whilabel/data/post/short_archiving_post.dart';
 import 'package:whilabel/data/user/enum/gender.dart';
 import 'package:whilabel/data/user/sns_type.dart';
 
@@ -33,12 +34,14 @@ class AppUser {
     this.gender,
     this.email,
     this.imageUrl,
+    this.sameKindWhiskyId,
   });
 
   final String uid;
   final String nickName;
   final Map snsUserInfo;
   final SnsType snsType;
+
   bool? isDeleted = false;
   bool? isPushNotificationEnabled = false;
   bool? isMarketingNotificationEnabled = false;
@@ -49,7 +52,7 @@ class AppUser {
   Gender? gender;
   String? email;
   String? imageUrl;
-
+  String? sameKindWhiskyId;
   // UserDto makeUserDto() {}
   factory AppUser.fromJson(Map<String, Object?> json) =>
       _$AppUserFromJson(json);
@@ -58,42 +61,16 @@ class AppUser {
 
   static AppUser creatEmptyAppUser() {
     return AppUser(
-        uid: "",
-        nickName: "",
-        snsUserInfo: {},
-        snsType: SnsType.EMPTY,
-        isDeleted: false,
-        isPushNotificationEnabled: false,
-        isMarketingNotificationEnabled: true,
-        name: "");
+      uid: "",
+      nickName: "",
+      snsUserInfo: {},
+      snsType: SnsType.EMPTY,
+      isDeleted: false,
+      isPushNotificationEnabled: false,
+      isMarketingNotificationEnabled: true,
+      name: "",
+    );
   }
-
-  // AppUser copyWith(
-  //     {String? uid,
-  //     String? nickname,
-  //     Map? snsUserInfo,
-  //     // SnsType? snsType,
-
-  //     String? name,
-  //     Gender? gender,
-  //     String? birthDay,
-  //     int? age}) {
-  //   return AppUser(
-  //     age: age ?? this.age,
-  //     gender: gender,
-  //     birthDay: birthDay,
-  //     name: name,
-  //     imageUrl: this.imageUrl,
-  //     isMarketingNotificationEnabled: isMarketingNotificationEnabled,
-  //     email: this.email,
-  //     isPushNotificationEnabled: true,
-  //     isDeleted: false,
-  //     uid: this.uid,
-  //     nickName: nickname ?? this.nickName,
-  //     snsUserInfo: snsUserInfo ?? this.snsUserInfo,
-  //     snsType: this.snsType,
-  //   );
-  // }
 
   AppUser copyWith(
       {String? uid,
@@ -106,21 +83,22 @@ class AppUser {
       String? name,
       Gender? gender,
       String? birthDay,
+      String? sameKindWhiskyId,
       int? age}) {
     return AppUser(
-      uid: uid ?? this.uid,
-      nickName: nickName ?? this.nickName,
-      snsUserInfo: snsUserInfo ?? this.snsUserInfo,
-      snsType: snsType ?? this.snsType,
-      isDeleted: isDeleted ?? this.isDeleted,
-      isPushNotificationEnabled:
-          isPushNotificationEnabled ?? this.isPushNotificationEnabled,
-      isMarketingNotificationEnabled:
-          isMarketingNotificationEnabled ?? this.isMarketingNotificationEnabled,
-      name: name ?? this.name,
-      gender: gender ?? this.gender,
-      birthDay: birthDay ?? this.birthDay,
-    );
+        uid: uid ?? this.uid,
+        nickName: nickName ?? this.nickName,
+        snsUserInfo: snsUserInfo ?? this.snsUserInfo,
+        snsType: snsType ?? this.snsType,
+        isDeleted: isDeleted ?? this.isDeleted,
+        isPushNotificationEnabled:
+            isPushNotificationEnabled ?? this.isPushNotificationEnabled,
+        isMarketingNotificationEnabled: isMarketingNotificationEnabled ??
+            this.isMarketingNotificationEnabled,
+        name: name ?? this.name,
+        gender: gender ?? this.gender,
+        birthDay: birthDay ?? this.birthDay,
+        sameKindWhiskyId: sameKindWhiskyId ?? this.sameKindWhiskyId);
   }
 }
 

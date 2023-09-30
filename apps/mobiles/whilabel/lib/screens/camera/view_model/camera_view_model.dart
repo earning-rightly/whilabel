@@ -39,6 +39,7 @@ class CarmeraViewModel with ChangeNotifier {
   }
 
   Future<void> searchWhiskeyWithBarcode(String whiskeyBarcode) async {
+    debugPrint("whisky barcode ===> $whiskeyBarcode");
     final ArchivingPost? archivingPost =
         await _searchWhiskeyDataUseCase.useWhiskyBarcode(whiskeyBarcode);
 
@@ -46,14 +47,16 @@ class CarmeraViewModel with ChangeNotifier {
       _archivingPostStatus.storeArchivingPost(archivingPost);
       // 검색한 위스키가 whisky collection DB에 있다면 true로 변환
       _state = _state.copyWith(isFindWhiskyData: true);
-
-      notifyListeners();
+    } else {
+      _state = _state.copyWith(isFindWhiskyData: false);
     }
+    notifyListeners();
   }
 
   Future<void> searchWhiskyWithName(String whiskyName) async {
     final shortWhiskyDatas =
         await _searchWhiskeyDataUseCase.useWhiskyName(whiskyName);
+
     _state = _state.copyWith(shortWhisyDatas: shortWhiskyDatas);
     notifyListeners();
   }

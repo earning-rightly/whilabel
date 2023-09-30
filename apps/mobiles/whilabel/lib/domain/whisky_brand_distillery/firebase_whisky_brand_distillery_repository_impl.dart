@@ -22,8 +22,9 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
     WhiskyQueryDocumentSnapshot? whiskySnapshot;
 
     try {
+      print(" getWhiskyDataWithBarcode(String barcode) => $barcode&&&");
       final _whiskyQuerySnapshot =
-          await _whiskyRef.whereId(isEqualTo: barcode).get();
+          await _whiskyRef.whereBarcode(isEqualTo: barcode).get();
 
       if (_whiskyQuerySnapshot.docs.isEmpty) {
         debugPrint("whisky 데이터가 비어 있습니다.");
@@ -46,16 +47,17 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
       {WhiskyDocumentSnapshot? startAtDoc}) async {
     print("getWhiskyDataWithName ==> $findedWhiskyNames");
 
-    final _whiskyName = _capitalizeFirstLetter(whiskyName);
+    final _whiskyName = await _capitalizeFirstLetter(whiskyName);
+    print("query start point ### ${startAtDoc.toString()}");
 
     try {
       final _whiskyQuerySnapshot = await _whiskyRef
           .whereName(isGreaterThanOrEqualTo: _whiskyName)
           .whereName(whereNotIn: findedWhiskyNames)
+          // .orderByName(startAtDocument: startAtDoc)
+
           // .orderByBarcode()
-          // .orderByName()
-          // .orderByBarcode()
-          .limit(10)
+          .limit(20)
           .get();
       // findedWhiskyNames.add(_whiskyQuerySnapshot.docs.first.data.name!);
 
@@ -64,8 +66,8 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
 
         return Future(() => []);
       }
-      print(
-          "_whiskyQuerySnapshot.docs[6] ===> ${_whiskyQuerySnapshot.docs[6].data}");
+      // print(
+      //     "_whiskyQuerySnapshot.docs[6] ===> ${_whiskyQuerySnapshot.docs[6].data}");
       return _whiskyQuerySnapshot.docs;
 
       // for (WhiskyQueryDocumentSnapshot doc in _whiskyQuerySnapshot.docs)
@@ -124,7 +126,7 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
   }
 
   // 맨 앞의 문자만 대문자로 변환
-  String _capitalizeFirstLetter(String str) {
+  Future<String> _capitalizeFirstLetter(String str) async {
     if (str.isEmpty) {
       return str;
     }

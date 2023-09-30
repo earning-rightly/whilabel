@@ -6,6 +6,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
+import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/firebase_options.dart';
 import 'package:whilabel/provider_manager.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
@@ -25,7 +26,7 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await Future.delayed(const Duration(seconds: 2));
+  await Future.delayed(const Duration(seconds: 1));
 
   print('app start!');
   FlutterNativeSplash.remove();
@@ -48,8 +49,16 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
+  //  context.read<CurrentUserStatus>().getAppUser();
+  //   final appUser = context.read<CurrentUserStatus>().state.appUser;
+
+  //   if (appUser.uid.isEmpty) {
+  //     return LoginView();
+  //   }
   @override
   Widget build(BuildContext context) {
+    final currentUserState = context.read<CurrentUserStatus>();
+    currentUserState.getAppUser();
     return MaterialApp(
       theme: whilabelTheme,
       debugShowCheckedModeBanner: false,

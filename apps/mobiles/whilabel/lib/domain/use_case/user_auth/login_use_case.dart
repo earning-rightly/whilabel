@@ -11,19 +11,24 @@ import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/domain/login_services/googel_oauth.dart';
 import 'package:whilabel/domain/login_services/instargram_oauth.dart';
 import 'package:whilabel/domain/login_services/kakao_oauth.dart';
+import 'package:whilabel/domain/use_case/short_archiving_post_use_case.dart';
 import 'package:whilabel/domain/use_case/user_auth/logout_use_case.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 
 class LoginUseCase {
   AuthUser? _loginUserInfo;
 
-  final CurrentUserStatus currentUserStatus;
-  final AppUserRepository appUserRepository;
+  final CurrentUserStatus _currentUserStatus;
+  final AppUserRepository _appUserRepository;
+  final ShortArchivingPostUseCase _sameKindWhiskyUseCase;
 
   LoginUseCase({
-    required this.currentUserStatus,
-    required this.appUserRepository,
-  });
+    required CurrentUserStatus currentUserStatus,
+    required AppUserRepository appUserRepository,
+    required ShortArchivingPostUseCase shortArchivingPostUseCase,
+  })  : _currentUserStatus = currentUserStatus,
+        _appUserRepository = appUserRepository,
+        _sameKindWhiskyUseCase = shortArchivingPostUseCase;
 
   Future<VaildAccount> call(SnsType snsType) async {
     switch (snsType) {
@@ -59,7 +64,7 @@ class LoginUseCase {
 
     final isDeleted = await _customTokenLoginService(_loginUserInfo!);
 
-    currentUserStatus.updateUserState();
+    _currentUserStatus.updateUserState();
     bool isNewbie = await _isNewbie();
 
     // return Pair(true, isNewbie);
@@ -68,7 +73,7 @@ class LoginUseCase {
   }
 
   Future<bool> _isNewbie() async {
-    final currentUser = await appUserRepository.getCurrentUser();
+    final currentUser = await _appUserRepository.getCurrentUser();
 
     if (currentUser != null && (currentUser.name.isNotNullOrEmpty)) {
       debugPrint("current user is not new  ");
@@ -94,10 +99,10 @@ class LoginUseCase {
 
         return null;
       }
-      final isExisted = await appUserRepository.findUser(currentUser.uid);
+      final isExisted = await _appUserRepository.findUser(currentUser.uid);
 
       if (isExisted == null) {
-        await appUserRepository.insertUser(
+        await _appUserRepository.insertUser(
           AppUser(
               uid: currentUser.uid,
               email: authUser.email,
@@ -108,10 +113,11 @@ class LoginUseCase {
               snsType: authUser.snsType,
               snsUserInfo: {}),
         );
+        _sameKindWhiskyUseCase.creatSameKindWhiskyDoc(userId: currentUser.uid);
       } else if (isExisted.isDeleted!) {
         print("삭제요청을 한 계정입니다.");
         // FirebaseAuth.instance.signInWithCustomToken()에서 로그인되 계정 로그아웃
-        await LogoutUseCase(currentUserStatus: currentUserStatus)
+        await LogoutUseCase(currentUserStatus: _currentUserStatus)
             .call(isExisted.snsType);
 
         return true;
