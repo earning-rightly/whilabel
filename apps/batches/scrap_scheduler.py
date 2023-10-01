@@ -9,18 +9,10 @@ from apps.batches.wb.bottler.bottler_execution import bottler_execution
 # 브랜드, 증류소, bottler 위스키 링크 수집
 from apps.batches.wb_distillery_collector.wb_whisky_belonging_to_distillery_collector.wb_whisky_collector_link.wb_whisky_link_belonging_to_distillery_collector_directed_acyclic_execution import \
     whisky_link_distillery_collector_executions
-from apps.batches.wb_brand_collector.wb_whisky_belonging_to_brand_collector.wb_whisky_collector_link.wb_whisky_link_belonging_to_brand_collector_directed_acyclic_execution import \
-    whisky_link_brand_collector_executions
-from apps.batches.wb_bottler_collector.wb_whisky_belonging_to_bottler_collector.wb_whisky_collector_link.wb_whisky_link_belonging_to_bottler_collector_directed_acyclic_execution import \
-    whisky_link_bottler_collector_executions
 
 # 브랜드, 증류소, bottler 위스키 상세정보 수집
-from apps.batches.wb_brand_collector.wb_whisky_belonging_to_brand_collector.wb_whisky_collector_detail.wb_whisky_detail_belonging_to_brand_collector_directed_acyclic_execution import \
-    whisky_detail_brand_collector_executions
 from apps.batches.wb_distillery_collector.wb_whisky_belonging_to_distillery_collector.wb_whisky_collector_detail.wb_whisky_detail_belonging_to_distillery_collector_directed_acyclic_execution import \
     whisky_detail_distillery_collector_executions
-from apps.batches.wb_bottler_collector.wb_whisky_belonging_to_bottler_collector.wb_whisky_collector_detail.wb_whisky_detail_belonging_to_bottler_collector_directed_acyclic_execution import \
-    whisky_detail_bottler_collector_executions
 
 from apps.batches.wb.common.enums import BatchExecution, BatchType
 
@@ -36,26 +28,6 @@ scheduler.add_job(
     minute=12,
     id="brand_detail_executions",
     timezone='Asia/Seoul'
-)
-scheduler.add_job(
-    whisky_link_brand_collector_executions,
-    'cron',
-    day=batch_day['brand_day'],
-    hour=18,
-    minute=40,
-    id="whisky_link_brand_collector_executions",
-    timezone='Asia/Seoul',
-    kwargs={'batch_type': BatchType.BRAND_WHISKY_LINK}
-)
-scheduler.add_job(
-    whisky_detail_brand_collector_executions,
-    'cron',
-    day=batch_day['brand_day'],
-    hour=23,
-    minute=30,
-    id="whisky_detail_brand_collector_executions",
-    timezone='Asia/Seoul',
-    kwargs={'batch_type': BatchType.BRAND_WHISKY_DETAIL, 'batch_id': BatchExecution.PRETEST}
 )
 
 scheduler.add_job(
@@ -96,26 +68,6 @@ scheduler.add_job(
     minute=59,
     id="bottler_detail_executions",
     timezone='Asia/Seoul'
-)
-
-scheduler.add_job(
-    whisky_link_bottler_collector_executions,
-    'cron',
-    day=batch_day['bottler_day'],
-    hour=20,
-    minute=0,
-    id="whisky_link_bottler_collector_executions",
-    timezone='Asia/Seoul',
-    kwargs={'batch_type': BatchType.BOTTLER_WHISKY_LINK}
-)
-scheduler.add_job(
-    whisky_detail_bottler_collector_executions,
-    'cron',
-    day=batch_day['bottler_day'],
-    hour=23,
-    minute=59,
-    id="whisky_detail_bottler_collector_executions", timezone='Asia/Seoul',
-    kwargs={'batch_type': BatchType.BOTTLER_WHISKY_DETAIL, 'batch_id': BatchExecution.PRETEST}
 )
 
 scheduler.start()
