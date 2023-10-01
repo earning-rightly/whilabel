@@ -29,18 +29,12 @@ class SerachWhiskyNamePage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: TextField(
             style: TextStylesManager.regular16,
             controller: whiskyNameTextController,
             decoration: createBasicTextFieldStyle("영어랑 숫자만 가능", true),
-            // onChanged: (value) {
-            //   setState(() {
-            //     barCodeText = value;
-            //   });
-            // },
             onSubmitted: (value) async {
-              // searchedResult = await testWhikyDB.getWhiskyDataWithName(value);
-              // viewModel.searchWhiskyWithName(value);
               print(value);
 
               EasyLoading.show(
@@ -145,7 +139,6 @@ class _SearchedWhiskyListTitleState extends State<SearchedWhiskyListTitle> {
       maskType: EasyLoadingMaskType.black,
     );
     if (EasyLoading.isShow) {
-      // await Future.delayed(const Duration(seconds: 3));
       Timer(Duration(milliseconds: 2000), () {
         EasyLoading.dismiss();
       });
@@ -168,10 +161,13 @@ class NoSearchResult extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "위스키를 찾지 못했습니다",
-              style: TextStylesManager()
-                  .createHadColorTextStyle("B24", ColorsManager.sky),
+            SizedBox(
+              child: Text(
+                "위스키 이름을 검색해주세요",
+                style: TextStylesManager()
+                    .createHadColorTextStyle("B20", ColorsManager.sky),
+                overflow: TextOverflow.fade,
+              ),
             ),
             Icon(
               Icons.find_in_page,
@@ -181,7 +177,7 @@ class NoSearchResult extends StatelessWidget {
           ],
         ),
         SizedBox(height: WhilabelSpacing.spac8),
-        Text("영어와 한글만 입력해주세요.\n아래 예시를 차고하고 입력해주세요"),
+        Text("영어와 한글만 입력해주세요.\n아래 예시를 참고하고 입력해주세요"),
         SizedBox(
           height: WhilabelSpacing.spac24,
         ),

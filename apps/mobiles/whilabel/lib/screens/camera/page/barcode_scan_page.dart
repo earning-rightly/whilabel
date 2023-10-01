@@ -1,53 +1,14 @@
 import 'dart:async';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
-import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
 import 'package:whilabel/screens/camera/page/gallery_page.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
 
 import '../view_model/camera_view_model.dart';
 
-// class BarCodeScanPage extends StatelessWidget {
-//   const BarCodeScanPage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text('Mobile Scanner')),
-//       body: MobileScanner(
-//         fit: BoxFit.contain,
-//         controller: MobileScannerController(
-//           facing: CameraFacing.back,
-//           torchEnabled: false,
-//           returnImage: true,
-//         ),
-//         onDetect: (capture) {
-//           final List<Barcode> barcodes = capture.barcodes;
-//           final Uint8List? image = capture.image;
-//           for (final barcode in barcodes) {
-//             debugPrint('Barcode found! ${barcode.rawValue}');
-//           }
-//           if (image != null) {
-//             showSimpleDialog(context, "바코드인식 성공", "");
-//             // showDialog(
-//             //   context: context,
-//             //   builder: (context) => Image(image: MemoryImage(image)),
-//             // );
-//             // Future.delayed(const Duration(seconds: 5), () {
-//             //   Navigator.pop(context);
-//             // });
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }
-
+// ignore: must_be_immutable
 class BarCodeScanPage extends StatelessWidget {
   BarCodeScanPage({super.key});
 
@@ -68,7 +29,6 @@ class BarCodeScanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<CarmeraViewModel>();
-    final state = viewModel.state;
 
     return Scaffold(
       body: Center(

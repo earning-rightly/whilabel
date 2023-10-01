@@ -1,16 +1,35 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:whilabel/mock_data/mock_camera_route.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:provider/provider.dart';
+import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/image_paths.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
+import 'package:whilabel/screens/camera/page/gallery_page.dart';
+import 'package:whilabel/screens/camera/page/search_whisky_name_page.dart';
+import 'package:whilabel/screens/camera/view_model/camera_event.dart';
+import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 
+// ignore: must_be_immutable
 class CameraView extends StatelessWidget {
   CameraView({super.key});
   final focus = FocusNode();
+  int _failCounter = 0;
+
+  StreamController<int> _events = StreamController();
+
+  void addFailCounter() {
+    _failCounter++;
+    _events.add(_failCounter);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<CarmeraViewModel>();
     return SafeArea(
         child: Padding(
       padding: WhilabelPadding.onlyHoizBasicPadding,
@@ -51,12 +70,70 @@ class CameraView extends StatelessWidget {
                           buttonText: "위스키 기록하기",
                           color: ColorsManager.brown100,
                           onPressedFunc: () {
-                            // todo 테스트로 사용할 루트 나중에 다시 바꿀예정
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MockCameraRoute(),
-                              ),
+                            showModalBottomSheet<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 18),
+                                  color: ColorsManager.black200,
+                                  height: 200,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        // 바코드로 인식하기
+                                        LongTextButton(
+                                          buttonText: "위스키 병 바코드 인식",
+                                          onPressedFunc: () async {
+                                            await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const SimpleBarcodeScannerPage(),
+                                                )).then((value) {
+                                              if (value is String) {
+                                                viewModel.onEvent(
+                                                    CarmeraEvent
+                                                        .searchWhiskeyWithBarcode(
+                                                            value),
+                                                    callback: () async {
+                                                  if (viewModel
+                                                      .state.isFindWhiskyData) {
+                                                    await showSuccedDialog();
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            GalleryPage(),
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    addFailCounter();
+                                                  }
+                                                });
+                                              }
+                                            });
+                                          },
+                                        ),
+                                        SizedBox(height: WhilabelSpacing.spac8),
+                                        LongTextButton(
+                                          buttonText: "위스키 이름 검색",
+                                          onPressedFunc: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SerachWhiskyNamePage()),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
                             );
                           },
                         ),
@@ -72,19 +149,16 @@ class CameraView extends StatelessWidget {
       ),
     ));
   }
-}
 
-List<Country> countries = [
-  for (int i = 0; i < 4; i++) Country(name: "1000$i", flag: "한국", num: i)
-];
-
-class Country {
-  final String name;
-  final int num;
-  final String flag;
-  Country({
-    required this.name,
-    required this.num,
-    required this.flag,
-  });
+  Future<void> showSuccedDialog() async {
+    await EasyLoading.showSuccess(
+      "바코드 인식성공",
+    );
+    if (EasyLoading.isShow) {
+      // await Future.delayed(const Duration(seconds: 3));
+      Timer(Duration(milliseconds: 2000), () {
+        EasyLoading.dismiss();
+      });
+    }
+  }
 }
