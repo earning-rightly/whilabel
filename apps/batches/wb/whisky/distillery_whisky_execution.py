@@ -21,7 +21,7 @@ def distillery_whisky_execution():
 
     scrap_dict = wb_libs_func.initialize_dict(field_map['wb_whisky_link'])
 
-    whisky_link_collector.collect_whisky_link(batch_type=BatchType.DISTILLERY_WHISKY_LINK.value,
+    whisky_link_collector.collect_whisky_link(batch_type=BatchType.DISTILLERY_WHISKY_LINK,
                                               current_date=current_date,
                                               whisky_link_scrap=scrap_dict)  # 위스키 링크 수집 함수 호출
 

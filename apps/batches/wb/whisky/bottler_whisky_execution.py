@@ -20,7 +20,7 @@ def bottler_whisky_execution():
 
     scrap_dict = wb_libs_func.initialize_dict(field_map['wb_whisky_link'])
 
-    whisky_link_collector.collect_whisky_link(batch_type=BatchType.BOTTLER_WHISKY_LINK.value,
+    whisky_link_collector.collect_whisky_link(batch_type=BatchType.BOTTLER_WHISKY_LINK,
                                               current_date=current_date, whisky_link_scrap=scrap_dict)
 
     # CSV 파일로 저장

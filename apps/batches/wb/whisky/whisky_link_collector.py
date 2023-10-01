@@ -8,6 +8,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ChromeService
 from tqdm import tqdm
 
+from apps.batches.wb.common.enums import BatchType
+
 tqdm.pandas()  # tqdm의 pandas전용 메소드를 호출합니다
 
 
@@ -56,7 +58,7 @@ def apply_scrap_whisky_link(table: pd.Series, whisky_link_scrap: dict):
         apply_scrap_whisky_link.
             Args:
                 table : 수집해야할 홈페이지 순서(번호)
-
+                whisky_link_scrap
             Note:
                 aiohttp.client_exceptions.ClientConnectorError 발생시 셀레니움으로 대체하여 수집하는 함수
     """
@@ -72,13 +74,9 @@ def apply_scrap_whisky_link(table: pd.Series, whisky_link_scrap: dict):
         turn_around_selenum(table=table, whisky_link_scrap=whisky_link_scrap)
 
 
-def collect_whisky_link(batch_type: str, current_date: str, whisky_link_scrap: dict):
+def collect_whisky_link(batch_type: BatchType, current_date: str, whisky_link_scrap: dict):
     """
-        collect.
-        Args:
-                mode : {brand or distillery} mode를 통해 read_csv파일 결정.
-            Note:
-                파일 읽기 및 파일크기에따른 리스트 초기화(reset_list_size) loop생성
+        collect_whisky_link.
     """
-    table = pd.read_csv(f'results/{current_date}/csv/pre/{batch_type}.csv')  # 증류소, 브랜드에서 추출한 사전 정보 가져오기
+    table = pd.read_csv(f'results/{current_date}/csv/pre/{batch_type.value}.csv')  # 증류소, 브랜드에서 추출한 사전 정보 가져오기
     table.progress_apply(lambda x: apply_scrap_whisky_link(table=x, whisky_link_scrap=whisky_link_scrap), axis=1)
