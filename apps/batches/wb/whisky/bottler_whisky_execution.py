@@ -1,4 +1,4 @@
-from apps.batches.transformations.wb_whisky.wb_whisky_pre_form import replace_extracted_data_with_wb_whisky_format
+from apps.batches.wb.whisky.wb_whisky_pre_form import replace_extracted_data_with_wb_whisky_format
 from apps.batches.wb.common import wb_libs_func
 from apps.batches.wb.common.constants import field_map
 from apps.batches.wb.common.enums import BatchType
