@@ -51,6 +51,10 @@ def brand_whisky_execution():
     json_path = f'results/{current_date}/json/detail/'
     wb_libs_func.save_to_json(scrap_dict, json_path, BatchType.BRAND_WHISKY_DETAIL.value)
 
+    """
+    브랜드 위스키 최종 데이터 가공 및 저장
+    """
+
     # 추출된 데이터를 WB 위스키 형식으로 대체
     transform_result_dict = replace_extracted_data_with_wb_whisky_format(batchId=BatchType.BRAND_WHISKY.value,
                                                                          extract_data=scrap_dict)

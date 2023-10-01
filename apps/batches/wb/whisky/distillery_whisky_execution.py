@@ -54,6 +54,10 @@ def distillery_whisky_execution():
     json_path = f'results/{current_date}/json/detail/'
     wb_libs_func.save_to_json(scrap_dict, json_path, BatchType.DISTILLERY_WHISKY_DETAIL.value)
 
+    """
+    증류소 위스키 최종 데이터 가공 및 저장
+    """
+
     transform_result_dict = replace_extracted_data_with_wb_whisky_format(extract_data=scrap_dict,
                                                                          batchId=BatchType.DISTILLERY_WHISKY.value)
 
