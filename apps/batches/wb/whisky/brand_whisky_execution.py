@@ -1,4 +1,4 @@
-from apps.batches.wb.whisky.wb_whisky_pre_form import replace_extracted_data_with_wb_whisky_format
+from apps.batches.wb.whisky.transform import transform_raw_to_wb_whisky
 from apps.batches.wb.common import wb_libs_func
 from apps.batches.wb.common.constants import field_map
 from apps.batches.wb.common.enums import BatchType
@@ -55,8 +55,8 @@ def brand_whisky_execution():
     """
 
     # 추출된 데이터를 WB 위스키 형식으로 대체
-    transform_result_dict = replace_extracted_data_with_wb_whisky_format(batchId=BatchType.BRAND_WHISKY.value,
-                                                                         extract_data=scrap_dict)
+    transform_result_dict = transform_raw_to_wb_whisky(batch_type=BatchType.BRAND_WHISKY.value,
+                                                       extract_data=scrap_dict)
 
     # CSV 파일로 저장
     result_df = wb_libs_func.convert_to_df(transform_result_dict)

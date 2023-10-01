@@ -1,5 +1,5 @@
 from apps.batches.wb.common import wb_libs_func
-from apps.batches.wb.whisky.wb_whisky_pre_form import replace_extracted_data_with_wb_whisky_format
+from apps.batches.wb.whisky.transform import transform_raw_to_wb_whisky
 from apps.batches.wb.common.enums import BatchType
 from apps.batches.wb.common.constants import field_map
 from apps.batches.wb.whisky import whisky_link_collector, whisky_detail_collector
@@ -56,8 +56,8 @@ def distillery_whisky_execution():
     증류소 위스키 최종 데이터 가공 및 저장
     """
 
-    transform_result_dict = replace_extracted_data_with_wb_whisky_format(extract_data=scrap_dict,
-                                                                         batchId=BatchType.DISTILLERY_WHISKY.value)
+    transform_result_dict = transform_raw_to_wb_whisky(extract_data=scrap_dict,
+                                                       batch_type=BatchType.DISTILLERY_WHISKY.value)
 
     # CSV 파일로 저장
     result_df = wb_libs_func.convert_to_df(transform_result_dict)
