@@ -2,8 +2,7 @@ from apps.batches.transformations.wb_whisky.wb_whisky_pre_form import replace_ex
 from apps.batches.wb.common import wb_libs_func
 from apps.batches.wb.common.constants import field_map
 from apps.batches.wb.common.enums import BatchType
-from apps.batches.wb_whisky_collector.wb_whisky_collector_detail import wb_whisky_collector_detail_func
-from apps.batches.wb_whisky_collector.wb_whisky_collector_link import wb_whisky_collector_link_apply_func
+from apps.batches.wb.whisky import wb_whisky_collector_link_apply_func, wb_whisky_collector_detail_func
 
 
 def bottler_whisky_execution():
