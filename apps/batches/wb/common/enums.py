@@ -18,10 +18,10 @@ class BatchType(Enum):
 
     BOTTLER_PRE = 'BOTTLER_PRE'  # 보틀러 사전 정보
     BOTTLER_DETAIL = 'BOTTLER_DETAIL'  # 보틀러 상세 정보
-    BOTTLER = 'BOTTLER'  # 보플러
+    BOTTLER = 'BOTTLER'  # 보틀러 컬렉션에 넣을
 
-    BOTTER_WHISKY_LINK = 'BOTTER_WHISKY_LINK'  # 보틀러 위스키 링크
-    BOTTER_WHISKY_DETAIL = 'BOTTER_WHISKY_DETAIL'  # 보틀러 위스키 상세 정보
+    BOTTLER_WHISKY_LINK = 'BOTTLER_WHISKY_LINK'  # 보틀러 위스키 링크
+    BOTTLER_WHISKY_DETAIL = 'BOTTLER_WHISKY_DETAIL'  # 보틀러 위스키 상세 정보
 
     WHISKY = 'WHISKY'  # 위스키
 

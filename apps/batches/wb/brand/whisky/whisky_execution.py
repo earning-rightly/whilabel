@@ -59,8 +59,8 @@ def whisky_execution(batch_id: BatchType):
     # CSV 파일로 저장
     result_df = wb_libs_func.convert_to_df(transform_result_dict)
     csv_path = f'results/{current_date}/csv/transformation/'
-    wb_libs_func.save_to_csv(result_df, csv_path, BatchType.BOTTER_WHISKY_DETAIL.value)
+    wb_libs_func.save_to_csv(result_df, csv_path, BatchType.BOTTLER_WHISKY_DETAIL.value)
 
     # JSON 파일로 저장
     json_path = f'results/{current_date}/json/transformation/'
-    wb_libs_func.save_to_json(transform_result_dict, json_path, BatchType.BOTTER_WHISKY_DETAIL.value)
+    wb_libs_func.save_to_json(transform_result_dict, json_path, BatchType.BOTTLER_WHISKY_DETAIL.value)

@@ -106,7 +106,7 @@ scheduler.add_job(
     minute=0,
     id="whisky_link_bottler_collector_executions",
     timezone='Asia/Seoul',
-    kwargs={'batch_type': BatchType.BOTTER_WHISKY_LINK}
+    kwargs={'batch_type': BatchType.BOTTLER_WHISKY_LINK}
 )
 scheduler.add_job(
     whisky_detail_bottler_collector_executions,
@@ -115,7 +115,7 @@ scheduler.add_job(
     hour=23,
     minute=59,
     id="whisky_detail_bottler_collector_executions", timezone='Asia/Seoul',
-    kwargs={'batch_type': BatchType.BOTTER_WHISKY_DETAIL, 'batch_id': BatchExecution.PRETEST}
+    kwargs={'batch_type': BatchType.BOTTLER_WHISKY_DETAIL, 'batch_id': BatchExecution.PRETEST}
 )
 
 scheduler.start()
