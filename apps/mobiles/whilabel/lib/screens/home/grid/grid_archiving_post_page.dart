@@ -24,8 +24,9 @@ class GridArchivingPostPage extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         final whiskyName = shortArchivingPostMap.keys.elementAt(index);
+
         return EachWhiskeyGridView(
-          shortArchivingPosts: shortArchivingPostMap[whiskyName] ?? [],
+          shortArchivingPosts: shortArchivingPostMap[whiskyName]!,
         );
       },
     );

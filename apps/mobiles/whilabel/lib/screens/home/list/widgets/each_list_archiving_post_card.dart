@@ -144,7 +144,7 @@ class EachListArchivingPostCard extends StatelessWidget {
                       padding: EdgeInsets.only(left: 1, right: 1),
                       child: SizedBox(
                         child: Text(
-                          "\"archivingPost.note\"",
+                          archivingPost.note,
                           style: TextStylesManager().createHadColorTextStyle(
                               "R14", ColorsManager.gray300),
                           maxLines: 1,

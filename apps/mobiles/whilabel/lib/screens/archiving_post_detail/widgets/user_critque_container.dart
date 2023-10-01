@@ -103,8 +103,10 @@ class UserCritiqueContainer extends StatelessWidget {
               disable: !isModify,
               tastFeature: initalTasteFeature,
               onChangeBodyRate: (double value) {
-                TasteFeature tasteFeature = viewModel.state.tasteFeature
-                    .copyWith(bodyRate: value.toInt());
+                TasteFeature tasteFeature = viewModel.state.tasteFeature == null
+                    ? initalTasteFeature.copyWith(bodyRate: value.toInt())
+                    : viewModel.state.tasteFeature!
+                        .copyWith(bodyRate: value.toInt());
 
                 viewModel.onEvent(
                   ArchivingPostDetailEvnet.addTasteFeatureOnProvider(
@@ -112,8 +114,10 @@ class UserCritiqueContainer extends StatelessWidget {
                 );
               },
               onChangeFlavorRate: (double value) {
-                TasteFeature tasteFeature = viewModel.state.tasteFeature
-                    .copyWith(flavorRate: value.toInt());
+                TasteFeature tasteFeature = viewModel.state.tasteFeature == null
+                    ? initalTasteFeature.copyWith(flavorRate: value.toInt())
+                    : viewModel.state.tasteFeature!
+                        .copyWith(flavorRate: value.toInt());
 
                 viewModel.onEvent(
                   ArchivingPostDetailEvnet.addTasteFeatureOnProvider(
@@ -121,8 +125,12 @@ class UserCritiqueContainer extends StatelessWidget {
                 );
               },
               onChangePeatRate: (double value) {
-                TasteFeature tasteFeature = viewModel.state.tasteFeature
-                    .copyWith(peatRate: value.toInt());
+                TasteFeature tasteFeature = viewModel.state.tasteFeature == null
+                    ? initalTasteFeature.copyWith(peatRate: value.toInt())
+                    : viewModel.state.tasteFeature!
+                        .copyWith(peatRate: value.toInt());
+
+                // .copyWith(peatRate: value.toInt());
 
                 viewModel.onEvent(
                   ArchivingPostDetailEvnet.addTasteFeatureOnProvider(

@@ -5,6 +5,7 @@ import 'package:whilabel/data/taste/taste_vote.dart';
 import 'package:whilabel/data/whisky/whisky.dart';
 import 'package:whilabel/provider_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
+import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_event.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/archiving_post_detail_footer.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/cancel_text_button.dart';
@@ -196,9 +197,27 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                                   onClickButton:
                                                       cancelModifyfeature)
                                               : ModifyTextButton(
-                                                  onClickButton:
-                                                      useModifyfeature,
-                                                )
+                                                  onClickButton: () async {
+                                                  print("cnamclel");
+
+                                                  await viewModel.onEvent(
+                                                      ArchivingPostDetailEvnet
+                                                          .addTasteNoteOnProvider(
+                                                              tasteNoteController
+                                                                  .text));
+
+                                                  await ArchivingPostDetailEvnet
+                                                      .addStarValueOnProvider(
+                                                          widget.archivingPost
+                                                              .starValue);
+
+                                                  await ArchivingPostDetailEvnet
+                                                      .addTasteFeatureOnProvider(
+                                                          widget.archivingPost
+                                                              .tasteFeature);
+
+                                                  useModifyfeature();
+                                                })
                                         ],
                                       ),
                                       SizedBox(height: WhilabelSpacing.spac4),
@@ -333,9 +352,6 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
   }
 
   void cancelModifyfeature() {
-    // setState(() {
-    //   isModify = false;
-    // });
     showMoveHomeDialog(context);
   }
 }

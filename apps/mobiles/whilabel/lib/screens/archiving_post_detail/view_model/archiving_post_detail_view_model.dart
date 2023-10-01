@@ -23,9 +23,6 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
     whiskyData: Whisky(id: ""),
     distilleryData: Distillery(id: ""),
     currentPostId: "",
-    starValue: 0,
-    tasteNote: "",
-    tasteFeature: TasteFeature(bodyRate: 0, flavorRate: 0, peatRate: 0),
   );
   ArchivingPostDetailState get state => _state;
 
@@ -69,7 +66,7 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
     return whiskyData!;
   }
 
-// post가 존하기 때문에 상세페지 이동 가능
+// post가 존하기 때문에 상세페이지 이동 가능
   Future<void> updateUserCritique() async {
     ArchivingPost? newArchivingPost =
         await _archivingPostRepository.getArchivingPost(_state.currentPostId);

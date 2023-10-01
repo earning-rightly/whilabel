@@ -56,7 +56,15 @@ class ShortArchivingPostUseCase extends ChangeNotifier {
       {required String uid}) async {
     final sameKindWhisky =
         await _sameKindWhiskyRepository.getSameKindWhisky(uid);
-    return sameKindWhisky.sameKindWhiskyMap;
+
+    Map<String, List<ShortArchivingPost>> result = {};
+    sameKindWhisky.sameKindWhiskyMap.forEach((key, value) {
+      if (value.isNotEmpty) {
+        result[key] = value;
+      }
+    });
+
+    return result;
   }
 
   Future<void> deleteShortArchivingPost(
