@@ -3,9 +3,7 @@ from apscheduler.schedulers.background import BackgroundScheduler  # 백그라�
 
 # brand 정보 수집
 from apps.batches.wb.brand.brand_execution import brand_execution
-from apps.batches.wb.brand.whisky.brand_whisky_execution import brand_whisky_execution
-
-from apps.batches.wb.common.enums import BatchExecution, BatchType  # 열거형 상수를 가져옵니다.
+from apps.batches.wb.whisky.brand_whisky_execution import brand_whisky_execution
 
 # 백그라운드 스케줄러 객체를 생성
 scheduler = BackgroundScheduler()

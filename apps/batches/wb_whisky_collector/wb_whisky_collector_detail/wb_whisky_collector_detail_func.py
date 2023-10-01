@@ -14,7 +14,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from apps.batches.wb.common import wb_libs_func
 
 
-async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url_index : int, scrap_dict: dict):
+async def scrap_whisky_collector_detail(url: str, sema: asyncio.Semaphore, url_index: int, scrap_dict: dict):
     """
         scrap_whisky_collector_detail.
             Args:
@@ -28,7 +28,7 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
                aiohttp.client_exceptions.ClientConnectorError : ssl connect 문제 (해결)
     """
 
-    def extract_information_related_with_whisky(url : str, soup : bs4.BeautifulSoup, url_index : int):
+    def extract_information_related_with_whisky(url: str, soup: bs4.BeautifulSoup, url_index: int):
         """
             extract_information_related_brand.
                 Args:
@@ -40,7 +40,8 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
                    IndexError : soup을 통해 생성한 title_list, value_list값이 현재 준비해둔 값과 안맞을때 (해결)
         """
         scrap_dict['link'][url_index] = url
-        if soup.select('.col-sm-offset-3.col-sm-6.site-error') != []:  # 해당 위스키 페이지가 사라짐 #ex) : https://www.whiskybase.com/whiskies/whisky/170176/aberfeldy-1996-ca
+        if soup.select(
+                '.col-sm-offset-3.col-sm-6.site-error') != []:  # 해당 위스키 페이지가 사라짐 #ex) : https://www.whiskybase.com/whiskies/whisky/170176/aberfeldy-1996-ca
             pass
 
         else:  # 위스키 사이트가 active일때
@@ -86,7 +87,8 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
                 else:
                     pass
             try:
-                if soup.select('.photo')[0]['href'] != 'https://static.whiskybase.com/storage/whiskies/default/big.png?v4':
+                if soup.select('.photo')[0][
+                    'href'] != 'https://static.whiskybase.com/storage/whiskies/default/big.png?v4':
                     scrap_dict['photo'][url_index] = soup.select('.photo')[0]['href']
 
             except IndexError:
@@ -109,7 +111,7 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
             scrap_dict['tag_name'][url_index] = dictionary = dict(  # tastingtag와 해당 맛에 대한 투표수를 딕셔너리로 만들어 저장
                 zip(real_tag_list, real_tast_num))
 
-    async def turn_around_selenum(url : str, url_index : int):
+    async def turn_around_selenum(url: str, url_index: int):
         """
            turn_around_selenum.
                Args:
@@ -123,7 +125,7 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
         await asyncio.sleep(3)
         chrome_options = Options()
         chrome_options.add_argument("--headless=new")  # 크롬 창 실행없이 백그라운드에서 실행
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),options=chrome_options)
+        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
         driver.get(url)
         driver.implicitly_wait(3)
         soup = BeautifulSoup(markup=driver.page_source,
@@ -144,7 +146,7 @@ async def scrap_whisky_collector_detail(url : str, sema : asyncio.Semaphore, url
                 await turn_around_selenum(url, url_index)
 
 
-async def extract_whisky_detail_collector_async(link : list, scrap_dict: dict):
+async def extract_whisky_detail_collector_async(link: list, scrap_dict: dict):
     """
         extract_whisky_detail_collector_async.
             Args:
@@ -154,11 +156,14 @@ async def extract_whisky_detail_collector_async(link : list, scrap_dict: dict):
                 비동식 제한 갯수 설정(Semaphore) 및 수집해야할 홈페이지 반복문 실행
     """
     semaphore = asyncio.Semaphore(30)
-    fts = [asyncio.ensure_future(scrap_whisky_collector_detail(u, semaphore, url_index=url_index, scrap_dict=scrap_dict)) for url_index, u in
-           enumerate(link)]
+    fts = [
+        asyncio.ensure_future(scrap_whisky_collector_detail(u, semaphore, url_index=url_index, scrap_dict=scrap_dict))
+        for url_index, u in
+        enumerate(link)]
     await tqdm_asyncio.gather(*fts)
 
-def collect(batch_type : str, current_date: str, scrap_dict: dict):
+
+def collect(batch_type: str, current_date: str, scrap_dict: dict):
     table = pd.read_csv(f'results/{current_date}/csv/link/{batch_type}.csv')
     wb_libs_func.reset_list_size(len(table), scrap_dict)
     asyncio.run(extract_whisky_detail_collector_async(table.whisky_link, scrap_dict))
