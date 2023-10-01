@@ -6,9 +6,9 @@ from apps.batches.wb_whisky_collector.wb_whisky_collector_detail import wb_whisk
 from apps.batches.wb_whisky_collector.wb_whisky_collector_link import wb_whisky_collector_link_apply_func
 
 
-def whisky_execution():
+def brand_whisky_execution():
     """
-    whisky_execution
+    brand_whisky_execution
         Args:
         Notes:
             브랜드 위스키 수집 및 처리 실행 함수입니다.

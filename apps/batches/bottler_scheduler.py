@@ -3,7 +3,7 @@ from apscheduler.schedulers.background import BackgroundScheduler  # 백그라�
 
 # bottler 정보 수집
 from apps.batches.wb.bottler.bottler_execution import bottler_execution
-from apps.batches.wb.bottler.whisky.whisky_execution import whisky_execution as bottler_whisky_execution
+from apps.batches.wb.bottler.whisky.bottler_whisky_execution import bottler_whisky_execution as bottler_whisky_execution
 
 from apps.batches.wb.common.enums import BatchExecution, BatchType  # 열거형 상수를 가져옵니다.
 
