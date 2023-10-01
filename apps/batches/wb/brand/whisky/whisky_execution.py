@@ -6,11 +6,10 @@ from apps.batches.wb_whisky_collector.wb_whisky_collector_detail import wb_whisk
 from apps.batches.wb_whisky_collector.wb_whisky_collector_link import wb_whisky_collector_link_apply_func
 
 
-def whisky_execution(batch_id: BatchType):
+def whisky_execution():
     """
     whisky_execution
         Args:
-            batch_id (BatchType): 처리할 배치 타입
         Notes:
             브랜드 위스키 수집 및 처리 실행 함수입니다.
     """
@@ -53,14 +52,14 @@ def whisky_execution(batch_id: BatchType):
     wb_libs_func.save_to_json(scrap_dict, json_path, BatchType.BRAND_WHISKY_DETAIL.value)
 
     # 추출된 데이터를 WB 위스키 형식으로 대체
-    transform_result_dict = replace_extracted_data_with_wb_whisky_format(batchId=batch_id.value,
+    transform_result_dict = replace_extracted_data_with_wb_whisky_format(batchId=BatchType.BRAND_WHISKY.value,
                                                                          extract_data=scrap_dict)
 
     # CSV 파일로 저장
     result_df = wb_libs_func.convert_to_df(transform_result_dict)
     csv_path = f'results/{current_date}/csv/transformation/'
-    wb_libs_func.save_to_csv(result_df, csv_path, BatchType.BOTTLER_WHISKY_DETAIL.value)
+    wb_libs_func.save_to_csv(result_df, csv_path, BatchType.BRAND_WHISKY.value)
 
     # JSON 파일로 저장
     json_path = f'results/{current_date}/json/transformation/'
-    wb_libs_func.save_to_json(transform_result_dict, json_path, BatchType.BOTTLER_WHISKY_DETAIL.value)
+    wb_libs_func.save_to_json(transform_result_dict, json_path, BatchType.BRAND_WHISKY.value)

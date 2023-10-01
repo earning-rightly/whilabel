@@ -31,7 +31,6 @@ scheduler.add_job(
     minute=0,  # 실행 분 (0분)
     id="whisky_link_bottler_collector_executions",  # 스케줄러 식별자
     timezone='Asia/Seoul',  # 시간대 설정 (서울 시간대)
-    kwargs={'batch_id': BatchExecution.PRETEST}  # 키워드 인수 설정
 )
 
 scheduler.start()  # 스케줄러를 시작합니다.

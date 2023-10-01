@@ -5,6 +5,7 @@ class BatchType(Enum):
     BRAND_PRE = 'BRAND_PRE'  # 브랜드 사전 정보
     BRAND_DETAIL = 'BRAND_DETAIL'  # 브랜드 상세 정보
     BRAND = 'BRAND'  # 최종 컬랙션에 들어가는 브랜드 정보
+    BRAND_WHISKY = 'BRAND_WHISKY'
 
     BRAND_WHISKY_LINK = 'BRAND_WHISKY_LINK'  # 브랜드 위스키 링크
     BRAND_WHISKY_DETAIL = 'BRAND_WHISKY_DETAIL'  # 브랜드 위스키 상세 정보
@@ -22,7 +23,9 @@ class BatchType(Enum):
 
     BOTTLER_WHISKY_LINK = 'BOTTLER_WHISKY_LINK'  # 보틀러 위스키 링크
     BOTTLER_WHISKY_DETAIL = 'BOTTLER_WHISKY_DETAIL'  # 보틀러 위스키 상세 정보
+    BOTTLER_WHISKY = 'BOTTLER_WHISKY'
 
+    WHISKY_MERGE = 'WHISKY_MERGE'
     WHISKY = 'WHISKY'  # 최종 컬랙션에 들어가는 위스키 정보
 
 # CollectionName 열거형 클래스 정의
