@@ -11,7 +11,7 @@ from apps.batches.wb_distillery_collector.wb_whisky_belonging_to_distillery_coll
     whisky_link_distillery_collector_executions
 
 # 브랜드, 증류소, bottler 위스키 상세정보 수집
-from apps.batches.wb_distillery_collector.wb_whisky_belonging_to_distillery_collector.wb_whisky_collector_detail.wb_whisky_detail_belonging_to_distillery_collector_directed_acyclic_execution import \
+from apps.batches.wb.whisky.wb_whisky_detail_belonging_to_distillery_collector_directed_acyclic_execution import \
     whisky_detail_distillery_collector_executions
 
 from apps.batches.wb.common.enums import BatchExecution, BatchType
