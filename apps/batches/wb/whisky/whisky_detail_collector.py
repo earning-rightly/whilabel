@@ -1,6 +1,5 @@
 import asyncio
 import random
-import bs4
 from bs4 import BeautifulSoup
 import pandas as pd
 from webdriver_manager.chrome import ChromeDriverManager
