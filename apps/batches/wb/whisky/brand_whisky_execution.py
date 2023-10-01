@@ -2,7 +2,7 @@ from apps.batches.transformations.wb_whisky.wb_whisky_pre_form import replace_ex
 from apps.batches.wb.common import wb_libs_func
 from apps.batches.wb.common.constants import field_map
 from apps.batches.wb.common.enums import BatchType
-from apps.batches.wb.whisky import wb_whisky_collector_link_apply_func, wb_whisky_collector_detail_func
+from apps.batches.wb.whisky import whisky_link_collector, wb_whisky_collector_detail_func
 
 
 def brand_whisky_execution():
@@ -20,8 +20,8 @@ def brand_whisky_execution():
 
     scrap_dict = wb_libs_func.initialize_dict(field_map['wb_whisky_link'])
 
-    wb_whisky_collector_link_apply_func.collect(batch_type=BatchType.BRAND_WHISKY_LINK.value,
-                                                current_date=current_date, whisky_link_scrap=scrap_dict)
+    whisky_link_collector.collect_whisky_link(batch_type=BatchType.BRAND_WHISKY_LINK.value,
+                                              current_date=current_date, whisky_link_scrap=scrap_dict)
 
     # CSV 파일로 저장
     result_df = wb_libs_func.convert_to_df(scrap_dict)
