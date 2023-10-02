@@ -56,7 +56,7 @@ class CameraView extends StatelessWidget {
                   ),
                   SizedBox(height: WhilabelSpacing.spac32),
                   Text(
-                    "오늘 마신 위시키를 기록해볼까요?",
+                    "오늘 마신 위스키를 기록해볼까요?",
                     style: TextStylesManager.bold20,
                     textAlign: TextAlign.left,
                   ),

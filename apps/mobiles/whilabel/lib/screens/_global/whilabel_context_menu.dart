@@ -24,7 +24,7 @@ class WhilabelContextMenu {
       "title": "삭제하기",
       "value": "delete",
       "title_style":
-          TextStylesManager().createHadColorTextStyle("R16", ColorsManager.red),
+          TextStylesManager.createHadColorTextStyle("R16", ColorsManager.red),
       "icon_path": SvgIconPath.delete,
       "icon_color": ColorsManager.red,
     }

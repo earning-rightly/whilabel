@@ -64,7 +64,8 @@ class KaKaoOauth {
       } else {
         debugPrint("카카오톡 : 설치 X 상태");
         try {
-          await UserApi.instance.loginWithKakaoAccount();
+          final token = await UserApi.instance.loginWithKakaoAccount();
+
           debugPrint("카카오 계정으로 로그인 : 성공");
           return true;
         } catch (error) {

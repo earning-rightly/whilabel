@@ -54,9 +54,23 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
     return distilleryData!;
   }
 
-  Future<Whisky> getInitalData(String whiskyId, String postId) async {
+  Future<Whisky> getInitalData(String barCode, String postId) async {
     final whiskyData =
-        await _whiskyRepository.getWhiskyDataWithBarcode(whiskyId);
+        await _whiskyRepository.getWhiskyDataWithBarcode(barCode);
+    print(whiskyData?.distilleryIds.toString());
+    if (whiskyData?.wbWhisky!.distilleryName != null) {
+      // final distilleryData =
+      //     getDistilleryData(whiskyData!.wbWhisky!.wbDistilleryIds!.first);
+      print("distilleryData distilleryData distilleryData");
+      print("distilleryData distilleryData distilleryData");
+      print("distilleryData distilleryData distilleryData");
+      String test1 = whiskyData?.wbWhisky!.distilleryName ?? "['','']";
+      print("111111  String 보기 $test1");
+      List<String> list = test1.split("'");
+      _whiskyRepository.getDistilleryData(list[1]);
+
+      print("distillery 이름: ${list[1]}");
+    }
     if (_state.currentPostId.isEmpty) {
       _state = _state.copyWith(currentPostId: postId);
       notifyListeners();

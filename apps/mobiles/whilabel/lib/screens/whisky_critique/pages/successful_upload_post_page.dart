@@ -50,8 +50,8 @@ class SuccessfulUploadPostPage extends StatelessWidget {
                 SizedBox(height: WhilabelSpacing.spac16),
                 Text(
                   "${currentWhiskyCount + 1}번째 위스키에요!",
-                  style: TextStylesManager()
-                      .createHadColorTextStyle("M16", ColorsManager.brown100),
+                  style: TextStylesManager.createHadColorTextStyle(
+                      "M16", ColorsManager.brown100),
                 ),
                 SizedBox(height: WhilabelSpacing.spac8),
                 Text("등록이 완료되었습니다", style: TextStylesManager.bold20),

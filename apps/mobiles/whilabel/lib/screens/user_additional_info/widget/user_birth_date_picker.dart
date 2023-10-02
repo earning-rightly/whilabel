@@ -66,8 +66,8 @@ class _UserBirthDatePickerState extends State<UserBirthDatePicker> {
                     child: CupertinoTheme(
                       data: CupertinoThemeData(
                         textTheme: CupertinoTextThemeData(
-                          dateTimePickerTextStyle: TextStylesManager()
-                              .createHadColorTextStyle(
+                          dateTimePickerTextStyle:
+                              TextStylesManager.createHadColorTextStyle(
                                   "R24", ColorsManager.white),
                         ),
                       ),

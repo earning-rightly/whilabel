@@ -164,8 +164,8 @@ class NoSearchResult extends StatelessWidget {
             SizedBox(
               child: Text(
                 "위스키 이름을 검색해주세요",
-                style: TextStylesManager()
-                    .createHadColorTextStyle("B20", ColorsManager.sky),
+                style: TextStylesManager.createHadColorTextStyle(
+                    "B20", ColorsManager.sky),
                 overflow: TextOverflow.fade,
               ),
             ),

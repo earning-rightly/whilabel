@@ -99,7 +99,7 @@ class _SettingPageState extends State<SettingPage> {
                       child: TextButton(
                         child: Text(
                           "로그아웃",
-                          style: TextStylesManager().createHadColorTextStyle(
+                          style: TextStylesManager.createHadColorTextStyle(
                               "R14", ColorsManager.black300),
                         ),
                         onPressed: () async {
@@ -131,7 +131,7 @@ class _SettingPageState extends State<SettingPage> {
                     TextButton(
                       child: Text(
                         "회원탈퇴",
-                        style: TextStylesManager().createHadColorTextStyle(
+                        style: TextStylesManager.createHadColorTextStyle(
                             "R14", ColorsManager.black300),
                       ),
                       onPressed: () {

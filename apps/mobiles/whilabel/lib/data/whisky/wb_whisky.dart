@@ -52,7 +52,7 @@ class WbWhisky {
   final double? price; // 가격 - 83.8
   final String? priceUnit; // 가격 단위 - 달러 유로 etc..
 
-  final List<String>? wbDistilleryIds; // wb 증류소 id - 90642
+  final String? wbDistilleryIds; // wb 증류소 id - 90642
   final String? distilleryName;
 
   final WhiskyCategory? category; // 종류 - Blended Malt / Single Malt ...

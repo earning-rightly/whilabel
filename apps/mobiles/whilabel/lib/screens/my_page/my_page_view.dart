@@ -10,6 +10,7 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/my_page/page/announcement_page.dart';
 import 'package:whilabel/screens/my_page/page/inquiring_page.dart';
+import 'package:whilabel/screens/my_page/page/privacy_policy_page.dart';
 import 'package:whilabel/screens/my_page/page/setting_page.dart';
 import 'package:whilabel/screens/my_page/page/term_condition_service_page.dart';
 import 'package:whilabel/screens/my_page/widgets/list_button.dart';
@@ -96,12 +97,6 @@ class MyPageView extends StatelessWidget {
                     );
                   },
                 ),
-              TextButton(
-                child: Text("muck route"),
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.loginRoute);
-                },
-              ),
             ],
           )),
     );
@@ -145,7 +140,7 @@ class MyPageData {
     {
       "svg_path": SvgIconPath.document,
       "title": "개인정보 처리방침",
-      "rotue": "",
+      "rotue": PrivacyPolicyPage(),
     },
     {
       "svg_path": SvgIconPath.document,

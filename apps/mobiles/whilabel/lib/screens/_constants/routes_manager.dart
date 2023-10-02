@@ -3,6 +3,7 @@ import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/screens/archiving_post_detail/archiving_post_detail_view.dart';
 import 'package:whilabel/app_root.dart';
 import 'package:whilabel/screens/login/login_view.dart';
+import 'package:whilabel/screens/my_page/page/announcement_page.dart';
 import 'package:whilabel/screens/onboarding/onboarding_step1.dart';
 import 'package:whilabel/screens/user_additional_info/user_additional_info_view.dart';
 import 'package:whilabel/screens/whisky_critique/whisky_critique_view.dart';
@@ -15,6 +16,7 @@ class Routes {
   static const String whiskeyCritiqueRoute = "/whiskey_critque";
   static const String userAdditionalInfoRoute = "/user_additional_info";
   static const String onBoardingRoute = "/on_boarding";
+  static const String announcementPageRoute = "my_page/announcement_page";
 }
 
 class RouteGenerator {
@@ -38,6 +40,8 @@ class RouteGenerator {
             builder: (_) => const UserAdditionalInfoView());
       case Routes.onBoardingRoute:
         return MaterialPageRoute(builder: (_) => const OnboardingStep1Page());
+      case Routes.announcementPageRoute:
+        return MaterialPageRoute(builder: (_) => const AnnouncementPage());
       default:
         return undefinedRoute();
     }

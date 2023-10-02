@@ -47,7 +47,7 @@ class InquiringPage extends StatelessWidget {
                     SizedBox(height: WhilabelSpacing.spac24),
                     Text(
                       "답변받으실 이메일",
-                      style: TextStylesManager().createHadColorTextStyle(
+                      style: TextStylesManager.createHadColorTextStyle(
                           "B16", ColorsManager.gray200),
                     ),
                     TextFormField(
@@ -60,7 +60,7 @@ class InquiringPage extends StatelessWidget {
                     SizedBox(height: WhilabelSpacing.spac8),
                     Text(
                       "문의 제목",
-                      style: TextStylesManager().createHadColorTextStyle(
+                      style: TextStylesManager.createHadColorTextStyle(
                           "B16", ColorsManager.gray200),
                     ),
                     TextFormField(
@@ -83,7 +83,7 @@ class InquiringPage extends StatelessWidget {
                     SizedBox(height: WhilabelSpacing.spac8),
                     Text(
                       "문의 내용",
-                      style: TextStylesManager().createHadColorTextStyle(
+                      style: TextStylesManager.createHadColorTextStyle(
                           "B16", ColorsManager.gray200),
                     ),
                     TextFormField(

@@ -35,12 +35,14 @@ class SearchWhiskeyDataUseCase {
         // distillery id가 없다면 wbDistillery Id가 있는지 확인
       } else if (whiskyData.wbWhisky?.wbDistilleryIds != null &&
           whiskyData.wbWhisky!.wbDistilleryIds!.isNotEmpty) {
-        //  whiskyData.wbDistilleryIds가 null able이기 때문에 타입 변화
+        // whiskyData.wbWhisky?.wbDistilleryIds 타입이
+        // List<String>일 경우 상요할 코드
+        /* //  whiskyData.wbDistilleryIds가 null able이기 때문에 타입 변화
         whiskyData.wbWhisky?.wbDistilleryIds!.forEach(
-          (element) {
-            wbDistilleryIds.add(element.toString());
-          },
-        );
+        //   (element) {
+        //     wbDistilleryIds.add(element.toString());
+        //   },);
+        */
       }
 
       // distillery 데이터를 받아온다.

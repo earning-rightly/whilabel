@@ -66,8 +66,8 @@ class UserCritiqueContainer extends StatelessWidget {
             maxLines: isModify ? 7 : tasteNoteMaxLine,
             style: isModify
                 ? TextStylesManager.regular16
-                : TextStylesManager()
-                    .createHadColorTextStyle("R16", ColorsManager.gray200),
+                : TextStylesManager.createHadColorTextStyle(
+                    "R16", ColorsManager.gray200),
             enabled: isModify,
             maxLength: 1000,
             buildCounter: (

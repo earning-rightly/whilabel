@@ -27,7 +27,7 @@ class ListToggleButton extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStylesManager().createHadColorTextStyle(
+            style: TextStylesManager.createHadColorTextStyle(
               "M16",
               ColorsManager.gray200,
             ),

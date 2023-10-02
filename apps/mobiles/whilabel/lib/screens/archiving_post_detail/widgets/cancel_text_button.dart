@@ -21,8 +21,8 @@ class CancelTextButton extends StatelessWidget {
       onPressed: onClickButton ?? () {},
       child: Text(
         "취소",
-        style: TextStylesManager()
-            .createHadColorTextStyle("R14", ColorsManager.brown100),
+        style: TextStylesManager.createHadColorTextStyle(
+            "R14", ColorsManager.brown100),
       ),
     );
   }
