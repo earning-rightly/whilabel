@@ -1,32 +1,64 @@
-import pandas
 import pandas as pd
-from apps.batches.wb.common import wb_libs_func
 import numpy as np
 from datetime import datetime
 import json
 import uuid
 from apps.batches.wb.common.enums import BatchType
+from apps.batches.wb.common import wb_libs_func
 
 
-def extract_bottler_id(table: pd.Series) -> int or None:  # fusion 가능
+def extract_bottler_id(table: pd.Series) -> int or None:
+    """
+    extract_bottler_id
+        Args:
+            table: pandas.Series
+                데이터가 담긴 pandas Series 객체
+        Returns:
+            int or None:
+                증류소 ID를 추출하거나, 없을 경우 None 반환
+        Notes:
+            증류소 ID 값을 추출하는 함수
+    """
     try:
         return table.link.split('/')[-2]  # 증류소 id 값 추출
-    except IndexError:  # link값이 없는경우 null 반환
+    except IndexError:  # link값이 없는 경우 None 반환
         return None
 
 
 def reformat_specialists(table: pd.Series) -> dict or None:
+    """
+    reformat_specialists
+        Args:
+            table: pandas.Series
+                데이터가 담긴 pandas Series 객체
+        Returns:
+            dict or None:
+                스페셜 리스트를 변환한 딕셔너리를 반환하거나, 없을 경우 None 반환
+        Notes:
+            스페셜 리스트를 딕셔너리로 변환하는 함수
+    """
     try:
-        specialists_dict = eval(table.specialists)  # 스페셜 리스트 형태 dict로 변환
+        specialists_dict = eval(table.specialists)  # 스페셜 리스트를 형태를 dict로 변환
         specialists_name = list(specialists_dict.keys())  # 스페셜 리스트 명 추출
         specialists_link = list(specialists_dict.values())  # 스페셜 리스트 링크 추출
         return {'specialist': specialists_name, 'specialist_link': specialists_link}  # 저장해야할 스페셜 리스트 포맷 반환
 
     except TypeError:  # 변환해야할 dict가 없을때
-        return None  # null반환
+        return None  # None 반환
 
 
 def extract_closed_date(table: pd.Series) -> datetime or None:
+    """
+    extract_closed_date
+        Args:
+            table: pandas.Series
+                데이터가 담긴 pandas Series 객체
+        Returns:
+            datetime or None:
+                날짜 값을 추출하거나, 없을 경우 None 반환
+        Notes:
+            날짜 값을 추출하고 포맷을 변경하여 반환하는 함수
+    """
     datetime_format = "%d.%m.%Y"
     try:
         datetime_result = datetime.strptime(table.closed, datetime_format)
@@ -36,6 +68,17 @@ def extract_closed_date(table: pd.Series) -> datetime or None:
 
 
 def extract_founded_date(table: pd.Series) -> datetime or None:
+    """
+    extract_founded_date
+        Args:
+            table: pandas.Series
+                데이터가 담긴 pandas Series 객체
+        Returns:
+            datetime or None:
+                날짜 값을 추출하거나, 없을 경우 None 반환
+        Notes:
+            날짜 값을 추출하고 포맷을 변경하여 반환하는 함수
+    """
     datetime_format = "%d.%m.%Y"
     try:
         datetime_result = datetime.strptime(table.founded, datetime_format)
@@ -44,27 +87,39 @@ def extract_founded_date(table: pd.Series) -> datetime or None:
         return None
 
 
-def divide_capacity_with_per_year_and_unit(table: pd.Series) -> [int, str]:  # fusion 가능
+def divide_capacity_with_per_year_and_unit(table: pd.Series) -> [int, str]:
+    """
+    divide_capacity_with_per_year_and_unit
+        Args:
+            table: pandas.Series
+                데이터가 담긴 pandas Series 객체
+        Returns:
+            [int, str]:
+                용량과 단위를 나눈 값을 반환
+        Notes:
+            capacity_per_year 값을 용량과 단위로 분리하여 반환하는 함수
+    """
     try:
         # capacity_per_year : 65000, capacity_per_year_unit : Liters로 분리
         split_data = table.capacity_per_year.split(' ')
         return split_data[0], split_data[1]
-    except AttributeError:  # capacity_per_year 값이 없는경우
-        return None, None  # null, null로 반환
+
+    except AttributeError:  # capacity_per_year 값이 없는 경우
+        return None, None  # None, None로 반환
 
 
-def read_raw_csv_file() -> [pandas.DataFrame, pandas.DataFrame]:
+def read_raw_csv_file() -> [pd.DataFrame, pd.DataFrame]:
     current_date = wb_libs_func.get_current_date()
     bottler_detail_data = pd.read_csv(
-        f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{current_date}/csv/detail/{BatchType.BOTTER_DETAIL.value}.csv'
+        f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{current_date}/csv/detail/{BatchType.BOTTLER_DETAIL.value}.csv'
     )
     bottler_summary_data = pd.read_csv(
-        f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{current_date}/csv/pre/{BatchType.BOTTER_PRE.value}.csv'
+        f'/Users/choejong-won/PycharmProjects/whilabel/apps/batches/results/{current_date}/csv/pre/{BatchType.BOTTLER_PRE.value}.csv'
     )
     return bottler_detail_data, bottler_summary_data
 
 
-def filter_unused_fields(df: pandas.DataFrame) -> pandas.DataFrame:
+def filter_unused_fields(df: pd.DataFrame) -> pd.DataFrame:
     # 보틀러 상세 정보에서 수집할 컬럼 리스트
     field_list = [
         'company_about',

@@ -26,7 +26,7 @@ def merged_whisky_data_preprocess() -> [list, dict]:
     for file in reversed(files):
         if len(whisky_table) != 3:
             try:
-                whisky_table.append(pd.read_csv(f'results/{file}/csv/transformation/{BatchType.BOTTER_WHISKY_DETAIL.value}.csv'))
+                whisky_table.append(pd.read_csv(f'results/{file}/csv/transformation/{BatchType.BOTTLER_WHISKY_DETAIL.value}.csv'))
 
             except FileNotFoundError:
                 pass

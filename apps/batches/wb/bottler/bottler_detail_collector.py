@@ -18,67 +18,61 @@ from apps.batches.wb.common.enums import BatchType
 
 async def extract_bottler_detail(url_index: int, url: str, sema: asyncio.Semaphore, scrap_dict: dict):
     """
-        extract_bottler_detail.
-            Args:
-                url : 수집해야할 홈페이지 링크.
-                sema : 비동기식 해당 스레드 위치주소.
-                url_index : 수집중인 증류소 url index 값
-            Note:
-                bottler 상세정보를 수집하기 위해 비동기식 처리를 위한 함수
-            Raises:
-               aiohttp.client_exceptions.ClientConnectorError : ssl connect 문제 (해결)
+    extract_bottler_detail.
+        Args:
+            url_index (int): 증류소 URL의 인덱스.
+            url (str): 증류소 홈페이지 링크.
+            sema (asyncio.Semaphore): 비동기 세마포어.
+            scrap_dict (dict): 수집한 정보를 담을 딕셔너리.
+        Note:
+            bottler 상세정보를 수집하기 위해 비동기식 처리를 위한 함수
     """
 
     def extract_title_and_value(sp: bs4.BeautifulSoup, index: int):
         """
-            extract_title_and_value.
-                Args:
-                    sp : 수집해야할 홈페이지 정보.
-                    index : 수집해야할 홈페이지 링크.
-                Note:
-                    실직적으로 증류소 상세 정보를 수집하는 함수
-                Raises:
-                   IndexError : soup을 통해 생성한 title_list, value_list값이 현재 준비해둔 값과 안맞을때 (해결)
+        extract_title_and_value.
+            Args:
+                sp (bs4.BeautifulSoup): 증류소 홈페이지 정보.
+                index (int): 증류소 URL의 인덱스.
+            Note:
+                    beautifulsoup을 이용한 bottler 상세 정보수집
         """
         title_list = sp.select('.title')
         value_list = sp.select('.value')
 
-        # 보틀러 timeline 수집
         try:
-            scrap_dict['company_about'][index] = sp.select('.company-about p span')[
-                0].text.strip()
-        except IndexError:  # 보틀러 timeline 정보가 없는경우
+            scrap_dict['company_about'][index] = sp.select('.company-about p span')[0].text.strip()
+        except IndexError:
             pass
 
-        # 보틀러 주소 수집
         try:
             scrap_dict['company_address'][index] = sp.select('.company-address')[0].text.strip()
-        except IndexError:  # 보틀러 주소 정보가 없는경우
+        except IndexError:
             pass
 
         for title_index in range(len(title_list)):
             try:
-                # title_list 값이 Specialists인경우엔 Specialist가 복수개인경우가 있어 딕셔너리로 저장
                 if title_list[title_index].text.strip() == 'Specialists':
                     specialists_dict = {}
                     for avatar in sp.select('.specialists li'):
                         specialists_dict[avatar.a.text.strip()] = avatar.a['href']
-                        scrap_dict['specialists'][index] = specialists_dict
+                    scrap_dict['specialists'][index] = specialists_dict
                 else:
-                    # 나머지 title_list에사 소문자로 변경 및 빈칸을 '_'로
-                    # 채운후 detail_scrap의 키와 비교하여 순서에 맞게 저장
                     title = title_list[title_index].text.strip().lower().replace(' ', '_')
                     scrap_dict[title][index] = value_list[title_index].text.strip()
             except Exception:
                 pass
 
+    # 비동기 세마포어를 사용하여 동시에 수행 가능한 작업의 수를 제한합니다.
     async with sema:
         async with ClientSession(
                 trust_env=True,
                 connector=TCPConnector(ssl=False)
         ) as session:
-            await asyncio.sleep(random.randrange(15))  # 세션 차단을 방지하기위한  15초내외로 난수 딜레이
+            # 요청 사이에 임의의 대기 시간을 설정하여 서버에 부하를 줄입니다.
+            await asyncio.sleep(random.randrange(15))
             try:
+                # aiohttp를 사용하여 웹 페이지에 접근합니다.
                 async with session.get(
                         url[:url.rfind(('/'))] + '/about',
                         ssl=False
@@ -88,13 +82,16 @@ async def extract_bottler_detail(url_index: int, url: str, sema: asyncio.Semapho
                     extract_title_and_value(sp=soup, index=url_index)
 
             except aiohttp.client_exceptions.ClientConnectorError:
+                # aiohttp에서 연결 오류가 발생하는 경우, Selenium을 사용하여 대체합니다.
                 chrome_options = Options()
-                chrome_options.add_argument("--headless=new")  # 크롬 창 실행없이 백그라운드에서 실행
-                driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),
-                                          options=chrome_options)
+                chrome_options.add_argument("--headless=new")
+                driver = webdriver.Chrome(
+                    service=ChromeService(ChromeDriverManager().install()),
+                    options=chrome_options
+                )
                 driver.get(url[:url.rfind(('/'))] + '/about')
                 driver.implicitly_wait(3)
-                soup = BeautifulSoup(markup=driver.page_source, features='lxml')  # BeautifulSoup을 통해 수집된 페이지 검색
+                soup = BeautifulSoup(markup=driver.page_source, features='lxml')
                 extract_title_and_value(sp=soup, index=url_index)
                 driver.close()
             except Exception:
@@ -103,24 +100,31 @@ async def extract_bottler_detail(url_index: int, url: str, sema: asyncio.Semapho
 
 async def run_bottler_detail_collector(link: list, scrap_dict: dict):
     """
-        run_bottler_detail_collector.
-            Args:
-                link : 수집해야할 홈페이지 전체 링크.
-            Note:
-                비동식 제한 갯수 설정(Semaphore) 및 수집해야할 홈페이지 반복문 실행
+    run_bottler_detail_collector.
+        Args:
+            link (list): 증류소 홈페이지 링크 리스트.
+            scrap_dict (dict): 수집한 정보를 담을 딕셔너리.
     """
-    sm = asyncio.Semaphore(30)  # 비동기 최대 갯수 30개 제한
+    # Semaphore를 사용하여 비동기 작업의 동시 실행 수를 제한합니다.
+    sm = asyncio.Semaphore(30)
     fts = [asyncio.ensure_future(
         extract_bottler_detail(idx, u, sm, scrap_dict)) for idx, u in enumerate(link)]
+    # 비동기 작업을 실행하고 완료될 때까지 기다립니다.
     await tqdm_asyncio.gather(*fts)
 
 
 def collect_bottler_detail(current_date: str, scrap_dict: dict):
     """
-        collect.
-            Note:
-                파일 읽기 및 파일크기에따른 리스트 초기화(reset_list_size) loop생성
+    collect_bottler_detail
+        Args:
+            current_date (str): 현재 날짜.
+            scrap_dict (dict): 수집한 정보를 담을 딕셔너리.
+        Notes:
+            보틀러 상세정보를 수집하는 함수입니다.
     """
+    # 증류소 정보가 포함된 CSV 파일을 읽어옵니다.
     bottler_table = pd.read_csv(f'results/{current_date}/csv/pre/{BatchType.BOTTLER_PRE.value}.csv')
+    # scrap_dict 내의 리스트 크기를 초기화합니다.
     wb_libs_func.reset_list_size(len(bottler_table), scrap_dict)
+    # 비동기 작업을 실행합니다.
     asyncio.run(run_bottler_detail_collector(bottler_table.link, scrap_dict))

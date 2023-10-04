@@ -102,7 +102,9 @@ def get_current_datetime() -> str:
 
 
 def initialize_dict(key_list: list, ) -> dict:
-    return {key: None for key in key_list}
+    # AttributeError: 'NoneType' object has no attribute 'append'
+    # None -> [] 수정.
+    return {key: [] for key in key_list}
 
 
 
