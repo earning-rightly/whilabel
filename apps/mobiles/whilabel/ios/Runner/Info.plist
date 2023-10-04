@@ -64,5 +64,15 @@
 		<string>Example usage description</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<!-- barcoe scanner -->
+		<key>io.flutter.embedded_views_preview</key>
+		<true/>
+		<key>NSCameraUsageDescription</key>
+		<string>This app needs camera access to scan QR codes</string>
+		<key>NSCameraUsageDescription</key>
+		<!-- camera -->
+		<string>Camera permission is required.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Microphone permission is required.</string>
 	</dict>
 </plist>
