@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:whilabel/data/user/sns_type.dart';
 import 'package:whilabel/data/user/vaild_account.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
-import 'package:whilabel/domain/use_case/short_archiving_post_use_case.dart';
 import 'package:whilabel/domain/use_case/user_auth/login_use_case.dart';
 import 'package:whilabel/domain/use_case/user_auth/logout_use_case.dart';
 import 'package:whilabel/screens/login/view_model/login_event.dart';

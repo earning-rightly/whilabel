@@ -25,7 +25,7 @@ class WhiskyCritiqueView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double initalStarValue = 3;
+    const double initalStarValue = 1;
     return Scaffold(
       appBar: createScaffoldAppBar(context, SvgIconPath.close, "나의 평가"),
       body: ChangeNotifierProvider<WhiskyCritiqueViewModel>(

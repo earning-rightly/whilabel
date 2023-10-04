@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
 import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 import 'package:whilabel/screens/whisky_critique/pages/successful_upload_post_page.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';
@@ -95,7 +96,13 @@ class _CritiqueViewWhiskyInfoFooterState
                     backgroundColor: ColorsManager.brown100,
                   ),
                   onPressed: isfilled == false
-                      ? null
+                      ? () {
+                          showSimpleDialog(
+                            context,
+                            "필수 입력 정보가 비었습니다",
+                            "별점은 필수 입력 정보입니다. 탭을 해주세요",
+                          );
+                        }
                       : () async {
                           EasyLoading.show(
                             maskType: EasyLoadingMaskType.black,

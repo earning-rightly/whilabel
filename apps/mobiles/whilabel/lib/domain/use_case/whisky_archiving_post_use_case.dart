@@ -8,7 +8,6 @@ import 'package:uuid/uuid.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/post/short_archiving_post.dart';
 import 'package:whilabel/data/taste/taste_feature.dart';
-import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/domain/post/archiving_post_repository.dart';
 import 'package:whilabel/domain/use_case/short_archiving_post_use_case.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
@@ -101,7 +100,6 @@ class WhiskyNewArchivingPostUseCase extends ChangeNotifier {
     final timeStampNow = Timestamp.now();
     final uuid = Uuid();
     String postId = "${uuid.v1()}^${uid}}";
-    final appUser = await _appUserRepository.getCurrentUser();
 
     final downloadUrl = await _privateSaveImageOnStorage(postId, uid);
 
@@ -123,15 +121,6 @@ class WhiskyNewArchivingPostUseCase extends ChangeNotifier {
         imageUrl: downloadUrl,
         postId: postId,
       );
-      // final isWhiskySaved = await _hasWhiskyBeenSaved(
-      //   imageUrl: downloadUrl,
-      //   postId: postId,
-      //   whiskyName: _state.archivingPost.whiskyName,
-
-      // );
-
-      // await _appUserRepository.updateUser(
-      //     uid, appUser);
     } catch (error) {
       debugPrint("archivingPost를 저장하는 과정에서 문제가 생겼습니다");
     }
@@ -140,7 +129,6 @@ class WhiskyNewArchivingPostUseCase extends ChangeNotifier {
   Future<String> _privateSaveImageOnStorage(
       String imageName, String uid) async {
     final FirebaseStorage _storage = FirebaseStorage.instance;
-    // final appUser = await _currentUserStatus.getAppUser();
     final imgageStoragePath = "post/archiving_post/${uid}/$imageName.jpg";
     String downloadUrl = "";
 

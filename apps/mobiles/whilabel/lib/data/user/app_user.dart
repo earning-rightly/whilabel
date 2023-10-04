@@ -1,19 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:whilabel/data/post/short_archiving_post.dart';
 import 'package:whilabel/data/user/enum/gender.dart';
 import 'package:whilabel/data/user/sns_type.dart';
 
-// This doesn't exist yet...! See "Next Steps"
 part 'app_user.g.dart';
 
-/// A custom JsonSerializable annotation that supports decoding objects such
-/// as Timestamps and DateTimes.
-/// This variable can be reused between different models
 const firestoreSerializable = JsonSerializable(
   converters: firestoreJsonConverters,
-  // The following values could alternatively be set inside your `build.yaml`
   explicitToJson: true,
   createFieldMap: true,
 );

@@ -10,7 +10,6 @@ import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post
 import 'package:whilabel/screens/archiving_post_detail/widgets/archiving_post_detail_footer.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/cancel_text_button.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/modify_text_button.dart';
-import 'package:whilabel/screens/archiving_post_detail/widgets/taste_feature_grid.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/user_critque_container.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/image_paths.dart';
@@ -18,7 +17,6 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/_global/widgets/whilabel_divier.dart';
-import 'package:whilabel/screens/whisky_critique/widget/flavor_recorder.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:intl/intl.dart';
@@ -255,15 +253,12 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    //위스키에 상세에 들어갈 정보를 보여줄 곳입니다.
-
                                     SizedBox(height: WhilabelSpacing.spac24),
 
                                     BasicDivider(),
                                     SizedBox(height: WhilabelSpacing.spac24),
 
                                     Container(
-                                      // margin: EdgeInsets.symmetric(vertical: 8),
                                       padding: EdgeInsets.all(16),
                                       alignment: Alignment.center,
                                       width: MediaQuery.of(context).size.width,
@@ -289,25 +284,25 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                         ],
                                       ),
                                     )
-                                    // Text("{위스키}특징",
-                                    //     style: TextStylesManager.bold18),
-
-                                    // TasteFeatureGrid(tastFeaturs: iconPath),
-                                    // SizedBox(height: WhilabelSpacing.spac32),
-                                    // Text("{위스키}특징",
-                                    //     style: TextStylesManager.bold18),
-                                    // Container(
-                                    //   decoration: BoxDecoration(
-                                    //     color: ColorsManager.black100,
-                                    //     borderRadius: BorderRadius.all(
-                                    //       Radius.circular(14),
-                                    //     ),
-                                    //   ),
-                                    //   padding: const EdgeInsets.all(16.0),
-                                    //   child: FlavorRecorder(
-                                    //     disable: true,
-                                    //   ),
-                                    // ),
+                                    // DB에 브랜드 데이터가 들어오면 사용 할 코드
+                                    /* Text("{위스키}특징",
+                                         style: TextStylesManager.bold18),
+                                     TasteFeatureGrid(tastFeaturs: iconPath),
+                                     SizedBox(height: WhilabelSpacing.spac32),
+                                     Text("{위스키}특징",
+                                         style: TextStylesManager.bold18),
+                                     Container(
+                                       decoration: BoxDecoration(
+                                         color: ColorsManager.black100,
+                                         borderRadius: BorderRadius.all(
+                                           Radius.circular(14),
+                                         ),
+                                       ),
+                                       padding: const EdgeInsets.all(16.0),
+                                       child: FlavorRecorder(
+                                         disable: true,
+                                       ),
+                                    ),*/
                                   ],
                                 ),
                               ),
@@ -392,6 +387,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
   }
 }
 
+// distillry image가 DB에 적용하면 사용할 코드
 Future<void> downloadURLExample(String distilleryName) async {
   // String downloadURL = await FirebaseStorage.instance
   //     .ref('distillery_images/$distilleryName.jbeg')
