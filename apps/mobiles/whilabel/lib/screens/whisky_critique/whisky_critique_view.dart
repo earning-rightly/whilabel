@@ -57,9 +57,9 @@ class WhiskyCritiqueView extends StatelessWidget {
                                 SizedBox(height: WhilabelSpacing.spac8),
                                 // 별점
                                 Text(
-                                  "탭해서 평가해 주세요",
-                                  style: TextStylesManager()
-                                      .createHadColorTextStyle(
+                                  "탭해서 평가해 주세요 (필수)",
+                                  style:
+                                      TextStylesManager.createHadColorTextStyle(
                                           "B14", ColorsManager.gray),
                                 ),
                                 SizedBox(height: WhilabelSpacing.spac16),
@@ -79,7 +79,7 @@ class WhiskyCritiqueView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "테이스팅 노트 (선택))",
+                                "테이스팅 노트 (선택)",
                                 style: TextStylesManager.bold16,
                               ),
                               SizedBox(height: WhilabelSpacing.spac12),
@@ -113,7 +113,12 @@ class WhiskyCritiqueView extends StatelessWidget {
                           SizedBox(height: (WhilabelSpacing.spac24)),
                           const BasicDivider(),
                           SizedBox(height: (WhilabelSpacing.spac24)),
-                          // 맛 평가
+                          // 맛 기록
+                          Text(
+                            "맛 기록 (선택)",
+                            style: TextStylesManager.bold16,
+                          ),
+                          SizedBox(height: WhilabelSpacing.spac12),
                           FlavorRecorder(
                             onChangeBodyRate: (double value) {
                               TasteFeature tasteFeature = viewModel

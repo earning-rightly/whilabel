@@ -50,8 +50,8 @@ class SuccessfulUploadPostPage extends StatelessWidget {
                 SizedBox(height: WhilabelSpacing.spac16),
                 Text(
                   "${currentWhiskyCount + 1}번째 위스키에요!",
-                  style: TextStylesManager()
-                      .createHadColorTextStyle("M16", ColorsManager.brown100),
+                  style: TextStylesManager.createHadColorTextStyle(
+                      "M16", ColorsManager.brown100),
                 ),
                 SizedBox(height: WhilabelSpacing.spac8),
                 Text("등록이 완료되었습니다", style: TextStylesManager.bold20),
@@ -92,23 +92,24 @@ class SuccessfulUploadPostPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: WhilabelSpacing.spac12),
-                    Expanded(
-                      flex: 1,
-                      child: SizedBox(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            "공유하기",
-                            style: TextStylesManager.bold16,
-                          ),
-                          style: createBasicButtonStyle(
-                            ColorsManager.brown100,
-                            buttonSize: Size(120, 53),
-                          ),
-                        ),
-                      ),
-                    )
+                    // 공유하기 기능을 만들면 추가
+                    // SizedBox(width: WhilabelSpacing.spac12),
+                    // Expanded(
+                    //   flex: 1,
+                    //   child: SizedBox(
+                    //     child: ElevatedButton(
+                    //       onPressed: () {},
+                    //       child: Text(
+                    //         "공유하기",
+                    //         style: TextStylesManager.bold16,
+                    //       ),
+                    //       style: createBasicButtonStyle(
+                    //         ColorsManager.brown100,
+                    //         buttonSize: Size(120, 53),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               ))

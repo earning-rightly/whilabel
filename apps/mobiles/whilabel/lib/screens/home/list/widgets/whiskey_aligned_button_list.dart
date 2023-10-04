@@ -85,10 +85,10 @@ class WhiskeyAlignedButton extends StatelessWidget {
       child: Text(postButtonOrder.displayName,
           maxLines: 1,
           style: isSelected
-              ? TextStylesManager()
-                  .createHadColorTextStyle("M14", ColorsManager.gray300)
-              : TextStylesManager()
-                  .createHadColorTextStyle("M14", ColorsManager.black300)),
+              ? TextStylesManager.createHadColorTextStyle(
+                  "M14", ColorsManager.gray300)
+              : TextStylesManager.createHadColorTextStyle(
+                  "M14", ColorsManager.black300)),
     );
   }
 }

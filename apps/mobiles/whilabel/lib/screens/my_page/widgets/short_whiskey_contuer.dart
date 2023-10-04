@@ -8,7 +8,7 @@ import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 class ShortWhiskeyCounter extends StatelessWidget {
   const ShortWhiskeyCounter({super.key});
   final String iDrankWhiskey = "내가 마신 위스키";
-  final String iDrankBrand = "내가 마신 브랜드";
+  final String iDrankKind = "내가 마신 위스키 종류";
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +35,15 @@ class ShortWhiskeyCounter extends StatelessWidget {
             children: [
               Text(
                 iDrankWhiskey,
-                style: TextStylesManager()
-                    .createHadColorTextStyle("M14", ColorsManager.gray),
+                style: TextStylesManager.createHadColorTextStyle(
+                    "M14", ColorsManager.gray),
               ),
               SizedBox(height: WhilabelSpacing.spac4),
               //todo 데이터 연결
               Text(
                 "${HomeState.archivingPosts.length}개",
-                style: TextStylesManager()
-                    .createHadColorTextStyle("B18", ColorsManager.brown100),
+                style: TextStylesManager.createHadColorTextStyle(
+                    "B18", ColorsManager.brown100),
               )
             ],
           ),
@@ -58,16 +58,16 @@ class ShortWhiskeyCounter extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                iDrankBrand,
-                style: TextStylesManager()
-                    .createHadColorTextStyle("M14", ColorsManager.gray),
+                iDrankKind,
+                style: TextStylesManager.createHadColorTextStyle(
+                    "M14", ColorsManager.gray),
               ),
               SizedBox(height: WhilabelSpacing.spac4),
               //todo 데이터 연결
               Text(
-                "20개",
-                style: TextStylesManager()
-                    .createHadColorTextStyle("B18", ColorsManager.brown100),
+                "${HomeState.shortArchivingPostMap.length}개",
+                style: TextStylesManager.createHadColorTextStyle(
+                    "B18", ColorsManager.brown100),
               )
             ],
           ),

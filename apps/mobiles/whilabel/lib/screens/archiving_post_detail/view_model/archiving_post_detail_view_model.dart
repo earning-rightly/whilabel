@@ -23,9 +23,6 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
     whiskyData: Whisky(id: ""),
     distilleryData: Distillery(id: ""),
     currentPostId: "",
-    starValue: 0,
-    tasteNote: "",
-    tasteFeature: TasteFeature(bodyRate: 0, flavorRate: 0, peatRate: 0),
   );
   ArchivingPostDetailState get state => _state;
 
@@ -57,9 +54,23 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
     return distilleryData!;
   }
 
-  Future<Whisky> getInitalData(String whiskyId, String postId) async {
+  Future<Whisky> getInitalData(String barCode, String postId) async {
     final whiskyData =
-        await _whiskyRepository.getWhiskyDataWithBarcode(whiskyId);
+        await _whiskyRepository.getWhiskyDataWithBarcode(barCode);
+    print(whiskyData?.distilleryIds.toString());
+    if (whiskyData?.wbWhisky!.distilleryName != null) {
+      // final distilleryData =
+      //     getDistilleryData(whiskyData!.wbWhisky!.wbDistilleryIds!.first);
+      print("distilleryData distilleryData distilleryData");
+      print("distilleryData distilleryData distilleryData");
+      print("distilleryData distilleryData distilleryData");
+      String test1 = whiskyData?.wbWhisky!.distilleryName ?? "['','']";
+      print("111111  String 보기 $test1");
+      List<String> list = test1.split("'");
+      _whiskyRepository.getDistilleryData(list[1]);
+
+      print("distillery 이름: ${list[1]}");
+    }
     if (_state.currentPostId.isEmpty) {
       _state = _state.copyWith(currentPostId: postId);
       notifyListeners();
@@ -69,7 +80,7 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
     return whiskyData!;
   }
 
-// post가 존하기 때문에 상세페지 이동 가능
+// post가 존하기 때문에 상세페이지 이동 가능
   Future<void> updateUserCritique() async {
     ArchivingPost? newArchivingPost =
         await _archivingPostRepository.getArchivingPost(_state.currentPostId);

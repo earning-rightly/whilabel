@@ -11,8 +11,8 @@ class ArchivingPostDetailState with _$ArchivingPostDetailState {
     required Whisky whiskyData,
     required Distillery distilleryData,
     required String currentPostId,
-    required double starValue,
-    required String tasteNote,
-    required TasteFeature tasteFeature,
+    double? starValue,
+    String? tasteNote,
+    TasteFeature? tasteFeature,
   }) = _ArchivingPostDetailState;
 }

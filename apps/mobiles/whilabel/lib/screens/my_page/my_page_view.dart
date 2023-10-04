@@ -10,6 +10,7 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/my_page/page/announcement_page.dart';
 import 'package:whilabel/screens/my_page/page/inquiring_page.dart';
+import 'package:whilabel/screens/my_page/page/privacy_policy_page.dart';
 import 'package:whilabel/screens/my_page/page/setting_page.dart';
 import 'package:whilabel/screens/my_page/page/term_condition_service_page.dart';
 import 'package:whilabel/screens/my_page/widgets/list_button.dart';
@@ -65,14 +66,15 @@ class MyPageView extends StatelessWidget {
                 ListTitleIconButton(
                   svgPath: data["svg_path"],
                   titleText: data["title"],
-                  onPressedButton: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => data["rotue"],
-                      ),
-                    );
-                  },
+                  pageRoute: data["rotue"],
+                  // onPressedButton: () {
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) => data["rotue"],
+                  //     ),
+                  //   );
+                  // },
                 ),
 
               // 마이페이지 설정보기 과 문서보기를 구분 지어주는 선
@@ -81,27 +83,29 @@ class MyPageView extends StatelessWidget {
                 thickness: 2,
               ),
 
+              TextButton(
+                  onPressed: () {
+                    final size = MediaQuery.of(context).size;
+                    print("width : ${size.width}, height:${size.height}");
+                  },
+                  child: Text("MediaQury")),
+
               // 마이페이지 문서보기 리스트 버튼
               for (Map<String, dynamic> docData
                   in myPageData.myPageViewDucButtonDatas)
                 ListTitleIconButton(
                   svgPath: docData["svg_path"],
                   titleText: docData["title"],
-                  onPressedButton: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => docData["rotue"],
-                      ),
-                    );
-                  },
+                  pageRoute: docData["rotue"],
+                  // onPressedButton: () {
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) => docData["rotue"],
+                  //     ),
+                  //   );
+                  // },
                 ),
-              TextButton(
-                child: Text("muck route"),
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.loginRoute);
-                },
-              ),
             ],
           )),
     );
@@ -116,22 +120,22 @@ class MyPageData {
     {
       "svg_path": SvgIconPath.announce,
       "title": "공지사항",
-      "rotue": AnnouncementPage()
+      "rotue": MyPageRoutes.annoucementRoute
     },
     {
       "svg_path": SvgIconPath.faq,
       "title": "FAQ",
-      "rotue": FaqPage(),
+      "rotue": MyPageRoutes.faqRoute,
     },
     {
       "svg_path": SvgIconPath.customer,
       "title": "1:1 문의하기",
-      "rotue": InquiringPage()
+      "rotue": MyPageRoutes.inquiringRoute
     },
     {
       "svg_path": SvgIconPath.announce,
       "title": "위라벨 소개",
-      "rotue": OnboardingStep1Page()
+      "rotue": Routes.onBoardingRoute,
     },
   ];
 //  todo "rotue 키값 value를 채워야 한다."
@@ -140,17 +144,12 @@ class MyPageData {
     {
       "svg_path": SvgIconPath.document,
       "title": "서비스, 이용약관",
-      "rotue": TermConditionServicePage(),
+      "rotue": MyPageRoutes.termConditionSerciceRoute,
     },
     {
       "svg_path": SvgIconPath.document,
       "title": "개인정보 처리방침",
-      "rotue": "",
-    },
-    {
-      "svg_path": SvgIconPath.document,
-      "title": "오픈소스 라이센스",
-      "rotue": "",
+      "rotue": MyPageRoutes.privacyPolicyPage,
     },
   ];
 }

@@ -55,8 +55,8 @@ class AnnouncmentPageEmpty extends StatelessWidget {
                   Text(
                     announcementPageSubText,
                     maxLines: 2,
-                    style: TextStylesManager()
-                        .createHadColorTextStyle("R16", ColorsManager.gray),
+                    style: TextStylesManager.createHadColorTextStyle(
+                        "R16", ColorsManager.gray),
                   ),
                 ],
               ),

@@ -77,10 +77,10 @@ class _FlavorRangeState extends State<FlavorRange> {
           child: Text(
             widget.subTitleLeft,
             style: filledCount < maxCount / 2
-                ? TextStylesManager()
-                    .createHadColorTextStyle("B14", ColorsManager.yellow)
-                : TextStylesManager()
-                    .createHadColorTextStyle("B14", ColorsManager.gray200),
+                ? TextStylesManager.createHadColorTextStyle(
+                    "B14", ColorsManager.yellow)
+                : TextStylesManager.createHadColorTextStyle(
+                    "B14", ColorsManager.gray200),
           ),
         ),
         Positioned(
@@ -89,10 +89,10 @@ class _FlavorRangeState extends State<FlavorRange> {
           child: Text(
             widget.subTitleRight,
             style: (filledCount > maxCount / 2 && filledCount != 3)
-                ? TextStylesManager()
-                    .createHadColorTextStyle("B14", ColorsManager.yellow)
-                : TextStylesManager()
-                    .createHadColorTextStyle("B14", ColorsManager.gray200),
+                ? TextStylesManager.createHadColorTextStyle(
+                    "B14", ColorsManager.yellow)
+                : TextStylesManager.createHadColorTextStyle(
+                    "B14", ColorsManager.gray200),
           ),
         )
       ],

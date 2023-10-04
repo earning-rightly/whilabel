@@ -22,7 +22,6 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
     WhiskyQueryDocumentSnapshot? whiskySnapshot;
 
     try {
-      print(" getWhiskyDataWithBarcode(String barcode) => $barcode&&&");
       final _whiskyQuerySnapshot =
           await _whiskyRef.whereBarcode(isEqualTo: barcode).get();
 
@@ -37,6 +36,18 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
       debugPrint("$error");
       return Future(() => null);
     }
+    String test1 = whiskySnapshot.data.wbWhisky!.wbDistilleryIds ?? "['null']";
+    print("String 보기 $test1");
+    List<String> list = test1.split("'");
+
+// List에서 숫자만 추출합니다.
+    // List<int> numbers = list.map((e) => int.parse(e)).toList();
+
+// 추출한 숫자를 출력합니다.
+    print("distillery 이름: ${list[1]}");
+    // print("dis id ${whiskySnapshot.data.wbWhisky?.distilleryName.toString()}");
+    // print("distillery Name ${int.parse(list[1])}");
+    // print("distillery Name list==~~ $list");
 
     return whiskySnapshot.data;
   }

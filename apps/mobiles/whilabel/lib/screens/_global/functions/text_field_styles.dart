@@ -36,8 +36,8 @@ InputDecoration createBasicTextFieldStyle(
       borderSide: BorderSide(color: ColorsManager.gray500, width: 2),
     ),
     hintText: hintText,
-    hintStyle: TextStylesManager()
-        .createHadColorTextStyle("R16", ColorsManager.black400),
+    hintStyle: TextStylesManager.createHadColorTextStyle(
+        "R16", ColorsManager.black400),
   );
 }
 

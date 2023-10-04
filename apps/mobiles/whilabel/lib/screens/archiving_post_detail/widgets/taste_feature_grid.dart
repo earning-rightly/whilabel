@@ -85,8 +85,8 @@ class TasteFeatureBox extends StatelessWidget {
           SizedBox(height: WhilabelSpacing.spac4 + 2),
           Text(
             "셰리함",
-            style: TextStylesManager()
-                .createHadColorTextStyle("M14", ColorsManager.gray200),
+            style: TextStylesManager.createHadColorTextStyle(
+                "M14", ColorsManager.gray200),
           )
         ],
       ),

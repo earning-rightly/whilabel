@@ -72,9 +72,13 @@ class EachListArchivingPostCard extends StatelessWidget {
                     children: [
                       Text(
                         // whisky이름이 12자 이상이면 그 뒤로는 ... 표시
-                        archivingPost.whiskyName.length > 12
-                            ? archivingPost.whiskyName.substring(0, 12)
-                            : "${archivingPost.whiskyName}...",
+                        // archivingPost.whiskyName.length > 12
+                        //     ? archivingPost.whiskyName.substring(0, 12)
+                        //     : "${archivingPost.whiskyName}...",
+
+                        archivingPost.whiskyName.length < 12
+                            ? archivingPost.whiskyName
+                            : "${archivingPost.whiskyName.substring(0, 12)}...",
                         style: TextStylesManager.bold16,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -134,8 +138,8 @@ class EachListArchivingPostCard extends StatelessWidget {
                   SizedBox(height: WhilabelSpacing.spac12 / 2),
                   Text(
                     "${archivingPost.location ?? ""}\t\u2022\t${archivingPost.strength != null ? archivingPost.strength! + "%" : ""}",
-                    style: TextStylesManager()
-                        .createHadColorTextStyle("R12", ColorsManager.gray),
+                    style: TextStylesManager.createHadColorTextStyle(
+                        "R12", ColorsManager.gray),
                   ),
                   SizedBox(height: WhilabelSpacing.spac12 / 2),
                   Flexible(
@@ -144,8 +148,10 @@ class EachListArchivingPostCard extends StatelessWidget {
                       padding: EdgeInsets.only(left: 1, right: 1),
                       child: SizedBox(
                         child: Text(
-                          "\"archivingPost.note\"",
-                          style: TextStylesManager().createHadColorTextStyle(
+                          archivingPost.note.length < 24
+                              ? archivingPost.note
+                              : "${archivingPost.note.substring(0, 24)}...",
+                          style: TextStylesManager.createHadColorTextStyle(
                               "R14", ColorsManager.gray300),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -168,22 +174,22 @@ class EachListArchivingPostCard extends StatelessWidget {
                         Icon(Icons.star, color: ColorsManager.yellow, size: 16),
                         Text(
                           "${archivingPost.starValue}",
-                          style: TextStylesManager().createHadColorTextStyle(
+                          style: TextStylesManager.createHadColorTextStyle(
                               "M12", ColorsManager.yellow),
                         ),
                         Text(
                           "\t$creatDate",
-                          style: TextStylesManager().createHadColorTextStyle(
+                          style: TextStylesManager.createHadColorTextStyle(
                               "M12", ColorsManager.gray),
                         ),
                         Text(
                           "\t\t- $sameWhiskyNameCounter잔",
-                          style: TextStylesManager().createHadColorTextStyle(
+                          style: TextStylesManager.createHadColorTextStyle(
                               "M12", ColorsManager.gray),
                         ),
                         Text(
                           archivingPost.location ?? "",
-                          style: TextStylesManager().createHadColorTextStyle(
+                          style: TextStylesManager.createHadColorTextStyle(
                               "R12", ColorsManager.gray),
                         ),
                       ],

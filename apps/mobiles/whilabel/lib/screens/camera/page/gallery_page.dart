@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_gallery/photo_gallery.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:whilabel/screens/camera/page/image_page.dart';
+import 'package:whilabel/screens/camera/page/take_picture_page.dart';
 import 'package:whilabel/screens/camera/widget/gallery_album_picker.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
@@ -33,9 +35,14 @@ class _GalleryPageState extends State<GalleryPage> {
     if (await _promptPermissionSetting()) {
       List<Album> albums = await PhotoGallery.listAlbums();
       MediaPage mediaPage = await albums.first.listMedia();
+      List<Medium> images = mediaPage.items
+          .where((item) => item.mediumType == MediumType.image)
+          .toList();
+
       setState(() {
         _albums = albums;
-        _media = mediaPage.items;
+        _media.add(mediaPage.items[0]); // 카메라 버튼을 만들기 위한 쓰레기 데이터
+        _media.addAll(images);
         // _loading = false;
       });
       Set<String?>? albumNames = _albums
@@ -124,19 +131,36 @@ class _GalleryPageState extends State<GalleryPage> {
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   Medium medium = _media[index];
-                  if (medium.mediumType == MediumType.video) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: ColorsManager.gray500,
+                  if (index == 0) {
+                    return GestureDetector(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                            color: ColorsManager.gray500,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text("Camera",
+                              style: TextStylesManager.createHadColorTextStyle(
+                                  "B16", ColorsManager.gray300)),
                         ),
                       ),
-                      child: Center(
-                        child: Text("Video",
-                            style: TextStylesManager().createHadColorTextStyle(
-                                "B16", ColorsManager.gray300)),
-                      ),
+                      onTap: () async {
+                        // Obtain a list of the available cameras on the device.
+                        final cameras = await availableCameras();
+
+                        // Get a specific camera from the list of available cameras.
+                        final firstCamera = cameras.first;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TakePictureScreen(
+                                    camera: firstCamera,
+                                  )),
+                        );
+                        // TakePicturePage()
+                      },
                     );
                   }
 

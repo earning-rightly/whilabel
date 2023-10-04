@@ -6,13 +6,14 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 
 class WhilabelContextMenu {
   static List<Map<String, dynamic>> meunItemContent = [
-    {
+    // 공유하기 기능을 추가하면 보여야할 UI
+    /* {
       "title": "공유하기",
       "value": "share",
       "title_style": TextStylesManager.regular16,
       "icon_path": SvgIconPath.share,
       "icon_color": ColorsManager.white,
-    },
+    },*/
     {
       "title": "수정하기",
       "value": "modify",
@@ -24,7 +25,7 @@ class WhilabelContextMenu {
       "title": "삭제하기",
       "value": "delete",
       "title_style":
-          TextStylesManager().createHadColorTextStyle("R16", ColorsManager.red),
+          TextStylesManager.createHadColorTextStyle("R16", ColorsManager.red),
       "icon_path": SvgIconPath.delete,
       "icon_color": ColorsManager.red,
     }
@@ -52,17 +53,19 @@ class WhilabelContextMenu {
       items: <PopupMenuItem>[
         for (int index = 0; index < meunItemContent.length; index++)
           PopupMenuItem(
-//               value: meunItemContent[index]["value"],
             value: meunItemContent[index]["value"],
             padding: EdgeInsets.zero,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
-                  border: Border(
-                      bottom:
-                          BorderSide(color: ColorsManager.gray200, width: 2))),
+                  // PopupMenu 구분선
+                  /* border: Border(
+                       bottom:
+                           BorderSide(color: ColorsManager.gray200, width: 2)) */
+
+                  ),
               width: 300,
-              height: 40,
+              height: 30,
               child: Stack(
                 children: [
                   Row(

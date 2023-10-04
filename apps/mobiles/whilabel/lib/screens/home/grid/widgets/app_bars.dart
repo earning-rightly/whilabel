@@ -8,13 +8,14 @@ AppBar createScaffoldAppBar(
     BuildContext context, String svgPath, String title) {
   return AppBar(
     leading: IconButton(
-      padding: EdgeInsets.zero,
+      padding: EdgeInsets.only(left: 16, right: 16),
       alignment: Alignment.centerLeft,
       icon: SvgPicture.asset(svgPath),
       onPressed: () {
         Navigator.pop(context);
       },
     ),
+    centerTitle: true,
     title: Text(
       title,
       textAlign: TextAlign.center,
