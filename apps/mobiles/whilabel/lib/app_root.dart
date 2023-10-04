@@ -62,7 +62,8 @@ class AppRoot extends StatelessWidget {
               //   }
               // },
               onHorizontalDragEnd: (details) {
-                if (details.velocity.pixelsPerSecond.dx > 50) {
+                if (details.velocity.pixelsPerSecond.dx > 50 &&
+                    Platform.isIOS) {
                   print("onHorizontalDragEnd close");
                   showColoseAppDialog(context);
                 }

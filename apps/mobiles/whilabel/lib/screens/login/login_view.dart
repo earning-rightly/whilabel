@@ -113,6 +113,25 @@ class _LoginViewState extends State<LoginView> {
                         });
                       },
                     ),
+                    SizedBox(height: WhilabelSpacing.spac16),
+                    EachLoginButton(
+                      buttonText: "MB 로그인하기",
+                      svgImagePath: imagePaths.kakaoIcon,
+                      onPressedFunc: () {
+                        // turnOnOffoffstage();
+
+                        // viewModel.onEvent(LoginEvent.login(SnsType.KAKAO),
+                        //     callback: () {
+                        //   // 로그인 후 이동할 경로 확인
+                        //   checkNextRoute(
+                        //     context: context,
+                        //     isLogined: viewModel.state.isLogined,
+                        //     isDeleted: viewModel.state.isDeleted,
+                        //     userState: viewModel.state.userState,
+                        //   );
+                        // });
+                      },
+                    ),
                   ],
                 ),
               ),

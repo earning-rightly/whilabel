@@ -46,19 +46,21 @@ class HomeViewModel with ChangeNotifier {
 
   Future<void> _loadArchivingPost(PostButtonOrder listButtonOrder) async {
     final appUser = await _appUserRepository.getCurrentUser();
-    List<ArchivingPost> archivingPosts =
-        await _loadArchivingPostUseCase.call(appUser!.uid, listButtonOrder);
-    Map<String, List<ShortArchivingPost>> shortArchivingPostMap =
-        await _shortArchivingPostUseCase.getShortArchivingPostMap(
-            uid: appUser.uid);
+    if (appUser?.uid != null) {
+      List<ArchivingPost> archivingPosts =
+          await _loadArchivingPostUseCase.call(appUser!.uid, listButtonOrder);
+      Map<String, List<ShortArchivingPost>> shortArchivingPostMap =
+          await _shortArchivingPostUseCase.getShortArchivingPostMap(
+              uid: appUser.uid);
+      _state = _state.copyWith(
+          archivingPosts: archivingPosts,
+          shortArchivingPostMap: shortArchivingPostMap);
+      notifyListeners();
+    }
+
     // for (String key in shortArchivingPostMap.keys) {
     //   print(shortArchivingPostMap[key]!.first);
     // }
-
-    _state = _state.copyWith(
-        archivingPosts: archivingPosts,
-        shortArchivingPostMap: shortArchivingPostMap);
-    notifyListeners();
   }
 
   Future<void> _changeButtonOrder(PostButtonOrder listButtonOrder) async {

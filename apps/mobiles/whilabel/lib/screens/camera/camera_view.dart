@@ -30,122 +30,131 @@ class CameraView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<CarmeraViewModel>();
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    // int expandedRate = 1;
+    // if (width <= height) expandedRate = (height / width).toInt();
     return SafeArea(
         child: Padding(
       padding: WhilabelPadding.onlyHoizBasicPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: EdgeInsets.only(top: 32),
-              child: Text(
-                "위스키 기록",
-                style: TextStylesManager.bold24,
+      child: SizedBox(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: EdgeInsets.only(top: 32),
+                child: Text(
+                  "위스키 기록",
+                  style: TextStylesManager.bold24,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 3,
-            child: SizedBox(
-              child: Column(
-                children: [
-                  Image.asset(
-                    cameraViewPngImage,
-                  ),
-                  SizedBox(height: WhilabelSpacing.spac32),
-                  Text(
-                    "오늘 마신 위스키를 기록해볼까요?",
-                    style: TextStylesManager.bold20,
-                    textAlign: TextAlign.left,
-                  ),
-                  SizedBox(height: WhilabelSpacing.spac24),
-                  Row(
-                    children: [
-                      Expanded(flex: 10, child: SizedBox()),
-                      Expanded(
-                        flex: 34,
-                        child: LongTextButton(
-                          buttonText: "위스키 기록하기",
-                          color: ColorsManager.brown100,
-                          onPressedFunc: () {
-                            showModalBottomSheet<void>(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 18),
-                                  color: ColorsManager.black200,
-                                  height: 200,
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        // 바코드로 인식하기
-                                        LongTextButton(
-                                          buttonText: "위스키 병 바코드 인식",
-                                          onPressedFunc: () async {
-                                            await Navigator.push(
+            Expanded(
+              flex: height * 0.85 <= width ? 0 : 3,
+              child: SizedBox(
+                child: Column(
+                  children: [
+                    Image.asset(
+                      cameraViewPngImage,
+                    ),
+                    SizedBox(height: WhilabelSpacing.spac32),
+                    Text(
+                      "오늘 마신 위스키를 기록해볼까요?",
+                      style: TextStylesManager.bold20,
+                      textAlign: TextAlign.left,
+                    ),
+                    SizedBox(height: WhilabelSpacing.spac24),
+                    Row(
+                      children: [
+                        Expanded(flex: 10, child: SizedBox()),
+                        Expanded(
+                          flex: 34,
+                          child: LongTextButton(
+                            buttonText: "위스키 기록하기",
+                            color: ColorsManager.brown100,
+                            onPressedFunc: () {
+                              showModalBottomSheet<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 18),
+                                    color: ColorsManager.black200,
+                                    height: 200,
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          // 바코드로 인식하기
+                                          LongTextButton(
+                                            buttonText: "위스키 병 바코드 인식",
+                                            onPressedFunc: () async {
+                                              await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const SimpleBarcodeScannerPage(),
+                                                  )).then((value) {
+                                                if (value is String) {
+                                                  viewModel.onEvent(
+                                                      CarmeraEvent
+                                                          .searchWhiskeyWithBarcode(
+                                                              value),
+                                                      callback: () async {
+                                                    if (viewModel.state
+                                                        .isFindWhiskyData) {
+                                                      await showSuccedDialog();
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              GalleryPage(),
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      addFailCounter();
+                                                    }
+                                                  });
+                                                }
+                                              });
+                                            },
+                                          ),
+                                          SizedBox(
+                                              height: WhilabelSpacing.spac8),
+                                          LongTextButton(
+                                            buttonText: "위스키 이름 검색",
+                                            onPressedFunc: () {
+                                              Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const SimpleBarcodeScannerPage(),
-                                                )).then((value) {
-                                              if (value is String) {
-                                                viewModel.onEvent(
-                                                    CarmeraEvent
-                                                        .searchWhiskeyWithBarcode(
-                                                            value),
-                                                    callback: () async {
-                                                  if (viewModel
-                                                      .state.isFindWhiskyData) {
-                                                    await showSuccedDialog();
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            GalleryPage(),
-                                                      ),
-                                                    );
-                                                  } else {
-                                                    addFailCounter();
-                                                  }
-                                                });
-                                              }
-                                            });
-                                          },
-                                        ),
-                                        SizedBox(height: WhilabelSpacing.spac8),
-                                        LongTextButton(
-                                          buttonText: "위스키 이름 검색",
-                                          onPressedFunc: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SerachWhiskyNamePage()),
-                                            );
-                                          },
-                                        ),
-                                      ],
+                                                    builder: (context) =>
+                                                        SerachWhiskyNamePage()),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                            );
-                          },
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                      Expanded(flex: 10, child: SizedBox()),
-                    ],
-                  ),
-                ],
+                        Expanded(flex: 10, child: SizedBox()),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          )
-        ],
+            SizedBox(height: 20),
+          ],
+        ),
       ),
     ));
   }
