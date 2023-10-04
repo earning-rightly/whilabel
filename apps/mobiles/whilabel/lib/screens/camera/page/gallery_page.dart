@@ -141,7 +141,7 @@ class _GalleryPageState extends State<GalleryPage> {
                           ),
                         ),
                         child: Center(
-                          child: Text("Video",
+                          child: Text("Camera",
                               style: TextStylesManager.createHadColorTextStyle(
                                   "B16", ColorsManager.gray300)),
                         ),

@@ -92,23 +92,24 @@ class SuccessfulUploadPostPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: WhilabelSpacing.spac12),
-                    Expanded(
-                      flex: 1,
-                      child: SizedBox(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            "공유하기",
-                            style: TextStylesManager.bold16,
-                          ),
-                          style: createBasicButtonStyle(
-                            ColorsManager.brown100,
-                            buttonSize: Size(120, 53),
-                          ),
-                        ),
-                      ),
-                    )
+                    // 공유하기 기능을 만들면 추가
+                    // SizedBox(width: WhilabelSpacing.spac12),
+                    // Expanded(
+                    //   flex: 1,
+                    //   child: SizedBox(
+                    //     child: ElevatedButton(
+                    //       onPressed: () {},
+                    //       child: Text(
+                    //         "공유하기",
+                    //         style: TextStylesManager.bold16,
+                    //       ),
+                    //       style: createBasicButtonStyle(
+                    //         ColorsManager.brown100,
+                    //         buttonSize: Size(120, 53),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               ))

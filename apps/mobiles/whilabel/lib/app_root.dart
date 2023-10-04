@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,7 @@ import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
+import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/camera/camera_view.dart';
 import 'package:whilabel/screens/home/home_view.dart';
 import 'package:whilabel/screens/login/login_view.dart';
@@ -52,71 +54,92 @@ class AppRoot extends StatelessWidget {
             // tabBar를 사용하기 필요한 widget
             length: 2,
             initialIndex: 0,
-            child: StreamBuilder<int>(
-                stream: _events.stream,
-                builder: (context, snapshot) {
-                  print("itme tab ===. ${snapshot.data}");
-                  return Scaffold(
-                    body: bottomNavigationBodyRoutes
-                        .elementAt(snapshot.data ?? 0),
-                    bottomNavigationBar: Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                            top: BorderSide(
-                                color: ColorsManager.black300, width: 1.0)),
-                      ),
-                      child: BottomNavigationBar(
-                        showSelectedLabels: false,
-                        backgroundColor: ColorsManager.black100,
-                        items: <BottomNavigationBarItem>[
-                          BottomNavigationBarItem(
-                            icon: SvgPicture.asset(
-                              SvgIconPath.whisky,
-                              colorFilter: ColorFilter.mode(
-                                  ColorsManager.black300, BlendMode.srcIn),
-                            ),
-                            activeIcon: SvgPicture.asset(
-                              SvgIconPath.whisky,
-                              colorFilter: ColorFilter.mode(
-                                  ColorsManager.brown100, BlendMode.srcIn),
-                            ),
-                            label: 'whisky',
+            child: GestureDetector(
+              // onPanEnd: (details) {
+              //   if (details.velocity.pixelsPerSecond.dx < 0 ||
+              //       details.velocity.pixelsPerSecond.dx > 0) {
+              //     print("close");
+              //   }
+              // },
+              onHorizontalDragEnd: (details) {
+                if (details.velocity.pixelsPerSecond.dx > 50) {
+                  print("onHorizontalDragEnd close");
+                  showColoseAppDialog(context);
+                }
+              },
+              child: WillPopScope(
+                onWillPop: () async {
+                  if (Platform.isAndroid) showColoseAppDialog(context);
+
+                  return false;
+                },
+                child: StreamBuilder<int>(
+                    stream: _events.stream,
+                    builder: (context, snapshot) {
+                      print("itme tab ===. ${snapshot.data}");
+                      return Scaffold(
+                        body: bottomNavigationBodyRoutes
+                            .elementAt(snapshot.data ?? 0),
+                        bottomNavigationBar: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                                top: BorderSide(
+                                    color: ColorsManager.black300, width: 1.0)),
                           ),
-                          BottomNavigationBarItem(
-                            icon: SvgPicture.asset(
-                              SvgIconPath.camera,
-                              colorFilter: ColorFilter.mode(
-                                  ColorsManager.black300, BlendMode.srcIn),
-                            ),
-                            activeIcon: SvgPicture.asset(
-                              SvgIconPath.camera,
-                              colorFilter: ColorFilter.mode(
-                                  ColorsManager.brown100, BlendMode.srcIn),
-                            ),
-                            label: 'camera',
+                          child: BottomNavigationBar(
+                            showSelectedLabels: false,
+                            backgroundColor: ColorsManager.black100,
+                            items: <BottomNavigationBarItem>[
+                              BottomNavigationBarItem(
+                                icon: SvgPicture.asset(
+                                  SvgIconPath.whisky,
+                                  colorFilter: ColorFilter.mode(
+                                      ColorsManager.black300, BlendMode.srcIn),
+                                ),
+                                activeIcon: SvgPicture.asset(
+                                  SvgIconPath.whisky,
+                                  colorFilter: ColorFilter.mode(
+                                      ColorsManager.brown100, BlendMode.srcIn),
+                                ),
+                                label: 'whisky',
+                              ),
+                              BottomNavigationBarItem(
+                                icon: SvgPicture.asset(
+                                  SvgIconPath.camera,
+                                  colorFilter: ColorFilter.mode(
+                                      ColorsManager.black300, BlendMode.srcIn),
+                                ),
+                                activeIcon: SvgPicture.asset(
+                                  SvgIconPath.camera,
+                                  colorFilter: ColorFilter.mode(
+                                      ColorsManager.brown100, BlendMode.srcIn),
+                                ),
+                                label: 'camera',
+                              ),
+                              BottomNavigationBarItem(
+                                icon: SvgPicture.asset(
+                                  SvgIconPath.user,
+                                  colorFilter: ColorFilter.mode(
+                                      ColorsManager.black300, BlendMode.srcIn),
+                                ),
+                                activeIcon: SvgPicture.asset(
+                                  SvgIconPath.user,
+                                  colorFilter: ColorFilter.mode(
+                                      ColorsManager.brown100, BlendMode.srcIn),
+                                ),
+                                label: 'myPage',
+                              ),
+                            ],
+                            currentIndex: snapshot.data ?? 0,
+                            selectedItemColor: ColorsManager.brown100,
+                            unselectedItemColor: ColorsManager.black100,
+                            onTap: _onItemTapped,
                           ),
-                          BottomNavigationBarItem(
-                            icon: SvgPicture.asset(
-                              SvgIconPath.user,
-                              colorFilter: ColorFilter.mode(
-                                  ColorsManager.black300, BlendMode.srcIn),
-                            ),
-                            activeIcon: SvgPicture.asset(
-                              SvgIconPath.user,
-                              colorFilter: ColorFilter.mode(
-                                  ColorsManager.brown100, BlendMode.srcIn),
-                            ),
-                            label: 'myPage',
-                          ),
-                        ],
-                        currentIndex: snapshot.data ?? 0,
-                        selectedItemColor: ColorsManager.brown100,
-                        unselectedItemColor: ColorsManager.black100,
-                        onTap: _onItemTapped,
-                      ),
-                    ),
-                  );
-                }),
+                        ),
+                      );
+                    }),
+              ),
+            ),
           );
         });
   }

@@ -7,41 +7,44 @@ import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 class ListTitleIconButton extends StatelessWidget {
   const ListTitleIconButton({
     super.key,
-    this.onPressedButton,
+    required this.pageRoute,
     this.spacing = 8,
     required this.svgPath,
     required this.titleText,
   });
   final String svgPath;
   final String titleText;
-  final Function()? onPressedButton;
+  final String pageRoute;
   final double spacing;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: WhilabelSpacing.spac16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SvgPicture.asset(
-              svgPath,
-              height: 25,
-              colorFilter:
-                  ColorFilter.mode(ColorsManager.black400, BlendMode.srcIn),
-            ),
-            SizedBox(
-              width: spacing,
-            ),
-            Text(
-              titleText,
-              style: TextStylesManager.medium16,
-            ),
-          ],
+    return InkWell(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: WhilabelSpacing.spac16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SvgPicture.asset(
+                svgPath,
+                height: 25,
+                colorFilter:
+                    ColorFilter.mode(ColorsManager.black400, BlendMode.srcIn),
+              ),
+              SizedBox(
+                width: spacing,
+              ),
+              Text(
+                titleText,
+                style: TextStylesManager.medium16,
+              ),
+            ],
+          ),
         ),
-      ),
-      onTap: onPressedButton ?? () {},
-    );
+        onTap: () {
+          if (pageRoute.isNotEmpty) {
+            Navigator.pushNamed(context, pageRoute);
+          }
+        });
   }
 }
