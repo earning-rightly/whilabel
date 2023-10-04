@@ -18,7 +18,7 @@ import 'package:whilabel/screens/my_page/view_model/my_page_view_model.dart';
 class WithdrawalPage extends StatelessWidget {
   WithdrawalPage({super.key});
 
-  String withDrowPageTitle = "지금 탈퇴하면 위라벨에서 제공하는 다양한 혜택을 더 이상 누릴 수 없어요";
+  String withDrowPageTitle = "지금 탈퇴하면 위라벨에서 제공하는\t다양한\t혜택을 더 이상 누릴 수 없어요";
   String withDrowPageWaringText1 = "위스키 맛과 브랜드의 특징에 접근할 수 없습니다";
   String withDrowPageWaringText2 = "수동적으로 등록된 위스키에 대한 정보는 보관됩니다";
   String withDrowPageWaringText3 = "나의 위스키 기록(사진, 별점, 한 줄평 등)이 영구적으로 삭제됩니다";
@@ -37,71 +37,67 @@ class WithdrawalPage extends StatelessWidget {
         child: SafeArea(
           child: Stack(
             children: [
-              Positioned(
-                top: 10,
-                child: SizedBox(
-                  height: 200, //todo 유동성 있게 수정 필요
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: WhilabelSpacing.spac8),
+
+                  // 상단 굵은 탈퇴 안내글
+                  SizedBox(
+                    child: Text(
+                      withDrowPageTitle,
+                      maxLines: 3,
+                      style: TextStylesManager.bold20,
+                      softWrap: true,
+                    ),
+                  ),
+                  SizedBox(height: WhilabelSpacing.spac24),
+
+                  // 첫 번째 리스트 글
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // 상단 굵은 탈퇴 안내글
-                      Flexible(
-                        child: Text(
-                          withDrowPageTitle,
-                          maxLines: 2,
-                          style: TextStylesManager.bold20,
-                        ),
-                      ),
-                      SizedBox(height: WhilabelSpacing.spac24),
-
-                      // 첫 번째 리스트 글
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(dot, style: TextStylesManager.regular14),
-                          Text(
-                            withDrowPageWaringText1,
-                            style: TextStylesManager.regular14,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: WhilabelSpacing.spac12),
-
-                      // 두 번째 리스트 글
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(dot, style: TextStylesManager.regular14),
-                          Text(
-                            withDrowPageWaringText2,
-                            style: TextStylesManager.regular14,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: WhilabelSpacing.spac12),
-
-                      // 세 번째 리스트 글
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(dot, style: TextStylesManager.regular14),
-                          Flexible(
-                            child: SizedBox(
-                              height: 50,
-                              child: Text(
-                                textAlign: TextAlign.justify,
-                                maxLines: 2,
-                                withDrowPageWaringText3,
-                                style: TextStylesManager.regular14,
-                              ),
-                            ),
-                          ),
-                        ],
+                      Text(dot, style: TextStylesManager.regular14),
+                      Text(
+                        withDrowPageWaringText1,
+                        style: TextStylesManager.regular14,
                       ),
                     ],
                   ),
-                ),
+                  SizedBox(height: WhilabelSpacing.spac12),
+
+                  // 두 번째 리스트 글
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(dot, style: TextStylesManager.regular14),
+                      Text(
+                        withDrowPageWaringText2,
+                        style: TextStylesManager.regular14,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: WhilabelSpacing.spac12),
+
+                  // 세 번째 리스트 글
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(dot, style: TextStylesManager.regular14),
+                      Flexible(
+                        child: SizedBox(
+                          height: 50,
+                          child: Text(
+                            textAlign: TextAlign.justify,
+                            maxLines: 2,
+                            withDrowPageWaringText3,
+                            style: TextStylesManager.regular14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
               Positioned(
                 bottom: 20,
