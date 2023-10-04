@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/taste/taste_feature.dart';
-import 'package:whilabel/domain/global_provider/current_user_status.dart';
-import 'package:whilabel/domain/post/archiving_post_repository.dart';
-import 'package:whilabel/domain/use_case/short_archiving_post_use_case.dart';
 import 'package:whilabel/domain/use_case/whisky_archiving_post_use_case.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';

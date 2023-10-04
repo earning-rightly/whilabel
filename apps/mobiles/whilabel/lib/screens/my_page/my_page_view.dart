@@ -8,16 +8,10 @@ import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
-import 'package:whilabel/screens/my_page/page/announcement_page.dart';
-import 'package:whilabel/screens/my_page/page/inquiring_page.dart';
-import 'package:whilabel/screens/my_page/page/privacy_policy_page.dart';
+import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
 import 'package:whilabel/screens/my_page/page/setting_page.dart';
-import 'package:whilabel/screens/my_page/page/term_condition_service_page.dart';
 import 'package:whilabel/screens/my_page/widgets/list_button.dart';
 import 'package:whilabel/screens/my_page/widgets/short_whiskey_contuer.dart';
-import 'package:whilabel/screens/onboarding/onboarding_step1.dart';
-
-import 'page/f_a_q_page.dart';
 
 class MyPageView extends StatelessWidget {
   const MyPageView({super.key});
@@ -67,14 +61,6 @@ class MyPageView extends StatelessWidget {
                   svgPath: data["svg_path"],
                   titleText: data["title"],
                   pageRoute: data["rotue"],
-                  // onPressedButton: () {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) => data["rotue"],
-                  //     ),
-                  //   );
-                  // },
                 ),
 
               // 마이페이지 설정보기 과 문서보기를 구분 지어주는 선
@@ -83,13 +69,6 @@ class MyPageView extends StatelessWidget {
                 thickness: 2,
               ),
 
-              TextButton(
-                  onPressed: () {
-                    final size = MediaQuery.of(context).size;
-                    print("width : ${size.width}, height:${size.height}");
-                  },
-                  child: Text("MediaQury")),
-
               // 마이페이지 문서보기 리스트 버튼
               for (Map<String, dynamic> docData
                   in myPageData.myPageViewDucButtonDatas)
@@ -97,14 +76,6 @@ class MyPageView extends StatelessWidget {
                   svgPath: docData["svg_path"],
                   titleText: docData["title"],
                   pageRoute: docData["rotue"],
-                  // onPressedButton: () {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) => docData["rotue"],
-                  //     ),
-                  //   );
-                  // },
                 ),
             ],
           )),

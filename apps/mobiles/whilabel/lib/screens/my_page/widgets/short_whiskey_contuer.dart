@@ -8,7 +8,7 @@ import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 class ShortWhiskeyCounter extends StatelessWidget {
   const ShortWhiskeyCounter({super.key});
   final String iDrankWhiskey = "내가 마신 위스키";
-  final String iDrankKind = "내가 마신 위스키 종류";
+  final String iDrankKind = "마신 위스키 종류";
 
   @override
   Widget build(BuildContext context) {
@@ -27,25 +27,27 @@ class ShortWhiskeyCounter extends StatelessWidget {
           borderRadius:
               BorderRadius.all(Radius.circular(WhilabelRadius.radius16))),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           // 내가 마신 위스키
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                iDrankWhiskey,
-                style: TextStylesManager.createHadColorTextStyle(
-                    "M14", ColorsManager.gray),
-              ),
-              SizedBox(height: WhilabelSpacing.spac4),
-              //todo 데이터 연결
-              Text(
-                "${HomeState.archivingPosts.length}개",
-                style: TextStylesManager.createHadColorTextStyle(
-                    "B18", ColorsManager.brown100),
-              )
-            ],
+          Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  iDrankWhiskey,
+                  style: TextStylesManager.createHadColorTextStyle(
+                      "M14", ColorsManager.gray),
+                ),
+                SizedBox(height: WhilabelSpacing.spac4),
+                //todo 데이터 연결
+                Text(
+                  "${HomeState.archivingPosts.length}개",
+                  style: TextStylesManager.createHadColorTextStyle(
+                      "B18", ColorsManager.brown100),
+                )
+              ],
+            ),
           ),
           VerticalDivider(
             color: ColorsManager.gray,
@@ -53,23 +55,26 @@ class ShortWhiskeyCounter extends StatelessWidget {
             indent: 20,
             endIndent: 20,
           ),
-          // 내가 마신 브랜드
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                iDrankKind,
-                style: TextStylesManager.createHadColorTextStyle(
-                    "M14", ColorsManager.gray),
-              ),
-              SizedBox(height: WhilabelSpacing.spac4),
-              //todo 데이터 연결
-              Text(
-                "${HomeState.shortArchivingPostMap.length}개",
-                style: TextStylesManager.createHadColorTextStyle(
-                    "B18", ColorsManager.brown100),
-              )
-            ],
+          // 내가 마신 브랜드 => 마신 위스키 종류
+          Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  iDrankKind,
+                  style: TextStylesManager.createHadColorTextStyle(
+                      "M14", ColorsManager.gray),
+                ),
+                SizedBox(height: WhilabelSpacing.spac4),
+                //todo 데이터 연결
+                Text(
+                  "${HomeState.shortArchivingPostMap.length}개",
+                  style: TextStylesManager.createHadColorTextStyle(
+                      "B18", ColorsManager.brown100),
+                )
+              ],
+            ),
           ),
         ],
       ),

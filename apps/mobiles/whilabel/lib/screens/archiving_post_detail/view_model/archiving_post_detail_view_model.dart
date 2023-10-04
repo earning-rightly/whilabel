@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/distillery/distillery.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
-import 'package:whilabel/data/taste/taste_feature.dart';
 import 'package:whilabel/data/whisky/whisky.dart';
 import 'package:whilabel/domain/post/archiving_post_repository.dart';
 import 'package:whilabel/domain/whisky_brand_distillery/whisky_brand_distillery_repository.dart';
@@ -59,22 +58,14 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
         await _whiskyRepository.getWhiskyDataWithBarcode(barCode);
     print(whiskyData?.distilleryIds.toString());
     if (whiskyData?.wbWhisky!.distilleryName != null) {
-      // final distilleryData =
-      //     getDistilleryData(whiskyData!.wbWhisky!.wbDistilleryIds!.first);
-      print("distilleryData distilleryData distilleryData");
-      print("distilleryData distilleryData distilleryData");
-      print("distilleryData distilleryData distilleryData");
       String test1 = whiskyData?.wbWhisky!.distilleryName ?? "['','']";
-      print("111111  String 보기 $test1");
+
       List<String> list = test1.split("'");
       _whiskyRepository.getDistilleryData(list[1]);
-
-      print("distillery 이름: ${list[1]}");
     }
     if (_state.currentPostId.isEmpty) {
       _state = _state.copyWith(currentPostId: postId);
       notifyListeners();
-      print(_state.currentPostId);
     }
 
     return whiskyData!;

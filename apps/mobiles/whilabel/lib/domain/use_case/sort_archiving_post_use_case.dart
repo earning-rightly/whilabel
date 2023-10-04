@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/user/enum/post_sort_order.dart';
-import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/domain/post/archiving_post_repository.dart';
 
 class LoadArchivingPostUseCase {

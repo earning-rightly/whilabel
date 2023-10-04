@@ -23,7 +23,6 @@ class EachWhiskeyGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQueryWidth = MediaQuery.of(context).size.width;
     final mediaQueryHeight = MediaQuery.of(context).size.height;
     final homeViewModel = context.watch<HomeViewModel>();
     final List<ArchivingPost> archivingPosts =
@@ -63,9 +62,6 @@ class EachWhiskeyGridView extends StatelessWidget {
                   case "share":
                     break;
                   case "modify":
-//  final ArchivingPost  findingStudent = archivingPosts.fi((ArchivingPost archivingPost) => archivingPost.whiskyName == shortArchivingPosts[index].whiskyName);
-
-                    // homeViewModel.state.archivingPosts.f
                     Navigator.pushNamed(
                         context, Routes.archivingPostDetailRoute,
                         arguments: currentArchivingPost);
