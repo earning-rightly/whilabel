@@ -17,7 +17,8 @@ scheduler.add_job(
     hour=17,  # 실행 시간 (17시)
     minute=59,  # 실행 분 (59분)
     id="bottler_detail_executions",  # 스케줄러 식별자
-    timezone='Asia/Seoul'  # 시간대 설정 (서울 시간대)
+    timezone='Asia/Seoul', # 시간대 설정 (서울 시간대)
+    kwargs={'batch_id': BatchExecution.PRETEST}
 )
 
 # 'bottler_whisky_execution' 함수를 'cron' 스케줄러에 추가합니다.

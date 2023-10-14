@@ -3,52 +3,46 @@ import pandas as pd
 from datetime import datetime
 from pytz import timezone
 import os
+import logging
 
 from apps.batches.wb.common import constants
 
+logger = None  # 전역 로거
 
-def write_log(current_time: tuple, log_mode: str, mode: str, level: str):
-    """
-       write_log.
-           Args:
-               current_time : 현재 시간 가져오기 extract_time()에서 추출
-               log_mode : start, end를 통해 시작로그, 종료 로그 결정하기위해
-               mode  : distillery, brand 키워드
-               level : detail, pre, link 등 mode 밑에 하위 카테고리
-           Note:
-                log.txt파일에 함수 시작과 끝나는 시간을 기록하기 위한 함수
-    """
-    if log_mode == 'start':
-        try:
-            file = open("log/" + str(current_time[0]) + "_log.txt", "a")
-            start_log = '\nstart time : ' + str(current_time[1]) + '\nmode : ' + mode + '\nlevel : ' + level
-            print(start_log)
-            file.write(start_log)
-            file.close()
 
-        except IOError:
-            os.makedirs('log/')
-            file = open("log/" + str(current_time[0]) + "_log.txt", "a")
-            end_log ='\nstart time : ' + str(current_time[1]) + '\nmode : ' + mode + '\nlevel : ' + level
-            print(end_log)
-            file.write(end_log)
-            file.close()
+def setup_logger(log_filename: str) -> logging:
+    # 디렉터리가 없는 경우 생성
+    log_directory = os.path.dirname(log_filename)
+    if not os.path.exists(log_directory):
+        os.makedirs(log_directory)
 
-    elif log_mode == 'end':
-        try:
-            file = open("log/" + str(current_time[0]) + "_log.txt", "a")
-            finish_log = '\nfinish time : ' + str(current_time[1]) + '\nmode : ' + mode + '\nlevel : ' + level
-            print(finish_log)
-            file.write(finish_log)
-            file.close()
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
 
-        except IOError:
-            os.makedirs('log/')
-            file = open("log/" + str(current_time[0]) + "_log.txt", "a")
-            finish_log = '\nfinish time : ' + str(current_time[1]) + '\nmode : ' + mode + '\nlevel : ' + level
-            print(finish_log)
-            file.write(finish_log)
-            file.close()
+    # 로그 포맷 설정
+    formatter = logging.Formatter('%(asctime)s : %(message)s')
+
+    # 파일 핸들러 설정
+    file_handler = logging.FileHandler(log_filename)
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(formatter)
+
+    # 로거에 핸들러 추가
+    logger.addHandler(file_handler)
+
+    return logger
+
+
+def write_log(current_date: str, current_datetime: str, log_mode: str, batch_type: str, batch_ex: str):
+    global logger
+
+    log_filename = f"log/{current_date}_log.txt"
+
+    if logger is None:
+        logger = setup_logger(log_filename)
+
+    log_message = f'{log_mode} time : {current_datetime}\nbatch_type : {batch_type}\nbatch_execution : {batch_ex}'
+    logger.info(log_message)
 
 
 def convert_to_df(obj: object) -> pd.DataFrame:
@@ -59,7 +53,7 @@ def convert_to_df(obj: object) -> pd.DataFrame:
 
 
 def remove_duplicated_link(df: pd.DataFrame) -> pd.DataFrame:
-    return df[df.whisky_link.duplicated()==False] #위스키 링크 중복 수집 문제 임시방편 해결
+    return df[df.whisky_link.duplicated() == False]  # 위스키 링크 중복 수집 문제 임시방편 해결
 
 
 def save_to_csv(df: pd.DataFrame, path: str, file_name: str):
@@ -105,6 +99,3 @@ def initialize_dict(key_list: list, ) -> dict:
     # AttributeError: 'NoneType' object has no attribute 'append'
     # None -> [] 수정.
     return {key: [] for key in key_list}
-
-
-

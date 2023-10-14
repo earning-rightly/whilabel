@@ -13,10 +13,12 @@ def bottler_whisky_execution():
             보틀러 위스키 수집 및 처리 실행 함수입니다.
     """
     current_date = wb_libs_func.get_current_date()
-
+    current_datetime = wb_libs_func.get_current_datetime()
     """
     보틀러 위스키 링크 수집
     """
+
+    wb_libs_func.write_log(current_date, current_datetime, LogMode.START.value, BatchType.BOTTER_WHISKY_LINK.value, batch_id.value)
 
     scrap_dict = wb_libs_func.initialize_dict(field_map['wb_whisky_link'])
 
@@ -33,9 +35,12 @@ def bottler_whisky_execution():
     json_path = f'results/{current_date}/json/link/'
     wb_libs_func.save_to_json(scrap_dict, json_path, BatchType.BOTTLER_WHISKY_LINK.value)
 
+    wb_libs_func.write_log(current_date, current_datetime, LogMode.END.value, BatchType.BOTTER_WHISKY_LINK.value, batch_id.value)
     """
     보틀러 위스키 상세 정보 수집
     """
+
+    wb_libs_func.write_log(current_date, current_datetime, LogMode.START.value, BatchType.BOTTER_WHISKY_DETAIL.value, batch_id.value)
 
     scrap_dict = wb_libs_func.initialize_dict(field_map['wb_whisky_collect_detail'])
 
@@ -66,3 +71,5 @@ def bottler_whisky_execution():
     # JSON 파일로 저장
     json_path = f'results/{current_date}/json/transformation/'
     wb_libs_func.save_to_json(transform_result_dict, json_path, BatchType.BOTTLER_WHISKY.value)
+
+    wb_libs_func.write_log(current_date, current_datetime, LogMode.END.value, BatchType.BOTTER_WHISKY_DETAIL.value, batch_id.value)
