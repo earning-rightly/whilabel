@@ -45,8 +45,7 @@ class OnboardingStep1Page extends StatelessWidget {
                     child: SizedBox(
                       child: Text(
                         onBoardingText,
-                        style: TextStylesManager().createHadColorTextStyle(
-                            "B24", ColorsManager.gray500),
+                        style: TextStylesManager.bold24,
                         maxLines: 2,
                       ),
                     )),
@@ -56,7 +55,7 @@ class OnboardingStep1Page extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: Padding(
-                  padding: WhilablePadding.onlyHoizBasicPadding,
+                  padding: WhilabelPadding.onlyHoizBasicPadding,
                   child: LongTextButton(
                     buttonText: "알겠어요",
                     buttonTextColor: ColorsManager.brown100,

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
-import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
+import 'package:whilabel/screens/home/view_model/home_view_model.dart';
+import 'package:whilabel/screens/whisky_critique/pages/successful_upload_post_page.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_view_model.dart';
 
@@ -25,7 +27,9 @@ class _CritiqueViewWhiskyInfoFooterState
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<WhiskyCritiqueViewModel>();
-    final state = viewModel.state;
+    final homeViewModel = context.watch<HomeViewModel>();
+    final homeState = homeViewModel.state;
+    final currentPostData = viewModel.state.whiskyNewArchivingPostUseCaseState;
 
     return FutureBuilder<bool>(
       future: viewModel.isChangeStareValue(),
@@ -46,7 +50,7 @@ class _CritiqueViewWhiskyInfoFooterState
             children: [
               Expanded(
                 flex: 40,
-                child: Image.file(fit: BoxFit.cover, state.image!),
+                child: Image.file(fit: BoxFit.cover, currentPostData.images!),
               ),
               SizedBox(width: WhilabelSpacing.spac12),
               Expanded(
@@ -57,16 +61,16 @@ class _CritiqueViewWhiskyInfoFooterState
                   children: [
                     SizedBox(
                       child: Text(
-                        state.whiskyName,
+                        currentPostData.archivingPost.whiskyName,
                         style: TextStyle(fontSize: 14),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
                     ),
-                    state.whiskyLocation != null
+                    currentPostData.archivingPost.location != null
                         ? SizedBox(
                             child: Text(
-                              "${state.whiskyLocation}\t${state.strength}%",
+                              "${currentPostData.archivingPost.location}\t${currentPostData.archivingPost.strength}%",
                               style: TextStyle(fontSize: 12),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -74,7 +78,7 @@ class _CritiqueViewWhiskyInfoFooterState
                           )
                         : SizedBox(
                             child: Text(
-                              "\t${state.strength}%",
+                              "\t${currentPostData.archivingPost.strength}%",
                               style: TextStyle(fontSize: 12),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -92,13 +96,17 @@ class _CritiqueViewWhiskyInfoFooterState
                     backgroundColor: ColorsManager.brown100,
                   ),
                   onPressed: isfilled == false
-                      ? null
+                      ? () {
+                          showSimpleDialog(
+                            context,
+                            "필수 입력 정보가 비었습니다",
+                            "별점은 필수 입력 정보입니다. 탭을 해주세요",
+                          );
+                        }
                       : () async {
                           EasyLoading.show(
                             maskType: EasyLoadingMaskType.black,
                           );
-
-                          // if(EasyLoading.)
 
                           await viewModel.onEvent(
                             SaveArchivingPostOnDb(
@@ -108,12 +116,15 @@ class _CritiqueViewWhiskyInfoFooterState
                             ),
                             callback: () async {
                               setState(() {});
-
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                Routes.rootRoute,
-                                (route) => false,
-                              );
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          SuccessfulUploadPostPage(
+                                            currentWhiskyCount:
+                                                homeState.archivingPosts.length,
+                                          )),
+                                  (route) => false);
                             },
                           );
                         },

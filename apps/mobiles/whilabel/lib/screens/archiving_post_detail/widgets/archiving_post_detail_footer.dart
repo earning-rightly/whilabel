@@ -96,7 +96,7 @@ class ArchivingPostDetailFooter extends StatelessWidget {
                           context,
                           onClickedYesButton: () {
                             viewModel.onEvent(
-                              UpdateUserCritique(),
+                              ArchivingPostDetailEvnet.updateUserCritique(),
                               callback: () {
                                 Navigator.pushNamed(
                                   context,

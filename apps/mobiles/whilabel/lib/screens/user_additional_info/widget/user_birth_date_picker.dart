@@ -31,8 +31,7 @@ class _UserBirthDatePickerState extends State<UserBirthDatePicker> {
           SizedBox(height: 12),
           GestureDetector(
             child: TextFormField(
-              style: TextStylesManager()
-                  .createHadColorTextStyle("R16", ColorsManager.gray500),
+              style: TextStylesManager.regular16,
               keyboardType: TextInputType.none,
               showCursor: false,
               enableInteractiveSelection: false,
@@ -67,8 +66,8 @@ class _UserBirthDatePickerState extends State<UserBirthDatePicker> {
                     child: CupertinoTheme(
                       data: CupertinoThemeData(
                         textTheme: CupertinoTextThemeData(
-                          dateTimePickerTextStyle: TextStylesManager()
-                              .createHadColorTextStyle(
+                          dateTimePickerTextStyle:
+                              TextStylesManager.createHadColorTextStyle(
                                   "R24", ColorsManager.white),
                         ),
                       ),
@@ -98,11 +97,7 @@ class _UserBirthDatePickerState extends State<UserBirthDatePicker> {
 
                       Navigator.pop(context);
                     },
-                    child: Text(
-                      "완료",
-                      style: TextStylesManager().createHadColorTextStyle(
-                          "M16", ColorsManager.gray500),
-                    ),
+                    child: Text("완료", style: TextStylesManager.medium16),
                   ),
                 ),
               ],

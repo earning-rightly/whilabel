@@ -4,26 +4,30 @@ from enum import Enum
 class BatchType(Enum):
     BRAND_PRE = 'BRAND_PRE'  # 브랜드 사전 정보
     BRAND_DETAIL = 'BRAND_DETAIL'  # 브랜드 상세 정보
-    BRAND = 'BRAND'  # 브랜드
+    BRAND = 'BRAND'  # 최종 컬랙션에 들어가는 브랜드 정보
+    BRAND_WHISKY = 'BRAND_WHISKY'
 
     BRAND_WHISKY_LINK = 'BRAND_WHISKY_LINK'  # 브랜드 위스키 링크
     BRAND_WHISKY_DETAIL = 'BRAND_WHISKY_DETAIL'  # 브랜드 위스키 상세 정보
 
-    DISTILLERY = 'DISTILLERY'  # 증류소
+    DISTILLERY = 'DISTILLERY'  # 최종 컬랙션에 들어가는 증류소 정보
     DISTILLERY_PRE = 'DISTILLERY_PRE'  # 증류소 사전 정보
     DISTILLERY_DETAIL = 'DISTILLERY_DETAIL'  # 증류소 상세 정보
 
     DISTILLERY_WHISKY_LINK = 'DISTILLERY_WHISKY_LINK'  # 증류소 위스키 링크
     DISTILLERY_WHISKY_DETAIL = 'DISTILLERY_WHISKY_DETAIL'  # 증류소 위스키 상세 정보
+    DISTILLERY_WHISKY = 'DISTILLERY_WHISKY'
 
     BOTTLER_PRE = 'BOTTLER_PRE'  # 보틀러 사전 정보
     BOTTLER_DETAIL = 'BOTTLER_DETAIL'  # 보틀러 상세 정보
-    BOTTLER = 'BOTTLER'  # 보플러
+    BOTTLER = 'BOTTLER'  # 최종 컬랙션에 들어가는 보틀러 정보
 
-    BOTTER_WHISKY_LINK = 'BOTTER_WHISKY_LINK'  # 보틀러 위스키 링크
-    BOTTER_WHISKY_DETAIL = 'BOTTER_WHISKY_DETAIL'  # 보틀러 위스키 상세 정보
+    BOTTLER_WHISKY_LINK = 'BOTTLER_WHISKY_LINK'  # 보틀러 위스키 링크
+    BOTTLER_WHISKY_DETAIL = 'BOTTLER_WHISKY_DETAIL'  # 보틀러 위스키 상세 정보
+    BOTTLER_WHISKY = 'BOTTLER_WHISKY'
 
-    WHISKY = 'WHISKY'  # 위스키
+    WHISKY_MERGE = 'WHISKY_MERGE'
+    WHISKY = 'WHISKY'  # 최종 컬랙션에 들어가는 위스키 정보
 
 # CollectionName 열거형 클래스 정의
 class CollectionName(Enum):

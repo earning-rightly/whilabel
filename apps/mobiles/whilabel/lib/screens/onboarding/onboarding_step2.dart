@@ -44,8 +44,7 @@ class OnboardingStep2Page extends StatelessWidget {
                   child: SizedBox(
                     child: Text(
                       onBoardingText,
-                      style: TextStylesManager().createHadColorTextStyle(
-                          "B24", ColorsManager.gray500),
+                      style: TextStylesManager.bold24,
                       maxLines: 2,
                     ),
                   ),
@@ -56,14 +55,18 @@ class OnboardingStep2Page extends StatelessWidget {
                   left: 0,
                   right: 0,
                   child: Padding(
-                    padding: WhilablePadding.onlyHoizBasicPadding,
+                    padding: WhilabelPadding.onlyHoizBasicPadding,
                     child: LongTextButton(
                       buttonText: "위라벨 시작하기",
                       buttonTextColor: ColorsManager.brown100,
                       borderColor: ColorsManager.gray500,
                       color: ColorsManager.gray500,
                       onPressedFunc: () {
-                        Navigator.pushNamed(context, Routes.rootRoute);
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          Routes.rootRoute,
+                          (route) => false,
+                        );
                       },
                     ),
                   ))

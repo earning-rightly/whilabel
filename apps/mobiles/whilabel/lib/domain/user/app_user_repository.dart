@@ -5,7 +5,7 @@ abstract class AppUserRepository {
 
   Future<void> insertUser(AppUser user);
   Future<AppUser?> findUser(String uid);
-  Future<void> updateUser(AppUser user);
+  Future<void> updateUser(String uid, AppUser user);
   Future<bool> existUser(String nickname);
   Future<bool> isExistedNickName(String nickNaem);
 }

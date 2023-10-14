@@ -58,7 +58,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
           AppUser currentUser = snapshot.data!;
 
           return Padding(
-            padding: WhilablePadding.basicPadding,
+            padding: WhilabelPadding.basicPadding,
             child: Form(
               key: _formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -89,9 +89,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                                 padding: const EdgeInsets.only(bottom: 32),
                                 child: Text(
                                   "${widget.nickName}님에 대해서\n조금만 더 알려주세요",
-                                  style: TextStylesManager()
-                                      .createHadColorTextStyle(
-                                          "B24", ColorsManager.gray500),
+                                  style: TextStylesManager.bold24,
                                 ),
                               ),
                             ),
@@ -126,7 +124,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                           onPressedFunc: isfilledAllData
                               ? () {
                                   AppUser newUser = currentUser.copyWith(
-                                      nickname: widget.nickName,
+                                      nickName: widget.nickName,
                                       birthDay: birthDayTextController.text,
                                       gender: widget.gender,
                                       name: nameTextController.text);
@@ -134,8 +132,14 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                                   viewModel.onEvent(
                                     AddUserInfo(newUser),
                                     callback: () {
-                                      Navigator.pushNamed(
-                                          context, Routes.rootRoute);
+                                      // Navigator.pushNamed(
+                                      //     context, Routes.rootRoute);
+
+                                      Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        Routes.rootRoute,
+                                        (route) => false,
+                                      );
                                     },
                                   );
                                 }

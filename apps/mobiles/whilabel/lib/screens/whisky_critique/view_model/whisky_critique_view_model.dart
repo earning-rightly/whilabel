@@ -1,35 +1,25 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
-import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/taste/taste_feature.dart';
-import 'package:whilabel/domain/global_provider/current_user_status.dart';
-import 'package:whilabel/domain/post/archiving_post_repository.dart';
 import 'package:whilabel/domain/use_case/whisky_archiving_post_use_case.dart';
+import 'package:whilabel/domain/user/app_user_repository.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_state.dart';
 
 class WhiskyCritiqueViewModel with ChangeNotifier {
-  final CurrentUserStatus _currentUserStatus;
+  final AppUserRepository _appUserRepository;
   final WhiskyNewArchivingPostUseCase _whiskyNewArchivingPostUseCase;
-  final ArchivingPostRepository _archivingPostRepository;
-  WhiskyCritiqueViewModel({
-    required CurrentUserStatus currentUserStatus,
-    required WhiskyNewArchivingPostUseCase whiskyNewArchivingPostUseCase,
-    required ArchivingPostRepository archivingPostRepository,
-  })  : _currentUserStatus = currentUserStatus,
-        _whiskyNewArchivingPostUseCase = whiskyNewArchivingPostUseCase,
-        _archivingPostRepository = archivingPostRepository;
 
+  WhiskyCritiqueViewModel({
+    required AppUserRepository appUserRepository,
+    required WhiskyNewArchivingPostUseCase whiskyNewArchivingPostUseCase,
+  })  : _appUserRepository = appUserRepository,
+        _whiskyNewArchivingPostUseCase = whiskyNewArchivingPostUseCase;
+
+// 앞에서 검색해서 얻은 whisky 정보와 image 파일을
+// _whiskyNewArchivingPostUseCase를 통해서 받아온다.
   late WhiskyCritiqueState _state = WhiskyCritiqueState(
-      whiskyName:
-          _whiskyNewArchivingPostUseCase.getState().archivingPost.whiskyName,
-      strength:
-          _whiskyNewArchivingPostUseCase.getState().archivingPost.strength!,
-      image: _whiskyNewArchivingPostUseCase.getState().images!,
-      whiskyLocation:
-          _whiskyNewArchivingPostUseCase.getState().archivingPost.location,
+      whiskyNewArchivingPostUseCaseState:
+          _whiskyNewArchivingPostUseCase.getState(),
       starValue: -1,
       tasteFeature: TasteFeature(bodyRate: 1, flavorRate: 1, peatRate: 1));
 
@@ -40,24 +30,24 @@ class WhiskyCritiqueViewModel with ChangeNotifier {
     VoidCallback after = callback ?? () {};
     event
         .when(
-            saveArchivingPostOnDb: saveArchivingPostOnDb,
-            addTastNoteOnProvider: addTastNoteOnProvider,
-            addStarValueOnProvider: addStarValueOnProvider,
-            addTasteFeatureOnProvider: addTasteFeatureOnProvider)
+            saveArchivingPostOnDb: _saveArchivingPostOnDb,
+            addTastNoteOnProvider: _storeTastNoteOnProvider,
+            addStarValueOnProvider: _storeStarValueOnProvider,
+            addTasteFeatureOnProvider: _storeTasteFeatureOnProvider)
         .then((_) => {after()});
   }
 
-  Future<void> addTastNoteOnProvider(String tasteNote) async {
+  Future<void> _storeTastNoteOnProvider(String tasteNote) async {
     _state = _state.copyWith(tasteNote: tasteNote);
     notifyListeners();
   }
 
-  Future<void> addStarValueOnProvider(double starValue) async {
+  Future<void> _storeStarValueOnProvider(double starValue) async {
     _state = _state.copyWith(starValue: starValue);
     notifyListeners();
   }
 
-  Future<void> addTasteFeatureOnProvider(TasteFeature tasteFeature) async {
+  Future<void> _storeTasteFeatureOnProvider(TasteFeature tasteFeature) async {
     _state = _state.copyWith(tasteFeature: tasteFeature);
     notifyListeners();
   }
@@ -67,62 +57,14 @@ class WhiskyCritiqueViewModel with ChangeNotifier {
     return true;
   }
 
-  Future<void> saveArchivingPostOnDb(
-      double starValue, String note, TasteFeature tasteFeature) async {
-    final timeStampNow = Timestamp.now();
-    final appUser = await _currentUserStatus.getAppUser();
-    final uuid = Uuid();
+  Future<void> _saveArchivingPostOnDb(
+      double starValue, String tasteNote, TasteFeature tasteFeature) async {
+    final appUser = await _appUserRepository.getCurrentUser();
 
-    String postId = "${uuid.v1()}^${appUser!.uid}}";
-    ArchivingPost newArchivingPost =
-        _whiskyNewArchivingPostUseCase.getState().archivingPost;
-    final downloadUrl = await _SaveImageOnStorage(postId);
+    _whiskyNewArchivingPostUseCase.storeStarValue(starValue);
+    _whiskyNewArchivingPostUseCase.storeTasteNote(tasteNote);
+    _whiskyNewArchivingPostUseCase.storeTasteFeature(tasteFeature);
 
-    if (downloadUrl.isEmpty) {
-      debugPrint("이미지 저장과정에서 오류가 일어났습니다.\n 앱을 다시 시작해 주세요");
-    }
-
-    newArchivingPost = newArchivingPost.copyWith(
-      userId: appUser.uid,
-      postId: postId,
-      createAt: timeStampNow,
-      modifyAt: timeStampNow,
-      starValue: starValue,
-      note: note,
-      tasteFeature: tasteFeature,
-      imageUrl: downloadUrl,
-    );
-    _state = _state.copyWith(archivingPost: newArchivingPost);
-    notifyListeners();
-    try {
-      _archivingPostRepository.insertArchivingPost(newArchivingPost);
-    } catch (error) {
-      debugPrint("archivingPost를 저장하는 과정에서 문제가 생겼습니다");
-    }
-  }
-
-  Future<ArchivingPost?> getLastArchivingPost(String postId) async {
-    return await _archivingPostRepository.getArchivingPost(postId);
-  }
-
-  Future<String> _SaveImageOnStorage(String imageName) async {
-    final FirebaseStorage _storage = FirebaseStorage.instance;
-    final appUser = await _currentUserStatus.getAppUser();
-    final imgageStoragePath =
-        "post/archiving_post/${appUser!.uid}/$imageName.jpg";
-    String downloadUrl = "";
-
-    try {
-      Reference ref = _storage.ref().child(imgageStoragePath);
-      UploadTask uploadTask = ref.putFile(state.image!);
-      TaskSnapshot snapshot = await uploadTask;
-      downloadUrl = await snapshot.ref.getDownloadURL();
-
-      return downloadUrl;
-    } catch (error) {
-      debugPrint("사진 저장 과정에서 문제가 발생하였습니다");
-      debugPrint("$error");
-    }
-    return downloadUrl;
+    await _whiskyNewArchivingPostUseCase.SaveNewArchivingPost(appUser!.uid);
   }
 }

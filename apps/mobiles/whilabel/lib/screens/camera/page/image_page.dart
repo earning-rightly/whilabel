@@ -65,8 +65,10 @@ class _ImagePageState extends State<ImagePage> {
                 color: ColorsManager.brown100,
                 onPressedFunc: () async {
                   try {
-                    final File imageFile = await widget.medium.getFile();
-                    viewModel.saveImageFileOnProvider(imageFile);
+                    // Medium패기지 내장 함수
+                    File imageFile = await widget.medium.getFile();
+
+                    await viewModel.saveImageFileOnProvider(imageFile);
 
                     Navigator.pushNamed(context, Routes.whiskeyCritiqueRoute);
                   } catch (error) {

@@ -11,4 +11,6 @@ abstract class CarmeraEvent with _$CarmeraEvent {
   const factory CarmeraEvent.searchWhiskeyWithBarcode(String whiskeyBarcode) =
       searchWhiskeyWithBarcode;
   const factory CarmeraEvent.saveImageFile(File imageFile) = saveImageFile;
+  const factory CarmeraEvent.searchWhiskyWithName(String whiskyName) =
+      SearchWhiskyWithName;
 }

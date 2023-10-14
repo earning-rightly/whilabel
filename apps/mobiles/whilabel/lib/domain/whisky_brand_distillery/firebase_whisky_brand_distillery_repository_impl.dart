@@ -18,12 +18,12 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
 
   // todo 나중에 barcode로 검색을 돌리는 로직으로 변동
   @override
-  Future<Whisky?> getWhiskyData(String barcode) async {
+  Future<Whisky?> getWhiskyDataWithBarcode(String barcode) async {
     WhiskyQueryDocumentSnapshot? whiskySnapshot;
 
     try {
       final _whiskyQuerySnapshot =
-          await _whiskyRef.whereWbId(isEqualTo: barcode).get();
+          await _whiskyRef.whereBarcode(isEqualTo: barcode).get();
 
       if (_whiskyQuerySnapshot.docs.isEmpty) {
         debugPrint("whisky 데이터가 비어 있습니다.");
@@ -36,8 +36,65 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
       debugPrint("$error");
       return Future(() => null);
     }
+    String test1 = whiskySnapshot.data.wbWhisky!.wbDistilleryIds ?? "['null']";
+    print("String 보기 $test1");
+    List<String> list = test1.split("'");
+
+// List에서 숫자만 추출합니다.
+    // List<int> numbers = list.map((e) => int.parse(e)).toList();
+
+// 추출한 숫자를 출력합니다.
+    print("distillery 이름: ${list[1]}");
+    // print("dis id ${whiskySnapshot.data.wbWhisky?.distilleryName.toString()}");
+    // print("distillery Name ${int.parse(list[1])}");
+    // print("distillery Name list==~~ $list");
 
     return whiskySnapshot.data;
+  }
+
+  @override
+  Future<List<WhiskyQueryDocumentSnapshot>> getWhiskyDataWithName(
+      String whiskyName, List<String> findedWhiskyNames,
+      {WhiskyDocumentSnapshot? startAtDoc}) async {
+    print("getWhiskyDataWithName ==> $findedWhiskyNames");
+
+    final _whiskyName = await _capitalizeFirstLetter(whiskyName);
+    print("query start point ### ${startAtDoc.toString()}");
+
+    try {
+      final _whiskyQuerySnapshot = await _whiskyRef
+          .whereName(isGreaterThanOrEqualTo: _whiskyName)
+          .whereName(whereNotIn: findedWhiskyNames)
+          // .orderByName(startAtDocument: startAtDoc)
+
+          // .orderByBarcode()
+          .limit(20)
+          .get();
+      // findedWhiskyNames.add(_whiskyQuerySnapshot.docs.first.data.name!);
+
+      if (_whiskyQuerySnapshot.docs.isEmpty) {
+        debugPrint("whisky 데이터가 비어 있습니다.");
+
+        return Future(() => []);
+      }
+      // print(
+      //     "_whiskyQuerySnapshot.docs[6] ===> ${_whiskyQuerySnapshot.docs[6].data}");
+      return _whiskyQuerySnapshot.docs;
+
+      // for (WhiskyQueryDocumentSnapshot doc in _whiskyQuerySnapshot.docs)
+      //   // print(doc.data.name);
+      //   shortWhisky.add(ShortWhisky(
+      //       barcode: doc.data.barcode!,
+      //       name: doc.data.name!,
+      //       strength: doc.data.strength!));
+      // whiskySnapshot = _whiskyQuerySnapshot.docs.first;
+    } catch (error) {
+      debugPrint("whisky 데이터를 찾을 수 없습니다.");
+      debugPrint("$error");
+      return Future(() => []);
+    }
+
+    // return result;
   }
 
   @override
@@ -77,5 +134,17 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
     }
 
     return distillerySnapshot.data;
+  }
+
+  // 맨 앞의 문자만 대문자로 변환
+  Future<String> _capitalizeFirstLetter(String str) async {
+    if (str.isEmpty) {
+      return str;
+    }
+
+    String firstLetter = str[0].toUpperCase();
+    String restOfString = str.substring(1);
+
+    return firstLetter + restOfString;
   }
 }

@@ -1,80 +1,90 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:whilabel/screens/camera/camera_view.dart';
-import 'package:whilabel/screens/home/widgets/build_widfets/build_home_appbar.dart';
-import 'package:whilabel/screens/home/widgets/home_tab_bar.dart';
-import 'package:whilabel/screens/my_page/my_page_view.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:whilabel/data/user/enum/post_sort_order.dart';
+import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_global/widgets/app_bars.dart';
+import 'package:whilabel/screens/home/grid/grid_archiving_post_page.dart';
+import 'package:whilabel/screens/home/list/list_archiving_post_page.dart';
+import 'package:whilabel/screens/home/view_model/home_event.dart';
+import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
   @override
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
-  // 바텀 네이게이션의 어떤 index가 선택되었는지 저장하는 변수
-  int selectedBottomNavigationIndex = 0;
-
-  final List<Widget> bottomNavigationBodyRoutes = <Widget>[
-    HomeTabBar(),
-    CameraView(),
-    MyPageView()
+class _HomeViewState extends State<HomeView>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  List<Tab> myTabs = <Tab>[
+    Tab(icon: SvgPicture.asset(SvgIconPath.list)),
+    Tab(icon: SvgPicture.asset(SvgIconPath.grid)),
   ];
-
-  void _onItemTapped(int index) {
-    // widget내에서 state에 변화를 알려주기 위해서 사용하는 함수
-    setState(() {
-      selectedBottomNavigationIndex = index;
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: myTabs.length);
+    Future.microtask(() async {
+      laodPostAsync();
     });
+    if (EasyLoading.isShow) {
+      Timer(Duration(milliseconds: 1000), () {
+        EasyLoading.dismiss();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  void laodPostAsync() async {
+    final viewModel = context.read<HomeViewModel>();
+
+    await viewModel
+        .onEvent(HomeEvent.loadArchivingPost(PostButtonOrder.LATEST));
   }
 
   @override
   Widget build(BuildContext context) {
-    int myWhiskeyCounters = 26;
-
-    return DefaultTabController(
-      // tabBar를 사용하기 필요한 widget
-      length: 2,
-      initialIndex: 1,
-      child: Scaffold(
-        appBar: (() {
-          switch (selectedBottomNavigationIndex) {
-            case 0:
-              return buildHomeAppbar(context, myWhiskeyCounters);
-            case 1:
-              break;
-            case 2:
-              break;
-          }
-        })(),
-        body:
-            bottomNavigationBodyRoutes.elementAt(selectedBottomNavigationIndex),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.black,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.wordpress_sharp),
-              label: '위스키',
-              backgroundColor: Colors.white,
+    final viewModel = context.watch<HomeViewModel>();
+    final state = viewModel.state;
+    return SafeArea(
+      child: Column(
+        children: [
+          HomeAppBar(myWhiskeyCounters: state.archivingPosts.length),
+          SizedBox(height: WhilabelSpacing.spac12),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+                border:
+                    Border(bottom: BorderSide(color: Colors.grey, width: 1))),
+            child: TabBar(
+              controller: _tabController,
+              dividerColor: Colors.grey,
+              indicatorColor: Colors.white,
+              unselectedLabelColor: Colors.grey,
+              tabs: myTabs,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.camera),
-              label: '카메라',
-              backgroundColor: Colors.white,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.square),
-              label: '마이',
-            ),
-          ],
-          currentIndex: selectedBottomNavigationIndex,
-          selectedItemColor: Colors.orange,
-          unselectedItemColor: Colors.white,
-          unselectedLabelStyle: TextStyle(
-            color: Colors.grey,
           ),
-          onTap: _onItemTapped,
-        ),
+          Expanded(
+            child: Padding(
+              padding: WhilabelPadding.basicPadding,
+              child: TabBarView(
+                  controller: _tabController,
+                  children: [ListArchivingPostPage(), GridArchivingPostPage()]),
+            ),
+          )
+        ],
       ),
     );
   }

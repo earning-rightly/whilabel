@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:whilabel/screens/constants/colors_manager.dart';
-import 'package:whilabel/screens/constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 
 // scaffold의 appBar 파라미터는 AppBar타입만 들어갈 수 있기에 함수로 생성
 AppBar createScaffoldAppBar(
     BuildContext context, String svgPath, String title) {
   return AppBar(
     leading: IconButton(
-      padding: EdgeInsets.zero,
+      padding: EdgeInsets.only(left: 16, right: 16),
       alignment: Alignment.centerLeft,
       icon: SvgPicture.asset(svgPath),
       onPressed: () {
         Navigator.pop(context);
       },
     ),
+    centerTitle: true,
     title: Text(
       title,
       textAlign: TextAlign.center,
-      style: TextStylesManager().createHadColorTextStyle(
-        "B16",
-        ColorsManager.gray500,
-      ),
+      style: TextStylesManager.bold16,
     ),
   );
 }
@@ -50,22 +47,16 @@ class BodyAppBar extends StatelessWidget {
             child: Text(
               centerTitle,
               textAlign: TextAlign.center,
-              style: TextStylesManager().createHadColorTextStyle(
-                "B16",
-                ColorsManager.gray500,
-              ),
+              style: TextStylesManager.bold16,
             ),
           ),
           Expanded(
             child: Text(
               rightTitle ?? "",
               textAlign: TextAlign.center,
-              style: TextStylesManager().createHadColorTextStyle(
-                "B16",
-                ColorsManager.gray500,
-              ),
+              style: TextStylesManager.bold16,
             ),
-          )
+          ),
         ],
       ),
     );

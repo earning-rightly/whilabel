@@ -20,8 +20,8 @@ class ModifyTextButton extends StatelessWidget {
       onPressed: onClickButton ?? () {},
       child: Text(
         "수정",
-        style: TextStylesManager()
-            .createHadColorTextStyle("R14", ColorsManager.brown100),
+        style: TextStylesManager.createHadColorTextStyle(
+            "R14", ColorsManager.brown100),
       ),
     );
   }

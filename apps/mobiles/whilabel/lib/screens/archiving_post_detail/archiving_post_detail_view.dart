@@ -5,11 +5,11 @@ import 'package:whilabel/data/taste/taste_vote.dart';
 import 'package:whilabel/data/whisky/whisky.dart';
 import 'package:whilabel/provider_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
+import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_event.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/archiving_post_detail_footer.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/cancel_text_button.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/modify_text_button.dart';
-import 'package:whilabel/screens/archiving_post_detail/widgets/taste_feature_grid.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/user_critque_container.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/image_paths.dart';
@@ -17,13 +17,14 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/_global/widgets/whilabel_divier.dart';
-import 'package:whilabel/screens/whisky_critique/widget/flavor_recorder.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:intl/intl.dart';
 
 const String distilleryImageURL =
     "https://ichibankobe.com/ko/wdps/wp-content/uploads/2016/05/01-6.jpg";
 const String placeHolderWhiskyImageUrl =
-    "gs://whilabel.appspot.com/whilable/place_holder/whisky_place_holder.png";
+    "gs://whilabel.appspot.com/whilabel/place_holder/whisky_place_holder.png";
 
 const String firebaseImage =
     "https://firebasestorage.googleapis.com/v0/b/whilabel.appspot.com/o/SnsType.KAKAO%2Fkakao:2964055896%2FTimestamp(seconds=1694666852,%20nanoseconds=898934000).jpg?alt=media&token=e578991f-c092-465d-8201-e3df5085a36c";
@@ -35,6 +36,9 @@ const String firebaseImage =
 // - 위스키 사진
 // - 위스키 맛 특징
 // - 바텀 버튼 2개(다시찍기, 등록하기)
+
+// FirebaseStorage _storage = FirebaseStorage.instance;
+// Reference _ref = _storage.ref("test/text");
 
 class ArchivingPostDetailView extends StatefulWidget {
   final ArchivingPost archivingPost;
@@ -63,6 +67,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
 
     creatDate = DateFormat("yyyy.MM.dd").format(date1);
     tasteNoteController.text = widget.archivingPost.note;
+    downloadURLExample("Aultmore");
   }
 
   @override
@@ -72,7 +77,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
     return Scaffold(
       body: ChangeNotifierProvider<ArchivingPostDetailViewModel>(
         create: (BuildContext context) =>
-            ProvidersManager.callArchvingPostDetailViewModel(),
+            ProvidersManager.callArchivingPostDetailViewModel(),
         child: Builder(builder: (context) {
           final viewModel = context.watch<ArchivingPostDetailViewModel>();
 
@@ -156,7 +161,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                                   maxLines: 2,
                                                   overflow:
                                                       TextOverflow.ellipsis,
-                                                  style: TextStylesManager()
+                                                  style: TextStylesManager
                                                       .createHadColorTextStyle(
                                                           "R14", Colors.grey),
                                                 ),
@@ -172,7 +177,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                               ),
                               SizedBox(height: WhilabelSpacing.spac12),
                               Padding(
-                                padding: WhilablePadding.onlyHoizBasicPadding,
+                                padding: WhilabelPadding.onlyHoizBasicPadding,
                                 child: SizedBox(
                                   width: mediaQueryWidthSize,
                                   child: Column(
@@ -196,9 +201,27 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                                   onClickButton:
                                                       cancelModifyfeature)
                                               : ModifyTextButton(
-                                                  onClickButton:
-                                                      useModifyfeature,
-                                                )
+                                                  onClickButton: () async {
+                                                  print("cnamclel");
+
+                                                  await viewModel.onEvent(
+                                                      ArchivingPostDetailEvnet
+                                                          .addTasteNoteOnProvider(
+                                                              tasteNoteController
+                                                                  .text));
+
+                                                  await ArchivingPostDetailEvnet
+                                                      .addStarValueOnProvider(
+                                                          widget.archivingPost
+                                                              .starValue);
+
+                                                  await ArchivingPostDetailEvnet
+                                                      .addTasteFeatureOnProvider(
+                                                          widget.archivingPost
+                                                              .tasteFeature);
+
+                                                  useModifyfeature();
+                                                })
                                         ],
                                       ),
                                       SizedBox(height: WhilabelSpacing.spac4),
@@ -206,7 +229,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                         creatDate + "\t작성",
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStylesManager()
+                                        style: TextStylesManager
                                             .createHadColorTextStyle(
                                                 "R14", Colors.grey),
                                       ),
@@ -230,37 +253,64 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    //위스키에 상세에 들어갈 정보를 보여줄 곳입니다.
-
                                     SizedBox(height: WhilabelSpacing.spac24),
 
                                     BasicDivider(),
                                     SizedBox(height: WhilabelSpacing.spac24),
-                                    Text("{위스키}특징",
-                                        style: TextStylesManager.bold18),
 
-                                    TasteFeatureGrid(tastFeaturs: iconPath),
-                                    SizedBox(height: WhilabelSpacing.spac32),
-                                    Text("{위스키}특징",
-                                        style: TextStylesManager.bold18),
                                     Container(
+                                      padding: EdgeInsets.all(16),
+                                      alignment: Alignment.center,
+                                      width: MediaQuery.of(context).size.width,
                                       decoration: BoxDecoration(
-                                        color: ColorsManager.black100,
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(14),
-                                        ),
+                                          color: ColorsManager.black200,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  WhilabelRadius.radius16))),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            "맛 특징과 브랜드 특징이",
+                                            style: TextStylesManager
+                                                .createHadColorTextStyle("R16",
+                                                    ColorsManager.black400),
+                                          ),
+                                          Text(
+                                            "곧 등록될 예정이에요!",
+                                            style: TextStylesManager
+                                                .createHadColorTextStyle("R16",
+                                                    ColorsManager.black400),
+                                          ),
+                                        ],
                                       ),
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: FlavorRecorder(
-                                        disable: true,
-                                      ),
-                                    ),
+                                    )
+                                    // DB에 브랜드 데이터가 들어오면 사용 할 코드
+                                    /* Text("{위스키}특징",
+                                         style: TextStylesManager.bold18),
+                                     TasteFeatureGrid(tastFeaturs: iconPath),
+                                     SizedBox(height: WhilabelSpacing.spac32),
+                                     Text("{위스키}특징",
+                                         style: TextStylesManager.bold18),
+                                     Container(
+                                       decoration: BoxDecoration(
+                                         color: ColorsManager.black100,
+                                         borderRadius: BorderRadius.all(
+                                           Radius.circular(14),
+                                         ),
+                                       ),
+                                       padding: const EdgeInsets.all(16.0),
+                                       child: FlavorRecorder(
+                                         disable: true,
+                                       ),
+                                    ),*/
                                   ],
                                 ),
                               ),
                               SizedBox(height: 80) // scroller 하단을 가리지 않기 위해서
                             ],
                           ),
+
+                          // wb whiskyImage
                           Positioned(
                             top: 174,
                             right: 16,
@@ -333,9 +383,30 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
   }
 
   void cancelModifyfeature() {
-    // setState(() {
-    //   isModify = false;
-    // });
     showMoveHomeDialog(context);
   }
+}
+
+// distillry image가 DB에 적용하면 사용할 코드
+Future<void> downloadURLExample(String distilleryName) async {
+  // String downloadURL = await FirebaseStorage.instance
+  //     .ref('distillery_images/$distilleryName.jbeg')
+  //     .getDownloadURL();
+  // print("distillery image url!!! -------");
+  // print(downloadURL);
+
+  final storageRef = FirebaseStorage.instance.ref().child("distillery_images");
+  final listResult = await storageRef.listAll();
+  for (var prefix in listResult.prefixes) {
+    // The prefixes under storageRef.
+    // You can call listAll() recursively on them.
+  }
+  for (var item in listResult.items) {
+    // print(item.name);
+    if (item.name == "$distilleryName.jpg") print("fubd");
+    // The items under storageRef.
+  }
+
+  // Within your widgets:
+  // Image.network(downloadURL);
 }

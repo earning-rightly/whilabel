@@ -18,7 +18,7 @@ class WhilabelSpacing {
   static double spac2 = 2;
 }
 
-class WhilablePadding {
+class WhilabelPadding {
   static EdgeInsets basicPadding =
       EdgeInsets.only(top: 16, left: 16, right: 16);
 

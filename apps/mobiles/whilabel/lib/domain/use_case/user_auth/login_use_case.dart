@@ -5,25 +5,32 @@ import 'package:get/get.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/user/auth_user.dart';
 import 'package:whilabel/data/user/sns_type.dart';
+import 'package:whilabel/data/user/vaild_account.dart';
 import 'package:whilabel/domain/functions/create_firebase_token.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/domain/login_services/googel_oauth.dart';
 import 'package:whilabel/domain/login_services/instargram_oauth.dart';
 import 'package:whilabel/domain/login_services/kakao_oauth.dart';
+import 'package:whilabel/domain/use_case/short_archiving_post_use_case.dart';
+import 'package:whilabel/domain/use_case/user_auth/logout_use_case.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 
 class LoginUseCase {
   AuthUser? _loginUserInfo;
 
-  final CurrentUserStatus currentUserStatus;
-  final AppUserRepository appUserRepository;
+  final CurrentUserStatus _currentUserStatus;
+  final AppUserRepository _appUserRepository;
+  final ShortArchivingPostUseCase _sameKindWhiskyUseCase;
 
   LoginUseCase({
-    required this.currentUserStatus,
-    required this.appUserRepository,
-  });
+    required CurrentUserStatus currentUserStatus,
+    required AppUserRepository appUserRepository,
+    required ShortArchivingPostUseCase shortArchivingPostUseCase,
+  })  : _currentUserStatus = currentUserStatus,
+        _appUserRepository = appUserRepository,
+        _sameKindWhiskyUseCase = shortArchivingPostUseCase;
 
-  Future<Pair<bool, bool>> call(SnsType snsType) async {
+  Future<VaildAccount> call(SnsType snsType) async {
     switch (snsType) {
       case SnsType.KAKAO:
         final kakaoLoginedUserInfo = await KaKaoOauth().login();
@@ -47,21 +54,26 @@ class LoginUseCase {
 
       default:
         debugPrint("snsType 값을 찾을 수 없습니다.");
-        return Pair(false, false);
+        // return Pair(false, false);
+        return VaildAccount(isDelted: false, isLogined: false, isNewbie: false);
     }
 
-    if (_loginUserInfo == null) return Pair(false, false);
+    if (_loginUserInfo == null)
+      return VaildAccount(isDelted: false, isLogined: false, isNewbie: false);
+    // return Pair(false, false);
 
-    await _customTokenLoginService(_loginUserInfo!);
+    final isDeleted = await _customTokenLoginService(_loginUserInfo!);
 
-    currentUserStatus.updateUserState();
+    _currentUserStatus.updateUserState();
     bool isNewbie = await _isNewbie();
 
-    return Pair(true, isNewbie);
+    // return Pair(true, isNewbie);
+    return VaildAccount(
+        isDelted: isDeleted ?? false, isLogined: true, isNewbie: isNewbie);
   }
 
   Future<bool> _isNewbie() async {
-    final currentUser = await appUserRepository.getCurrentUser();
+    final currentUser = await _appUserRepository.getCurrentUser();
 
     if (currentUser != null && (currentUser.name.isNotNullOrEmpty)) {
       debugPrint("current user is not new  ");
@@ -72,8 +84,8 @@ class LoginUseCase {
     return true;
   }
 
-  Future<void> _customTokenLoginService(AuthUser authUser) async {
-    if (authUser.uid == "") return;
+  Future<bool?> _customTokenLoginService(AuthUser authUser) async {
+    if (authUser.uid == "") return null;
     try {
       // 다른 플랫폼 정보릁 토대로 firebase토큰 생성
       final token = await createFirebaseToken(authUser);
@@ -85,25 +97,35 @@ class LoginUseCase {
       if (currentUser == null) {
         debugPrint("error!! 파이어 베이스 로그인 에러");
 
-        return;
+        return null;
       }
-      final isExisted = await appUserRepository.findUser(currentUser.uid);
+      final isExisted = await _appUserRepository.findUser(currentUser.uid);
 
       if (isExisted == null) {
-        appUserRepository.insertUser(
+        await _appUserRepository.insertUser(
           AppUser(
               uid: currentUser.uid,
               email: authUser.email,
-              allowNotification: false,
+              isPushNotificationEnabled: false,
+              isMarketingNotificationEnabled: true,
               isDeleted: false,
-              nickname: authUser.displayName,
+              nickName: authUser.displayName,
               snsType: authUser.snsType,
               snsUserInfo: {}),
         );
+        _sameKindWhiskyUseCase.creatSameKindWhiskyDoc(userId: currentUser.uid);
+      } else if (isExisted.isDeleted!) {
+        print("삭제요청을 한 계정입니다.");
+        // FirebaseAuth.instance.signInWithCustomToken()에서 로그인되 계정 로그아웃
+        await LogoutUseCase(currentUserStatus: _currentUserStatus)
+            .call(isExisted.snsType);
+
+        return true;
       }
     } catch (e) {
       e.printError;
       debugPrint("firebase function 접근할 수 없습니다.");
     }
+    return false;
   }
 }

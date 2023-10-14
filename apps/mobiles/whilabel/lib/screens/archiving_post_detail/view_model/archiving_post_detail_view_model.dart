@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/distillery/distillery.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
-import 'package:whilabel/data/taste/taste_feature.dart';
 import 'package:whilabel/data/whisky/whisky.dart';
 import 'package:whilabel/domain/post/archiving_post_repository.dart';
 import 'package:whilabel/domain/whisky_brand_distillery/whisky_brand_distillery_repository.dart';
@@ -23,9 +22,6 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
     whiskyData: Whisky(id: ""),
     distilleryData: Distillery(id: ""),
     currentPostId: "",
-    starValue: 0,
-    tasteNote: "",
-    tasteFeature: TasteFeature(bodyRate: 0, flavorRate: 0, peatRate: 0),
   );
   ArchivingPostDetailState get state => _state;
 
@@ -57,18 +53,25 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
     return distilleryData!;
   }
 
-  Future<Whisky> getInitalData(String whiskyId, String postId) async {
-    final whiskyData = await _whiskyRepository.getWhiskyData(whiskyId);
+  Future<Whisky> getInitalData(String barCode, String postId) async {
+    final whiskyData =
+        await _whiskyRepository.getWhiskyDataWithBarcode(barCode);
+    print(whiskyData?.distilleryIds.toString());
+    if (whiskyData?.wbWhisky!.distilleryName != null) {
+      String test1 = whiskyData?.wbWhisky!.distilleryName ?? "['','']";
+
+      List<String> list = test1.split("'");
+      _whiskyRepository.getDistilleryData(list[1]);
+    }
     if (_state.currentPostId.isEmpty) {
       _state = _state.copyWith(currentPostId: postId);
       notifyListeners();
-      print(_state.currentPostId);
     }
 
     return whiskyData!;
   }
 
-// post가 존하기 때문에 상세페지 이동 가능
+// post가 존하기 때문에 상세페이지 이동 가능
   Future<void> updateUserCritique() async {
     ArchivingPost? newArchivingPost =
         await _archivingPostRepository.getArchivingPost(_state.currentPostId);

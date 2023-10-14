@@ -3,9 +3,25 @@ import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/screens/archiving_post_detail/archiving_post_detail_view.dart';
 import 'package:whilabel/app_root.dart';
 import 'package:whilabel/screens/login/login_view.dart';
+import 'package:whilabel/screens/my_page/page/announcement_page.dart';
+import 'package:whilabel/screens/my_page/page/f_a_q_page.dart';
+import 'package:whilabel/screens/my_page/page/inquiring_page.dart';
+import 'package:whilabel/screens/my_page/page/setting_page.dart';
+import 'package:whilabel/screens/my_page/page/term_condition_service_page.dart';
+import 'package:whilabel/screens/my_page/page/withdrawal_page.dart';
 import 'package:whilabel/screens/onboarding/onboarding_step1.dart';
 import 'package:whilabel/screens/user_additional_info/user_additional_info_view.dart';
 import 'package:whilabel/screens/whisky_critique/whisky_critique_view.dart';
+
+class MyPageRoutes {
+  static const String annoucementRoute = "announcemnet";
+  static const String faqRoute = "FAQ";
+  static const String inquiringRoute = "inquiring";
+  static const String privacyPolicyPage = "privacyPolicyPage";
+  static const String settingRoute = "setting";
+  static const String termConditionSerciceRoute = "termConditionService";
+  static const String withdrawalRoute = "withdrawal";
+}
 
 class Routes {
   static const String cameraRoute = "/carmera";
@@ -15,13 +31,14 @@ class Routes {
   static const String whiskeyCritiqueRoute = "/whiskey_critque";
   static const String userAdditionalInfoRoute = "/user_additional_info";
   static const String onBoardingRoute = "/on_boarding";
+  static const String announcementPageRoute = "my_page/announcement_page";
 }
 
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.rootRoute:
-        return MaterialPageRoute(builder: (_) => const AppRoot());
+        return MaterialPageRoute(builder: (_) => AppRoot());
       case Routes.loginRoute:
         return MaterialPageRoute(builder: (_) => LoginView());
       case Routes.archivingPostDetailRoute:
@@ -38,6 +55,23 @@ class RouteGenerator {
             builder: (_) => const UserAdditionalInfoView());
       case Routes.onBoardingRoute:
         return MaterialPageRoute(builder: (_) => const OnboardingStep1Page());
+      // case Routes.announcementPageRoute:
+      //   return MaterialPageRoute(builder: (_) => const AnnouncementPage());
+
+      // MyPage Route
+      case MyPageRoutes.annoucementRoute:
+        return MaterialPageRoute(builder: (_) => const AnnouncementPage());
+      case MyPageRoutes.faqRoute:
+        return MaterialPageRoute(builder: (_) => FaqPage());
+      case MyPageRoutes.inquiringRoute:
+        return MaterialPageRoute(builder: (_) => InquiringPage());
+      case MyPageRoutes.settingRoute:
+        return MaterialPageRoute(builder: (_) => const SettingPage());
+      case MyPageRoutes.termConditionSerciceRoute:
+        return MaterialPageRoute(builder: (_) => TermConditionServicePage());
+      case MyPageRoutes.withdrawalRoute:
+        return MaterialPageRoute(builder: (_) => WithdrawalPage());
+
       default:
         return undefinedRoute();
     }

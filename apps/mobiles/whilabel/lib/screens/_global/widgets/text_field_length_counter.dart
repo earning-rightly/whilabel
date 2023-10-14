@@ -29,8 +29,8 @@ class TextFieldLengthCounter extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: "$maxLength",
-                    style: TextStylesManager()
-                        .createHadColorTextStyle("R14", ColorsManager.gray),
+                    style: TextStylesManager.createHadColorTextStyle(
+                        "R14", ColorsManager.gray),
                   ),
                 ]),
           ),

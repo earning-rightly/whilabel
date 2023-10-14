@@ -65,10 +65,9 @@ class UserCritiqueContainer extends StatelessWidget {
             controller: tasteNoteController,
             maxLines: isModify ? 7 : tasteNoteMaxLine,
             style: isModify
-                ? TextStylesManager()
-                    .createHadColorTextStyle("R16", ColorsManager.gray500)
-                : TextStylesManager()
-                    .createHadColorTextStyle("R16", ColorsManager.gray200),
+                ? TextStylesManager.regular16
+                : TextStylesManager.createHadColorTextStyle(
+                    "R16", ColorsManager.gray200),
             enabled: isModify,
             maxLength: 1000,
             buildCounter: (
@@ -104,8 +103,10 @@ class UserCritiqueContainer extends StatelessWidget {
               disable: !isModify,
               tastFeature: initalTasteFeature,
               onChangeBodyRate: (double value) {
-                TasteFeature tasteFeature = viewModel.state.tasteFeature
-                    .copyWith(bodyRate: value.toInt());
+                TasteFeature tasteFeature = viewModel.state.tasteFeature == null
+                    ? initalTasteFeature.copyWith(bodyRate: value.toInt())
+                    : viewModel.state.tasteFeature!
+                        .copyWith(bodyRate: value.toInt());
 
                 viewModel.onEvent(
                   ArchivingPostDetailEvnet.addTasteFeatureOnProvider(
@@ -113,8 +114,10 @@ class UserCritiqueContainer extends StatelessWidget {
                 );
               },
               onChangeFlavorRate: (double value) {
-                TasteFeature tasteFeature = viewModel.state.tasteFeature
-                    .copyWith(flavorRate: value.toInt());
+                TasteFeature tasteFeature = viewModel.state.tasteFeature == null
+                    ? initalTasteFeature.copyWith(flavorRate: value.toInt())
+                    : viewModel.state.tasteFeature!
+                        .copyWith(flavorRate: value.toInt());
 
                 viewModel.onEvent(
                   ArchivingPostDetailEvnet.addTasteFeatureOnProvider(
@@ -122,8 +125,12 @@ class UserCritiqueContainer extends StatelessWidget {
                 );
               },
               onChangePeatRate: (double value) {
-                TasteFeature tasteFeature = viewModel.state.tasteFeature
-                    .copyWith(peatRate: value.toInt());
+                TasteFeature tasteFeature = viewModel.state.tasteFeature == null
+                    ? initalTasteFeature.copyWith(peatRate: value.toInt())
+                    : viewModel.state.tasteFeature!
+                        .copyWith(peatRate: value.toInt());
+
+                // .copyWith(peatRate: value.toInt());
 
                 viewModel.onEvent(
                   ArchivingPostDetailEvnet.addTasteFeatureOnProvider(

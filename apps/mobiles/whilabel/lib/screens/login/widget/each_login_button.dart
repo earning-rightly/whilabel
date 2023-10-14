@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:whilabel/screens/_constants/styles/button_styles.dart'
-    as btnStyle;
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/path/image_paths.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_global/functions/button_style.dart';
 
 class EachLoginButton extends StatefulWidget {
   final Function()? onPressedFunc; // 파라미터로 받아서 실행할 로직
@@ -24,26 +26,39 @@ class EachLoginButton extends StatefulWidget {
 class _EachLoginButtonState extends State<EachLoginButton> {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: btnStyle.oauthLoginBtnStyle,
-      onPressed: (widget.onPressedFunc != null) ? widget.onPressedFunc : () {},
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            widget.svgImagePath,
-            width: 30,
-            // height: 20,
-          ),
-          // SizedBox(width: 18),
-          Text(
-            widget.buttonText,
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          )
-        ],
+    return SizedBox(
+      height: 45,
+      child: ElevatedButton(
+        style: createBasicButtonStyle(ColorsManager.white),
+        onPressed:
+            (widget.onPressedFunc != null) ? widget.onPressedFunc : () {},
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            widget.svgImagePath == instargramIcon
+                ? SvgPicture.asset(widget.svgImagePath,
+                    width: 40,
+                    colorFilter: ColorFilter.mode(
+                        ColorsManager.black400, BlendMode.srcIn))
+                : SvgPicture.asset(
+                    widget.svgImagePath,
+                    width: 30,
+                  ),
+            SizedBox(width: 4),
+            Text(widget.buttonText,
+                style: TextStylesManager.createHadColorTextStyle(
+                    "B16", ColorsManager.black100))
+          ],
+        ),
       ),
     );
   }
 }
+
+
+//  SvgPicture.asset(
+//               svgPath,
+//               height: 25,
+//               colorFilter:
+//                   ColorFilter.mode(ColorsManager.black400, BlendMode.srcIn),
+//             ),
