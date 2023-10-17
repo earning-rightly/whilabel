@@ -31,36 +31,17 @@ class LoginUseCase {
         _sameKindWhiskyUseCase = shortArchivingPostUseCase;
 
   Future<VaildAccount> call(SnsType snsType) async {
-    switch (snsType) {
-      case SnsType.KAKAO:
-        final kakaoLoginedUserInfo = await KaKaoOauth().login();
-        if (kakaoLoginedUserInfo != null) _loginUserInfo = kakaoLoginedUserInfo;
+    _loginUserInfo = switch (snsType) {
+      SnsType.KAKAO => await KaKaoOauth().login(),
+      SnsType.INSTAGRAM => await InstargramOauth().login(),
+      SnsType.GOOGLE => await GoogleOauth().login(),
+      _ => null
+    };
 
-        break;
-
-      case SnsType.INSTAGRAM:
-        final instargramLoginedUserInfo = await InstargramOauth().login();
-        if (instargramLoginedUserInfo != null)
-          _loginUserInfo = instargramLoginedUserInfo;
-
-        break;
-
-      case SnsType.GOOGLE:
-        final googleLoginedUserInfo = await GoogleOauth().login();
-        if (googleLoginedUserInfo != null)
-          _loginUserInfo = googleLoginedUserInfo;
-
-        break;
-
-      default:
-        debugPrint("snsType 값을 찾을 수 없습니다.");
-        // return Pair(false, false);
-        return VaildAccount(isDelted: false, isLogined: false, isNewbie: false);
-    }
-
-    if (_loginUserInfo == null)
+    if (_loginUserInfo == null) {
+      debugPrint("fail with login as $snsType");
       return VaildAccount(isDelted: false, isLogined: false, isNewbie: false);
-    // return Pair(false, false);
+    }
 
     final isDeleted = await _customTokenLoginService(_loginUserInfo!);
 
