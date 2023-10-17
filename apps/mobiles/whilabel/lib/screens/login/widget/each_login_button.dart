@@ -27,7 +27,7 @@ class _EachLoginButtonState extends State<EachLoginButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 45,
+      height: 52,
       child: ElevatedButton(
         style: createBasicButtonStyle(ColorsManager.white),
         onPressed:
@@ -37,17 +37,18 @@ class _EachLoginButtonState extends State<EachLoginButton> {
           children: [
             widget.svgImagePath == instargramIcon
                 ? SvgPicture.asset(widget.svgImagePath,
-                    width: 40,
-                    colorFilter: ColorFilter.mode(
+                    width: 48,
+                    colorFilter: const ColorFilter.mode(
                         ColorsManager.black400, BlendMode.srcIn))
                 : SvgPicture.asset(
                     widget.svgImagePath,
                     width: 30,
                   ),
-            SizedBox(width: 4),
+            const SizedBox(width: 4),
+            // Text 16 이 작은 것 같아 18로 키움
             Text(widget.buttonText,
                 style: TextStylesManager.createHadColorTextStyle(
-                    "B16", ColorsManager.black100))
+                    "B18", ColorsManager.black100))
           ],
         ),
       ),
