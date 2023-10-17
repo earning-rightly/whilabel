@@ -25,14 +25,13 @@ class LoginViewModel extends ChangeNotifier {
   )   : _loginUseCase = loginUseCase,
         _logoutUseCase = logoutUseCase;
 
-  Future<void> onEvent(LoginEvent event, {VoidCallback? callback}) async {
-    VoidCallback after = callback ?? () {};
+  Future<void> onEvent(LoginEvent event, {required VoidCallback callback}) async {
     event
         .when(
           login: _login,
           logout: _logout,
         )
-        .then((_) => {after()});
+        .then((_) => {callback()});
   }
 
   Future<void> _login(SnsType snsType) async {
