@@ -80,7 +80,7 @@ class _LoginViewState extends State<LoginView> {
                           onPressedFunc: () {
                             startLogin();
 
-                            viewModel.onEvent(LoginEvent.login(SnsType.GOOGLE),
+                            viewModel.onEvent(const LoginEvent.login(SnsType.GOOGLE),
                                 callback: () {
                                   // 로그인 후 이동할 경로 확인
                                   checkNextRoute(
@@ -99,7 +99,7 @@ class _LoginViewState extends State<LoginView> {
                           onPressedFunc: () {
                             startLogin();
 
-                            viewModel.onEvent(LoginEvent.login(SnsType.KAKAO),
+                            viewModel.onEvent(const LoginEvent.login(SnsType.KAKAO),
                                 callback: () {
                                   // 로그인 후 이동할 경로 확인
                                   checkNextRoute(
