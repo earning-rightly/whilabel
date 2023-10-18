@@ -87,11 +87,16 @@ class LoginUseCase {
     try {
       User? firebaseUser = await _getFirebaseUser(authUser);
 
-      if (firebaseUser == null) return null;
+      // login 실패 시 초기화 필요
+      if (firebaseUser == null) {
+        FirebaseAuth.instance.signOut();
+        return null;
+      }
 
-      final isExisted = await _appUserRepository.findUser(firebaseUser.uid);
+      final AppUser? user = await _appUserRepository.findUser(firebaseUser.uid);
 
-      if (isExisted == null) {
+      // isNewbie
+      if (user == null) {
         await _appUserRepository.insertUser(
           AppUser(
               uid: firebaseUser.uid,
@@ -104,11 +109,11 @@ class LoginUseCase {
               snsUserInfo: {}),
         );
         _sameKindWhiskyUseCase.creatSameKindWhiskyDoc(userId: firebaseUser.uid);
-      } else if (isExisted.isDeleted!) {
+      } else if (user.isDeleted!) {
         print("삭제요청을 한 계정입니다.");
         // FirebaseAuth.instance.signInWithCustomToken()에서 로그인되 계정 로그아웃
         await LogoutUseCase(currentUserStatus: _currentUserStatus)
-            .call(isExisted.snsType);
+            .call(user.snsType);
 
         return true;
       }
