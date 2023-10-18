@@ -67,31 +67,34 @@ class LoginUseCase {
     return true;
   }
 
-  Future<bool?> _customTokenLoginService(AuthUser authUser) async {
+  Future<User?> _getFirebaseUser(AuthUser authUser) async {
     if (authUser.uid == "") return null;
     try {
       // 다른 플랫폼 정보릁 토대로 firebase토큰 생성
       final token = await createFirebaseToken(authUser);
 
-      if (token == null) {
-        return null;
-      }
+      if (token == null) return null;
 
-      // firebase function에서 발급 받은 토큰으로 현재 유저 로그인
       await FirebaseAuth.instance.signInWithCustomToken(token);
+    } catch (e) {
+      debugPrint("Firebase Auth Error: $e");
+      return null;
+    }
+    return FirebaseAuth.instance.currentUser;
+  }
 
-      final currentUser = FirebaseAuth.instance.currentUser;
-      if (currentUser == null) {
-        debugPrint("error!! 파이어 베이스 로그인 에러");
+  Future<bool?> _customTokenLoginService(AuthUser authUser) async {
+    try {
+      User? firebaseUser = await _getFirebaseUser(authUser);
 
-        return null;
-      }
-      final isExisted = await _appUserRepository.findUser(currentUser.uid);
+      if (firebaseUser == null) return null;
+
+      final isExisted = await _appUserRepository.findUser(firebaseUser.uid);
 
       if (isExisted == null) {
         await _appUserRepository.insertUser(
           AppUser(
-              uid: currentUser.uid,
+              uid: firebaseUser.uid,
               email: authUser.email,
               isPushNotificationEnabled: false,
               isMarketingNotificationEnabled: true,
@@ -100,7 +103,7 @@ class LoginUseCase {
               snsType: authUser.snsType,
               snsUserInfo: {}),
         );
-        _sameKindWhiskyUseCase.creatSameKindWhiskyDoc(userId: currentUser.uid);
+        _sameKindWhiskyUseCase.creatSameKindWhiskyDoc(userId: firebaseUser.uid);
       } else if (isExisted.isDeleted!) {
         print("삭제요청을 한 계정입니다.");
         // FirebaseAuth.instance.signInWithCustomToken()에서 로그인되 계정 로그아웃
