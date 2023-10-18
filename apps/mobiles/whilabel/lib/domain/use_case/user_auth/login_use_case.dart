@@ -30,7 +30,7 @@ class LoginUseCase {
         _appUserRepository = appUserRepository,
         _sameKindWhiskyUseCase = shortArchivingPostUseCase;
 
-  Future<AccountState?> call(SnsType snsType) async {
+  Future<AccountState?> getAccountState(SnsType snsType) async {
     _loginUserInfo = switch (snsType) {
       SnsType.KAKAO => await KaKaoOauth().login(),
       SnsType.INSTAGRAM => await InstargramOauth().login(),

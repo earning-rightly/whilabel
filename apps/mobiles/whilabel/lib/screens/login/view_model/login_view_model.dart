@@ -35,7 +35,7 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   Future<void> _login(SnsType snsType) async {
-    AccountState? accountState = await _loginUseCase.call(snsType);
+    AccountState? accountState = await _loginUseCase.getAccountState(snsType);
 
     if (accountState == null) {
       return;
