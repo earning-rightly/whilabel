@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/user/auth_user.dart';
 import 'package:whilabel/data/user/sns_type.dart';
-import 'package:whilabel/data/user/vaild_account.dart';
+import 'package:whilabel/data/user/account_state.dart';
 import 'package:whilabel/domain/functions/create_firebase_token.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/domain/login_services/googel_oauth.dart';
@@ -30,7 +30,7 @@ class LoginUseCase {
         _appUserRepository = appUserRepository,
         _sameKindWhiskyUseCase = shortArchivingPostUseCase;
 
-  Future<VaildAccount> call(SnsType snsType) async {
+  Future<AccountState?> call(SnsType snsType) async {
     _loginUserInfo = switch (snsType) {
       SnsType.KAKAO => await KaKaoOauth().login(),
       SnsType.INSTAGRAM => await InstargramOauth().login(),
@@ -40,17 +40,19 @@ class LoginUseCase {
 
     if (_loginUserInfo == null) {
       debugPrint("fail with login as $snsType");
-      return VaildAccount(isDelted: false, isLogined: false, isNewbie: false);
+      // return null state for error handling
+      return null;
     }
 
+    // TODO: isDeleted 를 확실히 구해올 수 있도록 수정
     final isDeleted = await _customTokenLoginService(_loginUserInfo!);
 
     _currentUserStatus.updateUserState();
     bool isNewbie = await _isNewbie();
 
     // return Pair(true, isNewbie);
-    return VaildAccount(
-        isDelted: isDeleted ?? false, isLogined: true, isNewbie: isNewbie);
+    return AccountState(
+        isDeleted: isDeleted ?? false, isLogined: true, isNewbie: isNewbie);
   }
 
   Future<bool> _isNewbie() async {
@@ -70,6 +72,10 @@ class LoginUseCase {
     try {
       // 다른 플랫폼 정보릁 토대로 firebase토큰 생성
       final token = await createFirebaseToken(authUser);
+
+      if (token == null) {
+        return null;
+      }
 
       // firebase function에서 발급 받은 토큰으로 현재 유저 로그인
       await FirebaseAuth.instance.signInWithCustomToken(token);

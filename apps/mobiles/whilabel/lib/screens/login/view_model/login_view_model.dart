@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:whilabel/data/user/sns_type.dart';
-import 'package:whilabel/data/user/vaild_account.dart';
+import 'package:whilabel/data/user/account_state.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/domain/use_case/user_auth/login_use_case.dart';
 import 'package:whilabel/domain/use_case/user_auth/logout_use_case.dart';
@@ -35,30 +35,35 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   Future<void> _login(SnsType snsType) async {
-    VaildAccount vailAccount = await _loginUseCase.call(snsType);
-    UserState userState;
-    debugPrint("isLogined ===> ${vailAccount.isLogined}");
-    debugPrint("isNewbie ===> ${vailAccount.isNewbie}");
-    debugPrint("isDeleted ===> ${vailAccount.isDelted}");
+    AccountState? accountState = await _loginUseCase.call(snsType);
 
-    if (vailAccount.isLogined &&
-        vailAccount.isNewbie &&
-        vailAccount.isDelted == false)
+    if (accountState == null) {
+      return;
+    }
+
+    UserState userState;
+    debugPrint("isLogined ===> ${accountState.isLogined}");
+    debugPrint("isNewbie ===> ${accountState.isNewbie}");
+    debugPrint("isDeleted ===> ${accountState.isDeleted}");
+
+    if (accountState.isLogined &&
+        accountState.isNewbie &&
+        accountState.isDeleted == false)
       userState = UserState.initial;
-    else if (vailAccount.isDelted) {
+    else if (accountState.isDeleted) {
       userState = UserState.notLogin;
-      vailAccount = vailAccount.copyWith(isLogined: false);
+      accountState = accountState.copyWith(isLogined: false);
       // userState = UserState.notLogin;
       print("userState = UserState.deleting;");
-    } else if (vailAccount.isLogined && vailAccount.isDelted == false)
+    } else if (accountState.isLogined && accountState.isDeleted == false)
       userState = UserState.login;
     else
       userState = UserState.notLogin;
 
     _state = _state.copyWith(
-      isLogined: vailAccount.isLogined,
+      isLogined: accountState.isLogined,
       userState: userState,
-      isDeleted: vailAccount.isDelted,
+      isDeleted: accountState.isDeleted,
     );
 
     notifyListeners();
