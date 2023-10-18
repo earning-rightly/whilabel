@@ -44,42 +44,41 @@ class LoginUseCase {
       return null;
     }
 
-    // TODO: isDeleted 를 확실히 구해올 수 있도록 수정
-    final isDeleted = await _customTokenLoginService(_loginUserInfo!);
+    try {
+      User? firebaseUser = await _getFirebaseUser(_loginUserInfo!);
 
-    _currentUserStatus.updateUserState();
-    bool isNewbie = await _isNewbie();
+      // login 실패 시 초기화 필요
+      if (firebaseUser == null) {
+        FirebaseAuth.instance.signOut();
+        return null;
+      }
 
-    // return Pair(true, isNewbie);
-    return AccountState(
-        isDeleted: isDeleted ?? false, isLogined: true, isNewbie: isNewbie);
-  }
+      final AppUser? user = await _appUserRepository.findUser(firebaseUser.uid);
 
-  Future<bool> _isNewbie() async {
-    final currentUser = await _appUserRepository.getCurrentUser();
-
-    if (currentUser != null && (currentUser.name.isNotNullOrEmpty)) {
-      debugPrint("current user is not new  ");
-      return false;
+      if (user == null) { // case Newbie
+        return AccountState(isLogined: false, isNewbie: true, isDeleted: false);
+      } else if (user.isDeleted == true) { // case Deleted
+        return AccountState(isLogined: false, isNewbie: false, isDeleted: true);
+      } else {
+        return AccountState(isLogined: false, isNewbie: false, isDeleted: false);
+      }
+    } catch (e) {
+      debugPrint("login failed with error: $e");
+      FirebaseAuth.instance.signOut();
+      return null;
     }
-    debugPrint("current user is new!!  ");
-
-    return true;
   }
 
   Future<User?> _getFirebaseUser(AuthUser authUser) async {
     if (authUser.uid == "") return null;
-    try {
-      // 다른 플랫폼 정보릁 토대로 firebase토큰 생성
-      final token = await createFirebaseToken(authUser);
 
-      if (token == null) return null;
+    // 다른 플랫폼 정보릁 토대로 firebase토큰 생성
+    final token = await createFirebaseToken(authUser);
 
-      await FirebaseAuth.instance.signInWithCustomToken(token);
-    } catch (e) {
-      debugPrint("Firebase Auth Error: $e");
-      return null;
-    }
+    if (token == null) return null;
+
+    await FirebaseAuth.instance.signInWithCustomToken(token);
+
     return FirebaseAuth.instance.currentUser;
   }
 
@@ -95,8 +94,7 @@ class LoginUseCase {
 
       final AppUser? user = await _appUserRepository.findUser(firebaseUser.uid);
 
-      // isNewbie
-      if (user == null) {
+      if (user == null) { // 회원가입 필요
         await _appUserRepository.insertUser(
           AppUser(
               uid: firebaseUser.uid,
