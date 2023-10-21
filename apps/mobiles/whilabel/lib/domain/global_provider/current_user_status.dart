@@ -11,6 +11,7 @@ enum UserState {
   initial, // 유저 추가 정보를 입력 x
   notLogin, // 로그인 X 사용자
   login, // 로그인 O 사용자
+  loginFail
 }
 
 @freezed
@@ -38,6 +39,13 @@ class CurrentUserStatus extends ChangeNotifier {
 
   CurrentUserStatus(this._repository) {
     updateUserState();
+  }
+
+  void setState(AppUser appUser, UserState userState) {
+    _state = _state.copyWith(
+      appUser: appUser,
+      userState: userState
+    );
   }
 
   Future<AppUser?> getAppUser() async {
