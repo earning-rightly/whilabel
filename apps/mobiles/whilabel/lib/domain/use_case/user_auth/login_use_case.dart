@@ -16,8 +16,6 @@ import 'package:whilabel/domain/use_case/user_auth/logout_use_case.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 
 class LoginUseCase {
-  AuthUser? _loginUserInfo;
-
   final CurrentUserStatus _currentUserStatus;
   final AppUserRepository _appUserRepository;
   final ShortArchivingPostUseCase _sameKindWhiskyUseCase;
@@ -30,46 +28,50 @@ class LoginUseCase {
         _appUserRepository = appUserRepository,
         _sameKindWhiskyUseCase = shortArchivingPostUseCase;
 
-  Future<AccountState?> getAccountState(SnsType snsType) async {
-    _loginUserInfo = switch (snsType) {
-      SnsType.KAKAO => await KaKaoOauth().login(),
-      SnsType.INSTAGRAM => await InstargramOauth().login(),
-      SnsType.GOOGLE => await GoogleOauth().login(),
-      _ => null
-    };
-
-    if (_loginUserInfo == null) {
-      debugPrint("fail with login as $snsType");
-      // return null state for error handling
-      return null;
-    }
-
+  Future<UserState> login(SnsType snsType) async {
     try {
-      User? firebaseUser = await _getFirebaseUser(_loginUserInfo!);
+      AuthUser? authUser = await _snsLogin(snsType);
 
-      // login 실패 시 초기화 필요
-      if (firebaseUser == null) {
-        FirebaseAuth.instance.signOut();
-        return null;
+      if (authUser == null) {
+        throw Exception("Sns OAuth Failed");
       }
 
-      final AppUser? user = await _appUserRepository.findUser(firebaseUser.uid);
+      User? firebaseUser = await _signInFirebase(authUser);
 
-      if (user == null) { // case Newbie
-        return AccountState(isLogined: false, isNewbie: true, isDeleted: false);
-      } else if (user.isDeleted == true) { // case Deleted
-        return AccountState(isLogined: false, isNewbie: false, isDeleted: true);
+      if (firebaseUser == null) {
+        throw Exception("Firebase Auth Failed");
+      }
+
+      final AppUser? existUser = await _findUser(firebaseUser.uid);
+
+      // 삭제된 유저도 초기화로 처리함
+      // TODO: 삭제된 데이터 처리하는 방식 강구 -> createdAt 사용
+      if (existUser == null || existUser.isDeleted == true) {
+        _currentUserStatus.setState(
+          AppUser(
+            uid: firebaseUser.uid,
+            email: authUser.email,
+            isPushNotificationEnabled: false,
+            isMarketingNotificationEnabled: true,
+            isDeleted: false,
+            nickName: authUser.displayName,
+            snsType: authUser.snsType,
+            snsUserInfo: {}),
+          UserState.initial
+        );
+        return UserState.initial;
       } else {
-        return AccountState(isLogined: false, isNewbie: false, isDeleted: false);
+        _currentUserStatus.setState(existUser, UserState.login);
+        return UserState.login;
       }
     } catch (e) {
-      debugPrint("login failed with error: $e");
-      FirebaseAuth.instance.signOut();
-      return null;
+      await LogoutUseCase(currentUserStatus: _currentUserStatus).call(snsType);
+      debugPrint("Fail to Login with ${snsType.name}: $e");
+      return UserState.loginFail;
     }
   }
 
-  Future<User?> _getFirebaseUser(AuthUser authUser) async {
+  Future<User?> _signInFirebase(AuthUser authUser) async {
     if (authUser.uid == "") return null;
 
     // 다른 플랫폼 정보릁 토대로 firebase토큰 생성
@@ -82,43 +84,17 @@ class LoginUseCase {
     return FirebaseAuth.instance.currentUser;
   }
 
-  Future<bool?> _customTokenLoginService(AuthUser authUser) async {
-    try {
-      User? firebaseUser = await _getFirebaseUser(authUser);
 
-      // login 실패 시 초기화 필요
-      if (firebaseUser == null) {
-        FirebaseAuth.instance.signOut();
-        return null;
-      }
+  Future<AppUser?> _findUser(String uid) async {
+    return await _appUserRepository.findUser(uid);
+  }
 
-      final AppUser? user = await _appUserRepository.findUser(firebaseUser.uid);
-
-      if (user == null) { // 회원가입 필요
-        await _appUserRepository.insertUser(
-          AppUser(
-              uid: firebaseUser.uid,
-              email: authUser.email,
-              isPushNotificationEnabled: false,
-              isMarketingNotificationEnabled: true,
-              isDeleted: false,
-              nickName: authUser.displayName,
-              snsType: authUser.snsType,
-              snsUserInfo: {}),
-        );
-        _sameKindWhiskyUseCase.creatSameKindWhiskyDoc(userId: firebaseUser.uid);
-      } else if (user.isDeleted!) {
-        print("삭제요청을 한 계정입니다.");
-        // FirebaseAuth.instance.signInWithCustomToken()에서 로그인되 계정 로그아웃
-        await LogoutUseCase(currentUserStatus: _currentUserStatus)
-            .call(user.snsType);
-
-        return true;
-      }
-    } catch (e) {
-      e.printError;
-      debugPrint("firebase function 접근할 수 없습니다.");
-    }
-    return false;
+  Future<AuthUser?> _snsLogin(SnsType snsType) async {
+    return switch (snsType) {
+      SnsType.KAKAO => await KaKaoOauth().login(),
+      SnsType.INSTAGRAM => await InstargramOauth().login(),
+      SnsType.GOOGLE => await GoogleOauth().login(),
+      _ => null
+    };
   }
 }
