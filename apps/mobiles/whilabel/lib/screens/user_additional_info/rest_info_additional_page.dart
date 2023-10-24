@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/user/enum/gender.dart';
-import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/text_feild_rules.dart';
-import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_event.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
@@ -45,116 +43,99 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
     final viewModel = context.watch<UserAdditionalInfoViewModel>();
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(),
-      body: FutureBuilder(
-        future: context.read<CurrentUserStatus>().refreshAppUser(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError || !snapshot.hasData) {
-            return LodingProgressIndicator(
-              offstage: true,
-            );
-          }
-          AppUser currentUser = snapshot.data!;
-
-          return Padding(
-            padding: WhilabelPadding.basicPadding,
-            child: Form(
-              key: _formKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              onChanged: () {
-                setState(() {
-                  // 각 textField의 onChanged 함수들보다 느리게 트리거되게 하기 위함.
-                  Future.microtask(() {
-                    isfilledAllData = checkUserDataFill();
-                  });
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(),
+        body: Padding(
+          padding: WhilabelPadding.basicPadding,
+          child: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            onChanged: () {
+              setState(() {
+                // 각 textField의 onChanged 함수들보다 느리게 트리거되게 하기 위함.
+                Future.microtask(() {
+                  isfilledAllData = checkUserDataFill();
                 });
-              },
-              child: SafeArea(
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      left: 0,
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.height,
-                        height: MediaQuery.of(context).size.height / 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // 유저 닉네임 보여주는 widgeet
-                            Flexible(
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 32),
-                                child: Text(
-                                  "${widget.nickName}님에 대해서\n조금만 더 알려주세요",
-                                  style: TextStylesManager.bold24,
-                                ),
+              });
+            },
+            child: SafeArea(
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    left: 0,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.height,
+                      height: MediaQuery.of(context).size.height / 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // 유저 닉네임 보여주는 widgeet
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 32),
+                              child: Text(
+                                "${widget.nickName}님에 대해서\n조금만 더 알려주세요",
+                                style: TextStylesManager.bold24,
                               ),
                             ),
-                            //이름 입력
-                            UserNameInputTextField(
-                                nameTextController: nameTextController),
-                            // // 성별 선택
-                            GenderChoicer(
-                              isFemalePressed: widget.isFemalePressed,
-                              isManPressed: widget.isManPressed,
-                              onPressedFemale: onPressedFemaleButton,
-                              onPressedMan: onPressedManButton,
-                            ),
-                            // 생일 입력 받기
-                            UserBirthDatePicker(
-                              birthDayTextController: birthDayTextController,
-                            ),
-                          ],
-                        ),
+                          ),
+                          //이름 입력
+                          UserNameInputTextField(
+                              nameTextController: nameTextController),
+                          // // 성별 선택
+                          GenderChoicer(
+                            isFemalePressed: widget.isFemalePressed,
+                            isManPressed: widget.isManPressed,
+                            onPressedFemale: onPressedFemaleButton,
+                            onPressedMan: onPressedManButton,
+                          ),
+                          // 생일 입력 받기
+                          UserBirthDatePicker(
+                            birthDayTextController: birthDayTextController,
+                          ),
+                        ],
                       ),
                     ),
-                    Positioned(
-                      bottom: 24,
-                      left: 0,
-                      right: 0,
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 52,
-                        child: LongTextButton(
-                          buttonText: "다음",
-                          color: ColorsManager.brown100,
-                          onPressedFunc: isfilledAllData
-                              ? () {
-                                  AppUser newUser = currentUser.copyWith(
-                                      nickName: widget.nickName,
-                                      birthDay: birthDayTextController.text,
-                                      gender: widget.gender,
-                                      name: nameTextController.text);
+                  ),
+                  Positioned(
+                    bottom: 24,
+                    left: 0,
+                    right: 0,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 52,
+                      child: LongTextButton(
+                        buttonText: "다음",
+                        color: ColorsManager.brown100,
+                        onPressedFunc: () {
+                          if (!isfilledAllData) return;
+                          AppUser newUser = viewModel.getAppUser()!.copyWith(
+                              nickName: widget.nickName,
+                              birthDay: birthDayTextController.text,
+                              gender: widget.gender,
+                              name: nameTextController.text);
 
-                                  viewModel.onEvent(
-                                    AddUserInfo(newUser),
-                                    callback: () {
-                                      // Navigator.pushNamed(
-                                      //     context, Routes.rootRoute);
-
-                                      Navigator.pushNamedAndRemoveUntil(
-                                        context,
-                                        Routes.rootRoute,
-                                        (route) => false,
-                                      );
-                                    },
-                                  );
-                                }
-                              : null,
-                        ),
+                          viewModel.onEvent(
+                            AddUserInfo(newUser),
+                            callback: () {
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                Routes.rootRoute,
+                                (route) => false,
+                              );
+                            },
+                          );
+                        },
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
             ),
-          );
-        },
-      ),
-    );
+          ),
+        ));
   }
 
   bool checkUserDataFill() {
