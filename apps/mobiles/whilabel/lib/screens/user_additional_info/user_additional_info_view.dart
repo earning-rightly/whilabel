@@ -62,7 +62,7 @@ class _UserAdditionalInfoViewState extends State<UserAdditionalInfoView> {
                               paddingVertical: 12
                           ),
                           validator: (value) {
-                            erroMessage = checkAbleNickNameRule(value!);
+                            erroMessage = checkAbleNickNameRule(value);
 
                             return erroMessage;
                           },
