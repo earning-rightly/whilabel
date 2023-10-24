@@ -58,7 +58,7 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     final currentUserState = context.read<CurrentUserStatus>();
-    currentUserState.getAppUser();
+    currentUserState.refreshAppUser();
     return MaterialApp(
       theme: whilabelTheme,
       debugShowCheckedModeBanner: false,

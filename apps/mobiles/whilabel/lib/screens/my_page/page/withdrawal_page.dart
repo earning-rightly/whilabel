@@ -28,7 +28,7 @@ class WithdrawalPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = context.watch<MyPageViewModel>();
     final loginViewModel = context.watch<LoginViewModel>();
-    final appUser = context.watch<CurrentUserStatus>().state.appUser;
+    final appUser = context.watch<CurrentUserStatus>().state.appUser!;
 
     return Scaffold(
       appBar: buildScaffoldAppBar(context, SvgIconPath.close, "탈퇴하기"),
