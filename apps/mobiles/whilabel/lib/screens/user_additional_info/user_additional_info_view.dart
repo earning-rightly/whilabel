@@ -57,8 +57,7 @@ class _UserAdditionalInfoViewState extends State<UserAdditionalInfoView> {
                           style: TextStylesManager.regular16,
                           maxLength: 20,
                           controller: nickNameText,
-                          decoration: createBasicTextFieldStyle(
-                              "[한글, 영어, 숫자, _ ] 만 가능", true),
+                          decoration: createBasicTextFieldStyle(hintText : "한글, 영문, 숫자, 언더바 가능"),
                           validator: (value) {
                             erroMessage = checkAbleNickNameRule(value!);
 

@@ -35,7 +35,7 @@ class _UserBirthDatePickerState extends State<UserBirthDatePicker> {
               keyboardType: TextInputType.none,
               showCursor: false,
               enableInteractiveSelection: false,
-              decoration: createBasicTextFieldStyle("", true),
+              decoration: createBasicTextFieldStyle(hintText: ""),
               controller: widget.birthDayTextController,
               onTap: useDatePicker,
             ),

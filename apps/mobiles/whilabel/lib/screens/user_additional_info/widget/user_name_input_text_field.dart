@@ -33,7 +33,7 @@ class _UserNameInputTextFieldState extends State<UserNameInputTextField> {
           SizedBox(height: 12),
           TextFormField(
             style: TextStylesManager.regular16,
-            decoration: createBasicTextFieldStyle("", true),
+            decoration: createBasicTextFieldStyle(hintText: ""),
             controller: widget.nameTextController,
             validator: (value) => checkAbleNameRule(value),
           )

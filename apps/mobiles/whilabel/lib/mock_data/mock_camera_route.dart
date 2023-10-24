@@ -5,7 +5,6 @@ import 'package:whilabel/screens/camera/page/gallery_page.dart';
 import 'package:whilabel/screens/camera/page/search_whisky_name_page.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
-import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/text_field_styles.dart';
 
@@ -40,7 +39,7 @@ class _MockCameraRouteState extends State<MockCameraRoute> {
           children: [
             TextField(
               style: TextStylesManager.regular16,
-              decoration: createBasicTextFieldStyle("숫자만 가능", true),
+              decoration: createBasicTextFieldStyle(hintText: "숫자만 가능"),
               controller: barCodeTextController,
             ),
             ElevatedButton(
