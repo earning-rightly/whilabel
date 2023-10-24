@@ -26,7 +26,7 @@ class _UserAdditionalInfoViewState extends State<UserAdditionalInfoView> {
   final _formKey = GlobalKey();
   final nickNameText = TextEditingController();
   String userNickname = "";
-  String? erroMessage = "";
+  String? errorMessage = "";
 
   @override
   Widget build(BuildContext context) {
@@ -62,13 +62,12 @@ class _UserAdditionalInfoViewState extends State<UserAdditionalInfoView> {
                               paddingVertical: 12
                           ),
                           validator: (value) {
-                            erroMessage = checkAbleNickNameRule(value);
-
-                            return erroMessage;
+                            return errorMessage;
                           },
                           onChanged: (value) {
                             setState(() {
                               userNickname = value;
+                              errorMessage = checkAbleNickNameRule(value);
                             });
                           },
                         )
@@ -86,9 +85,8 @@ class _UserAdditionalInfoViewState extends State<UserAdditionalInfoView> {
                     child: LongTextButton(
                         buttonText: "다음",
                         color: ColorsManager.brown100,
-                        onPressedFunc: erroMessage != null
-                            ? null
-                            : () {
+                        enabled: errorMessage == null,
+                        onPressedFunc: () {
                           viewModel.onEvent(
                             CheckNickName(userNickname),
                             callback: () {
