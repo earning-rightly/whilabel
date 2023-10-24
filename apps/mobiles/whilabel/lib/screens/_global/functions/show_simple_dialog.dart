@@ -10,10 +10,10 @@ void showSimpleDialog(
     builder: (BuildContext context) {
       return SimpleDialog(
         backgroundColor: ColorsManager.black200,
-        insetPadding: EdgeInsets.symmetric(horizontal: 30),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 30),
         contentPadding:
-            EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
-        shape: RoundedRectangleBorder(
+            const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(15),
           ),
@@ -28,13 +28,14 @@ void showSimpleDialog(
                   title,
                   style: TextStylesManager.bold20,
                 ),
-                SizedBox(height: 20),
-                Text(subTitle, style: TextStylesManager.regular16),
-                SizedBox(height: 30),
+                const SizedBox(height: 20),
+                Text(subTitle, style: TextStylesManager.regular16.copyWith(color: ColorsManager.gray)),
+                const SizedBox(height: 30),
                 LongTextButton(
                   buttonText: "확인",
+                  buttionTextSize: 16,
                   enabled: true,
-                  color: ColorsManager.black300,
+                  color: ColorsManager.brown100,
                   onPressedFunc: () {
                     Navigator.pop(context);
                   },
