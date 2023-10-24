@@ -11,7 +11,7 @@ String? checkAbleNameRule(String? value) {
 String? checkAbleNickNameRule(String? value) {
   if (value == null || value.length < 2) return '2글자 이상 입력해주세요.';
 
-  if (value.toString().length > 20) return '최대 20자까지 입력 가능';
+  if (value.length > 20) return '최대 20자까지 입력 가능';
 
   if (!RegExp(r'^[_a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]+$')
       .hasMatch(value)) return '[한글, 영문, 숫자, 언더바]만 사용 가능합니다.';
