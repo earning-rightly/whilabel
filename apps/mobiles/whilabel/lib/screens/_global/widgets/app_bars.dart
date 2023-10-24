@@ -8,6 +8,7 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 // scaffold의 appBar 파라미터는 AppBar타입만 들어갈 수 있기에 함수로 생성
 AppBar buildScaffoldAppBar(BuildContext context, String svgPath, String title) {
   return AppBar(
+    toolbarHeight: 44,
     centerTitle: true,
     leading: IconButton(
       padding: EdgeInsets.only(left: 16),
