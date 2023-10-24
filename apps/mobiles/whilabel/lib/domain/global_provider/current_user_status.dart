@@ -48,7 +48,7 @@ class CurrentUserStatus extends ChangeNotifier {
     );
   }
 
-  Future<AppUser?> getAppUser() async {
+  Future<AppUser?> refreshAppUser() async {
     AppUser? result = await _repository.getCurrentUser();
     // print("getAppUser => ${result?.toJson()}");
     if (result != null) {
@@ -66,14 +66,11 @@ class CurrentUserStatus extends ChangeNotifier {
       print("----- userState----\n ===>>>>>>  notLogin");
     } else if (appUser.nickName == "") {
       print("----- userState----\n ===>>>>>>  inital");
-
       _state = _state.copyWith(userState: UserState.initial);
     } else {
       print("----- userState----\n ===>>>>>>  login");
-
       _state = _state.copyWith(userState: UserState.login);
     }
-
     notifyListeners();
   }
 }

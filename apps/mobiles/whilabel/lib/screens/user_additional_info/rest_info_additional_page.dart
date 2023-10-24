@@ -48,7 +48,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(),
       body: FutureBuilder(
-        future: context.read<CurrentUserStatus>().getAppUser(),
+        future: context.read<CurrentUserStatus>().refreshAppUser(),
         builder: (context, snapshot) {
           if (snapshot.hasError || !snapshot.hasData) {
             return LodingProgressIndicator(

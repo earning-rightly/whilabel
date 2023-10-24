@@ -37,7 +37,7 @@ class _NickNameAttionalPageState extends State<NickNameAttionalPage> {
     return Scaffold(
       appBar: buildScaffoldAppBar(context, SvgIconPath.close, ""),
       body: FutureBuilder<AppUser?>(
-        future: currentUserStatus.getAppUser(),
+        future: currentUserStatus.refreshAppUser(),
         builder: (context, snapshot) {
           if (snapshot.data == null || !snapshot.hasData) {
             return LodingProgressIndicator(

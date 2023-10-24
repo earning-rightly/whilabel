@@ -34,7 +34,7 @@ class UserAdditionalInfoViewModel with ChangeNotifier {
   }
 
   Future<void> addUserInfo(AppUser appUser) async {
-    String uid = (await _currentUserStatus.getAppUser())!.uid;
+    String uid = (await _currentUserStatus.refreshAppUser())!.uid;
     _appUserRepository.updateUser(uid, appUser);
     _currentUserStatus.updateUserState();
 
@@ -93,7 +93,7 @@ class UserAdditionalInfoViewModel with ChangeNotifier {
     keyToListMap.forEach((key, forbiddenWords) {
       for (String word in forbiddenWords) {
         if (nickName.contains(word)) {
-          debugPrint("금자어 사용!!!");
+          debugPrint("금지어 사용!!!");
 
           findedForbiddenWord = word;
           break;

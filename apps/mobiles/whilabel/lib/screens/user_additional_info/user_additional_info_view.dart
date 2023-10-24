@@ -15,7 +15,7 @@ class UserAdditionalInfoView extends StatelessWidget {
     final currentUserStatus = context.read<CurrentUserStatus>();
 
     return FutureBuilder<AppUser?>(
-      future: currentUserStatus.getAppUser(),
+      future: currentUserStatus.refreshAppUser(),
       builder: (context, snapshot) {
         if (snapshot.data == null || !snapshot.hasData) {
           // 현재 유저 정보를 늦게 받아오면

@@ -43,7 +43,7 @@ class AppRoot extends StatelessWidget {
     // final appUser = context.read<CurrentUserStatus>().state.appUser;
 
     return FutureBuilder<AppUser?>(
-        future: currentUserState.getAppUser(),
+        future: currentUserState.refreshAppUser(),
         initialData: currentUserState.state.appUser,
         builder: (context, snapshot) {
           if (snapshot.data == null || !snapshot.hasData) {
