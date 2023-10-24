@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/user/app_user.dart';
-import 'package:whilabel/data/user/sns_type.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -17,7 +16,7 @@ enum UserState {
 @freezed
 class CurrentUserState with _$CurrentUserState {
   factory CurrentUserState(
-      {required AppUser appUser,
+      {required AppUser? appUser,
       required UserState userState}) = _CurrentUserState;
 }
 
@@ -26,22 +25,14 @@ class CurrentUserStatus extends ChangeNotifier {
 
   late CurrentUserState _state = CurrentUserState(
       userState: UserState.initial,
-      appUser: AppUser(
-          name: "",
-          uid: "",
-          nickName: "",
-          snsUserInfo: {},
-          snsType: SnsType.EMPTY,
-          isDeleted: false,
-          isPushNotificationEnabled: false,
-          isMarketingNotificationEnabled: true));
+      appUser: null);
   CurrentUserState get state => _state;
 
   CurrentUserStatus(this._repository) {
     updateUserState();
   }
 
-  void setState(AppUser appUser, UserState userState) {
+  void setState(AppUser? appUser, UserState userState) {
     _state = _state.copyWith(
       appUser: appUser,
       userState: userState
@@ -57,6 +48,10 @@ class CurrentUserStatus extends ChangeNotifier {
     }
     // print("Future<AppUser?> getAppUser() ====> ${result?.toJson()}");
     return result;
+  }
+
+  AppUser? getAppUser() {
+    return _state.appUser;
   }
 
   Future<void> updateUserState() async {
