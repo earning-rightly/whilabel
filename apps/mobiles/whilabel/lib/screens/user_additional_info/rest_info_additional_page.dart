@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
@@ -23,9 +22,7 @@ class RestInfoAddtionalPage extends StatefulWidget {
   }) : super(key: key);
   final String nickName;
 
-  bool isManPressed = true;
-  bool isFemalePressed = false;
-  Gender gender = Gender.Man;
+  bool isMale = true;
 
   @override
   State<RestInfoAddtionalPage> createState() => _RestInfoAddtionalPageState();
@@ -86,10 +83,9 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                               nameTextController: nameTextController),
                           // // 성별 선택
                           GenderChoicer(
-                            isFemalePressed: widget.isFemalePressed,
-                            isManPressed: widget.isManPressed,
+                            isMale: widget.isMale,
                             onPressedFemale: onPressedFemaleButton,
-                            onPressedMan: onPressedManButton,
+                            onPressedMale: onPressedMaleButton,
                           ),
                           // 생일 입력 받기
                           UserBirthDatePicker(
@@ -109,12 +105,12 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                       child: LongTextButton(
                         buttonText: "다음",
                         color: ColorsManager.brown100,
+                        enabled: isfilledAllData,
                         onPressedFunc: () {
-                          if (!isfilledAllData) return;
                           AppUser newUser = viewModel.getAppUser()!.copyWith(
                               nickName: widget.nickName,
                               birthDay: birthDayTextController.text,
-                              gender: widget.gender,
+                              gender: widget.isMale ? Gender.MALE : Gender.FEMALE,
                               name: nameTextController.text);
 
                           viewModel.onEvent(
@@ -155,20 +151,16 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
   }
 
   //GenderChoicer()에서에 파라미터로 보내서 부모 state를 변동 시킨다.
-  void onPressedManButton() {
+  void onPressedMaleButton() {
     setState(() {
-      widget.isFemalePressed = false;
-      widget.isManPressed = true;
-      widget.gender = Gender.Man;
+      widget.isMale = true;
     });
   }
 
   //GenderChoicer()에서에 파라미터로 보내서 부모 state를 변동 시킨다.
   void onPressedFemaleButton() {
     setState(() {
-      widget.isFemalePressed = true;
-      widget.isManPressed = false;
-      widget.gender = Gender.FEMALE;
+      widget.isMale = false;
     });
   }
 }
