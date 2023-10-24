@@ -38,10 +38,8 @@ class UserAdditionalInfoViewModel with ChangeNotifier {
   }
 
   Future<void> addUserInfo(AppUser appUser) async {
-    String uid = (await _currentUserStatus.refreshAppUser())!.uid;
-    _appUserRepository.updateUser(uid, appUser);
-    _currentUserStatus.updateUserState();
-
+    await _appUserRepository.insertUser(appUser);
+    await _currentUserStatus.updateUserState();
     notifyListeners();
   }
 
