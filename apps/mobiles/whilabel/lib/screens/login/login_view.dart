@@ -14,6 +14,9 @@ import 'package:whilabel/screens/login/view_model/login_event.dart';
 import 'package:whilabel/screens/login/view_model/login_view_model.dart';
 import 'package:whilabel/screens/login/widget/each_login_button.dart';
 
+import '../_constants/colors_manager.dart';
+import '../_constants/text_styles_manager.dart';
+
 class LoginView extends StatefulWidget {
   LoginView({super.key});
 
@@ -23,6 +26,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   bool _isLoginProgress = true;
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<LoginViewModel>();
@@ -32,28 +36,41 @@ class _LoginViewState extends State<LoginView> {
         child: Stack(
           children: [
             Positioned(
-              child: SizedBox(
+              child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                child: Image.asset(
-                  imagePaths.loginPngImage,
-                  fit: BoxFit.fill,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        Color(0xffA87137),
+                        Color(0xff864E33),
+                      ]),
                 ),
               ),
             ),
             Column(
               children: [
                 Expanded(
-                  child: SvgPicture.asset(
-                    imagePaths.whilabelIcon,
-                    width: 270,
-                  ),
-                ),
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      imagePaths.whilabelIcon,
+                      width: 270,
+                    ),
+                    SizedBox(height: WhilabelSpacing.spac16),
+                    Text("즐거운 위스키 생활의 시작, 위라벨.",
+                        style: TextStylesManager.createHadColorTextStyle(
+                            "B16", ColorsManager.white))
+                  ],
+                )),
                 Container(
                   margin: const EdgeInsets.only(bottom: 20),
                   child: Padding(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 32),
                     child: Column(
                       children: [
                         EachLoginButton(
@@ -92,6 +109,23 @@ class _LoginViewState extends State<LoginView> {
                         ),
                         SizedBox(height: WhilabelSpacing.spac16),
                         EachLoginButton(
+                          buttonText: "애플 계정으로 로그인",
+                          svgImagePath: imagePaths.appleIcon,
+                          onPressedFunc: () {
+                            // startLogin();
+                            //
+                            // viewModel.onEvent(const LoginEvent.login(SnsType.KAKAO),
+                            //     callback: () {
+                            //       // 로그인 후 이동할 경로 확인
+                            //       checkNextRoute(
+                            //         context: context,
+                            //         userState: viewModel.state.userState,
+                            //       );
+                            //     });
+                          },
+                        ),
+                        SizedBox(height: WhilabelSpacing.spac16),
+                        EachLoginButton(
                           buttonText: "카카오톡으로 로그인",
                           svgImagePath: imagePaths.kakaoIcon,
                           onPressedFunc: () {
@@ -106,26 +140,7 @@ class _LoginViewState extends State<LoginView> {
                                   );
                                 });
                           },
-                        ),
-                        // SizedBox(height: WhilabelSpacing.spac16),
-                        // EachLoginButton(
-                        //   buttonText: "MB 로그인하기",
-                        //   svgImagePath: imagePaths.kakaoIcon,
-                        //   onPressedFunc: () {
-                        //     // turnOnOffoffstage();
-                        //
-                        //     // viewModel.onEvent(LoginEvent.login(SnsType.KAKAO),
-                        //     //     callback: () {
-                        //     //   // 로그인 후 이동할 경로 확인
-                        //     //   checkNextRoute(
-                        //     //     context: context,
-                        //     //     isLogined: viewModel.state.isLogined,
-                        //     //     isDeleted: viewModel.state.isDeleted,
-                        //     //     userState: viewModel.state.userState,
-                        //     //   );
-                        //     // });
-                        //   },
-                        // ),
+                        )
                       ],
                     ),
                   ),
@@ -158,26 +173,27 @@ class _LoginViewState extends State<LoginView> {
     required UserState userState,
   }) {
     setState(() {});
-    endLogin();
 
     // 뉴비면 유저 추가 정보를 받는 화면으로 이동
     if (userState == UserState.initial) {
+      debugPrint("회원가입을 진행합니다.");
       Navigator.pushNamedAndRemoveUntil(
         context,
         Routes.userAdditionalInfoRoute,
-            (route) => false,
+        (route) => false,
       );
     }
     // 뉴비가 아닌 유저면 홈 화면으로 이동
     else if (userState == UserState.login) {
+      debugPrint("로그인을 성공했습니다.");
       Navigator.pushNamedAndRemoveUntil(
         context,
         Routes.rootRoute,
         (route) => false,
       );
     } else if (userState == UserState.loginFail) {
-      showSimpleDialog(context, "로그인 실패",
-          "아래로 문의주세요.\nwhilabel23@gmail.com");
+      showSimpleDialog(context, "로그인 실패", "아래로 문의주세요.\nwhilabel23@gmail.com");
     }
+    endLogin();
   }
 }

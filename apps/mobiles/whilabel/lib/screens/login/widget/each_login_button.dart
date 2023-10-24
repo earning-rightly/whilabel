@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
-import 'package:whilabel/screens/_constants/path/image_paths.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/button_style.dart';
 
@@ -35,15 +34,10 @@ class _EachLoginButtonState extends State<EachLoginButton> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            widget.svgImagePath == instargramIcon
-                ? SvgPicture.asset(widget.svgImagePath,
-                    width: 48,
-                    colorFilter: const ColorFilter.mode(
-                        ColorsManager.black400, BlendMode.srcIn))
-                : SvgPicture.asset(
-                    widget.svgImagePath,
-                    width: 30,
-                  ),
+            SvgPicture.asset(
+              widget.svgImagePath,
+              width: 24,
+            ),
             const SizedBox(width: 4),
             // Text 16 이 작은 것 같아 18로 키움
             Text(widget.buttonText,
@@ -55,7 +49,6 @@ class _EachLoginButtonState extends State<EachLoginButton> {
     );
   }
 }
-
 
 //  SvgPicture.asset(
 //               svgPath,
