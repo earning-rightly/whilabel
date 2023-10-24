@@ -31,7 +31,7 @@ InputDecoration createBasicTextFieldStyle({
       ),
     ),
     // 활성화 스타일
-    contentPadding: EdgeInsets.only(left: paddingHorizontal, right: paddingHorizontal, top: paddingVertical, bottom: paddingVertical),
+    contentPadding: EdgeInsets.symmetric(horizontal: paddingHorizontal, vertical: paddingVertical),
     focusColor: ColorsManager.gray200,
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
