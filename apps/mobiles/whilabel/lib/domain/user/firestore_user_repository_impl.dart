@@ -1,3 +1,4 @@
+import 'package:dartx/dartx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:whilabel/data/user/app_user.dart';
@@ -93,6 +94,9 @@ class FirestoreUserRepositoryImpl implements AppUserRepository {
       return Future(() => null);
     }
 
-    return querySnapshot.docs.first;
+    return querySnapshot
+        .docs
+        .filter((u) => u.data.isDeleted != true)
+        .firstOrNull;
   }
 }
