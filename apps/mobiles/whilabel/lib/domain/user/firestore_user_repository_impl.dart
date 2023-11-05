@@ -65,7 +65,7 @@ class FirestoreUserRepositoryImpl implements AppUserRepository {
         .whereIsDeleted(isEqualTo: false)
         .get();
 
-    return !userSnapshot.docs.isEmpty;
+    return userSnapshot.docs.isNotEmpty;
   }
 
   @override
