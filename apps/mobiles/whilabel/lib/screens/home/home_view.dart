@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/enum/post_sort_order.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/app_bars.dart';
@@ -23,14 +24,10 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  List<Tab> myTabs = <Tab>[
-    Tab(icon: SvgPicture.asset(SvgIconPath.list)),
-    Tab(icon: SvgPicture.asset(SvgIconPath.grid)),
-  ];
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: myTabs.length);
+    _tabController = TabController(vsync: this, length: 2);
     Future.microtask(() async {
       loadPostAsync();
     });
@@ -62,17 +59,20 @@ class _HomeViewState extends State<HomeView>
       child: Column(
         children: [
           HomeAppBar(myWhiskeyCounters: state.archivingPosts.length),
-          SizedBox(height: WhilabelSpacing.spac12),
+          SizedBox(height: WhilabelSpacing.space20),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.grey, width: 1))),
+                border: Border(bottom: BorderSide(color: ColorsManager.black300, width: 1))),
             child: TabBar(
               controller: _tabController,
-              dividerColor: Colors.grey,
-              indicatorColor: Colors.white,
-              unselectedLabelColor: Colors.grey,
-              tabs: myTabs,
+              indicatorColor: ColorsManager.gray500,
+              labelColor: ColorsManager.gray500,
+              unselectedLabelColor: ColorsManager.gray,
+              tabs: [
+                Tab(icon: SvgPicture.asset(SvgIconPath.list)),
+                Tab(icon: SvgPicture.asset(SvgIconPath.grid)),
+              ],
             ),
           ),
           Expanded(
