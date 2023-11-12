@@ -88,9 +88,9 @@ class UserCritiqueContainer extends StatelessWidget {
               );
             },
           ),
-          SizedBox(height: WhilabelSpacing.spac24),
+          SizedBox(height: WhilabelSpacing.space24),
           Text("맛 평가 (선택))", style: TextStylesManager.bold14),
-          SizedBox(height: WhilabelSpacing.spac16),
+          SizedBox(height: WhilabelSpacing.space16),
           Container(
             decoration: BoxDecoration(
               color: ColorsManager.black100,

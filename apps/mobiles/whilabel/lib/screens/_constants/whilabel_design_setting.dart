@@ -9,13 +9,14 @@ class WhilabelRadius {
 }
 
 class WhilabelSpacing {
-  static double spac32 = 32;
-  static double spac24 = 24;
-  static double spac16 = 16;
-  static double spac12 = 12;
-  static double spac8 = 8;
-  static double spac4 = 4;
-  static double spac2 = 2;
+  static double space32 = 32;
+  static double space24 = 24;
+  static double space20 = 20;
+  static double space16 = 16;
+  static double space12 = 12;
+  static double space8 = 8;
+  static double space4 = 4;
+  static double space2 = 2;
 }
 
 class WhilabelPadding {

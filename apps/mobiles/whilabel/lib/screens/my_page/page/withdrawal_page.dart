@@ -40,7 +40,7 @@ class WithdrawalPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: WhilabelSpacing.spac8),
+                  SizedBox(height: WhilabelSpacing.space8),
 
                   // 상단 굵은 탈퇴 안내글
                   SizedBox(
@@ -51,7 +51,7 @@ class WithdrawalPage extends StatelessWidget {
                       softWrap: true,
                     ),
                   ),
-                  SizedBox(height: WhilabelSpacing.spac24),
+                  SizedBox(height: WhilabelSpacing.space24),
 
                   // 첫 번째 리스트 글
                   Row(
@@ -64,7 +64,7 @@ class WithdrawalPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: WhilabelSpacing.spac12),
+                  SizedBox(height: WhilabelSpacing.space12),
 
                   // 두 번째 리스트 글
                   Row(
@@ -77,7 +77,7 @@ class WithdrawalPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: WhilabelSpacing.spac12),
+                  SizedBox(height: WhilabelSpacing.space12),
 
                   // 세 번째 리스트 글
                   Row(

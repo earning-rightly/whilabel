@@ -47,7 +47,7 @@ class ArchivingPostDetailFooter extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          SizedBox(width: WhilabelSpacing.spac12),
+          SizedBox(width: WhilabelSpacing.space12),
           Expanded(
             flex: 149,
             child: Column(
@@ -82,7 +82,7 @@ class ArchivingPostDetailFooter extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: WhilabelSpacing.spac12),
+          SizedBox(width: WhilabelSpacing.space12),
           Expanded(
             flex: 96,
             child: ElevatedButton(
