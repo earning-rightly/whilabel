@@ -35,7 +35,7 @@ class HomeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 32, left: 16, right: 16),
+      padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
       width: MediaQuery.of(context).size.width,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

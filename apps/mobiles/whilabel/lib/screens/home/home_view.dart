@@ -32,10 +32,10 @@ class _HomeViewState extends State<HomeView>
     super.initState();
     _tabController = TabController(vsync: this, length: myTabs.length);
     Future.microtask(() async {
-      laodPostAsync();
+      loadPostAsync();
     });
     if (EasyLoading.isShow) {
-      Timer(Duration(milliseconds: 1000), () {
+      Timer(const Duration(milliseconds: 1000), () {
         EasyLoading.dismiss();
       });
     }
@@ -47,11 +47,11 @@ class _HomeViewState extends State<HomeView>
     super.dispose();
   }
 
-  void laodPostAsync() async {
+  void loadPostAsync() async {
     final viewModel = context.read<HomeViewModel>();
 
     await viewModel
-        .onEvent(HomeEvent.loadArchivingPost(PostButtonOrder.LATEST));
+        .onEvent(const HomeEvent.loadArchivingPost(PostButtonOrder.LATEST));
   }
 
   @override
@@ -64,10 +64,9 @@ class _HomeViewState extends State<HomeView>
           HomeAppBar(myWhiskeyCounters: state.archivingPosts.length),
           SizedBox(height: WhilabelSpacing.spac12),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(color: Colors.grey, width: 1))),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: const BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.grey, width: 1))),
             child: TabBar(
               controller: _tabController,
               dividerColor: Colors.grey,
@@ -81,7 +80,7 @@ class _HomeViewState extends State<HomeView>
               padding: WhilabelPadding.basicPadding,
               child: TabBarView(
                   controller: _tabController,
-                  children: [ListArchivingPostPage(), GridArchivingPostPage()]),
+                  children: const [ListArchivingPostPage(), GridArchivingPostPage()]),
             ),
           )
         ],
