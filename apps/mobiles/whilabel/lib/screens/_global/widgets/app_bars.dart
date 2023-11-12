@@ -27,6 +27,7 @@ AppBar buildScaffoldAppBar(BuildContext context, String svgPath, String title) {
 
 class HomeAppBar extends StatelessWidget {
   final int myWhiskeyCounters;
+
   const HomeAppBar({
     Key? key,
     required this.myWhiskeyCounters,
@@ -37,31 +38,37 @@ class HomeAppBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
       width: MediaQuery.of(context).size.width,
+      height: 64,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          RichText(
-            text: TextSpan(
-              text: "나의 위스키",
-              style: TextStylesManager.bold24,
-              children: [
-                TextSpan(
-                  text: "\t\t$myWhiskeyCounters개",
+          Row(
+            children: [
+              const Text(
+                "나의 위스키",
+                style: TextStylesManager.bold24,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: Text(
+                  "$myWhiskeyCounters",
                   style: TextStylesManager.createHadColorTextStyle(
                       "M20", ColorsManager.brown100),
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
           IconButton(
             splashColor: ColorsManager.black300,
             splashRadius: 15,
+            color: ColorsManager.gray200,
             icon: SvgPicture.asset(SvgIconPath.notification),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(minWidth: 10, minHeight: 10),
             style: IconButton.styleFrom(
               padding: EdgeInsets.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              iconSize: 24
             ),
             onPressed: () {
               Navigator.pushNamed(context, Routes.announcementPageRoute);
@@ -81,6 +88,7 @@ class BodyAppBar extends StatelessWidget {
     required this.centerTitle,
     this.rightTitle,
   });
+
   final String svgPath;
   final String centerTitle;
   final String? rightTitle;
@@ -88,7 +96,10 @@ class BodyAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
       child: Row(
         children: [
           Expanded(
