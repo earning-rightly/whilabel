@@ -1,11 +1,8 @@
-import 'package:dartx/dartx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/user/auth_user.dart';
 import 'package:whilabel/data/user/sns_type.dart';
-import 'package:whilabel/data/user/account_state.dart';
 import 'package:whilabel/domain/functions/create_firebase_token.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/domain/login_services/googel_oauth.dart';
@@ -18,15 +15,13 @@ import 'package:whilabel/domain/user/app_user_repository.dart';
 class LoginUseCase {
   final CurrentUserStatus _currentUserStatus;
   final AppUserRepository _appUserRepository;
-  final ShortArchivingPostUseCase _sameKindWhiskyUseCase;
 
   LoginUseCase({
     required CurrentUserStatus currentUserStatus,
     required AppUserRepository appUserRepository,
     required ShortArchivingPostUseCase shortArchivingPostUseCase,
   })  : _currentUserStatus = currentUserStatus,
-        _appUserRepository = appUserRepository,
-        _sameKindWhiskyUseCase = shortArchivingPostUseCase;
+        _appUserRepository = appUserRepository;
 
   Future<UserState> login(SnsType snsType) async {
     try {
@@ -83,7 +78,6 @@ class LoginUseCase {
 
     return FirebaseAuth.instance.currentUser;
   }
-
 
   Future<AppUser?> _findUser(String uid) async {
     return await _appUserRepository.findUser(uid);
