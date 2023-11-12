@@ -8,7 +8,6 @@ import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
-import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
 import 'package:whilabel/screens/my_page/page/setting_page.dart';
 import 'package:whilabel/screens/my_page/widgets/list_button.dart';
 import 'package:whilabel/screens/my_page/widgets/short_whiskey_contuer.dart';
@@ -19,7 +18,7 @@ class MyPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final myPageData = MyPageData();
-    final currentAppUser = context.watch<CurrentUserStatus>().state.appUser;
+    final currentAppUser = context.watch<CurrentUserStatus>().state.appUser!;
 
     return SafeArea(
       child: SingleChildScrollView(

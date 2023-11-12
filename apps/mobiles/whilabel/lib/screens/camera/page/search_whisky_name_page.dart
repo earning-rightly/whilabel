@@ -33,7 +33,7 @@ class SerachWhiskyNamePage extends StatelessWidget {
           title: TextField(
             style: TextStylesManager.regular16,
             controller: whiskyNameTextController,
-            decoration: createBasicTextFieldStyle("영어랑 숫자만 가능", true),
+            decoration: createBasicTextFieldStyle(hintText: "영어랑 숫자만 가능"),
             onSubmitted: (value) async {
               print(value);
 

@@ -1,31 +1,130 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:whilabel/data/user/app_user.dart';
-import 'package:whilabel/domain/global_provider/current_user_status.dart';
-import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
-import 'package:whilabel/screens/user_additional_info/nick_name_attional_page.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_global/functions/text_feild_rules.dart';
+import 'package:whilabel/screens/_global/functions/text_field_styles.dart';
+import 'package:whilabel/screens/_global/widgets/app_bars.dart';
+import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
+import 'package:whilabel/screens/user_additional_info/rest_info_additional_page.dart';
+import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_event.dart';
+import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
+import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
 
-// UserInfoAdditionalView의 view model과 이름이 햇갈리지 읺기 위해서
-// 추가 정보 페이지를 my 페이지에서 유저 정보 수정에서 사용할 가능성 있음
-class UserAdditionalInfoView extends StatelessWidget {
+class UserAdditionalInfoView extends StatefulWidget {
   const UserAdditionalInfoView({super.key});
 
   @override
+  State<UserAdditionalInfoView> createState() => _UserAdditionalInfoViewState();
+}
+
+// UserInfoAdditionalView의 view model과 이름이 햇갈리지 읺기 위해서
+// 추가 정보 페이지를 my 페이지에서 유저 정보 수정에서 사용할 가능성 있음
+class _UserAdditionalInfoViewState extends State<UserAdditionalInfoView> {
+  final _formKey = GlobalKey();
+  final nickNameText = TextEditingController();
+  String userNickname = "";
+  String? errorMessage = "";
+
+  @override
   Widget build(BuildContext context) {
-    final currentUserStatus = context.read<CurrentUserStatus>();
+    final viewModel = context.watch<UserAdditionalInfoViewModel>();
 
-    return FutureBuilder<AppUser?>(
-      future: currentUserStatus.getAppUser(),
-      builder: (context, snapshot) {
-        if (snapshot.data == null || !snapshot.hasData) {
-          // 현재 유저 정보를 늦게 받아오면
-          LodingProgressIndicator(
-            offstage: true,
-          );
-        }
+    return Scaffold(
+        appBar: buildScaffoldAppBar(context, SvgIconPath.close, ""),
+        body: Padding(
+          padding: WhilabelPadding.basicPadding,
+          child: SafeArea(
+            child: Stack(
+              children: [
+                Positioned(
+                  child: Form(
+                    key: _formKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "닉네임을 설정해주세요",
+                          style: TextStylesManager.bold24,
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        TextFormField(
+                          style: TextStylesManager.regular16,
+                          maxLength: 20,
+                          controller: nickNameText,
+                          decoration: createBasicTextFieldStyle(
+                              hintText : "한글, 영문, 숫자, 언더바 가능",
+                              paddingVertical: 12
+                          ),
+                          validator: (value) {
+                            return errorMessage;
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              userNickname = value;
+                              errorMessage = checkAbleNickNameRule(value);
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 24,
+                  left: 0,
+                  right: 0,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 52,
+                    child: LongTextButton(
+                        buttonText: "다음",
+                        color: ColorsManager.brown100,
+                        enabled: errorMessage == null,
+                        onPressedFunc: () {
+                          viewModel.onEvent(
+                            CheckNickName(userNickname),
+                            callback: () {
+                              setState(() {});
 
-        return NickNameAttionalPage();
-      },
+                              if (viewModel.state.isAbleNickName &&
+                                  viewModel.state.forbiddenWord == "") {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        RestInfoAddtionalPage(
+                                            nickName: userNickname),
+                                  ),
+                                );
+                              } else {
+                                String dialogSubTitle = "";
+
+                                if (viewModel.state.isAbleNickName ==
+                                    false) {
+                                  dialogSubTitle = "중복된 닉네임입니다";
+                                }
+                                if (viewModel.state.forbiddenWord != "") {
+                                  dialogSubTitle = "\"${viewModel.state.forbiddenWord}\" 는 금지어입니다";
+                                }
+
+                                showSimpleDialog(context, "<닉네임 사용불가>",
+                                    dialogSubTitle);
+                              }
+                            },
+                          );
+                        }),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
     );
   }
 }

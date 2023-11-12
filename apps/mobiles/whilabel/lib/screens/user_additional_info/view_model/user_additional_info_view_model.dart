@@ -33,11 +33,13 @@ class UserAdditionalInfoViewModel with ChangeNotifier {
         .then((_) => {after()});
   }
 
-  Future<void> addUserInfo(AppUser appUser) async {
-    String uid = (await _currentUserStatus.getAppUser())!.uid;
-    _appUserRepository.updateUser(uid, appUser);
-    _currentUserStatus.updateUserState();
+  AppUser? getAppUser() {
+    return _currentUserStatus.getAppUser();
+  }
 
+  Future<void> addUserInfo(AppUser appUser) async {
+    await _appUserRepository.insertUser(appUser);
+    await _currentUserStatus.updateUserState();
     notifyListeners();
   }
 
@@ -93,7 +95,7 @@ class UserAdditionalInfoViewModel with ChangeNotifier {
     keyToListMap.forEach((key, forbiddenWords) {
       for (String word in forbiddenWords) {
         if (nickName.contains(word)) {
-          debugPrint("금자어 사용!!!");
+          debugPrint("금지어 사용!!!");
 
           findedForbiddenWord = word;
           break;

@@ -8,7 +8,7 @@ typedef StringValueSetter<String> = void Function(String? value);
 
 // ignore: must_be_immutable
 class UserNameInputTextField extends StatefulWidget {
-  UserNameInputTextField({
+  const UserNameInputTextField({
     Key? key,
     required this.nameTextController,
   }) : super(key: key);
@@ -25,15 +25,15 @@ class _UserNameInputTextFieldState extends State<UserNameInputTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 32),
+      margin: const EdgeInsets.only(bottom: 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(userNameInputWidgetTitle, style: TextStylesManager.bold14),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           TextFormField(
             style: TextStylesManager.regular16,
-            decoration: createBasicTextFieldStyle("", true),
+            decoration: createBasicTextFieldStyle(hintText: ""),
             controller: widget.nameTextController,
             validator: (value) => checkAbleNameRule(value),
           )

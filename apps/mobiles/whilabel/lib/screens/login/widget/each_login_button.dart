@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:whilabel/screens/_constants/path/image_paths.dart' as imagePaths;
 import 'package:whilabel/screens/_constants/colors_manager.dart';
-import 'package:whilabel/screens/_constants/path/image_paths.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/button_style.dart';
 
@@ -27,7 +27,7 @@ class _EachLoginButtonState extends State<EachLoginButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 45,
+      height: 52,
       child: ElevatedButton(
         style: createBasicButtonStyle(ColorsManager.white),
         onPressed:
@@ -35,26 +35,21 @@ class _EachLoginButtonState extends State<EachLoginButton> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            widget.svgImagePath == instargramIcon
-                ? SvgPicture.asset(widget.svgImagePath,
-                    width: 40,
-                    colorFilter: ColorFilter.mode(
-                        ColorsManager.black400, BlendMode.srcIn))
-                : SvgPicture.asset(
-                    widget.svgImagePath,
-                    width: 30,
-                  ),
-            SizedBox(width: 4),
+            SvgPicture.asset(
+              widget.svgImagePath,
+              width: widget.svgImagePath == imagePaths.instargramIcon ? 18 : 24,
+            ),
+            const SizedBox(width: 4),
+            // Text 16 이 작은 것 같아 18로 키움
             Text(widget.buttonText,
                 style: TextStylesManager.createHadColorTextStyle(
-                    "B16", ColorsManager.black100))
+                    "B18", ColorsManager.black100))
           ],
         ),
       ),
     );
   }
 }
-
 
 //  SvgPicture.asset(
 //               svgPath,

@@ -40,7 +40,7 @@ void main() async {
 }
 
 class MainApp extends StatefulWidget {
-  MainApp._internal();
+  const MainApp._internal();
   static final MainApp instance = MainApp._internal();
   factory MainApp() => instance; // to guarantee Sigleton
 
@@ -58,7 +58,7 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     final currentUserState = context.read<CurrentUserStatus>();
-    currentUserState.getAppUser();
+    currentUserState.refreshAppUser();
     return MaterialApp(
       theme: whilabelTheme,
       debugShowCheckedModeBanner: false,
@@ -68,14 +68,14 @@ class _MainAppState extends State<MainApp> {
     );
   }
 
-  void _removeSplash() async {
-    print('ready in 3...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('ready in 2...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('ready in 1...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('go!');
-    FlutterNativeSplash.remove();
-  }
+  // void _removeSplash() async {
+  //   print('ready in 3...');
+  //   await Future.delayed(const Duration(seconds: 1));
+  //   print('ready in 2...');
+  //   await Future.delayed(const Duration(seconds: 1));
+  //   print('ready in 1...');
+  //   await Future.delayed(const Duration(seconds: 1));
+  //   print('go!');
+  //   FlutterNativeSplash.remove();
+  // }
 }

@@ -43,7 +43,7 @@ class _SettingPageState extends State<SettingPage> {
             height: 200,
             // 페이지에서 로그인한 유저 정보 계속 받아오기
             child: FutureBuilder<AppUser?>(
-              future: currentUserStatus.getAppUser(),
+              future: currentUserStatus.refreshAppUser(),
               builder: (context, snapshot) {
                 if (snapshot.data == null || !snapshot.hasData) {
                   return LodingProgressIndicator(
@@ -104,7 +104,7 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                         onPressed: () async {
                           AppUser? currentAppUser =
-                              await currentUserStatus.getAppUser();
+                              await currentUserStatus.refreshAppUser();
                           showLogoutDialog(
                             context,
                             onClickedYesButton: () {

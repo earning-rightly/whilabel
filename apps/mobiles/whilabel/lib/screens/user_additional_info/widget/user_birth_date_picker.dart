@@ -24,18 +24,15 @@ class _UserBirthDatePickerState extends State<UserBirthDatePicker> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "생년월일",
-            style: TextStyle(color: Colors.white),
-          ),
-          SizedBox(height: 12),
+          const Text("생년월일", style: TextStyle(color: Colors.white),),
+          const SizedBox(height: 12),
           GestureDetector(
             child: TextFormField(
               style: TextStylesManager.regular16,
               keyboardType: TextInputType.none,
               showCursor: false,
               enableInteractiveSelection: false,
-              decoration: createBasicTextFieldStyle("", true),
+              decoration: createBasicTextFieldStyle(hintText: ""),
               controller: widget.birthDayTextController,
               onTap: useDatePicker,
             ),
@@ -46,7 +43,7 @@ class _UserBirthDatePickerState extends State<UserBirthDatePicker> {
   }
 
   useDatePicker() async {
-    DateTime dateTime = DateTime.now();
+    DateTime dateTime = DateTime.parse("2000-01-01");
 
 // cupertino 패키지 함수
     showCupertinoDialog(
@@ -72,8 +69,9 @@ class _UserBirthDatePickerState extends State<UserBirthDatePicker> {
                         ),
                       ),
                       child: CupertinoDatePicker(
+                        initialDateTime: DateTime.parse("2000-01-01"),
                         minimumYear: 1920,
-                        maximumYear: DateTime.now().year,
+                        maximumYear: (DateTime.now().year - 19),
                         mode: CupertinoDatePickerMode.date,
                         onDateTimeChanged: (DateTime date) {
                           // 사용자가 선택한 날짜를 저장
@@ -97,7 +95,7 @@ class _UserBirthDatePickerState extends State<UserBirthDatePicker> {
 
                       Navigator.pop(context);
                     },
-                    child: Text("완료", style: TextStylesManager.medium16),
+                    child: const Text("완료", style: TextStylesManager.medium16),
                   ),
                 ),
               ],

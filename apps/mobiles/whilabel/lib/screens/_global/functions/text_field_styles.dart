@@ -6,16 +6,18 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 
 // whiskey_register에서 사용
-InputDecoration createBasicTextFieldStyle(
-  String hintText,
-  bool disable,
-) {
+InputDecoration createBasicTextFieldStyle({
+  String hintText = "",
+  double paddingVertical = 0,
+  double paddingHorizontal = 10
+}) {
   return InputDecoration(
+
     // 에러가 났을때 전체를 빨간색을 TextFied전체를 감사기 위해서 사용
     // 버벅거림을 없에기 위해서
     border: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         color: ColorsManager.black400,
         width: 1,
       ),
@@ -23,17 +25,17 @@ InputDecoration createBasicTextFieldStyle(
     // 활성화 되기전 스타일
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         color: ColorsManager.black400,
         width: 1,
       ),
     ),
     // 활성화 스타일
-    contentPadding: EdgeInsets.only(left: 10, right: 10),
+    contentPadding: EdgeInsets.symmetric(horizontal: paddingHorizontal, vertical: paddingVertical),
     focusColor: ColorsManager.gray200,
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
-      borderSide: BorderSide(color: ColorsManager.gray500, width: 2),
+      borderSide: const BorderSide(color: ColorsManager.gray500, width: 2),
     ),
     hintText: hintText,
     hintStyle: TextStylesManager.createHadColorTextStyle(
@@ -50,7 +52,7 @@ InputDecoration createEnableBasicTextFieldStyle(
     // 버벅거림을 없에기 위해서
     border: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         color: ColorsManager.black400,
         width: 2,
       ),
@@ -65,7 +67,7 @@ InputDecoration createLargeTextFieldStyle(
   return InputDecoration(
     border: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         color: ColorsManager.black400,
         width: 1,
       ),
@@ -73,24 +75,24 @@ InputDecoration createLargeTextFieldStyle(
     // 활성화 되기전 스타일
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         color: ColorsManager.black400,
         width: 1,
       ),
     ),
     disabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         color: ColorsManager.gray300,
         width: 1,
       ),
     ),
     // 활성화 스타일
-    contentPadding: EdgeInsets.only(top: 10, bottom: 12, left: 12, right: 12),
+    contentPadding: const EdgeInsets.only(top: 10, bottom: 12, left: 12, right: 12),
     focusColor: ColorsManager.yellow,
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(WhilabelRadius.radius8)),
-      borderSide: BorderSide(color: ColorsManager.gray500, width: 2),
+      borderSide: const BorderSide(color: ColorsManager.gray500, width: 2),
     ),
   );
 }

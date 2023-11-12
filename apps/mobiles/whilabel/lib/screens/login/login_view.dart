@@ -14,6 +14,9 @@ import 'package:whilabel/screens/login/view_model/login_event.dart';
 import 'package:whilabel/screens/login/view_model/login_view_model.dart';
 import 'package:whilabel/screens/login/widget/each_login_button.dart';
 
+import '../_constants/colors_manager.dart';
+import '../_constants/text_styles_manager.dart';
+
 class LoginView extends StatefulWidget {
   LoginView({super.key});
 
@@ -22,7 +25,8 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  bool _offstage = true;
+  bool _isLoginProgress = true;
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<LoginViewModel>();
@@ -32,112 +36,119 @@ class _LoginViewState extends State<LoginView> {
         child: Stack(
           children: [
             Positioned(
-              child: SizedBox(
+              child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                child: Image.asset(
-                  imagePaths.loginPngImage,
-                  fit: BoxFit.fill,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        Color(0xffA87137),
+                        Color(0xff864E33),
+                      ]),
                 ),
               ),
             ),
-            Positioned(
-              top: 200,
-              left: 0,
-              right: 0,
-              child: SvgPicture.asset(
-                imagePaths.whilabelIcon,
-                width: 270,
-              ),
-            ),
-            Positioned(
-              bottom: 20,
-              left: 0,
-              right: 0,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
+            Column(
+              children: [
+                Expanded(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    EachLoginButton(
-                      buttonText: "인스타로 로그인하기",
-                      svgImagePath: imagePaths.instargramIcon,
-                      onPressedFunc: () {
-                        turnOnOffoffstage();
-
-                        // 인스타 로그인은 웹뷰를 띄어줘야 하기에 로직이 다른것들과 다릅니다.
-                        if (viewModel.state.userState == UserState.notLogin) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => InstargramLoginWebPage(),
-                            ),
-                          );
-                        }
-                      },
+                    SvgPicture.asset(
+                      imagePaths.whilabelIcon,
+                      width: 270,
                     ),
                     SizedBox(height: WhilabelSpacing.spac16),
-                    EachLoginButton(
-                      buttonText: "구글로 로그인하기\t\t", // 정렬을 위해서 \t 사용
-                      svgImagePath: imagePaths.googleIcon,
-                      onPressedFunc: () {
-                        turnOnOffoffstage();
-
-                        viewModel.onEvent(LoginEvent.login(SnsType.GOOGLE),
-                            callback: () {
-                          // 로그인 후 이동할 경로 확인
-                          checkNextRoute(
-                            context: context,
-                            isLogined: viewModel.state.isLogined,
-                            isDeleted: viewModel.state.isDeleted,
-                            userState: viewModel.state.userState,
-                          );
-                        });
-                      },
-                    ),
-                    SizedBox(height: WhilabelSpacing.spac16),
-                    EachLoginButton(
-                      buttonText: "카카오로 로그인하기",
-                      svgImagePath: imagePaths.kakaoIcon,
-                      onPressedFunc: () {
-                        turnOnOffoffstage();
-
-                        viewModel.onEvent(LoginEvent.login(SnsType.KAKAO),
-                            callback: () {
-                          // 로그인 후 이동할 경로 확인
-                          checkNextRoute(
-                            context: context,
-                            isLogined: viewModel.state.isLogined,
-                            isDeleted: viewModel.state.isDeleted,
-                            userState: viewModel.state.userState,
-                          );
-                        });
-                      },
-                    ),
-                    SizedBox(height: WhilabelSpacing.spac16),
-                    EachLoginButton(
-                      buttonText: "MB 로그인하기",
-                      svgImagePath: imagePaths.kakaoIcon,
-                      onPressedFunc: () {
-                        // turnOnOffoffstage();
-
-                        // viewModel.onEvent(LoginEvent.login(SnsType.KAKAO),
-                        //     callback: () {
-                        //   // 로그인 후 이동할 경로 확인
-                        //   checkNextRoute(
-                        //     context: context,
-                        //     isLogined: viewModel.state.isLogined,
-                        //     isDeleted: viewModel.state.isDeleted,
-                        //     userState: viewModel.state.userState,
-                        //   );
-                        // });
-                      },
-                    ),
+                    Text("즐거운 위스키 생활의 시작, 위라벨.",
+                        style: TextStylesManager.createHadColorTextStyle(
+                            "B16", ColorsManager.white))
                   ],
+                )),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 20),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 32),
+                    child: Column(
+                      children: [
+                        EachLoginButton(
+                          buttonText: "인스타그램 계정으로 로그인",
+                          svgImagePath: imagePaths.instargramIcon,
+                          onPressedFunc: () {
+                            startLogin();
+
+                            // 인스타 로그인은 웹뷰를 띄어줘야 하기에 로직이 다른것들과 다릅니다.
+                            if (viewModel.state.userState == UserState.notLogin) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => InstargramLoginWebPage(),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                        SizedBox(height: WhilabelSpacing.spac16),
+                        EachLoginButton(
+                          buttonText: "구글 계정으로 로그인",
+                          svgImagePath: imagePaths.googleIcon,
+                          onPressedFunc: () {
+                            startLogin();
+
+                            viewModel.onEvent(const LoginEvent.login(SnsType.GOOGLE),
+                                callback: () {
+                                  // 로그인 후 이동할 경로 확인
+                                  checkNextRoute(
+                                    context: context,
+                                    userState: viewModel.state.userState,
+                                  );
+                                });
+                          },
+                        ),
+                        SizedBox(height: WhilabelSpacing.spac16),
+                        EachLoginButton(
+                          buttonText: "애플 계정으로 로그인",
+                          svgImagePath: imagePaths.appleIcon,
+                          onPressedFunc: () {
+                            // startLogin();
+                            //
+                            // viewModel.onEvent(const LoginEvent.login(SnsType.KAKAO),
+                            //     callback: () {
+                            //       // 로그인 후 이동할 경로 확인
+                            //       checkNextRoute(
+                            //         context: context,
+                            //         userState: viewModel.state.userState,
+                            //       );
+                            //     });
+                          },
+                        ),
+                        SizedBox(height: WhilabelSpacing.spac16),
+                        EachLoginButton(
+                          buttonText: "카카오톡으로 로그인",
+                          svgImagePath: imagePaths.kakaoIcon,
+                          onPressedFunc: () {
+                            startLogin();
+
+                            viewModel.onEvent(const LoginEvent.login(SnsType.KAKAO),
+                                callback: () {
+                                  // 로그인 후 이동할 경로 확인
+                                  checkNextRoute(
+                                    context: context,
+                                    userState: viewModel.state.userState,
+                                  );
+                                });
+                          },
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
             LodingProgressIndicator(
-              offstage: _offstage,
+              offstage: _isLoginProgress,
             )
           ],
         ),
@@ -145,57 +156,44 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  void turnOnOffoffstage() {
+  void startLogin() {
     setState(() {
-      _offstage = !_offstage;
+      _isLoginProgress = true;
     });
   }
 
-  void loginError(BuildContext context) {
-    turnOnOffoffstage();
-    showSimpleDialog(context, "로그인 에러!!", "앱을 종료하고 다시 시작해주세요");
-    debugPrint("로그인 오류 발생");
-  }
-
-// 삭제 처리중인 계정으로 로그인할 경우
-  void loginWithdrawingAccount(BuildContext context) {
-    turnOnOffoffstage();
-
-    showSimpleDialog(context, "삭제 처리중 계정입니다",
-        "삭체처리 취소나 문의가 있는 아래로 해주세요\nwhilabel23@gmail.com");
-    debugPrint("삭제 요청을한 계정 로그인 오류 발생");
+  void endLogin() {
+    setState(() {
+      _isLoginProgress = false;
+    });
   }
 
   void checkNextRoute({
     required BuildContext context,
-    required bool isLogined,
-    required bool isDeleted,
     required UserState userState,
   }) {
     setState(() {});
 
     // 뉴비면 유저 추가 정보를 받는 화면으로 이동
-    if (isLogined && userState == UserState.initial) {
+    if (userState == UserState.initial) {
+      debugPrint("회원가입을 진행합니다.");
       Navigator.pushNamedAndRemoveUntil(
         context,
         Routes.userAdditionalInfoRoute,
         (route) => false,
       );
-
-      // 뉴비가 아닌 유저면 홈 화면으로 이동
-    } else if (isDeleted) {
-      loginWithdrawingAccount(context);
-    } // TODO: l
-
-    else if (isLogined && userState == UserState.login) {
+    }
+    // 뉴비가 아닌 유저면 홈 화면으로 이동
+    else if (userState == UserState.login) {
+      debugPrint("로그인을 성공했습니다.");
       Navigator.pushNamedAndRemoveUntil(
         context,
         Routes.rootRoute,
         (route) => false,
       );
-    } // TODO: login하는 과정에서 에러가 발생하면 알림 띄우기
-    else {
-      loginError(context);
+    } else if (userState == UserState.loginFail) {
+      showSimpleDialog(context, "로그인 실패", "아래로 문의주세요.\nwhilabel23@gmail.com");
     }
+    endLogin();
   }
 }

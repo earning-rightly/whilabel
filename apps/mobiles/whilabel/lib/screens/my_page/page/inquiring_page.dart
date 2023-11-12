@@ -27,7 +27,7 @@ class InquiringPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<MyPageViewModel>();
-    final AppUser appUser = context.watch<CurrentUserStatus>().state.appUser;
+    final AppUser appUser = context.watch<CurrentUserStatus>().state.appUser!;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

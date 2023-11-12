@@ -5,74 +5,61 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 class GenderChoicer extends StatelessWidget {
   const GenderChoicer({
     Key? key,
-    this.onPressedMan,
+    this.onPressedMale,
     this.onPressedFemale,
-    required this.isManPressed,
-    required this.isFemalePressed,
+    required this.isMale,
   }) : super(key: key);
-  final Function()? onPressedMan;
+  final Function()? onPressedMale;
   final Function()? onPressedFemale;
-  final bool isManPressed;
-  final bool isFemalePressed;
+  final bool isMale;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 32),
+      margin: const EdgeInsets.only(bottom: 32),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(
-          "성별",
-          style: TextStylesManager.bold14,
-        ),
-        SizedBox(height: 12),
+        const Text("성별", style: TextStylesManager.bold14,),
+        const SizedBox(height: 12),
         Row(
-          children: [
+          children: <Widget>[
             // 남성 버튼
             Expanded(
               flex: 1,
               child: ElevatedButton(
-                onPressed: onPressedMan,
+                onPressed: onPressedMale,
                 style: ElevatedButton.styleFrom(
-                  side: BorderSide(color: ColorsManager.brown100),
-                  fixedSize: Size(142, 52),
-                  backgroundColor: isManPressed
+                  side: const BorderSide(color: ColorsManager.brown100),
+                  fixedSize: const Size(142, 52),
+                  backgroundColor: isMale
                       ? ColorsManager.brown100
                       : ColorsManager.black100,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10),),
                   ),
                 ),
-                child: Text(
-                  "남성",
-                  style: TextStylesManager.bold16,
-                ),
+                child: const Text("남성", style: TextStylesManager.bold16,),
               ),
             ),
             //버튼 중앙에 빈 공간
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             // 여성 버튼
             Expanded(
               flex: 1,
               child: ElevatedButton(
                 onPressed: onPressedFemale,
                 style: ElevatedButton.styleFrom(
-                  side: BorderSide(color: ColorsManager.brown100),
-                  fixedSize: Size(142, 52),
-                  backgroundColor: isFemalePressed
+                  side: const BorderSide(color: ColorsManager.brown100),
+                  fixedSize: const Size(142, 52),
+                  backgroundColor: !isMale
                       ? ColorsManager.brown100
                       : ColorsManager.black100,
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(10),
                     ),
                   ),
                 ),
-                child: Text(
-                  "여성",
-                  style: TextStylesManager.bold16,
-                ),
+                child: const Text("여성", style: TextStylesManager.bold16,),
               ),
             ),
           ],

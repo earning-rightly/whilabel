@@ -50,18 +50,16 @@ class _InstargramLoginWebPageState extends State<InstargramLoginWebPage> {
 
                     InstargramOauth().saveToken(code);
 
-                    viewModel.onEvent(LoginEvent.login(SnsType.INSTAGRAM),
+                    viewModel.onEvent(const LoginEvent.login(SnsType.INSTAGRAM),
                         callback: () {
                       setState(() {});
 
-                      if (viewModel.state.isLogined &&
-                          viewModel.state.userState == UserState.initial) {
+                      if (viewModel.state.userState == UserState.initial) {
                         Navigator.pushNamed(
                           context,
                           Routes.userAdditionalInfoRoute,
                         );
-                      } else if (viewModel.state.isLogined &&
-                          viewModel.state.userState == UserState.login) {
+                      } else if (viewModel.state.userState == UserState.login) {
                         Navigator.pushNamed(
                           context,
                           Routes.rootRoute,
