@@ -81,6 +81,8 @@ class AppRoot extends StatelessWidget {
                       return Scaffold(
                         body: bottomNavigationBodyRoutes.elementAt(snapshot.data ?? 0),
                         bottomNavigationBar: Container(
+                          // padding이 기본적으로 아이콘 절반 차지
+                          padding: const EdgeInsets.only(top: 4, bottom: 0, right: 4, left: 4),
                           decoration: const BoxDecoration(
                             border: Border(
                                 top: BorderSide(
@@ -92,6 +94,9 @@ class AppRoot extends StatelessWidget {
                           child: BottomNavigationBar(
                             showSelectedLabels: false,
                             backgroundColor: ColorsManager.black100,
+                            selectedFontSize: 0,
+                            unselectedFontSize: 0,
+                            iconSize: 24,
                             items: <BottomNavigationBarItem>[
                               BottomNavigationBarItem(
                                 icon: SvgPicture.asset(
