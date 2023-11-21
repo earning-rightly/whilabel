@@ -27,7 +27,7 @@ class _HomeViewState extends State<HomeView>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: 2);
+    _tabController = TabController(vsync: this, length: 2, animationDuration: Duration.zero);
     Future.microtask(() async {
       loadPostAsync();
     });
