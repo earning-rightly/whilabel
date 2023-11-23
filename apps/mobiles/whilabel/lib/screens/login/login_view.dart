@@ -111,17 +111,17 @@ class _LoginViewState extends State<LoginView> {
                         EachLoginButton(
                           buttonText: "애플 계정으로 로그인",
                           svgImagePath: imagePaths.appleIcon,
-                          onPressedFunc: () {
-                            // startLogin();
-                            //
-                            // viewModel.onEvent(const LoginEvent.login(SnsType.KAKAO),
-                            //     callback: () {
-                            //       // 로그인 후 이동할 경로 확인
-                            //       checkNextRoute(
-                            //         context: context,
-                            //         userState: viewModel.state.userState,
-                            //       );
-                            //     });
+                          onPressedFunc: () async {
+                            startLogin();
+
+                            viewModel.onEvent(const LoginEvent.login(SnsType.APPLE),
+                                callback: () {
+                                // 로그인 후 이동할 경로 확인
+                              checkNextRoute(
+                                context: context,
+                                userState: viewModel.state.userState,
+                              );
+                            });
                           },
                         ),
                         SizedBox(height: WhilabelSpacing.spac16),
@@ -193,6 +193,7 @@ class _LoginViewState extends State<LoginView> {
       );
     } else if (userState == UserState.loginFail) {
       showSimpleDialog(context, "로그인 실패", "아래로 문의주세요.\nwhilabel23@gmail.com");
+      return;
     }
     endLogin();
   }
