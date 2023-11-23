@@ -1,13 +1,11 @@
-import 'package:dartx/dartx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/user/auth_user.dart';
 import 'package:whilabel/data/user/sns_type.dart';
-import 'package:whilabel/data/user/account_state.dart';
 import 'package:whilabel/domain/functions/create_firebase_token.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
+import 'package:whilabel/domain/login_services/apple_oauth.dart';
 import 'package:whilabel/domain/login_services/googel_oauth.dart';
 import 'package:whilabel/domain/login_services/instargram_oauth.dart';
 import 'package:whilabel/domain/login_services/kakao_oauth.dart';
@@ -84,7 +82,6 @@ class LoginUseCase {
     return FirebaseAuth.instance.currentUser;
   }
 
-
   Future<AppUser?> _findUser(String uid) async {
     return await _appUserRepository.findUser(uid);
   }
@@ -94,6 +91,7 @@ class LoginUseCase {
       SnsType.KAKAO => await KaKaoOauth().login(),
       SnsType.INSTAGRAM => await InstargramOauth().login(),
       SnsType.GOOGLE => await GoogleOauth().login(),
+      SnsType.APPLE => await AppleOauth().login(),
       _ => null
     };
   }
