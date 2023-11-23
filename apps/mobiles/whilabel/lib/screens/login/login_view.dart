@@ -60,7 +60,7 @@ class _LoginViewState extends State<LoginView> {
                       imagePaths.whilabelIcon,
                       width: 270,
                     ),
-                    SizedBox(height: WhilabelSpacing.spac16),
+                    SizedBox(height: WhilabelSpacing.space16),
                     Text("즐거운 위스키 생활의 시작, 위라벨.",
                         style: TextStylesManager.createHadColorTextStyle(
                             "B16", ColorsManager.white))
@@ -90,7 +90,7 @@ class _LoginViewState extends State<LoginView> {
                             }
                           },
                         ),
-                        SizedBox(height: WhilabelSpacing.spac16),
+                        SizedBox(height: WhilabelSpacing.space16),
                         EachLoginButton(
                           buttonText: "구글 계정으로 로그인",
                           svgImagePath: imagePaths.googleIcon,
@@ -107,7 +107,7 @@ class _LoginViewState extends State<LoginView> {
                                 });
                           },
                         ),
-                        SizedBox(height: WhilabelSpacing.spac16),
+                        SizedBox(height: WhilabelSpacing.space16),
                         EachLoginButton(
                           buttonText: "애플 계정으로 로그인",
                           svgImagePath: imagePaths.appleIcon,
@@ -124,7 +124,7 @@ class _LoginViewState extends State<LoginView> {
                             //     });
                           },
                         ),
-                        SizedBox(height: WhilabelSpacing.spac16),
+                        SizedBox(height: WhilabelSpacing.space16),
                         EachLoginButton(
                           buttonText: "카카오톡으로 로그인",
                           svgImagePath: imagePaths.kakaoIcon,

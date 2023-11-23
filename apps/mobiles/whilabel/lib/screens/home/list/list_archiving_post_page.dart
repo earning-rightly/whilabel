@@ -23,7 +23,7 @@ class _ListArchivingPostPageState extends State<ListArchivingPostPage> {
         // 리스트에서 사용할 위스키 정렬 버튼
         Container(height: 32, child: WhiskeyAlignedButtonList()),
         // // 일정 공간에 띄어지게 하기위해서
-        SizedBox(height: WhilabelSpacing.spac16),
+        SizedBox(height: WhilabelSpacing.space16),
 
         Expanded(
             child: ListView.separated(

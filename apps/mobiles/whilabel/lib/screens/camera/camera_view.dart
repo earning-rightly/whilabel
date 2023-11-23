@@ -59,13 +59,13 @@ class CameraView extends StatelessWidget {
                     Image.asset(
                       cameraViewPngImage,
                     ),
-                    SizedBox(height: WhilabelSpacing.spac32),
+                    SizedBox(height: WhilabelSpacing.space32),
                     Text(
                       "오늘 마신 위스키를 기록해볼까요?",
                       style: TextStylesManager.bold20,
                       textAlign: TextAlign.left,
                     ),
-                    SizedBox(height: WhilabelSpacing.spac24),
+                    SizedBox(height: WhilabelSpacing.space24),
                     Row(
                       children: [
                         Expanded(flex: 10, child: SizedBox()),
@@ -124,7 +124,7 @@ class CameraView extends StatelessWidget {
                                             },
                                           ),
                                           SizedBox(
-                                              height: WhilabelSpacing.spac8),
+                                              height: WhilabelSpacing.space8),
                                           LongTextButton(
                                             buttonText: "위스키 이름 검색",
                                             onPressedFunc: () {

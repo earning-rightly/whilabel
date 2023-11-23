@@ -29,7 +29,7 @@ class FlavorRecorder extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: (WhilabelSpacing.spac16)),
+            SizedBox(height: (WhilabelSpacing.space16)),
             FlavorRange(
                 disable: disable,
                 initialCount: tastFeature?.bodyRate.toDouble() ?? 1,
@@ -38,7 +38,7 @@ class FlavorRecorder extends StatelessWidget {
                 subTitleRight: "무거움",
                 onChangeRating: onChangeBodyRate,
                 size: flavorRangeSize),
-            SizedBox(height: (WhilabelSpacing.spac16)),
+            SizedBox(height: (WhilabelSpacing.space16)),
             FlavorRange(
                 disable: disable,
                 initialCount: tastFeature?.flavorRate.toDouble() ?? 1,
@@ -47,7 +47,7 @@ class FlavorRecorder extends StatelessWidget {
                 subTitleRight: "스모크함",
                 onChangeRating: onChangeFlavorRate,
                 size: flavorRangeSize),
-            SizedBox(height: (WhilabelSpacing.spac16)),
+            SizedBox(height: (WhilabelSpacing.space16)),
             FlavorRange(
                 disable: disable,
                 initialCount: tastFeature?.peatRate.toDouble() ?? 1,

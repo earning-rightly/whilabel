@@ -1,7 +1,5 @@
-import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/post/same_kind_whisky.dart';
 import 'package:whilabel/data/post/short_archiving_post.dart';
-import 'package:whilabel/data/whisky/short_whisky.dart';
 import 'package:whilabel/domain/post/same_kind_whisky_repository.dart';
 
 class FirestoreSameKindWhiskyRepositoryImple
@@ -35,6 +33,14 @@ class FirestoreSameKindWhiskyRepositoryImple
     // TODO: implement getSameKindWhisky
     final querySnapshot =
         await _sameKindWhiskyRef.whereUserId(isEqualTo: userId).get();
+
+    if (querySnapshot.docs.isEmpty) {
+      return SameKindWhisky(
+        docId: "empty",
+        userId: userId,
+        sameKindWhiskyMap: <String, List<ShortArchivingPost>>{}
+      );
+    }
 
     return querySnapshot.docs.first.data;
   }

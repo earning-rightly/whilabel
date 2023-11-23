@@ -39,7 +39,7 @@ class ShortWhiskeyCounter extends StatelessWidget {
                   style: TextStylesManager.createHadColorTextStyle(
                       "M14", ColorsManager.gray),
                 ),
-                SizedBox(height: WhilabelSpacing.spac4),
+                SizedBox(height: WhilabelSpacing.space4),
                 //todo 데이터 연결
                 Text(
                   "${HomeState.archivingPosts.length}개",
@@ -66,7 +66,7 @@ class ShortWhiskeyCounter extends StatelessWidget {
                   style: TextStylesManager.createHadColorTextStyle(
                       "M14", ColorsManager.gray),
                 ),
-                SizedBox(height: WhilabelSpacing.spac4),
+                SizedBox(height: WhilabelSpacing.space4),
                 //todo 데이터 연결
                 Text(
                   "${HomeState.shortArchivingPostMap.length}개",

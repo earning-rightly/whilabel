@@ -60,7 +60,7 @@ class EachListArchivingPostCard extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: WhilabelSpacing.spac16),
+            SizedBox(width: WhilabelSpacing.space16),
             // 사진을 제외한 모든 공간
             Expanded(
               flex: 247,
@@ -135,13 +135,13 @@ class EachListArchivingPostCard extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: WhilabelSpacing.spac12 / 2),
+                  SizedBox(height: WhilabelSpacing.space12 / 2),
                   Text(
                     "${archivingPost.location ?? ""}\t\u2022\t${archivingPost.strength != null ? archivingPost.strength! + "%" : ""}",
                     style: TextStylesManager.createHadColorTextStyle(
                         "R12", ColorsManager.gray),
                   ),
-                  SizedBox(height: WhilabelSpacing.spac12 / 2),
+                  SizedBox(height: WhilabelSpacing.space12 / 2),
                   Flexible(
                     fit: FlexFit.tight, // 나머지 모든 공간을 차지
                     child: Container(
@@ -159,7 +159,7 @@ class EachListArchivingPostCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: WhilabelSpacing.spac12 / 2),
+                  SizedBox(height: WhilabelSpacing.space12 / 2),
                   Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),

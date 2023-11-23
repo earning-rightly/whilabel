@@ -45,13 +45,13 @@ class AnnouncmentPageEmpty extends StatelessWidget {
                     colorFilter: ColorFilter.mode(
                         ColorsManager.black300, BlendMode.srcIn),
                   ),
-                  SizedBox(height: WhilabelSpacing.spac24),
+                  SizedBox(height: WhilabelSpacing.space24),
                   Text(
                     announcementPageTitle,
                     maxLines: 2,
                     style: TextStylesManager.bold20,
                   ),
-                  SizedBox(height: WhilabelSpacing.spac12),
+                  SizedBox(height: WhilabelSpacing.space12),
                   Text(
                     announcementPageSubText,
                     maxLines: 2,

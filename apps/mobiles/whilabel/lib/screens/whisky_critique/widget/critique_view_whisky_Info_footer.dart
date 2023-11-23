@@ -52,7 +52,7 @@ class _CritiqueViewWhiskyInfoFooterState
                 flex: 40,
                 child: Image.file(fit: BoxFit.cover, currentPostData.images!),
               ),
-              SizedBox(width: WhilabelSpacing.spac12),
+              SizedBox(width: WhilabelSpacing.space12),
               Expanded(
                 flex: 149,
                 child: Column(
@@ -87,7 +87,7 @@ class _CritiqueViewWhiskyInfoFooterState
                   ],
                 ),
               ),
-              SizedBox(width: WhilabelSpacing.spac12),
+              SizedBox(width: WhilabelSpacing.space12),
               Expanded(
                 flex: 96,
                 child: ElevatedButton(

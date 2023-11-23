@@ -239,7 +239,7 @@ class DisplayPictureScreen extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: WhilabelSpacing.spac16)
+            SizedBox(height: WhilabelSpacing.space16)
           ],
         ),
       ),
