@@ -27,16 +27,15 @@ class ListTitleIconButton extends StatelessWidget {
             children: [
               SvgPicture.asset(
                 svgPath,
-                height: 25,
-                colorFilter:
-                    ColorFilter.mode(ColorsManager.black400, BlendMode.srcIn),
+                height: 24,
+                colorFilter: const ColorFilter.mode(ColorsManager.black400, BlendMode.srcIn),
               ),
               SizedBox(
                 width: spacing,
               ),
               Text(
                 titleText,
-                style: TextStylesManager.medium16,
+                style: TextStylesManager.medium16Gray200,
               ),
             ],
           ),

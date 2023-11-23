@@ -42,7 +42,7 @@ class MyPageView extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SettingPage(),
+                          builder: (context) => const SettingPage(),
                         ),
                       );
                     },
@@ -59,12 +59,14 @@ class MyPageView extends StatelessWidget {
                   pageRoute: data["route"],
                 ),
 
+              const SizedBox(height: 16),
               // 마이페이지 설정보기 과 문서보기를 구분 지어주는 선
-              Divider(
+              const Divider(
                 color: ColorsManager.black200,
                 thickness: 2,
               ),
-
+              const SizedBox(height: 16),
+              
               // 마이페이지 문서보기 리스트 버튼
               for (Map<String, dynamic> docData
                   in myPageData.myPageViewDucButtonDatas)
@@ -73,6 +75,12 @@ class MyPageView extends StatelessWidget {
                   titleText: docData["title"],
                   pageRoute: docData["route"],
                 ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                    children: [Text("버전 정보 1.0.0", style: TextStylesManager.regular12Black400)]
+                )
+              )
             ],
           )),
     );
