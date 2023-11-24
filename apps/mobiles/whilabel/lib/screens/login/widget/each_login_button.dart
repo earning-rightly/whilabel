@@ -43,7 +43,7 @@ class _EachLoginButtonState extends State<EachLoginButton> {
             // Text 16 이 작은 것 같아 18로 키움
             Text(widget.buttonText,
                 style: TextStylesManager.createHadColorTextStyle(
-                    "B18", ColorsManager.black100))
+                    "B16", ColorsManager.black100))
           ],
         ),
       ),
