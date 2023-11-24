@@ -1,10 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
-
+import 'package:http/http.dart' as http;
 class WhilabelContextMenu {
   static List<Map<String, dynamic>> meunItemContent = [
     {
@@ -83,6 +86,30 @@ class WhilabelContextMenu {
     );
 
     return result ?? "";
+  }
+
+  static void sharePostWhiskeyImage(String imageUrl) async{
+
+    DateTime dt = DateTime.now();
+    int timestamp = dt.millisecondsSinceEpoch;
+
+    try{
+      //  `http` 패키지를 사용하여 이미지를 다운로드합니다.
+      final http.Response response = await http.get(Uri.parse(imageUrl));
+      // getTemporaryDirectory()을 이용하여 캐쉬메모리 저장소 path를 가져옵니다
+      final Directory directory = await getTemporaryDirectory();
+      // 사진파일을 캐쉬메모리에 저장하고 그 정보를 file 변수에 담습니다.
+      final File file = await File('${directory.path}/$timestamp.png').writeAsBytes(response.bodyBytes);
+      // Share패키지를 이용해서 os에 내장된 공유 기능을 사용합니다.
+      await Share.shareXFiles(
+        [XFile(file.path)],
+        subject: "<Whilabel> 즐거움 위스키 생활!! 사진을 공유합니다",
+      );
+    }
+
+    catch(e){
+      debugPrint("공유기능 사용중에 에러 발생\n ====> $e");
+    }
   }
 }
 
