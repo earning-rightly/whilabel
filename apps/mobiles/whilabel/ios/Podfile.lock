@@ -874,6 +874,8 @@ PODS:
     - Flutter
   - PromisesObjC (2.3.1)
   - RecaptchaInterop (100.0.0)
+  - share_plus (0.0.1):
+    - Flutter
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -900,6 +902,7 @@ DEPENDENCIES:
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - photo_gallery (from `.symlinks/plugins/photo_gallery/ios`)
+  - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - the_apple_sign_in (from `.symlinks/plugins/the_apple_sign_in/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
@@ -973,6 +976,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   photo_gallery:
     :path: ".symlinks/plugins/photo_gallery/ios"
+  share_plus:
+    :path: ".symlinks/plugins/share_plus/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   the_apple_sign_in:
@@ -1023,12 +1028,13 @@ SPEC CHECKSUMS:
   MLKitCommon: c1b791c3e667091918d91bda4bba69a91011e390
   MLKitVision: 8baa5f46ee3352614169b85250574fde38c36f49
   mobile_scanner: 5090a13b7a35fc1c25b0d97e18e84f271a6eb605
-  nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
+  nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
   photo_gallery: 9f95e57747cd22c10676ece3660d1ffe6c603ee5
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
+  share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   the_apple_sign_in: 2e78c83cdb09eba07bb16dcc1f3bc12fcdc8263d
   webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
