@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
@@ -6,14 +7,13 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 
 class WhilabelContextMenu {
   static List<Map<String, dynamic>> meunItemContent = [
-    // 공유하기 기능을 추가하면 보여야할 UI
-    /* {
+    {
       "title": "공유하기",
       "value": "share",
       "title_style": TextStylesManager.regular16,
       "icon_path": SvgIconPath.share,
       "icon_color": ColorsManager.white,
-    },*/
+    },
     {
       "title": "수정하기",
       "value": "modify",
@@ -30,7 +30,7 @@ class WhilabelContextMenu {
       "icon_color": ColorsManager.red,
     }
   ];
-
+  /// ContextMenu창을 만들어주는 함수
   static Future<String> showContextMenu(
       BuildContext context, double left, double top) async {
     final RenderObject? overlay =
@@ -41,11 +41,10 @@ class WhilabelContextMenu {
           borderRadius: BorderRadius.all(Radius.circular(16.0))),
       color: ColorsManager.black400,
       context: context,
-      constraints: BoxConstraints(
-        minWidth: 200,
-        maxHeight: 140,
-        maxWidth: 250,
-      ),
+      constraints:const BoxConstraints(
+        minWidth: 250, maxWidth: 274,
+        minHeight:132, maxHeight: 140,
+        ),
       position: RelativeRect.fromRect(
           Rect.fromLTWH(left, top, 30, 30),
           Rect.fromLTWH(0, 0, overlay!.paintBounds.size.width,
@@ -56,30 +55,26 @@ class WhilabelContextMenu {
             value: meunItemContent[index]["value"],
             padding: EdgeInsets.zero,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              margin: index == meunItemContent.length -1 ? EdgeInsets.only(bottom: 8)
+                  : EdgeInsets.zero,
+              padding: EdgeInsets.symmetric(horizontal: 16,vertical: 0),
+              alignment: Alignment.center,
+              height: 44,
+              // MenuItem 구분선
               decoration: BoxDecoration(
-                  // PopupMenu 구분선
-                  /* border: Border(
-                       bottom:
-                           BorderSide(color: ColorsManager.gray200, width: 2)) */
-
-                  ),
-              width: 300,
-              height: 30,
-              child: Stack(
+                  border: index == meunItemContent.length -1 ? null
+                      : Border(bottom: BorderSide(color: ColorsManager.gray200, width: 2),)
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        meunItemContent[index]["title"],
-                        style: meunItemContent[index]["title_style"],
-                      ),
-                      SvgPicture.asset(
-                        meunItemContent[index]["icon_path"],
-                      ),
-                    ],
-                  )
+                  Text(
+                    meunItemContent[index]["title"],
+                    style: meunItemContent[index]["title_style"],
+                  ),
+                  SvgPicture.asset(
+                    meunItemContent[index]["icon_path"],
+                  ),
                 ],
               ),
             ),
@@ -93,12 +88,7 @@ class WhilabelContextMenu {
 
 
 
-
-
-// for (int index = 0; index < meunItemContent.length; index++)
 //           PopupMenuItem(
-//               value: meunItemContent[index]["value"],
-//               padding: EdgeInsets.zero,
 //               child: Container(
 //                 padding: EdgeInsets.symmetric(horizontal: 16),
 //                 decoration: BoxDecoration(

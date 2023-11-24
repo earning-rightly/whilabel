@@ -95,10 +95,11 @@ class EachListArchivingPostCard extends StatelessWidget {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         onPressed: () async {
-                          RenderBox box = key.currentContext?.findRenderObject()
+                          RenderBox popUpMenuBox = key.currentContext?.findRenderObject()
                               as RenderBox;
-                          Offset position = box.localToGlobal(
-                              Offset.zero); //this is global position
+                          // meauitems가 나타나야 하는 곳에 위치를 통일 시키기 위해서
+                          Offset position = popUpMenuBox.localToGlobal(Offset.zero); //this is global position
+                          // 디바이스가 터치된 곳 좌표를 보내준다.
                           await WhilabelContextMenu.showContextMenu(
                                   context, position.dx + 1000, position.dy)
                               .then((menuValue) {
