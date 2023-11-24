@@ -105,12 +105,15 @@ class EachListArchivingPostCard extends StatelessWidget {
                               .then((menuValue) {
                             switch (menuValue) {
                               case "share":
+                                WhilabelContextMenu.sharePostWhiskeyImage(archivingPost.imageUrl);
                                 break;
+
                               case "modify":
                                 Navigator.pushNamed(
                                     context, Routes.archivingPostDetailRoute,
                                     arguments: archivingPost);
                                 break;
+
                               case "delete":
                                 showDeletePostDialog(
                                   context,
@@ -206,4 +209,3 @@ class EachListArchivingPostCard extends StatelessWidget {
   }
 }
 
-void callItemValue(BuildContext context, String itemValue) {}
