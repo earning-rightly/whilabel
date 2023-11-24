@@ -23,6 +23,7 @@ dependencies:
   kakao_flutter_sdk: ^1.5.0
   kakao_flutter_sdk_user: ^1.5.0
   google_sign_in: ^6.1.5
+  the_apple_sign_in: ^1.1.1 
 
   # firebase 패키지
   firebase_core: ^2.15.1
@@ -31,6 +32,7 @@ dependencies:
   firebase_auth: ^4.6.3
   flutter_svg: ^2.0.7
   firebase_storage: ^11.2.7
+  flutter_secure_storage: ^9.0.0
 
   # hive 패키지
   hive: ^2.2.3
