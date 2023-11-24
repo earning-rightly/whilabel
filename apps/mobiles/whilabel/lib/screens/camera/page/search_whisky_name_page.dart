@@ -176,17 +176,17 @@ class NoSearchResult extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: WhilabelSpacing.spac8),
+        SizedBox(height: WhilabelSpacing.space8),
         Text("영어와 한글만 입력해주세요.\n아래 예시를 참고하고 입력해주세요"),
         SizedBox(
-          height: WhilabelSpacing.spac24,
+          height: WhilabelSpacing.space24,
         ),
         Text("ex)", textAlign: TextAlign.left),
         Text(
           "Balvenie12-year-old\nTomatin12-year-old\nHighland Park2003",
           style: TextStylesManager.regular14,
         ),
-        SizedBox(height: WhilabelSpacing.spac32)
+        SizedBox(height: WhilabelSpacing.space32)
       ]),
     );
   }

@@ -21,9 +21,9 @@ class AppRoot extends StatelessWidget {
   AppUser? appUser;
 
   final List<Widget> bottomNavigationBodyRoutes = <Widget>[
-    HomeView(),
+    const HomeView(),
     CameraView(),
-    MyPageView()
+    const MyPageView()
   ];
 
   void _onItemTapped(int index) {
@@ -34,7 +34,7 @@ class AppRoot extends StatelessWidget {
     _events.add(index);
   }
 
-  StreamController<int> _events = StreamController();
+  final StreamController<int> _events = StreamController();
 
   @override
   Widget build(BuildContext context) {
@@ -79,54 +79,73 @@ class AppRoot extends StatelessWidget {
                     builder: (context, snapshot) {
                       print("itme tab ===. ${snapshot.data}");
                       return Scaffold(
-                        body: bottomNavigationBodyRoutes
-                            .elementAt(snapshot.data ?? 0),
+                        body: bottomNavigationBodyRoutes.elementAt(snapshot.data ?? 0),
                         bottomNavigationBar: Container(
-                          decoration: BoxDecoration(
+                          // padding이 기본적으로 아이콘 절반 차지
+                          padding: const EdgeInsets.only(top: 4, bottom: 0, right: 4, left: 4),
+                          decoration: const BoxDecoration(
                             border: Border(
                                 top: BorderSide(
-                                    color: ColorsManager.black300, width: 1.0)),
+                                    color: ColorsManager.black300,
+                                    width: 1.0
+                                )
+                            ),
                           ),
                           child: BottomNavigationBar(
                             showSelectedLabels: false,
                             backgroundColor: ColorsManager.black100,
+                            selectedFontSize: 0,
+                            unselectedFontSize: 0,
+                            iconSize: 24,
                             items: <BottomNavigationBarItem>[
                               BottomNavigationBarItem(
                                 icon: SvgPicture.asset(
                                   SvgIconPath.whisky,
-                                  colorFilter: ColorFilter.mode(
-                                      ColorsManager.black300, BlendMode.srcIn),
+                                  colorFilter: const ColorFilter.mode(
+                                      ColorsManager.black300,
+                                      BlendMode.srcIn
+                                  ),
                                 ),
                                 activeIcon: SvgPicture.asset(
                                   SvgIconPath.whisky,
-                                  colorFilter: ColorFilter.mode(
-                                      ColorsManager.brown100, BlendMode.srcIn),
+                                  colorFilter: const ColorFilter.mode(
+                                      ColorsManager.brown100,
+                                      BlendMode.srcIn
+                                  ),
                                 ),
                                 label: 'whisky',
                               ),
                               BottomNavigationBarItem(
                                 icon: SvgPicture.asset(
                                   SvgIconPath.camera,
-                                  colorFilter: ColorFilter.mode(
-                                      ColorsManager.black300, BlendMode.srcIn),
+                                  colorFilter: const ColorFilter.mode(
+                                      ColorsManager.black300,
+                                      BlendMode.srcIn
+                                  ),
                                 ),
                                 activeIcon: SvgPicture.asset(
                                   SvgIconPath.camera,
-                                  colorFilter: ColorFilter.mode(
-                                      ColorsManager.brown100, BlendMode.srcIn),
+                                  colorFilter: const ColorFilter.mode(
+                                      ColorsManager.brown100,
+                                      BlendMode.srcIn
+                                  ),
                                 ),
                                 label: 'camera',
                               ),
                               BottomNavigationBarItem(
                                 icon: SvgPicture.asset(
                                   SvgIconPath.user,
-                                  colorFilter: ColorFilter.mode(
-                                      ColorsManager.black300, BlendMode.srcIn),
+                                  colorFilter: const ColorFilter.mode(
+                                      ColorsManager.black300,
+                                      BlendMode.srcIn
+                                  ),
                                 ),
                                 activeIcon: SvgPicture.asset(
                                   SvgIconPath.user,
-                                  colorFilter: ColorFilter.mode(
-                                      ColorsManager.brown100, BlendMode.srcIn),
+                                  colorFilter: const ColorFilter.mode(
+                                      ColorsManager.brown100,
+                                      BlendMode.srcIn
+                                  ),
                                 ),
                                 label: 'myPage',
                               ),

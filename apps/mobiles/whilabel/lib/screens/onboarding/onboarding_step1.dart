@@ -30,14 +30,14 @@ class OnboardingStep1Page extends StatelessWidget {
           child: Stack(
             children: [
               Positioned(
-                top: WhilabelSpacing.spac16,
+                top: WhilabelSpacing.space16,
                 left: 0,
                 right: 0,
                 child: SizedBox(
                     child: SvgPicture.asset(SvgIconPath.onBoardingStep1)),
               ),
               Positioned(
-                top: (WhilabelSpacing.spac16 + WhilabelSpacing.spac32),
+                top: (WhilabelSpacing.space16 + WhilabelSpacing.space32),
                 left: 0,
                 right: 0,
                 child: Padding(

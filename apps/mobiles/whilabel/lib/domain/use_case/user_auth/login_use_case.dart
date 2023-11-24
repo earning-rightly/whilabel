@@ -16,15 +16,13 @@ import 'package:whilabel/domain/user/app_user_repository.dart';
 class LoginUseCase {
   final CurrentUserStatus _currentUserStatus;
   final AppUserRepository _appUserRepository;
-  final ShortArchivingPostUseCase _sameKindWhiskyUseCase;
 
   LoginUseCase({
     required CurrentUserStatus currentUserStatus,
     required AppUserRepository appUserRepository,
     required ShortArchivingPostUseCase shortArchivingPostUseCase,
   })  : _currentUserStatus = currentUserStatus,
-        _appUserRepository = appUserRepository,
-        _sameKindWhiskyUseCase = shortArchivingPostUseCase;
+        _appUserRepository = appUserRepository;
 
   Future<UserState> login(SnsType snsType) async {
     try {

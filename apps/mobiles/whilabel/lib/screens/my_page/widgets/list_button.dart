@@ -21,22 +21,21 @@ class ListTitleIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: WhilabelSpacing.spac16),
+          padding: EdgeInsets.symmetric(vertical: WhilabelSpacing.space16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SvgPicture.asset(
                 svgPath,
-                height: 25,
-                colorFilter:
-                    ColorFilter.mode(ColorsManager.black400, BlendMode.srcIn),
+                height: 24,
+                colorFilter: const ColorFilter.mode(ColorsManager.black400, BlendMode.srcIn),
               ),
               SizedBox(
                 width: spacing,
               ),
               Text(
                 titleText,
-                style: TextStylesManager.medium16,
+                style: TextStylesManager.medium16Gray200,
               ),
             ],
           ),

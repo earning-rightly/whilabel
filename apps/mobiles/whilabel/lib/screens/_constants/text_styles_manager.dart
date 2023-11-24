@@ -32,6 +32,9 @@ class TextStylesManager {
   static const TextStyle regular12 = TextStyle(
       fontSize: 12, fontWeight: FontWeight.w400, color: ColorsManager.gray500);
 
+  static const TextStyle regular12Black400 = TextStyle(
+      fontSize: 12, fontWeight: FontWeight.w400, color: ColorsManager.black400);
+
   //medium
   static const TextStyle medium20 = TextStyle(
       fontSize: 20, fontWeight: FontWeight.w500, color: ColorsManager.gray500);
@@ -43,6 +46,9 @@ class TextStylesManager {
       fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.gray500);
   static const TextStyle medium12 = TextStyle(
       fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.gray500);
+
+  static const TextStyle medium16Gray200 = TextStyle(
+      fontSize: 16, fontWeight: FontWeight.w500, color: ColorsManager.gray200);
 
   static TextStyle? createHadColorTextStyle(String textStyle, Color color) {
     final Map<String, TextStyle> _boldMap = {

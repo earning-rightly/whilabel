@@ -131,7 +131,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                       },
                                     ),
                                   ),
-                                  SizedBox(height: WhilabelSpacing.spac16 + 4),
+                                  SizedBox(height: WhilabelSpacing.space16 + 4),
                                   Padding(
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
@@ -153,7 +153,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                                         .bold20),
                                                 SizedBox(
                                                   height:
-                                                      WhilabelSpacing.spac12 /
+                                                      WhilabelSpacing.space12 /
                                                           2,
                                                 ),
                                                 Text(
@@ -171,11 +171,11 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                           Expanded(flex: 106, child: SizedBox())
                                         ],
                                       )),
-                                  SizedBox(height: WhilabelSpacing.spac12),
+                                  SizedBox(height: WhilabelSpacing.space12),
                                   BasicDivider(),
                                 ],
                               ),
-                              SizedBox(height: WhilabelSpacing.spac12),
+                              SizedBox(height: WhilabelSpacing.space12),
                               Padding(
                                 padding: WhilabelPadding.onlyHoizBasicPadding,
                                 child: SizedBox(
@@ -224,7 +224,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                                 })
                                         ],
                                       ),
-                                      SizedBox(height: WhilabelSpacing.spac4),
+                                      SizedBox(height: WhilabelSpacing.space4),
                                       Text(
                                         creatDate + "\t작성",
                                         maxLines: 2,
@@ -233,7 +233,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                             .createHadColorTextStyle(
                                                 "R14", Colors.grey),
                                       ),
-                                      SizedBox(height: WhilabelSpacing.spac16),
+                                      SizedBox(height: WhilabelSpacing.space16),
                                       UserCritiqueContainer(
                                           isModify: isModify,
                                           initalStarValue:
@@ -253,10 +253,10 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SizedBox(height: WhilabelSpacing.spac24),
+                                    SizedBox(height: WhilabelSpacing.space24),
 
                                     BasicDivider(),
-                                    SizedBox(height: WhilabelSpacing.spac24),
+                                    SizedBox(height: WhilabelSpacing.space24),
 
                                     Container(
                                       padding: EdgeInsets.all(16),
