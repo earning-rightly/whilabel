@@ -8,7 +8,8 @@ part 'home_state.freezed.dart';
 @freezed
 class HomeState with _$HomeState {
   factory HomeState({
-    required List<ArchivingPost> archivingPosts,
+    required List<ArchivingPost> listTypeArchivingPosts,
+    required List<List<ArchivingPost>> gridTypeArchivingPost,
     required PostButtonOrder listButtonOrder,
     required Map<String, List<ShortArchivingPost>> shortArchivingPostMap,
     ArchivingPost? currentArchivingPost,

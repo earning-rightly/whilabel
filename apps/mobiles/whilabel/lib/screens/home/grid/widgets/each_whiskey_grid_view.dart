@@ -26,7 +26,7 @@ class EachWhiskeyGridView extends StatelessWidget {
     final mediaQueryHeight = MediaQuery.of(context).size.height;
     final homeViewModel = context.watch<HomeViewModel>();
     final List<ArchivingPost> archivingPosts =
-        homeViewModel.state.archivingPosts;
+        homeViewModel.state.listTypeArchivingPosts;
 
     final RenderObject? overlay =
         Overlay.of(context).context.findRenderObject();
@@ -80,7 +80,7 @@ class EachWhiskeyGridView extends StatelessWidget {
                             context,
                             Routes.rootRoute,
                           );
-                          homeViewModel.state.archivingPosts.length;
+                          homeViewModel.state.listTypeArchivingPosts.length;
                         });
                       },
                     );

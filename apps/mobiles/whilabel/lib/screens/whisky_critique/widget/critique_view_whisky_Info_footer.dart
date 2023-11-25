@@ -122,7 +122,7 @@ class _CritiqueViewWhiskyInfoFooterState
                                       builder: (BuildContext context) =>
                                           SuccessfulUploadPostPage(
                                             currentWhiskyCount:
-                                                homeState.archivingPosts.length,
+                                                homeState.listTypeArchivingPosts.length,
                                           )),
                                   (route) => false);
                             },

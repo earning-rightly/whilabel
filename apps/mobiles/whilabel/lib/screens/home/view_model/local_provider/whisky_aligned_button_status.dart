@@ -24,7 +24,7 @@ class whiskyAlignedButtonStatus extends ChangeNotifier {
   // view에 보여지는 버튼의 수가 달라지면 이 변수도 변경해야 함.
   final List<ButtonState> _buttonStates = [
     ButtonState(postButtonOrder: PostButtonOrder.LATEST, isSelected: true),
-    ButtonState(postButtonOrder: PostButtonOrder.OLDES, isSelected: false),
+    ButtonState(postButtonOrder: PostButtonOrder.OLDEST, isSelected: false),
     ButtonState(
         postButtonOrder: PostButtonOrder.HiGHEST_RATING, isSelected: false),
     ButtonState(

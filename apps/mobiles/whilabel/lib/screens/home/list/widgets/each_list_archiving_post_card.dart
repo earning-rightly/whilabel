@@ -129,7 +129,7 @@ class EachListArchivingPostCard extends StatelessWidget {
                                         context,
                                         Routes.rootRoute,
                                       );
-                                      homeViewModel.state.archivingPosts.length;
+                                      homeViewModel.state.listTypeArchivingPosts.length;
                                     });
                                   },
                                 );

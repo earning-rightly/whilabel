@@ -10,7 +10,7 @@ import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/domain/post/firebase_same_kind_whisky_repository_impl.dart';
 import 'package:whilabel/domain/post/same_kind_whisky_repository.dart';
 import 'package:whilabel/domain/use_case/short_archiving_post_use_case.dart';
-import 'package:whilabel/domain/use_case/sort_archiving_post_use_case.dart';
+import 'package:whilabel/domain/use_case/load_archiving_posts_use_case.dart';
 import 'package:whilabel/domain/use_case/whisky_archiving_post_use_case.dart';
 import 'package:whilabel/domain/post/archiving_post_repository.dart';
 import 'package:whilabel/domain/post/firebase_archiving_post_repository_impl.dart';
@@ -72,7 +72,7 @@ class ProvidersManager {
     appUserRepository: _appUserRepository,
     shortArchivingPostUseCase: shortArchivingPostUseCase,
   );
-  static final _loadArchivingPostUseCase = LoadArchivingPostUseCase(
+  static final _loadArchivingPostUseCase = LoadArchivingPostsUseCase(
     archivingPostRepository: _archivingPostRepository,
   );
 
