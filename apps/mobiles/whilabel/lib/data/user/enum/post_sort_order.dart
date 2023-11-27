@@ -1,6 +1,6 @@
 enum PostButtonOrder {
   LATEST("latest", "최신순"),
-  OLDES("old", '오래된 순'),
+  OLDEST("oldest", '오래된 순'),
   HiGHEST_RATING("highestRating", "별점 높은 순"),
   LOWEST_RATiNG("lowestRating", "별점 낮은 순"),
   UNDEFINED('undefined', '');

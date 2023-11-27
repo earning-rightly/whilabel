@@ -1,24 +1,22 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
-import 'package:whilabel/data/post/short_archiving_post.dart';
 import 'package:whilabel/data/user/enum/post_sort_order.dart';
 import 'package:whilabel/domain/post/archiving_post_repository.dart';
 import 'package:whilabel/domain/use_case/short_archiving_post_use_case.dart';
-import 'package:whilabel/domain/use_case/sort_archiving_post_use_case.dart';
+import 'package:whilabel/domain/use_case/load_archiving_posts_use_case.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 import 'package:whilabel/screens/home/view_model/home_event.dart';
 import 'package:whilabel/screens/home/view_model/home_state.dart';
 
 class HomeViewModel with ChangeNotifier {
-  final LoadArchivingPostUseCase _loadArchivingPostUseCase;
+  final LoadArchivingPostsUseCase _loadArchivingPostUseCase;
   final ArchivingPostRepository _archivingPostRepository;
   final ShortArchivingPostUseCase _shortArchivingPostUseCase;
   final AppUserRepository _appUserRepository;
 
   HomeViewModel({
-    required LoadArchivingPostUseCase loadArchivingPostUseCase,
+    required LoadArchivingPostsUseCase loadArchivingPostUseCase,
     required ArchivingPostRepository archivingPostRepository,
     required ShortArchivingPostUseCase shortArchivingPostUseCase,
     required AppUserRepository appUserRepository,
@@ -29,9 +27,10 @@ class HomeViewModel with ChangeNotifier {
 
   HomeState get state => _state;
   HomeState _state = HomeState(
-    archivingPosts: [],
+
+    listTypeArchivingPosts: [],
+    gridTypeArchivingPost: {},
     listButtonOrder: PostButtonOrder.LATEST, // 처음 초기값은 항상 최근것을 보여주기
-    shortArchivingPostMap: {},
   );
 
   Future<void> onEvent(HomeEvent event, {VoidCallback? callback}) async {
@@ -47,24 +46,29 @@ class HomeViewModel with ChangeNotifier {
   Future<void> _loadArchivingPost(PostButtonOrder listButtonOrder) async {
     final appUser = await _appUserRepository.getCurrentUser();
     if (appUser?.uid != null) {
-      List<ArchivingPost> archivingPosts =
-          await _loadArchivingPostUseCase.call(appUser!.uid, listButtonOrder);
-      Map<String, List<ShortArchivingPost>> shortArchivingPostMap =
-          await _shortArchivingPostUseCase.getShortArchivingPostMap(
-              uid: appUser.uid);
+
+      // 리스뷰에서 사용될 데이타
+      List<ArchivingPost> listTypeArchivingPosts =
+          await _loadArchivingPostUseCase.getListArchivingPost(appUser!.uid, listButtonOrder);
+      // 그리드 뷰에서 사용될 archivingPosts data
+      Map<String,List<ArchivingPost>> gridTypeArchivingPosts =
+      await _loadArchivingPostUseCase.getGridArchivingPost(archivingPosts: listTypeArchivingPosts);
+
+
       _state = _state.copyWith(
-          archivingPosts: archivingPosts,
-          shortArchivingPostMap: shortArchivingPostMap);
+          listTypeArchivingPosts: listTypeArchivingPosts,
+          gridTypeArchivingPost: gridTypeArchivingPosts,
+      );
+
       notifyListeners();
     }
-
     // for (String key in shortArchivingPostMap.keys) {
     //   print(shortArchivingPostMap[key]!.first);
     // }
   }
 
   Future<void> _changeButtonOrder(PostButtonOrder listButtonOrder) async {
-    print("_changeButtonOrder start");
+    debugPrint("_changeButtonOrder start");
     _state = state.copyWith(listButtonOrder: listButtonOrder);
     notifyListeners();
     _loadArchivingPost(listButtonOrder);

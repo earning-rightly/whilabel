@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
-import 'package:whilabel/data/post/short_archiving_post.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/home/grid/expanded_image_item.dart';
@@ -12,11 +11,11 @@ import '../../view_model/home_event.dart';
 
 // ignore: must_be_immutable
 class EachWhiskeyGridView extends StatelessWidget {
-  final List<ShortArchivingPost> shortArchivingPosts;
+  final List<ArchivingPost> whiskeyNameGroupedArchivingPosts;
 
   EachWhiskeyGridView({
     Key? key,
-    required this.shortArchivingPosts,
+    required this.whiskeyNameGroupedArchivingPosts,
   }) : super(key: key);
 
   GlobalKey key = GlobalKey(); // declare a global key
@@ -25,8 +24,6 @@ class EachWhiskeyGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQueryHeight = MediaQuery.of(context).size.height;
     final homeViewModel = context.watch<HomeViewModel>();
-    final List<ArchivingPost> archivingPosts =
-        homeViewModel.state.archivingPosts;
 
     final RenderObject? overlay =
         Overlay.of(context).context.findRenderObject();
@@ -43,15 +40,18 @@ class EachWhiskeyGridView extends StatelessWidget {
             height: mediaQueryHeight * 0.6,
             context: context,
             images: [
-              for (ShortArchivingPost shortArchivingPost in shortArchivingPosts)
-                shortArchivingPost.imageUrl,
+              for (ArchivingPost  whiskeyNameGroupedArchivingPost in whiskeyNameGroupedArchivingPosts)
+                 whiskeyNameGroupedArchivingPost.imageUrl,
             ],
             onClick: (index) {
               print("grid ====>>> current index: $index");
-              final ArchivingPost currentArchivingPost = archivingPosts
-                  .where((archivingPost) =>
-                      archivingPost.postId == shortArchivingPosts[index].postId)
-                  .first;
+              // final ArchivingPost currentArchivingPost = archivingPosts
+              //     .where((archivingPost) =>
+              //         archivingPost.postId == shortArchivingPosts[index].postId)
+              //     .first;
+
+              final ArchivingPost currentArchivingPost = whiskeyNameGroupedArchivingPosts[index];
+
 
               WhilabelContextMenu.showContextMenu(
                       context,
@@ -80,7 +80,7 @@ class EachWhiskeyGridView extends StatelessWidget {
                             context,
                             Routes.rootRoute,
                           );
-                          homeViewModel.state.archivingPosts.length;
+                          homeViewModel.state.listTypeArchivingPosts.length;
                         });
                       },
                     );
@@ -95,7 +95,7 @@ class EachWhiskeyGridView extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(16.0)),
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: NetworkImage(shortArchivingPosts.first.imageUrl),
+            image: NetworkImage(whiskeyNameGroupedArchivingPosts.first.imageUrl),
           ),
         ),
       ),

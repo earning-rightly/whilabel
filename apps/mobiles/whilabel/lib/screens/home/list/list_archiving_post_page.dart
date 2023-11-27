@@ -27,17 +27,12 @@ class _ListArchivingPostPageState extends State<ListArchivingPostPage> {
 
         Expanded(
             child: ListView.separated(
-                itemCount: state.archivingPosts.length,
+                itemCount: state.listTypeArchivingPosts.length,
                 itemBuilder: (context, index) {
-                  String whiskyName = state.archivingPosts[index].whiskyName;
 
-                  final shortArchivingPosts =
-                      state.shortArchivingPostMap[whiskyName];
                   return EachListArchivingPostCard(
-                    archivingPost: state.archivingPosts[index],
-                    sameWhiskyNameCounter: shortArchivingPosts == null
-                        ? 1
-                        : shortArchivingPosts.length,
+                    archivingPost: state.listTypeArchivingPosts[index],
+                    sameWhiskyNameCounter:state.listTypeArchivingPosts.length,
                   );
                 },
                 separatorBuilder: (context, index) {

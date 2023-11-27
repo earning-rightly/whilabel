@@ -58,7 +58,7 @@ class _HomeViewState extends State<HomeView>
     return SafeArea(
       child: Column(
         children: [
-          HomeAppBar(myWhiskeyCounters: state.archivingPosts.length),
+          HomeAppBar(myWhiskeyCounters: state.listTypeArchivingPosts.length),
           SizedBox(height: WhilabelSpacing.space20),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
