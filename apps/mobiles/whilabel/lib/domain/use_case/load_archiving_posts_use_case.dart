@@ -59,60 +59,25 @@ class LoadArchivingPostsUseCase {
   }
 
 
-   Future <List<List<ArchivingPost>>> getGridArchivingPost(
+   Future <Map<String,List<ArchivingPost>>> getGridArchivingPost(
       {required List<ArchivingPost> archivingPosts}) async {
-    // final sameKindWhisky =
-    // await _sameKindWhiskyRepository.getSameKindWhisky(uid);
 
+     // 깊은 복사를 사용해서 파라미터로 받는 데이터를 건들지 않게 한다.
+     // 언제나 archivingPosts의 원소들을 최신 순으로 정렬한 다음에 데이터 정렬 시작
+     List<ArchivingPost> _archivingPosts = [...archivingPosts];
+     _archivingPosts.sort(
+           (ArchivingPost a, ArchivingPost b) =>
+           a.createAt!.compareTo(b.createAt!),
+     );
+     _archivingPosts = _archivingPosts.reversed.toList();
 
-    //  dynamic을 사용해서 List<ArchivingPost>와 modifyAt을 추가해서
-    // grid view에서 최근에 추가한 위스키가 커버 사진이 되고 최근에 먹은 위스키 종류가 맨 위에 올라오게 하자
-    // List<List<ArchivingPost>> result = [];
-    // sameKindWhisky.sameKindWhiskyMap.forEach((key, value) {
-    //   if (value.isNotEmpty) {
-    //     result[key] = value;
-    //   }
-    // });
-
-    // for (ArchivingPost archivingPost in archivingPosts){
-    //   if (archivingPost.whiskyName in result.is.)
-    // }
-    List<List<ArchivingPost>> groupedArchivingPosts = archivingPosts
-        .groupBy((archivingPost) => archivingPost.whiskyName)
-        .values
-        .toList();
-
-    for (List<ArchivingPost> groupedArchivingPost in groupedArchivingPosts) {
-      // groupedArchivingPost를 ArchivingPost.creatAt으로 정렬합니다.
-      groupedArchivingPost.sort((a, b) => a.createAt!.compareTo(b.createAt!));
-    }
-
-    for (List<ArchivingPost> a in groupedArchivingPosts){
-      for (ArchivingPost aa in a)
-        print("whiskey creatAt ==> ${aa.whiskyName} /${DateTime.parse(aa.createAt!.toDate().toString())}");
-
-      // print("정렬된 위스키 이름  ==> ${aa.createAt}", );
-
-
-    }
-
+     // 1차원 리스트를 2차원 리스트로 변환 하는데 2차원 리스트에 원소를 whiksyName으로 그룹핑한다.
+     Map<String,List<ArchivingPost>> groupedArchivingPosts = _archivingPosts
+         .groupBy((_archivingPost) => _archivingPost.whiskyName)
+         .toMap();
 
     return groupedArchivingPosts;
   }
 
-  int compareStarValue(ArchivingPost a, ArchivingPost b) {
-    // score를 기준으로 정렬
-    int scoreComparison = a.starValue.compareTo(b.starValue);
 
-    return scoreComparison;
-
-    // score가 같으면 age를 기준으로 정렬
-    // int ageComparison = a.createAt!.compareTo(b.createAt!);
-    // if (ageComparison != 0) {
-    //   return ageComparison;
-    // }
-
-    // // score와 age가 같으면 birth를 기준으로 정렬
-    // return a.birth.compareTo(b.birth);
-  }
 }
