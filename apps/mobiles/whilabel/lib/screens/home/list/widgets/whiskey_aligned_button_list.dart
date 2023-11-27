@@ -18,17 +18,20 @@ class WhiskeyAlignedButtonList extends StatefulWidget {
 class _WhiskeyAlignedButtonListState extends State<WhiskeyAlignedButtonList> {
   @override
   Widget build(BuildContext context) {
+    final homeViewModel = context.watch<HomeViewModel>();
+    final homeState = homeViewModel.state;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => whiskyAlignedButtonStatus(),
+          create: (context) => WhiskyAlignedButtonStatus(initPostButtonOrder: homeState.listButtonOrder),
         ),
       ],
-      child: Consumer<whiskyAlignedButtonStatus>(
+      child: Consumer<WhiskyAlignedButtonStatus>(
         builder: (context, viewModel, _) => ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: viewModel.buttonStates.length,
           itemBuilder: (context, index) {
+
             return Row(
               children: [
                 // _buttons[index],
@@ -61,7 +64,7 @@ class WhiskeyAlignedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final alignedButtonsProvider = context.watch<whiskyAlignedButtonStatus>();
+    final alignedButtonsProvider = context.watch<WhiskyAlignedButtonStatus>();
     final homeViewModel = context.watch<HomeViewModel>();
 
     return ElevatedButton(
