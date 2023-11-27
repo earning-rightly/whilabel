@@ -20,16 +20,18 @@ class ButtonState {
   }
 }
 
-class whiskyAlignedButtonStatus extends ChangeNotifier {
-  // view에 보여지는 버튼의 수가 달라지면 이 변수도 변경해야 함.
-  final List<ButtonState> _buttonStates = [
-    ButtonState(postButtonOrder: PostButtonOrder.LATEST, isSelected: true),
-    ButtonState(postButtonOrder: PostButtonOrder.OLDEST, isSelected: false),
-    ButtonState(
-        postButtonOrder: PostButtonOrder.HiGHEST_RATING, isSelected: false),
-    ButtonState(
-        postButtonOrder: PostButtonOrder.LOWEST_RATiNG, isSelected: false),
-  ];
+class WhiskyAlignedButtonStatus extends ChangeNotifier {
+  final PostButtonOrder initPostButtonOrder;
+  List<ButtonState> _buttonStates = [];
+
+  WhiskyAlignedButtonStatus({required this.initPostButtonOrder}) {
+
+    _buttonStates = PostButtonOrder.values
+        .map((postButtonOrder) => ButtonState(
+        postButtonOrder: postButtonOrder,
+        isSelected: postButtonOrder == initPostButtonOrder ? true : false))
+        .toList();
+  }
 
   List<ButtonState> get buttonStates => _buttonStates;
 
@@ -37,7 +39,6 @@ class whiskyAlignedButtonStatus extends ChangeNotifier {
     ButtonState selectedButtonState = _buttonStates[index];
     _buttonStates[index] = _buttonStates[index]
         .copyWith(isSelected: !selectedButtonState.isSelected);
-
     notifyListeners();
   }
 
