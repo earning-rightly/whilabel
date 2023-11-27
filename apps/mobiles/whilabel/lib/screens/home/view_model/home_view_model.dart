@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
-import 'package:whilabel/data/post/short_archiving_post.dart';
 import 'package:whilabel/data/user/enum/post_sort_order.dart';
 import 'package:whilabel/domain/post/archiving_post_repository.dart';
 import 'package:whilabel/domain/use_case/short_archiving_post_use_case.dart';
@@ -31,9 +29,8 @@ class HomeViewModel with ChangeNotifier {
   HomeState _state = HomeState(
 
     listTypeArchivingPosts: [],
-    gridTypeArchivingPost: [],
+    gridTypeArchivingPost: {},
     listButtonOrder: PostButtonOrder.LATEST, // 처음 초기값은 항상 최근것을 보여주기
-    shortArchivingPostMap: {},
   );
 
   Future<void> onEvent(HomeEvent event, {VoidCallback? callback}) async {
@@ -50,20 +47,18 @@ class HomeViewModel with ChangeNotifier {
     final appUser = await _appUserRepository.getCurrentUser();
     if (appUser?.uid != null) {
 
-      // 리스가 아닌 Map 형탸로 항상 저장을 하다가
+      // 리스뷰에서 사용될 데이타
       List<ArchivingPost> listTypeArchivingPosts =
           await _loadArchivingPostUseCase.getListArchivingPost(appUser!.uid, listButtonOrder);
       // 그리드 뷰에서 사용될 archivingPosts data
-      // List<List<ArchivingPost>> GridTypeArchivingPosts =
-      // await _loadArchivingPostUseCase.getGridArchivingPost(archivingPosts: listTypeArchivingPosts);
+      Map<String,List<ArchivingPost>> gridTypeArchivingPosts =
+      await _loadArchivingPostUseCase.getGridArchivingPost(archivingPosts: listTypeArchivingPosts);
 
-      Map<String, List<ShortArchivingPost>> shortArchivingPostMap =
-          await _shortArchivingPostUseCase.getShortArchivingPostMap(
-              uid: appUser.uid);
 
       _state = _state.copyWith(
           listTypeArchivingPosts: listTypeArchivingPosts,
-          shortArchivingPostMap: shortArchivingPostMap);
+          gridTypeArchivingPost: gridTypeArchivingPosts,
+      );
 
       notifyListeners();
     }
