@@ -60,12 +60,15 @@ class EachWhiskeyGridView extends StatelessWidget {
                   .then((menuValue) {
                 switch (menuValue) {
                   case "share":
+                    WhilabelContextMenu.sharePostWhiskeyImage(currentArchivingPost.imageUrl);
                     break;
+
                   case "modify":
                     Navigator.pushNamed(
                         context, Routes.archivingPostDetailRoute,
                         arguments: currentArchivingPost);
                     break;
+
                   case "delete":
                     showDeletePostDialog(
                       context,
