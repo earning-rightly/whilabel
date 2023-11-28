@@ -10,17 +10,17 @@ class FirestoreUserRepositoryImpl implements AppUserRepository {
   FirestoreUserRepositoryImpl(this._ref);
 
   @override
-  Future<void> insertUser(AppUser user) async {
-    _ref.add(user);
+  Future<void> insertUser(AppUser appUser) async {
+    _ref.doc(appUser.uid).set(appUser);
   }
 
   @override
   Future<AppUser?> getCurrentUser() async {
-    String? uid = _getCurrentUid();
+    String? firebaseUserId = _getCurrentUid();
 
-    if (uid == null) return null;
+    if (firebaseUserId == null) return null;
 
-    return await findUser(uid);
+    return await findUserWithFirebaseUserId(firebaseUserId);
   }
 
   @override
@@ -56,6 +56,20 @@ class FirestoreUserRepositoryImpl implements AppUserRepository {
     // }
 
     return userSnapshot.data;
+  }
+
+  @override
+  Future<AppUser?> findUserWithFirebaseUserId (firebaseUserId) async {
+    final querySnapshot = await _ref.whereFirebaseUserId(isEqualTo: firebaseUserId).get();
+
+    if (querySnapshot.docs.isEmpty) {
+      return Future(() => null);
+    }
+
+    return querySnapshot
+        .docs
+        .filter((u) => u.data.isDeleted != true)
+        .firstOrNull?.data;
   }
 
   @override
