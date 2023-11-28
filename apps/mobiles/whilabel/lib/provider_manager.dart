@@ -3,13 +3,9 @@ import 'package:provider/single_child_widget.dart';
 import 'package:whilabel/data/brand/brand.dart';
 import 'package:whilabel/data/distillery/distillery.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
-import 'package:whilabel/data/post/same_kind_whisky.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/whisky/whisky.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
-import 'package:whilabel/domain/post/firebase_same_kind_whisky_repository_impl.dart';
-import 'package:whilabel/domain/post/same_kind_whisky_repository.dart';
-import 'package:whilabel/domain/use_case/short_archiving_post_use_case.dart';
 import 'package:whilabel/domain/use_case/load_archiving_posts_use_case.dart';
 import 'package:whilabel/domain/use_case/whisky_archiving_post_use_case.dart';
 import 'package:whilabel/domain/post/archiving_post_repository.dart';
@@ -39,8 +35,7 @@ class ProvidersManager {
   static final ArchivingPostCollectionReference _archivingPostRef =
       archivingPostRef;
 
-  static final SameKindWhiskyCollectionReference _sameKindWhiskyRef =
-      sameKindWhiskyRef;
+
 
   static final _currentUserStatus = CurrentUserStatus(_appUserRepository);
   static final WhiskyBrandDistilleryRepository
@@ -50,14 +45,11 @@ class ProvidersManager {
 
   static final ArchivingPostRepository _archivingPostRepository =
       FirestoreArchivingPostRepositoryImple(_archivingPostRef);
-  static final SameKindWhiskyRepository _sameKindWhiskyRepository =
-      FirestoreSameKindWhiskyRepositoryImple(
-          sameKindWhiskyRef: _sameKindWhiskyRef);
+
   // use case provider
   static final _loginUseCase = LoginUseCase(
       appUserRepository: _appUserRepository,
-      currentUserStatus: _currentUserStatus,
-      shortArchivingPostUseCase: shortArchivingPostUseCase);
+      currentUserStatus: _currentUserStatus);
   static final _logoutUseCase = LogoutUseCase(
     currentUserStatus: _currentUserStatus,
   );
@@ -65,13 +57,9 @@ class ProvidersManager {
     appUserRepository: _appUserRepository,
     whiskyBrandDistilleryRepository: _whiskyBrandDistilleryRepository,
   );
-  static final shortArchivingPostUseCase = ShortArchivingPostUseCase(
-      sameKindWhiskyRepository: _sameKindWhiskyRepository);
+
   static final whiskeyNewArchivingPostUseCase = WhiskyNewArchivingPostUseCase(
-    archivingPostRepository: _archivingPostRepository,
-    appUserRepository: _appUserRepository,
-    shortArchivingPostUseCase: shortArchivingPostUseCase,
-  );
+    archivingPostRepository: _archivingPostRepository);
   static final _loadArchivingPostUseCase = LoadArchivingPostsUseCase(
     archivingPostRepository: _archivingPostRepository,
   );
@@ -92,7 +80,6 @@ class ProvidersManager {
     final homeViewModel = HomeViewModel(
       loadArchivingPostUseCase: _loadArchivingPostUseCase,
       archivingPostRepository: _archivingPostRepository,
-      shortArchivingPostUseCase: shortArchivingPostUseCase,
       appUserRepository: _appUserRepository,
     );
     final myPageViewModel = MyPageViewModel(
@@ -121,20 +108,6 @@ class ProvidersManager {
     ];
   }
 
-  // static CarmeraViewModel callCameraViewModel() {
-  //   // final whiskyCritiqueViewModel = WhiskyCritiqueViewModel(
-  //   //     currentUserStatus: _currentUserStatus,
-  //   //     whiskyNewArchivingPostUseCase: whiskeyNewArchivingPostUseCase,
-  //   //     archivingPostRepository: _archivingPostRepository);
-  //   // return whiskyCritiqueViewModel;
-
-  //   final carmeraViewModel = CarmeraViewModel(
-  //     searchWhiskeyDataUseCase: _searchWhiskeyBarcodeUseCase,
-  //     archivingPostStatus: whiskeyNewArchivingPostUseCase,
-  //   );
-
-  //   return carmeraViewModel;
-  // }
 
   static WhiskyCritiqueViewModel callWhiskyCritiqueViewModel() {
     final whiskyCritiqueViewModel = WhiskyCritiqueViewModel(

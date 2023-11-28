@@ -9,7 +9,6 @@ import 'package:whilabel/domain/login_services/apple_oauth.dart';
 import 'package:whilabel/domain/login_services/googel_oauth.dart';
 import 'package:whilabel/domain/login_services/instargram_oauth.dart';
 import 'package:whilabel/domain/login_services/kakao_oauth.dart';
-import 'package:whilabel/domain/use_case/short_archiving_post_use_case.dart';
 import 'package:whilabel/domain/use_case/user_auth/logout_use_case.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 
@@ -20,7 +19,6 @@ class LoginUseCase {
   LoginUseCase({
     required CurrentUserStatus currentUserStatus,
     required AppUserRepository appUserRepository,
-    required ShortArchivingPostUseCase shortArchivingPostUseCase,
   })  : _currentUserStatus = currentUserStatus,
         _appUserRepository = appUserRepository;
 
