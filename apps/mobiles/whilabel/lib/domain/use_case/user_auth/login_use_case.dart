@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/user/app_user.dart';
@@ -36,15 +37,18 @@ class LoginUseCase {
         throw Exception("Firebase Auth Failed");
       }
 
-      final AppUser? existUser = await _findUser(firebaseUser.uid);
+      final AppUser? existUser = await _findUserWithFirebaseUserId(firebaseUser.uid);
 
       // 삭제된 유저도 초기화로 처리함
       // TODO: 삭제된 데이터 처리하는 방식 강구 -> createdAt 사용
       if (existUser == null || existUser.isDeleted == true) {
+        final timestampNow = Timestamp.now();
         _currentUserStatus.setState(
           AppUser(
-            uid: firebaseUser.uid,
+            firebaseUserId: firebaseUser.uid,
+            uid: "${firebaseUser.uid}+${timestampNow.microsecondsSinceEpoch}",
             email: authUser.email,
+            creatAt: timestampNow,
             isPushNotificationEnabled: false,
             isMarketingNotificationEnabled: true,
             isDeleted: false,
@@ -78,8 +82,8 @@ class LoginUseCase {
     return FirebaseAuth.instance.currentUser;
   }
 
-  Future<AppUser?> _findUser(String uid) async {
-    return await _appUserRepository.findUser(uid);
+  Future<AppUser?> _findUserWithFirebaseUserId(String firebaseUserId) async {
+    return await _appUserRepository.findUserWithFirebaseUserId(firebaseUserId);
   }
 
   Future<AuthUser?> _snsLogin(SnsType snsType) async {
