@@ -39,12 +39,12 @@ class AppRoot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // initAsync();
-    final currentUserState = context.read<CurrentUserStatus>();
+    final currentUserStatus = context.read<CurrentUserStatus>();
     // final appUser = context.read<CurrentUserStatus>().state.appUser;
 
     return FutureBuilder<AppUser?>(
-        future: currentUserState.refreshAppUser(),
-        initialData: currentUserState.state.appUser,
+        future: currentUserStatus.refreshAppUser(),
+        initialData: currentUserStatus.state.appUser,
         builder: (context, snapshot) {
           if (snapshot.data == null || !snapshot.hasData) {
             return LoginView();

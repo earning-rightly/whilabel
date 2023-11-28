@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/user/enum/gender.dart';
+import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
@@ -38,6 +39,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<UserAdditionalInfoViewModel>();
+    final currentUserStatus = context.read<CurrentUserStatus>();
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -107,7 +109,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                         color: ColorsManager.brown100,
                         enabled: isfilledAllData,
                         onPressedFunc: () {
-                          AppUser newUser = viewModel.getAppUser()!.copyWith(
+                          AppUser newUser = currentUserStatus.state.appUser!.copyWith(
                               nickName: widget.nickName,
                               birthDay: birthDayTextController.text,
                               gender: widget.isMale ? Gender.MALE : Gender.FEMALE,

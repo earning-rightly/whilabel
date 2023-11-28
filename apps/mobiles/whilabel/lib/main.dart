@@ -6,7 +6,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
-import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/firebase_options.dart';
 import 'package:whilabel/provider_manager.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
@@ -49,16 +48,9 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  //  context.read<CurrentUserStatus>().getAppUser();
-  //   final appUser = context.read<CurrentUserStatus>().state.appUser;
 
-  //   if (appUser.uid.isEmpty) {
-  //     return LoginView();
-  //   }
   @override
   Widget build(BuildContext context) {
-    final currentUserState = context.read<CurrentUserStatus>();
-    currentUserState.refreshAppUser();
     return MaterialApp(
       theme: whilabelTheme,
       debugShowCheckedModeBanner: false,

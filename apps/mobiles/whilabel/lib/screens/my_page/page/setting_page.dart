@@ -32,8 +32,19 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     final loginViewModel = context.watch<LoginViewModel>();
     final currentUserStatus = context.watch<CurrentUserStatus>();
+    final appUser = currentUserStatus.state.appUser;
     final viewModel = context.watch<MyPageViewModel>();
 
+    if (appUser == null) {
+      FutureBuilder<AppUser?>(
+          future: currentUserStatus.refreshAppUser(),
+          initialData: currentUserStatus.state.appUser,
+          builder: (context, snapshot) {
+            return LodingProgressIndicator(
+              offstage: true,
+            );
+          });
+    }
     return Scaffold(
       appBar: buildScaffoldAppBar(context, SvgIconPath.backBold, ""),
       body: SafeArea(
@@ -42,110 +53,94 @@ class _SettingPageState extends State<SettingPage> {
           child: SizedBox(
             height: 200,
             // 페이지에서 로그인한 유저 정보 계속 받아오기
-            child: FutureBuilder<AppUser?>(
-              future: currentUserStatus.refreshAppUser(),
-              builder: (context, snapshot) {
-                if (snapshot.data == null || !snapshot.hasData) {
-                  return LodingProgressIndicator(
-                    offstage: true,
-                  );
-                }
-
-                final appUser = snapshot.data;
-
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // 푸시 알림
-                    Expanded(
-                      flex: 2,
-                      child: ListToggleButton(
-                        title: "푸시알림",
-                        isToggleState: appUser!.isPushNotificationEnabled!,
-                        onPressedButton: () async {
-                          // final appUser =
-                          //     await currentUserStatus.getAppUser();
-                          viewModel.onEvent(
-                            MyPageEvent.changePushAlimValue(appUser.uid),
-                            callback: () async {
-                              await currentUserStatus.updateUserState();
-                            },
-                          );
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 푸시 알림
+                Expanded(
+                  flex: 2,
+                  child: ListToggleButton(
+                    title: "푸시알림",
+                    isToggleState: appUser!.isPushNotificationEnabled!,
+                    onPressedButton: () async {
+                      viewModel.onEvent(
+                        MyPageEvent.changePushAlimValue(appUser.uid),
+                        callback: () async {
+                          await currentUserStatus.refreshAppUser();
                         },
-                      ),
-                    ),
+                      );
+                    },
+                  ),
+                ),
 
-                    // 마케팅 정보 알림
-                    Expanded(
-                      flex: 2,
-                      child: ListToggleButton(
-                          title: "마케팅 정보 알림",
-                          isToggleState:
-                              appUser.isMarketingNotificationEnabled!,
-                          onPressedButton: () {
-                            viewModel.onEvent(
-                              MyPageEvent.changeMarketingAlimValue(appUser.uid),
-                              callback: () async {
-                                await currentUserStatus.updateUserState();
-                              },
-                            );
-                          }),
-                    ),
+                // 마케팅 정보 알림
+                Expanded(
+                  flex: 2,
+                  child: ListToggleButton(
+                      title: "마케팅 정보 알림",
+                      isToggleState: appUser.isMarketingNotificationEnabled!,
+                      onPressedButton: () {
+                        viewModel.onEvent(
+                          MyPageEvent.changeMarketingAlimValue(appUser.uid),
+                          callback: () async {
+                            await currentUserStatus.refreshAppUser();
+                          },
+                        );
+                      }),
+                ),
 
-                    // 로그아웃 버튼
-                    Expanded(
-                      flex: 1,
-                      child: TextButton(
-                        child: Text(
-                          "로그아웃",
-                          style: TextStylesManager.createHadColorTextStyle(
-                              "R14", ColorsManager.black300),
-                        ),
-                        onPressed: () async {
-                          AppUser? currentAppUser =
-                              await currentUserStatus.refreshAppUser();
-                          showLogoutDialog(
-                            context,
-                            onClickedYesButton: () {
-                              loginViewModel.onEvent(
-                                LoginEvent.logout(currentAppUser!.snsType),
-                                callback: () {
-                                  // Navigator.pushNamed(
-                                  //     context, Routes.loginRoute);
-                                  Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    Routes.loginRoute,
-                                    (route) => false,
-                                  );
-                                },
+                // 로그아웃 버튼
+                Expanded(
+                  flex: 1,
+                  child: TextButton(
+                    child: Text(
+                      "로그아웃",
+                      style: TextStylesManager.createHadColorTextStyle(
+                          "R14", ColorsManager.black300),
+                    ),
+                    onPressed: () async {
+                      AppUser? currentAppUser =
+                          await currentUserStatus.state.appUser;
+                      showLogoutDialog(
+                        context,
+                        onClickedYesButton: () {
+                          loginViewModel.onEvent(
+                            LoginEvent.logout(currentAppUser!.snsType),
+                            callback: () {
+                              // Navigator.pushNamed(
+                              //     context, Routes.loginRoute);
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                Routes.loginRoute,
+                                (route) => false,
                               );
                             },
                           );
                         },
-                      ),
-                    ),
+                      );
+                    },
+                  ),
+                ),
 
-                    // 회원탈퇴 버튼
-                    // 디자인을 위해서 회원탈퇴입 버튼에는 Expended 적용 안함
-                    TextButton(
-                      child: Text(
-                        "회원탈퇴",
-                        style: TextStylesManager.createHadColorTextStyle(
-                            "R14", ColorsManager.black300),
+                // 회원탈퇴 버튼
+                // 디자인을 위해서 회원탈퇴입 버튼에는 Expended 적용 안함
+                TextButton(
+                  child: Text(
+                    "회원탈퇴",
+                    style: TextStylesManager.createHadColorTextStyle(
+                        "R14", ColorsManager.black300),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WithdrawalPage(),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => WithdrawalPage(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                );
-              },
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),
