@@ -33,10 +33,6 @@ class UserAdditionalInfoViewModel with ChangeNotifier {
         .then((_) => {after()});
   }
 
-  AppUser? getAppUser() {
-    return _currentUserStatus.getAppUser();
-  }
-
   Future<void> addUserInfo(AppUser appUser) async {
     await _appUserRepository.insertUser(appUser);
     await _currentUserStatus.updateUserState();
