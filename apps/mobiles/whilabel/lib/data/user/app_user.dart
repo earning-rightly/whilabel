@@ -15,10 +15,12 @@ const firestoreSerializable = JsonSerializable(
 @firestoreSerializable
 class AppUser {
   AppUser({
+    required this.firebaseUserId,
     required this.uid,
     required this.nickName,
     required this.snsUserInfo,
     required this.snsType,
+    required this.creatAt,
     this.isDeleted,
     this.isPushNotificationEnabled, // 푸시알림이 어떻게 작동되는지 알아야함
     this.isMarketingNotificationEnabled,
@@ -30,11 +32,12 @@ class AppUser {
     this.imageUrl,
     this.sameKindWhiskyId,
   });
-
+  final String firebaseUserId;
   final String uid;
   final String nickName;
   final Map snsUserInfo;
   final SnsType snsType;
+  final Timestamp creatAt;
 
   bool? isDeleted = false;
   bool? isPushNotificationEnabled = false;
@@ -53,24 +56,11 @@ class AppUser {
 
   Map<String, Object?> toJson() => _$AppUserToJson(this);
 
-  static AppUser creatEmptyAppUser() {
-    return AppUser(
-      uid: "",
-      nickName: "",
-      snsUserInfo: {},
-      snsType: SnsType.EMPTY,
-      isDeleted: false,
-      isPushNotificationEnabled: false,
-      isMarketingNotificationEnabled: true,
-      name: "",
-    );
-  }
 
   AppUser copyWith(
-      {String? uid,
+      {
       String? nickName,
       Map? snsUserInfo,
-      SnsType? snsType,
       bool? isDeleted,
       bool? isPushNotificationEnabled,
       bool? isMarketingNotificationEnabled,
@@ -80,10 +70,12 @@ class AppUser {
       String? sameKindWhiskyId,
       int? age}) {
     return AppUser(
-        uid: uid ?? this.uid,
+        uid: this.uid,
+        firebaseUserId:  this.firebaseUserId,
+        snsType: this.snsType,
+        creatAt: this.creatAt,
         nickName: nickName ?? this.nickName,
         snsUserInfo: snsUserInfo ?? this.snsUserInfo,
-        snsType: snsType ?? this.snsType,
         isDeleted: isDeleted ?? this.isDeleted,
         isPushNotificationEnabled:
             isPushNotificationEnabled ?? this.isPushNotificationEnabled,
