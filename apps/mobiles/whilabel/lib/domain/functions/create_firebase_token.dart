@@ -4,7 +4,7 @@ import 'package:whilabel/data/user/auth_user.dart';
 
 // firebase에 로그인할 토큰을 생성하는 함수
 Future<String?> createFirebaseToken(AuthUser user) async {
-  const String url = 'https://us-central1-whilabel.cloudfunctions.net/createCustomToken';
+  const String url = 'https://us-central1-whilabel.cloudfunctions.net/createCustomTokenWithCreatAt';
 
   try {
     final customTokenResponse = await http.post(Uri.parse(url), body: user.toJson());
