@@ -47,6 +47,7 @@ dependencies:
   searchfield: ^0.8.4
   flutter_native_splash: ^2.3.2 # splash pack
   popup_banner: ^1.0.0
+  loading_animation_widget: ^1.2.0+4 # loading indicator
 
   # image 관련 패키지
   photo_gallery: ^2.1.1

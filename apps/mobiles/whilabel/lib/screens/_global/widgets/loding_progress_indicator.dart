@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class LodingProgressIndicator extends StatelessWidget {
   final bool offstage;
@@ -19,14 +19,8 @@ class LodingProgressIndicator extends StatelessWidget {
             child: ModalBarrier(dismissible: false, color: Colors.black),
           ),
           Center(
-            child: SpinKitCubeGrid(
-              itemBuilder: (context, index) {
-                return const DecoratedBox(
-                  decoration: BoxDecoration(color: Colors.amber),
-                );
-              },
-            ),
-          ),
+            child: LoadingAnimationWidget.threeArchedCircle(color: Colors.grey, size: 50),
+          )
         ],
       ),
     );
