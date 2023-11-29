@@ -60,12 +60,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAQCvAuomQcgoHFnjOPEiJ0y7JondVQuNg',
-    appId: '1:737612668977:ios:de4753700c01605c0eb510',
+    appId: '1:737612668977:ios:39608ec615e819220eb510',
     messagingSenderId: '737612668977',
     projectId: 'whilabel',
     databaseURL: 'https://whilabel-default-rtdb.firebaseio.com',
     storageBucket: 'whilabel.appspot.com',
-    iosClientId: '737612668977-j44ou1pblf6rrl7pqhvtmeo9nr3p39vu.apps.googleusercontent.com',
-    iosBundleId: 'com.example.whilabel',
+    androidClientId: '737612668977-25elkdtbrv1ldd3402ad0ji9hkgenbeq.apps.googleusercontent.com',
+    iosClientId: '737612668977-pv1gtftu42hflra2qh8i9jiv46anmerr.apps.googleusercontent.com',
+    iosBundleId: 'com.earningRight.whilabel',
   );
 }
