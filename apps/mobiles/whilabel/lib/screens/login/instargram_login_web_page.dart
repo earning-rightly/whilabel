@@ -20,6 +20,8 @@ class InstargramLoginWebPage extends StatefulWidget {
 }
 
 class _InstargramLoginWebPageState extends State<InstargramLoginWebPage> {
+  String initUrl = dotenv.get("INSTARGRAM_INIT_URL");
+  String redirectUri = dotenv.get("REDIRECT_URL");
   AuthUser authUser = AuthUser(
       uid: "",
       displayName: "",
@@ -31,13 +33,12 @@ class _InstargramLoginWebPageState extends State<InstargramLoginWebPage> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<LoginViewModel>();
-    String initUrl = dotenv.get("INSTARGRAM_INIT_URL");
-    String redirectUri = dotenv.get("REDIRECT_URL");
+
 
     return Scaffold(
       body: SafeArea(
         child: WebViewWidget(
-          controller: WebViewController()
+          controller: WebViewController() // 공식 예제에서 dispose()를 사용하지 않았기에 동일하게 적용
             ..setJavaScriptMode(JavaScriptMode.unrestricted)
             ..setNavigationDelegate(
               NavigationDelegate(
@@ -48,26 +49,34 @@ class _InstargramLoginWebPageState extends State<InstargramLoginWebPage> {
                     var endIndex = request.url.lastIndexOf('#');
                     var code = request.url.substring(startIndex + 5, endIndex);
 
-                    InstargramOauth().saveToken(code);
+                    try{
+                      InstargramOauth().saveToken(code);
 
-                    viewModel.onEvent(const LoginEvent.login(SnsType.INSTAGRAM),
-                        callback: () {
-                      setState(() {});
+                      viewModel.onEvent(const LoginEvent.login(SnsType.INSTAGRAM),
+                          callback: () {
+                            setState(() {});
 
-                      if (viewModel.state.userState == UserState.initial) {
-                        Navigator.pushNamed(
-                          context,
-                          Routes.userAdditionalInfoRoute,
-                        );
-                      } else if (viewModel.state.userState == UserState.login) {
-                        Navigator.pushNamed(
-                          context,
-                          Routes.rootRoute,
-                        );
-                      } else {
-                        debugPrint("로그인 오류 발생");
-                      }
-                    });
+                            if (viewModel.state.userState == UserState.initial) {
+                              WebViewController().clearCache();
+                              Navigator.pushNamed(
+                                context,
+                                Routes.userAdditionalInfoRoute,
+                              );
+                            } else if (viewModel.state.userState == UserState.login) {
+                              WebViewController().clearCache();
+                              Navigator.pushNamed(
+                                context,
+                                Routes.rootRoute,
+                              );
+                            } else {
+                              debugPrint("로그인 오류 발생");
+                            }
+                          });
+                    }
+                    catch(e){
+                      debugPrint("instargram login 중 에러 발생\n$e");
+                      return NavigationDecision.navigate;
+                    }
 
                     return NavigationDecision.prevent;
                   }
