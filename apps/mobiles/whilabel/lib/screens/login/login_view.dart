@@ -25,7 +25,7 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  bool _isLoginProgress = true;
+  bool _isLoginProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +148,7 @@ class _LoginViewState extends State<LoginView> {
               ],
             ),
             LodingProgressIndicator(
-              offstage: _isLoginProgress,
+              offstage: !_isLoginProgress,
             )
           ],
         ),
@@ -192,8 +192,11 @@ class _LoginViewState extends State<LoginView> {
         (route) => false,
       );
     } else if (userState == UserState.loginFail) {
-      showSimpleDialog(context, "로그인 실패", "아래로 문의주세요.\nwhilabel23@gmail.com");
-      return;
+      final loginViewModel = context.read<LoginViewModel>();
+      loginViewModel.onEvent(LoginEvent.logout(SnsType.EMPTY), callback: (){
+        showSimpleDialog(context, "로그인 실패", "아래로 문의주세요.\nwhilabel23@gmail.com");
+      });
+
     }
     endLogin();
   }
