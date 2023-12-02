@@ -33,7 +33,9 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
       whiskySnapshot = _whiskyQuerySnapshot.docs.first;
     } catch (error) {
       debugPrint("whisky 데이터를 찾을 수 없습니다.");
+      debugPrint("\n\n $barcode로 위스키를 찾지 못 했습니다.\n\n");
       debugPrint("$error");
+
       return Future(() => null);
     }
     String test1 = whiskySnapshot.data.wbWhisky!.wbDistilleryIds ?? "['null']";
@@ -90,6 +92,7 @@ class FirebaseWhiskyBrandDistilleryRepositoryImpl
       // whiskySnapshot = _whiskyQuerySnapshot.docs.first;
     } catch (error) {
       debugPrint("whisky 데이터를 찾을 수 없습니다.");
+      debugPrint("$_whiskyName 라는 이름을 찾을 수 없습니다}");
       debugPrint("$error");
       return Future(() => []);
     }
