@@ -85,7 +85,7 @@ class SearchedWhiskyListTitle extends StatefulWidget {
 
 class _SearchedWhiskyListTitleState extends State<SearchedWhiskyListTitle> {
   late String whiskyName;
-  late String whiskyStrength;
+  late double whiskyStrength;
   late String whiskyBarcode;
 
   @override
