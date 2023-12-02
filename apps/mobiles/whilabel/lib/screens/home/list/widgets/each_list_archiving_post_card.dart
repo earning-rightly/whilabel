@@ -141,7 +141,7 @@ class EachListArchivingPostCard extends StatelessWidget {
                   ),
                   SizedBox(height: WhilabelSpacing.space12 / 2),
                   Text(
-                    "${archivingPost.location ?? ""}\t\u2022\t${archivingPost.strength != null ? archivingPost.strength! + "%" : ""}",
+                    "${archivingPost.location ?? ""}\t\u2022\t${archivingPost.strength ?? 0.0.toString()}%",
                     style: TextStylesManager.createHadColorTextStyle(
                         "R12", ColorsManager.gray),
                   ),

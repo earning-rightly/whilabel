@@ -58,7 +58,7 @@ class SearchWhiskeyDataUseCase {
                 _distilleryData.first.wbDistillery?.country
             : null,
         strength:
-            whiskyData.strength ?? whiskyData.wbWhisky?.strength.toString(),
+             whiskyData.wbWhisky?.strength ?? 0.0,
         createAt: Timestamp.now(),
         modifyAt: Timestamp.now(),
         userId: "",
@@ -91,7 +91,8 @@ class SearchWhiskeyDataUseCase {
             barcode: queryDoc.data.barcode ?? queryDoc.data.wbWhisky!.barcode!,
             name: queryDoc.data.name!,
             strength:
-                queryDoc.data.strength ?? queryDoc.data.wbWhisky!.strength!,
+                queryDoc.data.wbWhisky?.strength ?? 0.0,
+
           ),
         );
         findedWhiskyNames.add(queryDoc.data.name!);

@@ -8,7 +8,7 @@ class ShortWhiskyData with _$ShortWhiskyData {
   factory ShortWhiskyData({
     required String name,
     required String barcode,
-    required String strength,
+    required double strength,
   }) = _ShortWhiskyData;
   factory ShortWhiskyData.fromJson(Map<String, dynamic> json) =>
       _$ShortWhiskyDataFromJson(json);

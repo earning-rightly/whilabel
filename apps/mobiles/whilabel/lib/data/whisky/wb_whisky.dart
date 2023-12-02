@@ -31,8 +31,8 @@ class WbWhisky {
       this.distilleryName,
       this.category,
       this.tasteVotes,
-      required this.batchedAt,
-      required this.batchId,
+      this.batchedAt,
+      this.batchId,
       this.bottler,
       this.bottleCode,
       this.bottledYear,
@@ -47,13 +47,13 @@ class WbWhisky {
   final String? barcode;
   final String name; // 위스키 이름 - Aberlour
 
-  final String? strength; // 도수 - 43.0
+  final double? strength; // 도수 - 43.0
   final String? image_url; // 대표 사진
   final double? price; // 가격 - 83.8
   final String? priceUnit; // 가격 단위 - 달러 유로 etc..
 
   final String? wbDistilleryIds; // wb 증류소 id - 90642
-  final String? distilleryName;
+  final List<String?>? distilleryName;
 
   final WhiskyCategory? category; // 종류 - Blended Malt / Single Malt ...
 
