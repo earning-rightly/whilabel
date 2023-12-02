@@ -37,7 +37,7 @@ class ArchivingPost {
   final String whiskyName;
   final WhiskyCategory? category;
   final String? location;
-  final String? strength;
+  final double? strength;
 
   // 앱에서 입력할 정보
   final String postId;
@@ -60,7 +60,7 @@ class ArchivingPost {
     String? name,
     WhiskyCategory? category,
     String? location,
-    String? strength,
+    double? strength,
     String? postId,
     String? userId,
     Timestamp? createAt,
