@@ -28,7 +28,6 @@ class Whisky {
     this.modifiedAt,
     this.modifier,
     this.name,
-    this.strength,
     this.imageUrl,
     this.price,
     this.priceUnit,
@@ -50,7 +49,6 @@ class Whisky {
 
   // 관리자 '만' 수정할 수 있는 필드
   final String? name; // 위스키 이름
-  final String? strength; // 도수 - 43.0
   final String? imageUrl; // 대표 사진
   final double? price; // 가격 - 83.8
   final String? priceUnit; // 가격 단위 - 달러 유로 etc..
