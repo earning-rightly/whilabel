@@ -10,7 +10,6 @@ import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
 import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
-import 'package:whilabel/screens/login/instargram_login_web_page.dart';
 import 'package:whilabel/screens/login/view_model/login_event.dart';
 import 'package:whilabel/screens/login/view_model/login_view_model.dart';
 import 'package:whilabel/screens/login/widget/each_login_button.dart';
@@ -125,25 +124,7 @@ class _LoginViewState extends State<LoginView> {
                                     );
                                   });
                             },
-                          )],
-                        SizedBox(height: WhilabelSpacing.space16),
-                        EachLoginButton(
-                          buttonText: "인스타그램 계정으로 로그인",
-                          svgImagePath: imagePaths.instargramIcon,
-                          onPressedFunc: () {
-                            startLogin();
-
-                            // 인스타 로그인은 웹뷰를 띄어줘야 하기에 로직이 다른것들과 다릅니다.
-                            if (viewModel.state.userState == UserState.notLogin) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => InstargramLoginWebPage(),
-                                ),
-                              );
-                            }
-                          },
-                        )
+                          )]
                       ],
                     ),
                   ),
@@ -199,7 +180,6 @@ class _LoginViewState extends State<LoginView> {
       loginViewModel.onEvent(LoginEvent.logout(SnsType.EMPTY), callback: (){
         showSimpleDialog(context, "로그인 실패", "아래로 문의주세요.\nwhilabel23@gmail.com");
       });
-
     }
     endLogin();
   }
