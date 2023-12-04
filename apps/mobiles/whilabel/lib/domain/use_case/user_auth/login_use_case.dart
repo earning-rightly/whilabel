@@ -28,7 +28,9 @@ class LoginUseCase {
       AuthUser? authUser = await _snsLogin(snsType);
 
       if (authUser == null) {
-        throw Exception("Sns OAuth Failed");
+        debugPrint("User Cancel login");
+        FirebaseAuth.instance.signOut();
+        return UserState.loginCanceled;
       }
 
       User? firebaseUser = await _signInFirebase(authUser);
@@ -40,7 +42,6 @@ class LoginUseCase {
       final AppUser? existUser = await _findUserWithFirebaseUserId(firebaseUser.uid);
 
       // 삭제된 유저도 초기화로 처리함
-      // TODO: 삭제된 데이터 처리하는 방식 강구 -> createdAt 사용
       if (existUser == null || existUser.isDeleted == true) {
         final timestampNow = Timestamp.now();
         _currentUserStatus.setState(

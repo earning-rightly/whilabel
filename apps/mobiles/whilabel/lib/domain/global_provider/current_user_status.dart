@@ -10,6 +10,7 @@ enum UserState {
   initial, // 유저 추가 정보를 입력 x
   notLogin, // 로그인 X 사용자
   login, // 로그인 O 사용자
+  loginCanceled,
   loginFail
 }
 
