@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/sns_type.dart';
@@ -26,6 +27,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   bool _isLoginProgress = false;
+  bool get isiOS => foundation.defaultTargetPlatform == foundation.TargetPlatform.iOS;
 
   @override
   Widget build(BuildContext context) {
@@ -107,23 +109,24 @@ class _LoginViewState extends State<LoginView> {
                                 });
                           },
                         ),
-                        SizedBox(height: WhilabelSpacing.space16),
-                        EachLoginButton(
-                          buttonText: "애플 계정으로 로그인",
-                          svgImagePath: imagePaths.appleIcon,
-                          onPressedFunc: () async {
-                            startLogin();
+                        if (isiOS)
+                          ...[SizedBox(height: WhilabelSpacing.space16),
+                          EachLoginButton(
+                            buttonText: "애플 계정으로 로그인",
+                            svgImagePath: imagePaths.appleIcon,
+                            onPressedFunc: () async {
+                              startLogin();
 
-                            viewModel.onEvent(const LoginEvent.login(SnsType.APPLE),
-                                callback: () {
-                                // 로그인 후 이동할 경로 확인
-                              checkNextRoute(
-                                context: context,
-                                userState: viewModel.state.userState,
-                              );
-                            });
-                          },
-                        ),
+                              viewModel.onEvent(const LoginEvent.login(SnsType.APPLE),
+                                  callback: () {
+                                    // 로그인 후 이동할 경로 확인
+                                    checkNextRoute(
+                                      context: context,
+                                      userState: viewModel.state.userState,
+                                    );
+                                  });
+                            },
+                          )],
                         SizedBox(height: WhilabelSpacing.space16),
                         EachLoginButton(
                           buttonText: "카카오톡으로 로그인",
