@@ -59,14 +59,14 @@ class _SearchingWhiskyBarcodePageState extends State<SearchingWhiskyBarcodePage>
           initImageFile = SavedPngImage;
         });
         Future.delayed(const Duration(milliseconds: 2000), ()
-        { scanBarcodeImage(); });
+        { scanBarcodeImage(SavedPngImage.path); });
       }
 
   }
 
-  void scanBarcodeImage() async {
+  void scanBarcodeImage(String imagePath) async {
     final _barcodeString =
-        await BarcodeFinder.scanFile(path: initImageFile!.path);
+        await BarcodeFinder.scanFile(path: imagePath);
 
     if (_barcodeString != null) {
       setState(() {
