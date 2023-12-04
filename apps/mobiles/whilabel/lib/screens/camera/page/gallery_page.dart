@@ -68,8 +68,7 @@ class _GalleryPageState extends State<GalleryPage> {
     }
     if (Platform.isAndroid) {
       if (await Permission.storage.request().isGranted ||
-          await Permission.photos.request().isGranted &&
-              await Permission.videos.request().isGranted) {
+          await Permission.photos.request().isGranted) {
         return true;
       }
     }
