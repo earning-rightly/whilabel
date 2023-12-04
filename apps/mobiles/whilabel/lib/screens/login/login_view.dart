@@ -76,20 +76,19 @@ class _LoginViewState extends State<LoginView> {
                     child: Column(
                       children: [
                         EachLoginButton(
-                          buttonText: "인스타그램 계정으로 로그인",
-                          svgImagePath: imagePaths.instargramIcon,
+                          buttonText: "카카오톡으로 로그인",
+                          svgImagePath: imagePaths.kakaoIcon,
                           onPressedFunc: () {
                             startLogin();
 
-                            // 인스타 로그인은 웹뷰를 띄어줘야 하기에 로직이 다른것들과 다릅니다.
-                            if (viewModel.state.userState == UserState.notLogin) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => InstargramLoginWebPage(),
-                                ),
-                              );
-                            }
+                            viewModel.onEvent(const LoginEvent.login(SnsType.KAKAO),
+                                callback: () {
+                                  // 로그인 후 이동할 경로 확인
+                                  checkNextRoute(
+                                    context: context,
+                                    userState: viewModel.state.userState,
+                                  );
+                                });
                           },
                         ),
                         SizedBox(height: WhilabelSpacing.space16),
@@ -129,19 +128,20 @@ class _LoginViewState extends State<LoginView> {
                           )],
                         SizedBox(height: WhilabelSpacing.space16),
                         EachLoginButton(
-                          buttonText: "카카오톡으로 로그인",
-                          svgImagePath: imagePaths.kakaoIcon,
+                          buttonText: "인스타그램 계정으로 로그인",
+                          svgImagePath: imagePaths.instargramIcon,
                           onPressedFunc: () {
                             startLogin();
 
-                            viewModel.onEvent(const LoginEvent.login(SnsType.KAKAO),
-                                callback: () {
-                                  // 로그인 후 이동할 경로 확인
-                                  checkNextRoute(
-                                    context: context,
-                                    userState: viewModel.state.userState,
-                                  );
-                                });
+                            // 인스타 로그인은 웹뷰를 띄어줘야 하기에 로직이 다른것들과 다릅니다.
+                            if (viewModel.state.userState == UserState.notLogin) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => InstargramLoginWebPage(),
+                                ),
+                              );
+                            }
                           },
                         )
                       ],
