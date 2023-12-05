@@ -9,6 +9,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/camera/page/gallery_page.dart';
 
@@ -45,9 +46,13 @@ class _SearchingWhiskyBarcodePageState extends State<SearchingWhiskyBarcodePage>
   Future<void> scanFileinLocalMemory(File imageFile) async {
     img.Image? pngImage = img.decodeImage(imageFile.readAsBytesSync());
     final tempDir = await getTemporaryDirectory();
+    debugPrint("원본이미지 주소 =>>\n   ${imageFile.path}");
 
     if (pngImage != null) {
-      img.Image thumbnail = img.copyResize(pngImage, height: 600, width: 400);
+      img.Image thumbnail = img.copyResize(pngImage,
+          height: pngImage.height > 800? 800:pngImage.height ,
+          width: pngImage.width > 600 ? 600: pngImage.width
+      );
       Uint8List unit8ListPng = img.encodePng(thumbnail);
 
 
@@ -61,29 +66,29 @@ class _SearchingWhiskyBarcodePageState extends State<SearchingWhiskyBarcodePage>
         Future.delayed(const Duration(milliseconds: 2000), ()
         { scanBarcodeImage(SavedPngImage.path); });
       }
-
   }
 
   void scanBarcodeImage(String imagePath) async {
-    final _barcodeString =
-        await BarcodeFinder.scanFile(path: imagePath);
 
-    if (_barcodeString != null) {
-      setState(() {
-        barcode = _barcodeString;
-      });
+    try{
+      String? _barcodeString =
+      await BarcodeFinder.scanFile(path: imagePath);
+      if (_barcodeString != null) {
+        setState(() {
+          barcode = _barcodeString;
+        });
+      }else {
+        setState(() {
+          barcode = "scan error";
+        });
+      }
     }
-  }
-
-  Future<void> showSuccedDialog() async {
-    await EasyLoading.showSuccess(
-      "바코드 인식성공",
-    );
-    if (EasyLoading.isShow) {
-      // await Future.delayed(const Duration(seconds: 3));
-      Timer(Duration(milliseconds: 2000), () {
-        EasyLoading.dismiss();
+    catch(e) {
+      debugPrint("$e");
+      setState(() {
+        barcode = "scan error";
       });
+      throw Exception("barcode scan error ");
     }
   }
 
@@ -99,13 +104,17 @@ class _SearchingWhiskyBarcodePageState extends State<SearchingWhiskyBarcodePage>
             callback: () async {
           if (viewModel.state.isFindWhiskyData) {
             showSuccedDialog();
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => GalleryPage(),
               ),
             );
           } else {
+            showFailedDialog();
+            Navigator.pushNamedAndRemoveUntil(context,arguments: 1,
+                Routes.rootRoute, (route) => false);
+
             // addFailCounter();
           }
 
@@ -149,6 +158,17 @@ class _SearchingWhiskyBarcodePageState extends State<SearchingWhiskyBarcodePage>
                     color: ColorsManager.gray500,
                     thickness: 3,
                   ),
+                  // 테스트 코드 (제거 요망)
+                  initImageFile != null?
+                  SizedBox(
+                    width: 243,
+                    height: 327,
+                    child: Image.file(
+                      initImageFile!,
+                      fit: BoxFit.cover,
+                    ),
+                  ):
+                      SizedBox()
                 ],
               ),
               Flexible(
@@ -174,5 +194,29 @@ class _SearchingWhiskyBarcodePageState extends State<SearchingWhiskyBarcodePage>
         ),
       ),
     );
+
+  }
+  Future<void> showSuccedDialog() async {
+    await EasyLoading.showSuccess(
+      "바코드 인식성공",
+    );
+    if (EasyLoading.isShow) {
+      // await Future.delayed(const Duration(seconds: 3));
+      Timer(Duration(milliseconds: 2000), () {
+        EasyLoading.dismiss();
+      });
+    }
+  }
+
+  Future<void> showFailedDialog() async {
+    await EasyLoading.showError(
+      "바코드 인식 실패\n다시 시도해주세요",
+    );
+    if (EasyLoading.isShow) {
+      // await Future.delayed(const Duration(seconds: 3));
+      Timer(Duration(milliseconds: 2000), () {
+        EasyLoading.dismiss();
+      });
+    }
   }
 }

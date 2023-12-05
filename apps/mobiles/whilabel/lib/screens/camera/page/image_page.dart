@@ -10,14 +10,19 @@ import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 
+import 'searching_whisky_barcode_page.dart';
+
+// ignore: must_be_immutable
 class ImagePage extends StatefulWidget {
+  bool isFindingBarcode;
   final Medium medium;
   final int index;
 
   // ignore: prefer_const_constructors_in_immutables
-  ImagePage(Medium medium, int index)
+  ImagePage(Medium medium, int index, {bool isFindingBarcode = false})
       : medium = medium,
-        index = index;
+        index = index,
+        isFindingBarcode = isFindingBarcode;
 
   @override
   State<ImagePage> createState() => _ImagePageState();
@@ -34,13 +39,6 @@ class _ImagePageState extends State<ImagePage> {
           onPressed: () => Navigator.of(context).pop(),
           icon: SvgPicture.asset(SvgIconPath.backBold),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset(SvgIconPath.downLoad),
-            padding: EdgeInsets.only(right: 16),
-          ),
-        ],
       ),
       body: SafeArea(
         child: Column(
@@ -60,7 +58,35 @@ class _ImagePageState extends State<ImagePage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               // padding: EdgeInsets.all(0),
-              child: LongTextButton(
+              child:
+              widget.isFindingBarcode == true ?
+              LongTextButton(
+                buttonText: "바코드 선택",
+                color: ColorsManager.brown100,
+                onPressedFunc: () async {
+                  try {
+                    // Medium패기지 내장 함수
+                    File imageFile = await widget.medium.getFile();
+                    // viewModel.state = cameraState.copyWith(
+                    //   images: imageFile
+                    // )
+
+                    // await viewModel.saveBarcodeImage(imageFile);
+                    setState(() {});
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                          builder: (context) => SearchingWhiskyBarcodePage(
+                              imageFile: imageFile,
+                          ),
+                        ),
+                    );
+                    // Navigator.pushNamed(context, Routes.whiskeyCritiqueRoute);
+                  } catch (error) {
+                    debugPrint("사진 저장 오류 발생!!\n$error");
+                  }
+                },
+              ):
+              LongTextButton(
                 buttonText: "다음",
                 color: ColorsManager.brown100,
                 onPressedFunc: () async {
@@ -68,7 +94,7 @@ class _ImagePageState extends State<ImagePage> {
                     // Medium패기지 내장 함수
                     File imageFile = await widget.medium.getFile();
 
-                    await viewModel.saveImageFileOnProvider(imageFile);
+                    await viewModel.saveUserWhiskyImageOnNewArchivingPostState(imageFile);
 
                     Navigator.pushNamed(context, Routes.whiskeyCritiqueRoute);
                   } catch (error) {

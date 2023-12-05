@@ -8,6 +8,7 @@ import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_global/widgets/app_bars.dart';
 import 'package:whilabel/screens/camera/page/searching_whisky_barcode_page.dart';
 
+import 'gallery_page.dart';
 
 /// CameraApp is the Main Application.
 class BarCodeScanPage extends StatefulWidget {
@@ -104,7 +105,16 @@ class _BarCodeScanPageState extends State<BarCodeScanPage> {
                         children: [
                           Align(
                             alignment: Alignment.centerRight,
-                            child: Icon(Icons.image, color: ColorsManager.gray500,size: 24),
+                            child: IconButton(icon: Icon(Icons.image, color: ColorsManager.gray500,size: 24),
+                            onPressed: () =>   Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => GalleryPage(
+                                  isFindingBarcode: true,
+                                ),
+                              ),
+                            ),
+                            ),
                           ),
                           InkWell(
                             onTap: () async {
