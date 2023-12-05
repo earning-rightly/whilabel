@@ -32,8 +32,9 @@ class CarmeraViewModel with ChangeNotifier {
         .when(
           searchWhiskeyWithBarcode: searchWhiskeyWithBarcode,
           searchWhiskyWithName: searchWhiskyWithName,
-          useBarCodeScanner: useBarCodeScanner,
-          saveImageFile: saveImageFileOnProvider,
+          saveBarcodeImage: saveBarcodeImage,
+          saveUserWhiskyImageOnNewArchivingPostState:
+              saveUserWhiskyImageOnNewArchivingPostState,
         )
         .then((_) => {after()});
   }
@@ -61,23 +62,30 @@ class CarmeraViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveImageFileOnProvider(File imageFile) async {
+  Future<void> saveUserWhiskyImageOnNewArchivingPostState(File imageFile) async {
     final imageFileSize = await _getFileSize(imageFile.path, 1);
 
-    // image가 1.3MBx 작으면 바로 DB에 등록
+    // image가 1.3MBx Provider에 저장
     if (imageFileSize <= 1.3) {
-      _archivingPostStatus.storeImageFile(imageFile);
+      _archivingPostStatus.saveImageFile(imageFile);
     } else {
       final newImageFile = await FlutterNativeImage.compressImage(
           imageFile.path,
           quality: 100,
           targetHeight: 1411,
           targetWidth: 1058);
-      _archivingPostStatus.storeImageFile(newImageFile);
+      _archivingPostStatus.saveImageFile(newImageFile);
     }
   }
 
-  Future<void> useBarCodeScanner(BuildContext context) async {
+  // 사용 안할거 같기 때문에 다시 원상태로 복귀가능
+  // Future<void> useBarCodeScanner(BuildContext context) async {
+  //   notifyListeners();
+  // }
+  Future<void> saveBarcodeImage(File barcodeImage) async {
+    _state = _state.copyWith(
+      barcodeImage: barcodeImage
+    );
     notifyListeners();
   }
 
