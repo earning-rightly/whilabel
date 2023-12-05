@@ -39,6 +39,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera permission is required.</string>
+	<key>io.flutter.embedded_views_preview</key>
+	<string>YES</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Microphone permission is required.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

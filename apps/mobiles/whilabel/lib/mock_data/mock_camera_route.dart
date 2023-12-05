@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:whilabel/screens/camera/page/barcode_scan_page.dart';
 import 'package:whilabel/screens/camera/page/gallery_page.dart';
 import 'package:whilabel/screens/camera/page/search_whisky_name_page.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
@@ -77,14 +76,7 @@ class _MockCameraRouteState extends State<MockCameraRoute> {
                   );
                 },
                 child: Text("SerachWhiskyNamePage")),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => BarCodeScanPage()),
-                  );
-                },
-                child: Text("BarCodeScanPage")),
+
           ],
         ));
       }),

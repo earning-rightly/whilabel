@@ -1,24 +1,21 @@
 import 'dart:async';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:provider/provider.dart';
-import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/image_paths.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
-import 'package:whilabel/screens/camera/page/gallery_page.dart';
+import 'package:whilabel/screens/camera/page/barcode_scan_page.dart';
 import 'package:whilabel/screens/camera/page/search_whisky_name_page.dart';
-import 'package:whilabel/screens/camera/view_model/camera_event.dart';
-import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 
 // ignore: must_be_immutable
 class CameraView extends StatelessWidget {
   CameraView({super.key});
   final focus = FocusNode();
   int _failCounter = 0;
+  List<CameraDescription> cameras = [];
 
   StreamController<int> _events = StreamController();
 
@@ -27,13 +24,18 @@ class CameraView extends StatelessWidget {
     _events.add(_failCounter);
   }
 
+  Future<void> initCamera() async{
+    WidgetsFlutterBinding
+        .ensureInitialized();
+    cameras =
+    await availableCameras();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<CarmeraViewModel>();
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    // int expandedRate = 1;
-    // if (width <= height) expandedRate = (height / width).toInt();
+
     return SafeArea(
         child: Padding(
       padding: WhilabelPadding.onlyHoizBasicPadding,
@@ -93,34 +95,14 @@ class CameraView extends StatelessWidget {
                                           LongTextButton(
                                             buttonText: "위스키 병 바코드 인식",
                                             onPressedFunc: () async {
+                                               await initCamera();
+
                                               await Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const SimpleBarcodeScannerPage(),
-                                                  )).then((value) {
-                                                if (value is String) {
-                                                  viewModel.onEvent(
-                                                      CarmeraEvent
-                                                          .searchWhiskeyWithBarcode(
-                                                              value),
-                                                      callback: () async {
-                                                    if (viewModel.state
-                                                        .isFindWhiskyData) {
-                                                      await showSuccedDialog();
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              GalleryPage(),
-                                                        ),
-                                                      );
-                                                    } else {
-                                                      addFailCounter();
-                                                    }
-                                                  });
-                                                }
-                                              });
+                                                         BarCodeScanPage(cameras: cameras,),
+                                                  ));
                                             },
                                           ),
                                           SizedBox(
@@ -157,17 +139,5 @@ class CameraView extends StatelessWidget {
         ),
       ),
     ));
-  }
-
-  Future<void> showSuccedDialog() async {
-    await EasyLoading.showSuccess(
-      "바코드 인식성공",
-    );
-    if (EasyLoading.isShow) {
-      // await Future.delayed(const Duration(seconds: 3));
-      Timer(Duration(milliseconds: 2000), () {
-        EasyLoading.dismiss();
-      });
-    }
   }
 }
