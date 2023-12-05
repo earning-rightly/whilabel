@@ -24,7 +24,6 @@ class MyPageRoutes {
 }
 
 class Routes {
-  static const String cameraRoute = "/carmera";
   static const String rootRoute = "/root";
   static const String loginRoute = "/login";
   static const String archivingPostDetailRoute = "/whiskey_register";
@@ -35,10 +34,13 @@ class Routes {
 }
 
 class RouteGenerator {
-  static Route<dynamic> getRoute(RouteSettings routeSettings) {
+  static Route<dynamic> getRoute(RouteSettings routeSettings,) {
     switch (routeSettings.name) {
       case Routes.rootRoute:
-        return MaterialPageRoute(builder: (_) => AppRoot());
+        final rootIndex = routeSettings.arguments as int?;
+        return MaterialPageRoute(builder: (_) => AppRoot(
+          screenIndex: rootIndex ?? 0,
+        ));
       case Routes.loginRoute:
         return MaterialPageRoute(builder: (_) => LoginView());
       case Routes.archivingPostDetailRoute:

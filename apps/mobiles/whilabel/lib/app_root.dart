@@ -15,7 +15,8 @@ import 'package:whilabel/screens/my_page/my_page_view.dart';
 
 // ignore: must_be_immutable
 class AppRoot extends StatelessWidget {
-  AppRoot({super.key});
+  AppRoot({super.key, this.screenIndex = 0});
+  int screenIndex;
   // 바텀 네이게이션의 어떤 index가 선택되었는지 저장하는 변수
 
   AppUser? appUser;
@@ -79,7 +80,7 @@ class AppRoot extends StatelessWidget {
                     builder: (context, snapshot) {
                       print("itme tab ===. ${snapshot.data}");
                       return Scaffold(
-                        body: bottomNavigationBodyRoutes.elementAt(snapshot.data ?? 0),
+                        body: bottomNavigationBodyRoutes.elementAt(snapshot.data ?? screenIndex),
                         bottomNavigationBar: Container(
                           // padding이 기본적으로 아이콘 절반 차지
                           padding: const EdgeInsets.only(top: 4, bottom: 0, right: 4, left: 4),
@@ -150,7 +151,7 @@ class AppRoot extends StatelessWidget {
                                 label: 'myPage',
                               ),
                             ],
-                            currentIndex: snapshot.data ?? 0,
+                            currentIndex: snapshot.data ?? screenIndex,
                             selectedItemColor: ColorsManager.brown100,
                             unselectedItemColor: ColorsManager.black100,
                             onTap: _onItemTapped,
