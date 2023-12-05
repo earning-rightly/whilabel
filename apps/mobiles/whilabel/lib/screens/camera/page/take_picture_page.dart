@@ -230,7 +230,7 @@ class DisplayPictureScreen extends StatelessWidget {
                     // Medium패기지 내장 함수
                     // File imageFile = await widget.medium.getFile();
 
-                    await viewModel.saveImageFileOnProvider(File(imagePath));
+                    await viewModel.saveUserWhiskyImageOnNewArchivingPostState(File(imagePath));
 
                     Navigator.pushNamed(context, Routes.whiskeyCritiqueRoute);
                   } catch (error) {
