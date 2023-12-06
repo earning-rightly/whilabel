@@ -87,7 +87,13 @@ class _GalleryPageState extends State<GalleryPage> {
     }
 
     return Scaffold(
+      backgroundColor: widget.isFindingBarcode == true
+            ? ColorsManager.black400
+            : null,
       appBar: AppBar(
+        backgroundColor:  widget.isFindingBarcode == true
+            ? ColorsManager.black300
+            : null,
         excludeHeaderSemantics: true,
         centerTitle: true,
         leading: IconButton(
@@ -101,7 +107,10 @@ class _GalleryPageState extends State<GalleryPage> {
             color: ColorsManager.gray500,
           ),
         ),
-        title: SizedBox(
+        title:
+        widget.isFindingBarcode == true
+            ? Text("barcode choice"):
+        SizedBox(
           width: 200,
           // height: 50,
           child: GalleryAlbumPicker(
@@ -132,7 +141,7 @@ class _GalleryPageState extends State<GalleryPage> {
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   Medium medium = _media[index];
-                  if (index == 0) {
+                  if (index == 0 && widget.isFindingBarcode == false) {
                     return GestureDetector(
                       child: Container(
                         decoration: BoxDecoration(
