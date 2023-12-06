@@ -41,17 +41,19 @@ class _SearchingWhiskyBarcodePageState extends State<SearchingWhiskyBarcodePage>
     super.initState();
   }
 
-  /// 이미지 크기때무에 barcodeScan이 안되는 경우가 있다.
+  /// 이미지 크기 때문에 barcodeScan이 안되는 경우가 있다.
   /// 이미지 크기를 줄이므로 .png 변화가 빠르게 진행된다.
   Future<void> scanFileinLocalMemory(File imageFile) async {
-    img.Image? pngImage = img.decodeImage(imageFile.readAsBytesSync());
+    img.Image? decodedImage = img.decodeImage(imageFile.readAsBytesSync());
     final tempDir = await getTemporaryDirectory();
     debugPrint("원본이미지 주소 =>>\n   ${imageFile.path}");
 
-    if (pngImage != null) {
-      img.Image thumbnail = img.copyResize(pngImage,
-          height: pngImage.height > 800? 800:pngImage.height ,
-          width: pngImage.width > 600 ? 600: pngImage.width
+    if (decodedImage != null) {
+      // cropRect에 해당하는 부분을 decodeImageFromList() 함수를 사용하여 decodedImage로 변환합니다.
+      // 이미지의 사이즈, byte가 크면 이미지 전환과 스캔하는데 오랜 시간이 걸린다.
+      img.Image thumbnail = img.copyResize(decodedImage,
+          height: decodedImage.height > 850? 800:decodedImage.height,
+          width: decodedImage.width > 650 ? 600: decodedImage.width
       );
       Uint8List unit8ListPng = img.encodePng(thumbnail);
 
@@ -158,17 +160,6 @@ class _SearchingWhiskyBarcodePageState extends State<SearchingWhiskyBarcodePage>
                     color: ColorsManager.gray500,
                     thickness: 3,
                   ),
-                  // 테스트 코드 (제거 요망)
-                  initImageFile != null?
-                  SizedBox(
-                    width: 243,
-                    height: 327,
-                    child: Image.file(
-                      initImageFile!,
-                      fit: BoxFit.cover,
-                    ),
-                  ):
-                      SizedBox()
                 ],
               ),
               Flexible(
@@ -185,7 +176,7 @@ class _SearchingWhiskyBarcodePageState extends State<SearchingWhiskyBarcodePage>
                           size: 20,
                         ),
                         SizedBox(width: 5),
-                        Text("이미지분석중입니다")
+                        Text("이미지 분석중입니다")
                       ],
                     ),
                   )),
@@ -214,7 +205,7 @@ class _SearchingWhiskyBarcodePageState extends State<SearchingWhiskyBarcodePage>
     );
     if (EasyLoading.isShow) {
       // await Future.delayed(const Duration(seconds: 3));
-      Timer(Duration(milliseconds: 2000), () {
+      Timer(Duration(milliseconds: 3000), () {
         EasyLoading.dismiss();
       });
     }
