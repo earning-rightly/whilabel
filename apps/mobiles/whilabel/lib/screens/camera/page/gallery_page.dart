@@ -11,8 +11,10 @@ import 'package:whilabel/screens/camera/widget/gallery_album_picker.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 
+// ignore: must_be_immutable
 class GalleryPage extends StatefulWidget {
-  const GalleryPage({super.key});
+   GalleryPage({super.key, this.isFindingBarcode=false });
+   bool isFindingBarcode;
 
   @override
   State<GalleryPage> createState() => _GalleryPageState();
@@ -85,7 +87,13 @@ class _GalleryPageState extends State<GalleryPage> {
     }
 
     return Scaffold(
+      backgroundColor: widget.isFindingBarcode == true
+            ? ColorsManager.black400
+            : null,
       appBar: AppBar(
+        backgroundColor:  widget.isFindingBarcode == true
+            ? ColorsManager.black300
+            : null,
         excludeHeaderSemantics: true,
         centerTitle: true,
         leading: IconButton(
@@ -99,7 +107,10 @@ class _GalleryPageState extends State<GalleryPage> {
             color: ColorsManager.gray500,
           ),
         ),
-        title: SizedBox(
+        title:
+        widget.isFindingBarcode == true
+            ? Text("barcode choice"):
+        SizedBox(
           width: 200,
           // height: 50,
           child: GalleryAlbumPicker(
@@ -130,7 +141,7 @@ class _GalleryPageState extends State<GalleryPage> {
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   Medium medium = _media[index];
-                  if (index == 0) {
+                  if (index == 0 && widget.isFindingBarcode == false) {
                     return GestureDetector(
                       child: Container(
                         decoration: BoxDecoration(
@@ -169,6 +180,7 @@ class _GalleryPageState extends State<GalleryPage> {
                         builder: (context) => ImagePage(
                           medium,
                           _media.indexOf(medium),
+                          isFindingBarcode: widget.isFindingBarcode,
                         ),
                       ),
                     ),
