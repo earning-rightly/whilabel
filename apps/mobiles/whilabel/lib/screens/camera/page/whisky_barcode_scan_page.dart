@@ -4,20 +4,20 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
-import 'package:whilabel/screens/camera/page/searching_whisky_barcode_page.dart';
+import 'package:whilabel/screens/camera/page/whisky_barcode_recognition_page.dart';
 
 import 'gallery_page.dart';
 
 /// CameraApp is the Main Application.
-class BarCodeScanPage extends StatefulWidget {
-   BarCodeScanPage({super.key, required this.cameras});
-   final List<CameraDescription> cameras;
+class WhiskyBarCodeScanPage extends StatefulWidget {
+  WhiskyBarCodeScanPage({super.key, required this.cameras});
+  final List<CameraDescription> cameras;
 
   @override
-  State<BarCodeScanPage> createState() => _BarCodeScanPageState();
+  State<WhiskyBarCodeScanPage> createState() => _WhiskyBarCodeScanPageState();
 }
 
-class _BarCodeScanPageState extends State<BarCodeScanPage>
+class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
     with WidgetsBindingObserver, TickerProviderStateMixin {
   late CameraController controller;
   late AnimationController _flashModeControlRowAnimationController;
@@ -36,6 +36,7 @@ class _BarCodeScanPageState extends State<BarCodeScanPage>
       return null;
     }
   }
+
   void onSetFlashModeButtonPressed(FlashMode mode) {
     setFlashMode(mode).then((_) {
       if (mounted) {
@@ -57,8 +58,6 @@ class _BarCodeScanPageState extends State<BarCodeScanPage>
       rethrow;
     }
   }
-
-
 
   @override
   void initState() {
@@ -82,10 +81,10 @@ class _BarCodeScanPageState extends State<BarCodeScanPage>
       if (e is CameraException) {
         switch (e.code) {
           case 'CameraAccessDenied':
-          // Handle access errors here.
+            // Handle access errors here.
             break;
           default:
-          // Handle other errors here.
+            // Handle other errors here.
             break;
         }
       }
@@ -105,27 +104,21 @@ class _BarCodeScanPageState extends State<BarCodeScanPage>
       return Container();
     }
     return Scaffold(
-      appBar: AppBar(actions: [_flashModeControlRowWidget()]),
-        body:  SafeArea(
+        appBar: AppBar(actions: [_flashModeControlRowWidget()]),
+        body: SafeArea(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-
             child: Stack(
               alignment: Alignment.center,
               fit: StackFit.expand,
               children: [
                 CameraPreview(controller),
-                // cameraOverlay(
-                //     padding: 50, aspectRatio: 1, color: Color(0x55000000)),
-                myLayOut(
-                    padding: 50, aspectRatio: 1, color: Color(0x55000000)),
-                Positioned(
-                  // left: 0,
-                  // right: 0,
-                    bottom: 174,
-                    child: Text("위스키 병에 바코드를 찍어주세요" )),
-
+                cameraOverlay(
+                    padding: 50,
+                    aspectRatio: 1,
+                    color: Color.fromARGB(158, 6, 5, 5)),
+                Positioned(bottom: 174, child: Text("위스키 병에 바코드를 찍어주세요")),
                 Positioned(
                     bottom: 24,
                     left: 0,
@@ -138,25 +131,30 @@ class _BarCodeScanPageState extends State<BarCodeScanPage>
                         children: [
                           Align(
                             alignment: Alignment.centerRight,
-                            child: IconButton(icon: Icon(Icons.image, color: ColorsManager.gray500,size: 24),
-                            onPressed: () =>   Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => GalleryPage(
-                                  isFindingBarcode: true,
+                            child: IconButton(
+                              icon: Icon(Icons.image,
+                                  color: ColorsManager.gray500, size: 24),
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => GalleryPage(
+                                    isFindingBarcode: true,
+                                  ),
                                 ),
                               ),
-                            ),
                             ),
                           ),
                           InkWell(
                             onTap: () async {
                               XFile? rawImage = await takePicture();
-                              if(rawImage != null){
+                              if (rawImage != null) {
                                 File imageFile = File(rawImage.path);
-                                int currentUnix = DateTime.now().millisecondsSinceEpoch;
-                                final directory = await getApplicationDocumentsDirectory();
-                                String fileFormat = imageFile.path.split('.').last;
+                                int currentUnix =
+                                    DateTime.now().millisecondsSinceEpoch;
+                                final directory =
+                                    await getApplicationDocumentsDirectory();
+                                String fileFormat =
+                                    imageFile.path.split('.').last;
 
                                 File barcodeImage = await imageFile.copy(
                                   '${directory.path}/$currentUnix.$fileFormat',
@@ -164,71 +162,29 @@ class _BarCodeScanPageState extends State<BarCodeScanPage>
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => SearchingWhiskyBarcodePage(imageFile:barcodeImage)
-                                    ));
+                                        builder: (context) =>
+                                            WhiskyBarcodeRecognitionPage(
+                                                imageFile: barcodeImage)));
                               }
                             },
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
-                                Icon(Icons.circle, color: Colors.white38, size: 90),
-                                Icon(Icons.circle, color: Colors.white, size: 75),
+                                Icon(Icons.circle,
+                                    color: Colors.white38, size: 90),
+                                Icon(Icons.circle,
+                                    color: Colors.white, size: 75),
                               ],
                             ),
                           ),
                         ],
                       ),
-                    )
-                ),],),),
-        )
-    );
+                    )),
+              ],
+            ),
+          ),
+        ));
   }
-  Widget cameraOverlay({required double padding, required double aspectRatio, required Color color}) {
-    return LayoutBuilder(builder: (context, constraints) {
-      double parentAspectRatio = constraints.maxWidth / constraints.maxHeight;
-      double horizontalPadding;
-      double verticalPadding;
-
-      if (parentAspectRatio < aspectRatio) {
-        debugPrint("parentAspectRatio < aspectRatio case");
-        horizontalPadding = padding;
-        verticalPadding = (constraints.maxHeight -
-            ((constraints.maxWidth - 2 * padding) / aspectRatio)) *1.1 ;
-      } else {
-        verticalPadding = padding;
-        horizontalPadding = (constraints.maxWidth -
-            ((constraints.maxHeight - 2 * padding) * aspectRatio)) /
-            2;
-      }
-      return Stack(fit: StackFit.expand, children: [
-        Align(
-            alignment: Alignment.centerLeft,
-            child: Container(width: horizontalPadding, color: color)),
-        Align(
-            alignment: Alignment.centerRight,
-            child: Container(width: horizontalPadding, color: color)),
-        Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-                margin: EdgeInsets.only(
-                    left: horizontalPadding, right: horizontalPadding),
-                height: verticalPadding,
-                color: color)),
-        Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-                margin: EdgeInsets.only(
-                    left: horizontalPadding, right: horizontalPadding),
-                height: verticalPadding,
-                color: color)),
-        Container(
-          margin: EdgeInsets.symmetric(
-              horizontal: horizontalPadding, vertical: verticalPadding),
-        )
-      ]);
-    });
-  }
-
 
   Widget _flashModeControlRowWidget() {
     return SizeTransition(
@@ -238,43 +194,39 @@ class _BarCodeScanPageState extends State<BarCodeScanPage>
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             IconButton(
-              icon: const Icon(Icons.flash_off),
-              color: controller.value.flashMode == FlashMode.off
-                  ? Colors.orange
-                  : ColorsManager.gray400,
-              onPressed: () => onSetFlashModeButtonPressed(FlashMode.off)
-
-            ),
+                icon: const Icon(Icons.flash_off),
+                color: controller.value.flashMode == FlashMode.off
+                    ? Colors.orange
+                    : ColorsManager.gray400,
+                onPressed: () => onSetFlashModeButtonPressed(FlashMode.off)),
             IconButton(
-              icon: const Icon(Icons.flash_auto),
-              color: controller.value.flashMode == FlashMode.auto
-                  ? Colors.orange
-                  : ColorsManager.gray400,
-              onPressed: () => onSetFlashModeButtonPressed(FlashMode.auto)
-
-            ),
+                icon: const Icon(Icons.flash_auto),
+                color: controller.value.flashMode == FlashMode.auto
+                    ? Colors.orange
+                    : ColorsManager.gray400,
+                onPressed: () => onSetFlashModeButtonPressed(FlashMode.auto)),
             IconButton(
-              icon: const Icon(Icons.flash_on),
-              color: controller.value.flashMode == FlashMode.always
-                  ? Colors.orange
-                  : ColorsManager.gray400,
-              onPressed:  () => onSetFlashModeButtonPressed(FlashMode.always)
-            ),
+                icon: const Icon(Icons.flash_on),
+                color: controller.value.flashMode == FlashMode.always
+                    ? Colors.orange
+                    : ColorsManager.gray400,
+                onPressed: () => onSetFlashModeButtonPressed(FlashMode.always)),
             IconButton(
-              icon: const Icon(Icons.highlight),
-              color: controller.value.flashMode == FlashMode.torch
-                  ? Colors.orange
-                  : ColorsManager.gray400,
-              onPressed: () => onSetFlashModeButtonPressed(FlashMode.torch)
-            ),
+                icon: const Icon(Icons.highlight),
+                color: controller.value.flashMode == FlashMode.torch
+                    ? Colors.orange
+                    : ColorsManager.gray400,
+                onPressed: () => onSetFlashModeButtonPressed(FlashMode.torch)),
           ],
         ),
       ),
     );
   }
 
-  Widget myLayOut ({required double padding, required double aspectRatio, required Color color}){
-
+  Widget cameraOverlay(
+      {required double padding,
+      required double aspectRatio,
+      required Color color}) {
     return LayoutBuilder(builder: (context, constraints) {
       double widthCopy, heightCopy;
 
@@ -298,14 +250,16 @@ class _BarCodeScanPageState extends State<BarCodeScanPage>
               height: double.infinity,
               width: 16,
               color: color,
-            ),),
+            ),
+          ),
           Align(
             alignment: Alignment.topRight,
             child: Container(
               height: double.infinity,
               width: 16,
               color: color,
-            ),),
+            ),
+          ),
           Column(
             children: [
               Flexible(
@@ -324,22 +278,21 @@ class _BarCodeScanPageState extends State<BarCodeScanPage>
                   // clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     // color: Colors.,
-                    border: Border.all(color: Colors.white,width: 2),
-
+                    border: Border.all(color: Colors.white, width: 2),
                   ),
                 ),
               ),
-
               Flexible(
                 flex: 18,
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 16),
                   color: color,
                 ),
-              ),  ],
+              ),
+            ],
           ),
         ],
       );
-    }
-    );}
+    });
+  }
 }
