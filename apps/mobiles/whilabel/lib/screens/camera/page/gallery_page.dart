@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_gallery/photo_gallery.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:whilabel/screens/camera/page/image_page.dart';
+import 'package:whilabel/screens/camera/page/chosen_image_page.dart';
 import 'package:whilabel/screens/camera/page/take_picture_page.dart';
 import 'package:whilabel/screens/camera/widget/gallery_album_picker.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
@@ -13,8 +13,8 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 
 // ignore: must_be_immutable
 class GalleryPage extends StatefulWidget {
-   GalleryPage({super.key, this.isFindingBarcode=false });
-   bool isFindingBarcode;
+  GalleryPage({super.key, this.isFindingBarcode = false});
+  bool isFindingBarcode;
 
   @override
   State<GalleryPage> createState() => _GalleryPageState();
@@ -87,13 +87,11 @@ class _GalleryPageState extends State<GalleryPage> {
     }
 
     return Scaffold(
-      backgroundColor: widget.isFindingBarcode == true
-            ? ColorsManager.black400
-            : null,
+      backgroundColor:
+          widget.isFindingBarcode == true ? ColorsManager.black400 : null,
       appBar: AppBar(
-        backgroundColor:  widget.isFindingBarcode == true
-            ? ColorsManager.black300
-            : null,
+        backgroundColor:
+            widget.isFindingBarcode == true ? ColorsManager.black300 : null,
         excludeHeaderSemantics: true,
         centerTitle: true,
         leading: IconButton(
@@ -107,19 +105,15 @@ class _GalleryPageState extends State<GalleryPage> {
             color: ColorsManager.gray500,
           ),
         ),
-        title:
-        widget.isFindingBarcode == true
-            ? Text("barcode choice"):
-        SizedBox(
-          width: 200,
-          // height: 50,
-          child: GalleryAlbumPicker(
-            albumNameList: _albumNames,
-            onChangeAlbum: changeAlbum,
-          ),
-        ),
-
-        // toolbarHeight: 100,
+        title: widget.isFindingBarcode == true
+            ? Text("barcode choice")
+            : SizedBox(
+                width: 200,
+                child: GalleryAlbumPicker(
+                  albumNameList: _albumNames,
+                  onChangeAlbum: changeAlbum,
+                ),
+              ),
       ),
       body: SafeArea(
         child: _loading
@@ -177,7 +171,7 @@ class _GalleryPageState extends State<GalleryPage> {
                   return GestureDetector(
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => ImagePage(
+                        builder: (context) => ChosenImagePage(
                           medium,
                           _media.indexOf(medium),
                           isFindingBarcode: widget.isFindingBarcode,

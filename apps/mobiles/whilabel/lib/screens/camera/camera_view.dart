@@ -7,7 +7,7 @@ import 'package:whilabel/screens/_constants/path/image_paths.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
-import 'package:whilabel/screens/camera/page/barcode_scan_page.dart';
+import 'package:whilabel/screens/camera/page/whisky_barcode_scan_page.dart';
 import 'package:whilabel/screens/camera/page/search_whisky_name_page.dart';
 
 // ignore: must_be_immutable
@@ -24,11 +24,9 @@ class CameraView extends StatelessWidget {
     _events.add(_failCounter);
   }
 
-  Future<void> initCamera() async{
-    WidgetsFlutterBinding
-        .ensureInitialized();
-    cameras =
-    await availableCameras();
+  Future<void> initCamera() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    cameras = await availableCameras();
   }
 
   @override
@@ -95,13 +93,15 @@ class CameraView extends StatelessWidget {
                                           LongTextButton(
                                             buttonText: "위스키 병 바코드 인식",
                                             onPressedFunc: () async {
-                                               await initCamera();
+                                              await initCamera();
 
                                               await Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                         BarCodeScanPage(cameras: cameras,),
+                                                        WhiskyBarCodeScanPage(
+                                                      cameras: cameras,
+                                                    ),
                                                   ));
                                             },
                                           ),

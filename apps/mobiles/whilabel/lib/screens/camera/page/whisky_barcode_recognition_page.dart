@@ -17,18 +17,18 @@ import '../view_model/camera_event.dart';
 import '../view_model/camera_view_model.dart';
 import 'package:image/image.dart' as img;
 
-
-class SearchingWhiskyBarcodePage extends StatefulWidget {
-  const SearchingWhiskyBarcodePage(
-      {Key? key, required this.imageFile})
+class WhiskyBarcodeRecognitionPage extends StatefulWidget {
+  const WhiskyBarcodeRecognitionPage({Key? key, required this.imageFile})
       : super(key: key);
   final File imageFile;
 
   @override
-  State<SearchingWhiskyBarcodePage> createState() => _SearchingWhiskyBarcodePageState();
+  State<WhiskyBarcodeRecognitionPage> createState() =>
+      _WhiskyBarcodeRecognitionPageState();
 }
 
-class _SearchingWhiskyBarcodePageState extends State<SearchingWhiskyBarcodePage> {
+class _WhiskyBarcodeRecognitionPageState
+    extends State<WhiskyBarcodeRecognitionPage> {
   String barcode = "";
   File? initImageFile;
 
@@ -52,40 +52,37 @@ class _SearchingWhiskyBarcodePageState extends State<SearchingWhiskyBarcodePage>
       // cropRect에 해당하는 부분을 decodeImageFromList() 함수를 사용하여 decodedImage로 변환합니다.
       // 이미지의 사이즈, byte가 크면 이미지 전환과 스캔하는데 오랜 시간이 걸린다.
       img.Image thumbnail = img.copyResize(decodedImage,
-          height: decodedImage.height > 850? 800:decodedImage.height,
-          width: decodedImage.width > 650 ? 600: decodedImage.width
-      );
+          height: decodedImage.height > 850 ? 800 : decodedImage.height,
+          width: decodedImage.width > 650 ? 600 : decodedImage.width);
       Uint8List unit8ListPng = img.encodePng(thumbnail);
 
-
-      File SavedPngImage = File("${tempDir.path}/${Timestamp.now().millisecondsSinceEpoch}.png")
-        ..writeAsBytes(unit8ListPng);
+      File SavedPngImage =
+          File("${tempDir.path}/${Timestamp.now().millisecondsSinceEpoch}.png")
+            ..writeAsBytes(unit8ListPng);
       debugPrint("\n\nresult ==> ${SavedPngImage.path}\n\n---");
 
-        setState(() {
-          initImageFile = SavedPngImage;
-        });
-        Future.delayed(const Duration(milliseconds: 2000), ()
-        { scanBarcodeImage(SavedPngImage.path); });
-      }
+      setState(() {
+        initImageFile = SavedPngImage;
+      });
+      Future.delayed(const Duration(milliseconds: 2000), () {
+        scanBarcodeImage(SavedPngImage.path);
+      });
+    }
   }
 
   void scanBarcodeImage(String imagePath) async {
-
-    try{
-      String? _barcodeString =
-      await BarcodeFinder.scanFile(path: imagePath);
+    try {
+      String? _barcodeString = await BarcodeFinder.scanFile(path: imagePath);
       if (_barcodeString != null) {
         setState(() {
           barcode = _barcodeString;
         });
-      }else {
+      } else {
         setState(() {
           barcode = "scan error";
         });
       }
-    }
-    catch(e) {
+    } catch (e) {
       debugPrint("$e");
       setState(() {
         barcode = "scan error";
@@ -100,26 +97,24 @@ class _SearchingWhiskyBarcodePageState extends State<SearchingWhiskyBarcodePage>
 
     // 계속 실행되는 것을 막기 위해서
     if (barcode != "" && initImageFile != null) {
+      initImageFile = null;
+      viewModel.onEvent(CarmeraEvent.searchWhiskeyWithBarcode(barcode),
+          callback: () async {
+        if (viewModel.state.isFindWhiskyData) {
+          showSuccedDialog();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GalleryPage(),
+            ),
+          );
+        } else {
+          showFailedDialog();
+          Navigator.pushNamedAndRemoveUntil(
+              context, arguments: 1, Routes.rootRoute, (route) => false);
 
-        initImageFile = null;
-        viewModel.onEvent(CarmeraEvent.searchWhiskeyWithBarcode(barcode),
-            callback: () async {
-          if (viewModel.state.isFindWhiskyData) {
-            showSuccedDialog();
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => GalleryPage(),
-              ),
-            );
-          } else {
-            showFailedDialog();
-            Navigator.pushNamedAndRemoveUntil(context,arguments: 1,
-                Routes.rootRoute, (route) => false);
-
-            // addFailCounter();
-          }
-
+          // addFailCounter();
+        }
       });
     }
 
@@ -185,8 +180,8 @@ class _SearchingWhiskyBarcodePageState extends State<SearchingWhiskyBarcodePage>
         ),
       ),
     );
-
   }
+
   Future<void> showSuccedDialog() async {
     await EasyLoading.showSuccess(
       "바코드 인식성공",
