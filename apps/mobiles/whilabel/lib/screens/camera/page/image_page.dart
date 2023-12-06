@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:photo_gallery/photo_gallery.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -39,11 +40,63 @@ class _ImagePageState extends State<ImagePage> {
           onPressed: () => Navigator.of(context).pop(),
           icon: SvgPicture.asset(SvgIconPath.backBold),
         ),
+        actions: [
+          Padding(
+            padding:  EdgeInsets.symmetric(vertical: 12,horizontal: 8),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: ColorsManager.black300
+              ),
+                child: Text("편집", style: TextStyle(color: ColorsManager.gray400),),
+                onPressed: () async {
+                  File imageFile = await widget.medium.getFile();
+
+                  CroppedFile? croppedFile = await ImageCropper().cropImage(
+                    sourcePath: imageFile.path,
+                    aspectRatioPresets: [CropAspectRatioPreset.ratio16x9],
+                    uiSettings: [
+                      AndroidUiSettings(
+                          toolbarTitle: 'crop barcode',
+                          toolbarColor: ColorsManager.black200,
+                          toolbarWidgetColor: Colors.white,
+
+                          hideBottomControls: true,
+                          initAspectRatio: CropAspectRatioPreset.original,
+                          lockAspectRatio: false),
+                      IOSUiSettings(
+                        title: 'crop barcode',
+                        hidesNavigationBar: true,
+
+
+                      ),
+                    ],
+                  );
+
+                  if (croppedFile != null) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SearchingWhiskyBarcodePage(
+                          imageFile: File(croppedFile.path),
+                        ),
+                      ),
+                    );
+                  } else {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        arguments: 1,
+                        Routes.rootRoute,
+                        (route) => false);
+                  }
+                },
+              ),
+          )
+        ],
       ),
       body: SafeArea(
         child: Column(
           children: [
-            Expanded(flex: 60, child: SizedBox()),
+            Expanded(flex: 76, child: SizedBox()),
             Expanded(
               flex: 468,
               child: SizedBox(
@@ -54,54 +107,53 @@ class _ImagePageState extends State<ImagePage> {
                 ),
               ),
             ),
-            Expanded(flex: 100, child: SizedBox()),
+            Expanded(flex: 76, child: SizedBox()),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: EdgeInsets.only(bottom: 16, left: 16, right: 16),
               // padding: EdgeInsets.all(0),
-              child:
-              widget.isFindingBarcode == true ?
-              LongTextButton(
-                buttonText: "바코드 선택",
-                color: ColorsManager.brown100,
-                onPressedFunc: () async {
-                  try {
-                    // Medium패기지 내장 함수
-                    File imageFile = await widget.medium.getFile();
-                    // viewModel.state = cameraState.copyWith(
-                    //   images: imageFile
-                    // )
+              child: widget.isFindingBarcode == true
+                  ? LongTextButton(
+                      buttonText: "바코드 선택",
+                      color: ColorsManager.red,
+                      onPressedFunc: () async {
+                        try {
+                          // Medium패기지 내장 함수
+                          File imageFile = await widget.medium.getFile();
+                          setState(() {});
 
-                    // await viewModel.saveBarcodeImage(imageFile);
-                    setState(() {});
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                          builder: (context) => SearchingWhiskyBarcodePage(
-                              imageFile: imageFile,
-                          ),
-                        ),
-                    );
-                    // Navigator.pushNamed(context, Routes.whiskeyCritiqueRoute);
-                  } catch (error) {
-                    debugPrint("사진 저장 오류 발생!!\n$error");
-                  }
-                },
-              ):
-              LongTextButton(
-                buttonText: "다음",
-                color: ColorsManager.brown100,
-                onPressedFunc: () async {
-                  try {
-                    // Medium패기지 내장 함수
-                    File imageFile = await widget.medium.getFile();
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SearchingWhiskyBarcodePage(
+                                imageFile: imageFile,
+                              ),
+                            ),
+                          );
+                          // Navigator.pushNamed(context, Routes.whiskeyCritiqueRoute);
+                        } catch (error) {
+                          debugPrint("사진 저장 오류 발생!!\n$error");
+                        }
+                      },
+                    )
+                  : LongTextButton(
+                      buttonText: "다음",
+                      color: ColorsManager.brown100,
+                      onPressedFunc: () async {
+                        try {
+                          // Medium패기지 내장 함수
+                          File imageFile = await widget.medium.getFile();
 
-                    await viewModel.saveUserWhiskyImageOnNewArchivingPostState(imageFile);
+                          await viewModel
+                              .saveUserWhiskyImageOnNewArchivingPostState(
+                                  imageFile);
 
-                    Navigator.pushNamed(context, Routes.whiskeyCritiqueRoute);
-                  } catch (error) {
-                    debugPrint("사진 저장 오류 발생!!\n$error");
-                  }
-                },
-              ),
+                          Navigator.pushNamed(
+                              context, Routes.whiskeyCritiqueRoute);
+                        } catch (error) {
+                          debugPrint("사진 저장 오류 발생!!\n$error");
+                        }
+                      },
+                    ),
             )
           ],
         ),
