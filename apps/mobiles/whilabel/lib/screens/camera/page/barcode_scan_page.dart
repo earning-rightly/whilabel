@@ -4,8 +4,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
-import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
-import 'package:whilabel/screens/_global/widgets/app_bars.dart';
 import 'package:whilabel/screens/camera/page/searching_whisky_barcode_page.dart';
 
 import 'gallery_page.dart';
@@ -19,8 +17,11 @@ class BarCodeScanPage extends StatefulWidget {
   State<BarCodeScanPage> createState() => _BarCodeScanPageState();
 }
 
-class _BarCodeScanPageState extends State<BarCodeScanPage> {
+class _BarCodeScanPageState extends State<BarCodeScanPage>
+    with WidgetsBindingObserver, TickerProviderStateMixin {
   late CameraController controller;
+  late AnimationController _flashModeControlRowAnimationController;
+  late Animation<double> _flashModeControlRowAnimation;
 
   Future<XFile?> takePicture() async {
     final CameraController? cameraController = controller;
@@ -35,10 +36,41 @@ class _BarCodeScanPageState extends State<BarCodeScanPage> {
       return null;
     }
   }
+  void onSetFlashModeButtonPressed(FlashMode mode) {
+    setFlashMode(mode).then((_) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  Future<void> setFlashMode(FlashMode mode) async {
+    // if (controller == null) {
+    //   return;
+    // }
+
+    try {
+      await controller.setFlashMode(mode);
+    } on CameraException catch (e) {
+      // _showCameraException(e);
+      debugPrint("$e");
+      rethrow;
+    }
+  }
+
+
 
   @override
   void initState() {
     super.initState();
+    _flashModeControlRowAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    _flashModeControlRowAnimation = CurvedAnimation(
+      parent: _flashModeControlRowAnimationController,
+      curve: Curves.easeInCubic,
+    );
 
     controller = CameraController(widget.cameras[0], ResolutionPreset.max);
     controller.initialize().then((_) {
@@ -63,6 +95,7 @@ class _BarCodeScanPageState extends State<BarCodeScanPage> {
   @override
   void dispose() {
     controller.dispose();
+    _flashModeControlRowAnimationController.dispose();
     super.dispose();
   }
 
@@ -72,7 +105,7 @@ class _BarCodeScanPageState extends State<BarCodeScanPage> {
       return Container();
     }
     return Scaffold(
-        appBar: buildScaffoldAppBar(context,SvgIconPath.close,""),
+      appBar: AppBar(actions: [_flashModeControlRowWidget()]),
         body:  SafeArea(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -194,6 +227,50 @@ class _BarCodeScanPageState extends State<BarCodeScanPage> {
         )
       ]);
     });
+  }
+
+
+  Widget _flashModeControlRowWidget() {
+    return SizeTransition(
+      sizeFactor: _flashModeControlRowAnimation,
+      child: ClipRect(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.flash_off),
+              color: controller.value.flashMode == FlashMode.off
+                  ? Colors.orange
+                  : ColorsManager.gray400,
+              onPressed: () => onSetFlashModeButtonPressed(FlashMode.off)
+
+            ),
+            IconButton(
+              icon: const Icon(Icons.flash_auto),
+              color: controller.value.flashMode == FlashMode.auto
+                  ? Colors.orange
+                  : ColorsManager.gray400,
+              onPressed: () => onSetFlashModeButtonPressed(FlashMode.auto)
+
+            ),
+            IconButton(
+              icon: const Icon(Icons.flash_on),
+              color: controller.value.flashMode == FlashMode.always
+                  ? Colors.orange
+                  : ColorsManager.gray400,
+              onPressed:  () => onSetFlashModeButtonPressed(FlashMode.always)
+            ),
+            IconButton(
+              icon: const Icon(Icons.highlight),
+              color: controller.value.flashMode == FlashMode.torch
+                  ? Colors.orange
+                  : ColorsManager.gray400,
+              onPressed: () => onSetFlashModeButtonPressed(FlashMode.torch)
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget myLayOut ({required double padding, required double aspectRatio, required Color color}){
