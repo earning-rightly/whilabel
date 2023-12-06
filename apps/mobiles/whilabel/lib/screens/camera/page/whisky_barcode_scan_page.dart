@@ -71,7 +71,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
       curve: Curves.easeInCubic,
     );
 
-    controller = CameraController(widget.cameras[0], ResolutionPreset.max);
+    controller = CameraController(widget.cameras[0], ResolutionPreset.max,enableAudio: false);
     controller.initialize().then((_) {
       if (!mounted) {
         return;
