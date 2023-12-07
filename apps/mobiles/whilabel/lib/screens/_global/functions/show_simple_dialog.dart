@@ -33,7 +33,6 @@ void showSimpleDialog(
                 const SizedBox(height: 30),
                 LongTextButton(
                   buttonText: "확인",
-                  buttionTextSize: 16,
                   enabled: true,
                   color: ColorsManager.brown100,
                   onPressedFunc: () {

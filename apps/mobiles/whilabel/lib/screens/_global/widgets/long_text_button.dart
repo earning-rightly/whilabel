@@ -6,13 +6,14 @@ import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 class LongTextButton extends StatelessWidget {
   final String buttonText;
   final Color buttonTextColor;
-  final double buttionTextSize;
+  final TextStyle? buttonTextStyle;
   final Function()? onPressedFunc;
   final bool? enabled;
   final Function()? onPressedFuncWhenDisabled;
   final Color color;
   final Color borderColor;
   final double height;
+  final double width;
   final ButtonStyle? buttonStyle;
 
   const LongTextButton({
@@ -25,7 +26,8 @@ class LongTextButton extends StatelessWidget {
     this.buttonTextColor = Colors.white,
     this.enabled = true,
     this.height = 50,
-    this.buttionTextSize = 15,
+    this.width = double.infinity,
+    this.buttonTextStyle,
     this.buttonStyle,
   });
 
@@ -34,7 +36,7 @@ class LongTextButton extends StatelessWidget {
     return GestureDetector(
       onTap: (enabled == false) ? onPressedFuncWhenDisabled : null,
       child: Container(
-        width: double.infinity,
+        width: width,
         decoration: enabled!
             ? BoxDecoration(
                 borderRadius: BorderRadius.all(
@@ -64,7 +66,7 @@ class LongTextButton extends StatelessWidget {
               ),
           child: Text(
             buttonText,
-            style: TextStyle(color: buttonTextColor),
+            style: buttonTextStyle ?? TextStyle(color: buttonTextColor),
           ),
         ),
       ),
