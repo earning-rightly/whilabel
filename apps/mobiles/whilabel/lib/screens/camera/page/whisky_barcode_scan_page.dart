@@ -11,6 +11,7 @@ import 'gallery_page.dart';
 /// CameraApp is the Main Application.
 class WhiskyBarCodeScanPage extends StatefulWidget {
   WhiskyBarCodeScanPage({super.key, required this.cameras});
+
   final List<CameraDescription> cameras;
 
   @override
@@ -22,6 +23,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
   late CameraController controller;
   late AnimationController _flashModeControlRowAnimationController;
   late Animation<double> _flashModeControlRowAnimation;
+  int flashIconIndex = 0;
 
   Future<XFile?> takePicture() async {
     final CameraController? cameraController = controller;
@@ -71,7 +73,8 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
       curve: Curves.easeInCubic,
     );
 
-    controller = CameraController(widget.cameras[0], ResolutionPreset.max,enableAudio: false);
+    controller = CameraController(widget.cameras[0], ResolutionPreset.max,
+        enableAudio: false);
     controller.initialize().then((_) {
       if (!mounted) {
         return;
@@ -187,38 +190,54 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
   }
 
   Widget _flashModeControlRowWidget() {
+    List<Widget> flastIcons = [
+      Icon(Icons.flash_off, color: ColorsManager.gray400),
+      Icon(Icons.flash_auto, color: ColorsManager.gray400),
+      Icon(Icons.flash_on, color: ColorsManager.gray400),
+      Icon(Icons.highlight, color: ColorsManager.gray400)
+    ];
+
     return SizeTransition(
       sizeFactor: _flashModeControlRowAnimation,
       child: ClipRect(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            IconButton(
-                icon: const Icon(Icons.flash_off),
-                color: controller.value.flashMode == FlashMode.off
-                    ? Colors.orange
-                    : ColorsManager.gray400,
-                onPressed: () => onSetFlashModeButtonPressed(FlashMode.off)),
-            IconButton(
-                icon: const Icon(Icons.flash_auto),
-                color: controller.value.flashMode == FlashMode.auto
-                    ? Colors.orange
-                    : ColorsManager.gray400,
-                onPressed: () => onSetFlashModeButtonPressed(FlashMode.auto)),
-            IconButton(
-                icon: const Icon(Icons.flash_on),
-                color: controller.value.flashMode == FlashMode.always
-                    ? Colors.orange
-                    : ColorsManager.gray400,
-                onPressed: () => onSetFlashModeButtonPressed(FlashMode.always)),
-            IconButton(
-                icon: const Icon(Icons.highlight),
-                color: controller.value.flashMode == FlashMode.torch
-                    ? Colors.orange
-                    : ColorsManager.gray400,
-                onPressed: () => onSetFlashModeButtonPressed(FlashMode.torch)),
-          ],
-        ),
+        child: IconButton(
+            icon: flastIcons[flashIconIndex],
+            onPressed: () {
+              setState(() {
+                if (flashIconIndex >= 3) {
+                  flashIconIndex = 0;
+                } else {
+                  flashIconIndex++;
+                }
+              });
+
+              switch (flashIconIndex) {
+                case 0:
+                  onSetFlashModeButtonPressed(FlashMode.off);
+                  break;
+
+                case 1:
+                  onSetFlashModeButtonPressed(FlashMode.auto);
+                  setState(() {
+                    flashIconIndex = 1;
+                  });
+                  break;
+
+                case 2:
+                  onSetFlashModeButtonPressed(FlashMode.always);
+                  setState(() {
+                    flashIconIndex = 2;
+                  });
+                  break;
+
+                case 3:
+                  onSetFlashModeButtonPressed(FlashMode.torch);
+                  setState(() {
+                    flashIconIndex = 3;
+                  });
+                  break;
+              }
+            }),
       ),
     );
   }
