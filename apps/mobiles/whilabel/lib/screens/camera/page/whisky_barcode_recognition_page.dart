@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:barcode_finder/barcode_finder.dart';
+import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -11,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
-import 'package:whilabel/screens/camera/page/gallery_page.dart';
+import 'package:whilabel/screens/camera/page/take_picture_page.dart';
 
 import '../view_model/camera_event.dart';
 import '../view_model/camera_view_model.dart';
@@ -31,6 +32,7 @@ class _WhiskyBarcodeRecognitionPageState
     extends State<WhiskyBarcodeRecognitionPage> {
   String barcode = "";
   File? initImageFile;
+  List<CameraDescription> cameras = [];
 
   @override
   void initState() {
@@ -100,12 +102,16 @@ class _WhiskyBarcodeRecognitionPageState
       initImageFile = null;
       viewModel.onEvent(CarmeraEvent.searchWhiskeyWithBarcode(barcode),
           callback: () async {
+          //  TakePicture에서 사용할 카메라 초기화
+            WidgetsFlutterBinding.ensureInitialized();
+            cameras = await availableCameras();
+
         if (viewModel.state.isFindWhiskyData) {
           showSuccedDialog();
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => GalleryPage(),
+              builder: (context) => TakePicturePage(cameras: cameras),
             ),
           );
         } else {
