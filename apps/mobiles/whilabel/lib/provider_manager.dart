@@ -86,6 +86,11 @@ class ProvidersManager {
       appUserRepository: _appUserRepository,
     );
 
+    final archivingPostDetailViewModel = ArchivingPostDetailViewModel(
+            whiskyBrandDistilleryRepository: _whiskyBrandDistilleryRepository,
+            archivingPostRepository: _archivingPostRepository
+    );
+
     return [
       ChangeNotifierProvider(
         create: (context) => _currentUserStatus,
@@ -95,6 +100,9 @@ class ProvidersManager {
       ),
       ChangeNotifierProvider(
         create: (context) => userAdditionalInfoViewModel,
+      ),
+      ChangeNotifierProvider(
+        create: (context) => archivingPostDetailViewModel,
       ),
       ChangeNotifierProvider(
         create: (context) => carmeraViewModel,
@@ -115,13 +123,6 @@ class ProvidersManager {
       whiskyNewArchivingPostUseCase: whiskeyNewArchivingPostUseCase,
     );
     return whiskyCritiqueViewModel;
-  }
-
-  static ArchivingPostDetailViewModel callArchivingPostDetailViewModel() {
-    final archivingPostDetailViewModel = ArchivingPostDetailViewModel(
-        whiskyBrandDistilleryRepository: _whiskyBrandDistilleryRepository,
-        archivingPostRepository: _archivingPostRepository);
-    return archivingPostDetailViewModel;
   }
 
   static FirebaseWhiskyBrandDistilleryRepositoryImpl testWhiskDB() {
