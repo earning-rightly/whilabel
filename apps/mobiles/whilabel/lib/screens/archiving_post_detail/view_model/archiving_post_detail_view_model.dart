@@ -46,17 +46,19 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
         .then((_) => {after()});
   }
 
-  Future<Distillery> getDistilleryData(String distilleryId) async {
+  Future<Distillery> getDistilleryData(String wbDistilleryId) async {
     final distilleryData =
-        await _whiskyRepository.getDistilleryData(distilleryId);
+        await _whiskyRepository.getDistilleryData(wbDistilleryId);
+    if (distilleryData != null){
+      _state = _state.copyWith(distilleryData: distilleryData);
+    }
 
     return distilleryData!;
   }
 
-  Future<Whisky> getInitalData(String barCode, String postId) async {
+  Future<Whisky> getWhiskyData(String barCode, String postId) async {
     final whiskyData =
         await _whiskyRepository.getWhiskyDataWithBarcode(barCode);
-    print(whiskyData?.distilleryIds.toString());
     // 데이터 베이스에서 distilleryName이 String이였을 때 사용 했던 코드
     // 현재는 List<String>으로 정상적으로 바뀌어서 사용하지 않음
     //   String test1 = whiskyData?.wbWhisky!.distilleryName ?? "['','']";
@@ -66,6 +68,10 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
     // }
     if (_state.currentPostId.isEmpty) {
       _state = _state.copyWith(currentPostId: postId);
+      notifyListeners();
+    }
+    if (whiskyData != null){
+      _state = _state.copyWith(whiskyData: whiskyData);
       notifyListeners();
     }
 
