@@ -3,6 +3,10 @@ class SvgIconPath {
   static String faq = "assets/icon/f_a_q.svg";
   static String customer = "assets/icon/customer.svg";
   static String star = "assets/icon/star.svg";
+  // barcodeScan Page
+  static String barcode = "assets/icon/barcode.svg";
+  static String cameraShutter = "assets/icon/camera_shutter.svg";
+  static String image = "assets/icon/image.svg";
 
   static String document = "assets/icon/document.svg";
   static String setting = "assets/icon/settings.svg";
