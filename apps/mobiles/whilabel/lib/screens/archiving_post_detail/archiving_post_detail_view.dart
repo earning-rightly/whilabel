@@ -91,9 +91,9 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
       });
     }
 
-    Whisky _whiskyData = await viewModel.getInitalData(
+    Whisky _whiskyData = await viewModel.getWhiskyData(
         widget.archivingPost.barcode, widget.archivingPost.postId);
-    await viewModel.getInitalData(
+    await viewModel.getWhiskyData(
         widget.archivingPost.barcode, widget.archivingPost.postId);
     List<String?> distilleryNames =  _whiskyData.wbWhisky?.distilleryName ?? [];
 

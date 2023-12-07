@@ -46,14 +46,17 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
         .then((_) => {after()});
   }
 
-  Future<Distillery> getDistilleryData(String distilleryId) async {
+  Future<Distillery> getDistilleryData(String wbDistilleryId) async {
     final distilleryData =
-        await _whiskyRepository.getDistilleryData(distilleryId);
+        await _whiskyRepository.getDistilleryData(wbDistilleryId);
+    if (distilleryData != null){
+      _state = _state.copyWith(distilleryData: distilleryData);
+    }
 
     return distilleryData!;
   }
 
-  Future<Whisky> getInitalData(String barCode, String postId) async {
+  Future<Whisky> getWhiskyData(String barCode, String postId) async {
     final whiskyData =
         await _whiskyRepository.getWhiskyDataWithBarcode(barCode);
     // 데이터 베이스에서 distilleryName이 String이였을 때 사용 했던 코드
