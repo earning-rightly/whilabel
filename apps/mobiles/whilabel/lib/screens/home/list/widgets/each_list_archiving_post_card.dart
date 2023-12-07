@@ -89,20 +89,20 @@ class EachListArchivingPostCard extends StatelessWidget {
                         icon: SvgPicture.asset(SvgIconPath.menu),
                         padding: EdgeInsets.zero,
                         constraints:
-                            const BoxConstraints(minWidth: 10, minHeight: 10),
+                          const BoxConstraints(minWidth: 10, minHeight: 10),
                         style: IconButton.styleFrom(
                           padding: EdgeInsets.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         onPressed: () async {
                           RenderBox popUpMenuBox = key.currentContext?.findRenderObject()
-                              as RenderBox;
+                            as RenderBox;
                           // meauitems가 나타나야 하는 곳에 위치를 통일 시키기 위해서
                           Offset position = popUpMenuBox.localToGlobal(Offset.zero); //this is global position
                           // 디바이스가 터치된 곳 좌표를 보내준다.
                           await WhilabelContextMenu.showContextMenu(
-                                  context, position.dx + 1000, position.dy)
-                              .then((menuValue) {
+                                context, position.dx + 1000, position.dy)
+                                .then((menuValue) {
                             switch (menuValue) {
                               case "share":
                                 WhilabelContextMenu.sharePostWhiskeyImage(archivingPost.imageUrl);
@@ -121,7 +121,7 @@ class EachListArchivingPostCard extends StatelessWidget {
                                     homeViewModel.onEvent(
                                         HomeEvent.deleteArchivingPost(
                                             archivingPostId:
-                                                archivingPost.postId,
+                                              archivingPost.postId,
                                             userid: archivingPost.userId,
                                             whiskyName: archivingPost
                                                 .whiskyName), callback: () {
