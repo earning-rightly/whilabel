@@ -124,3 +124,24 @@ void showColoseAppDialog(BuildContext context) {
     ),
   );
 }
+
+void showMoveRootDialog(BuildContext context, {int rootIndex = 0, String title = "홈으로 돌아기시겠습니까?"}) {
+  showDialog(
+    context: context,
+    // 주의) builder parameter에 있는 context 객체를 사용하면 Provider 객체를 불러올 수 없음.
+    builder: (BuildContext _) => PopUpYesOrNoButton(
+      titleText: title,
+      noText: "취소",
+      yesText: "네",
+      onClickYesButton: () async {
+
+        Navigator.pushNamedAndRemoveUntil(context, arguments: rootIndex,
+                Routes.rootRoute, (route) => false);
+
+      },
+      onClickNoButton: () {
+        Navigator.pop(context);
+      },
+    ),
+  );
+}
