@@ -136,7 +136,7 @@ class _GalleryPageState extends State<GalleryPage> {
                 itemBuilder: (BuildContext context, int index) {
                   Medium medium = mediums[index];
 
-                  final viewModel = context.watch<CarmeraViewModel>();
+                  final viewModel = context.watch<CameraViewModel>();
 
                   return GestureDetector(
 

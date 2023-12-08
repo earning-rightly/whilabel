@@ -55,7 +55,7 @@ class _ChosenImagePageState extends State<ChosenImagePage> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<CarmeraViewModel>();
+    final viewModel = context.watch<CameraViewModel>();
     final state = viewModel.state;
     final height = MediaQuery.of(context).size.height;
 

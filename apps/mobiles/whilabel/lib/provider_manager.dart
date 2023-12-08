@@ -72,7 +72,7 @@ class ProvidersManager {
       appUserRepository: _appUserRepository,
       currentUserStatus: _currentUserStatus,
     );
-    final carmeraViewModel = CarmeraViewModel(
+    final carmeraViewModel = CameraViewModel(
       searchWhiskeyDataUseCase: _searchWhiskeyBarcodeUseCase,
       archivingPostStatus: whiskeyNewArchivingPostUseCase,
     );

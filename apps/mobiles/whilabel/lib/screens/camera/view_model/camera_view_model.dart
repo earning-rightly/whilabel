@@ -10,11 +10,11 @@ import 'package:whilabel/domain/use_case/search_whisky_data_use_case.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
 import 'package:whilabel/screens/camera/view_model/camera_state.dart';
 
-class CarmeraViewModel with ChangeNotifier {
+class CameraViewModel with ChangeNotifier {
   final SearchWhiskeyDataUseCase _searchWhiskeyDataUseCase;
   final WhiskyNewArchivingPostUseCase _archivingPostStatus;
 
-  CarmeraViewModel(
+  CameraViewModel(
       {required SearchWhiskeyDataUseCase searchWhiskeyDataUseCase,
       required WhiskyNewArchivingPostUseCase archivingPostStatus})
       : _searchWhiskeyDataUseCase = searchWhiskeyDataUseCase,

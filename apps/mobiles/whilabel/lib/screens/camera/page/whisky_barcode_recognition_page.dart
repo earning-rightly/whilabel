@@ -95,7 +95,7 @@ class _WhiskyBarcodeRecognitionPageState
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<CarmeraViewModel>();
+    final viewModel = context.watch<CameraViewModel>();
 
     // 계속 실행되는 것을 막기 위해서
     if (barcode != "" && initImageFile != null) {

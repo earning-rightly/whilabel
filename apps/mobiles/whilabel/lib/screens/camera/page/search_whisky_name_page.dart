@@ -24,7 +24,7 @@ class SerachWhiskyNamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<CarmeraViewModel>();
+    final viewModel = context.watch<CameraViewModel>();
     final state = viewModel.state;
 
     return Scaffold(
@@ -99,7 +99,7 @@ class _SearchedWhiskyListTitleState extends State<SearchedWhiskyListTitle> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<CarmeraViewModel>();
+    final viewModel = context.watch<CameraViewModel>();
 
     return ListTile(
       shape:
