@@ -3,8 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_gallery/photo_gallery.dart';
+import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:whilabel/screens/camera/page/chosen_image_page.dart';
+import 'package:whilabel/screens/camera/view_model/camera_event.dart';
+import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 import 'package:whilabel/screens/camera/widget/gallery_album_picker.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 
@@ -132,17 +135,23 @@ class _GalleryPageState extends State<GalleryPage> {
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   Medium medium = _media[index];
+                  List<String> mediumIds = _media.map((medium) => medium.id).toList();
+                  final viewModel = context.watch<CarmeraViewModel>();
 
                   return GestureDetector(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ChosenImagePage(
-                          medium,
-                          _media.indexOf(medium),
-                          isFindingBarcode: widget.isFindingBarcode,
-                        ),
-                      ),
-                    ),
+
+                      onTap: () async{
+                       await viewModel.onEvent(CameraEvent.addMediumIds(mediumIds), callback: (){
+                         Navigator.of(context).push( MaterialPageRoute(
+                           builder: (context) => ChosenImagePage(
+                             medium,
+                             _media.indexOf(medium),
+                             isFindingBarcode: widget.isFindingBarcode,
+                           ),
+                         ),
+                         );
+                       });
+                      },
                     child: SizedBox(
                       child: FadeInImage(
                         fit: BoxFit.cover,

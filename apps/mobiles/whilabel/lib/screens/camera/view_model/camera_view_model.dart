@@ -24,12 +24,15 @@ class CarmeraViewModel with ChangeNotifier {
       albumTitle: "",
       barcode: "",
       isFindWhiskyData: false,
-      shortWhisyDatas: []);
+      shortWhisyDatas: [],
+       mediumIds: []
+  );
 
-  Future<void> onEvent(CarmeraEvent event, {VoidCallback? callback}) async {
+  Future<void> onEvent(CameraEvent event, {VoidCallback? callback}) async {
     VoidCallback after = callback ?? () {};
     event
         .when(
+          addMediumIds: addMediumIds,
           searchWhiskeyWithBarcode: searchWhiskeyWithBarcode,
           searchWhiskyWithName: searchWhiskyWithName,
           saveBarcodeImage: saveBarcodeImage,
@@ -37,6 +40,13 @@ class CarmeraViewModel with ChangeNotifier {
               saveUserWhiskyImageOnNewArchivingPostState,
         )
         .then((_) => {after()});
+  }
+
+  Future<void> addMediumIds(List<String> mediumIds) async{
+    if (mediumIds.isNotEmpty){
+      _state = _state.copyWith(mediumIds: mediumIds);
+      notifyListeners();
+    }
   }
 
   Future<void> searchWhiskeyWithBarcode(String whiskeyBarcode) async {

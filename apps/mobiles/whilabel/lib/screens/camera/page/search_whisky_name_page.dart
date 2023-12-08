@@ -42,7 +42,7 @@ class SerachWhiskyNamePage extends StatelessWidget {
                 maskType: EasyLoadingMaskType.black,
               );
 
-              viewModel.onEvent(CarmeraEvent.searchWhiskyWithName(value),
+              viewModel.onEvent(CameraEvent.searchWhiskyWithName(value),
                   callback: () {
                 if (EasyLoading.isShow) {
                   Timer(Duration(milliseconds: 1000), () {
@@ -117,7 +117,7 @@ class _SearchedWhiskyListTitleState extends State<SearchedWhiskyListTitle> {
         style: TextStylesManager.regular14,
       ),
       onTap: () {
-        viewModel.onEvent(CarmeraEvent.searchWhiskeyWithBarcode(whiskyBarcode),
+        viewModel.onEvent(CameraEvent.searchWhiskeyWithBarcode(whiskyBarcode),
             callback: () {
           showSuccedDialog();
           setState(() {});

@@ -5,13 +5,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'camera_event.freezed.dart';
 
 @freezed
-abstract class CarmeraEvent with _$CarmeraEvent {
-  const factory CarmeraEvent.saveBarcodeImage(File barcodeImage) =
+abstract class CameraEvent with _$CarmeraEvent {
+  const factory CameraEvent.saveBarcodeImage(File barcodeImage) =
       saveBarcodeImage;
-  const factory CarmeraEvent.searchWhiskeyWithBarcode(String whiskeyBarcode) =
+  const factory CameraEvent.searchWhiskeyWithBarcode(String whiskeyBarcode) =
       searchWhiskeyWithBarcode;
-  const factory CarmeraEvent.saveUserWhiskyImageOnNewArchivingPostState(File imageFile) =
+  const factory CameraEvent.saveUserWhiskyImageOnNewArchivingPostState(File imageFile) =
       saveUserWhiskyImageOnNewArchivingPostState;
-  const factory CarmeraEvent.searchWhiskyWithName(String whiskyName) =
+  const factory CameraEvent.searchWhiskyWithName(String whiskyName) =
       SearchWhiskyWithName;
+  const factory CameraEvent.addMediumIds(List<String> mediumIds) =
+      addMediumIds;
 }

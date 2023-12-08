@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -33,6 +34,8 @@ class _ChosenImagePageState extends State<ChosenImagePage> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<CarmeraViewModel>();
+    final state = viewModel.state;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
@@ -98,13 +101,20 @@ class _ChosenImagePageState extends State<ChosenImagePage> {
             Expanded(flex: 76, child: SizedBox()),
             Expanded(
               flex: 468,
-              child: SizedBox(
-                child: FadeInImage(
-                  fit: BoxFit.cover,
-                  placeholder: MemoryImage(kTransparentImage),
-                  image: PhotoProvider(mediumId: widget.medium.id),
+              child: CarouselSlider.builder(
+                options: CarouselOptions(initialPage: widget.index,autoPlay: false,
+                  height: height,
+                  viewportFraction: 1.0,
+                  enlargeCenterPage: false,
                 ),
-              ),
+                itemCount: state.mediumIds.length,
+                itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex)
+                    => FadeInImage(
+                        fit: BoxFit.cover,
+                        placeholder: MemoryImage(kTransparentImage),
+                        image: PhotoProvider(mediumId: state.mediumIds[itemIndex]),
+                      ),
+                ),
             ),
             Expanded(flex: 76, child: SizedBox()),
             Padding(
