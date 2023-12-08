@@ -4,15 +4,12 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
-import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
-import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
-import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
-import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
+import 'package:whilabel/screens/camera/page/chosen_image_page.dart';
 
 import 'gallery_page.dart';
 
@@ -202,22 +199,44 @@ class _TakePicturePageState extends State<TakePicturePage>
                                     InkWell(
                                       onTap: () async {
                                           try {
-                                            final image =
-                                                await controller.takePicture();
 
-                                            if (!mounted) return;
 
-                                            await Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DisplayPicturePage(
-                                                  // Pass the automatically generated path to
-                                                  // the DisplayPictureScreen widget.
-                                                  imagePath: image.path,
-                                                ),
-                                              ),
-                                            );
-                                          } catch (e) {
+
+
+                                        XFile? rawImage = await takePicture();
+                                        if (rawImage != null) {
+                                          File imageFile = File(rawImage.path);
+                                          int currentUnix =
+                                              DateTime
+                                                  .now()
+                                                  .millisecondsSinceEpoch;
+                                          final directory =
+                                          await getApplicationDocumentsDirectory();
+                                          String fileFormat =
+                                              imageFile.path
+                                                  .split('.')
+                                                  .last;
+
+                                          File finalImage = await imageFile
+                                              .copy(
+                                            '${directory
+                                                .path}/$currentUnix.$fileFormat',
+                                          );
+
+                                          await Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ChosenImagePage(
+                                                      isUnableSlide: false,
+                                                      finalImage,
+                                                      0
+                                                    // Pass the automatically generated path to
+                                                    // the DisplayPictureScreen widget.
+
+                                                  ),
+                                            ),
+                                          );
+                                        } } catch (e) {
                                             // If an error occurs, log the error to the console.
                                             print(e);
                                           }
@@ -302,131 +321,6 @@ class _TakePicturePageState extends State<TakePicturePage>
     );
   }
 
-  Widget cameraOverlay(
-      {required double padding,
-      required double aspectRatio,
-      required Color color}) {
-    return LayoutBuilder(builder: (context, constraints) {
-      double widthCopy, heightCopy;
 
-      if (padding <= 0 || aspectRatio <= 0) {
-        throw ArgumentError('Invalid parameter values');
-      }
-
-      // Determine the rectangle's dimensions based on the aspect ratio
-      if (aspectRatio > 1) {
-        widthCopy = 1.0 - 2 * padding;
-        heightCopy = widthCopy / aspectRatio;
-      } else {
-        heightCopy = 1.0 - 2 * padding;
-        widthCopy = heightCopy * aspectRatio;
-      }
-      return Stack(
-        children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: Container(
-              height: double.infinity,
-              width: 16,
-              color: color,
-            ),
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Container(
-              height: double.infinity,
-              width: 16,
-              color: color,
-            ),
-          ),
-          Column(
-            children: [
-              Flexible(
-                flex: 10,
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16),
-                  color: color,
-                ),
-              ),
-              AspectRatio(
-                aspectRatio: 2.2 / 1,
-                child: Container(
-                  height: 172,
-                  width: 340,
-                  margin: EdgeInsets.symmetric(horizontal: 16),
-                  // clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    // color: Colors.,
-                    border: Border.all(color: ColorsManager.gray500, width: 1),
-                  ),
-                ),
-              ),
-              Flexible(
-                flex: 18,
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16),
-                  color: color,
-                ),
-              ),
-            ],
-          ),
-        ],
-      );
-    });
-  }
 }
 
-class DisplayPicturePage extends StatelessWidget {
-  final String imagePath;
-
-  const DisplayPicturePage({super.key, required this.imagePath});
-
-  @override
-  Widget build(BuildContext context) {
-    final viewModel = context.watch<CarmeraViewModel>();
-
-    return Scaffold(
-      appBar: AppBar(title: const Text('')),
-      // The image is stored as a file on the device. Use the `Image.file`
-      // constructor with the given path to display the image.
-      // body: Image.file(File(imagePath)),
-
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(flex: 50, child: SizedBox()),
-            Expanded(
-              flex: 468,
-              child: SizedBox(
-                child: Image.file(File(imagePath), fit: BoxFit.fill),
-              ),
-            ),
-            Expanded(flex: 20, child: SizedBox()),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              // padding: EdgeInsets.all(0),
-              child: LongTextButton(
-                buttonText: "다음",
-                color: ColorsManager.brown100,
-                onPressedFunc: () async {
-                  try {
-                    // Medium패기지 내장 함수
-                    // File imageFile = await widget.medium.getFile();
-
-                    await viewModel.saveUserWhiskyImageOnNewArchivingPostState(
-                        File(imagePath));
-
-                    Navigator.pushNamed(context, Routes.whiskeyCritiqueRoute);
-                  } catch (error) {
-                    debugPrint("사진 저장 오류 발생!!\n$error");
-                  }
-                },
-              ),
-            ),
-            SizedBox(height: WhilabelSpacing.space16)
-          ],
-        ),
-      ),
-    );
-  }
-}
