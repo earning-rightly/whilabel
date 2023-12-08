@@ -24,7 +24,7 @@ class _GalleryPageState extends State<GalleryPage> {
   List<Album>? _albums;
   bool _loading = false;
   List<String> _albumNames = [];
-  List<Medium> _media = [];
+  List<Medium> mediums = [];
 
   @override
   void initState() {
@@ -43,8 +43,8 @@ class _GalleryPageState extends State<GalleryPage> {
 
       setState(() {
         _albums = albums;
-        _media.add(mediaPage.items[0]); // 카메라 버튼을 만들기 위한 쓰레기 데이터
-        _media.addAll(images);
+        mediums.add(mediaPage.items[0]); // 카메라 버튼을 만들기 위한 쓰레기 데이터
+        mediums.addAll(images);
         // _loading = false;
       });
       Set<String?>? albumNames = _albums
@@ -126,7 +126,7 @@ class _GalleryPageState extends State<GalleryPage> {
               )
             : GridView.builder(
                 shrinkWrap: true,
-                itemCount: _media.length,
+                itemCount: mediums.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, //1 개의 행에 보여줄 item 개수
                   childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
@@ -134,18 +134,19 @@ class _GalleryPageState extends State<GalleryPage> {
                   crossAxisSpacing: 4, //수직 Padding
                 ),
                 itemBuilder: (BuildContext context, int index) {
-                  Medium medium = _media[index];
-                  List<String> mediumIds = _media.map((medium) => medium.id).toList();
-                  final viewModel = context.watch<CarmeraViewModel>();
+                  Medium medium = mediums[index];
+
+                  final viewModel = context.watch<CameraViewModel>();
 
                   return GestureDetector(
 
                       onTap: () async{
-                       await viewModel.onEvent(CameraEvent.addMediumIds(mediumIds), callback: (){
+                        final initalFileImage = await medium.getFile();
+                       await viewModel.onEvent(CameraEvent.addMediums(mediums), callback: (){
                          Navigator.of(context).push( MaterialPageRoute(
                            builder: (context) => ChosenImagePage(
-                             medium,
-                             _media.indexOf(medium),
+                             initalFileImage,
+                             mediums.indexOf(medium),
                              isFindingBarcode: widget.isFindingBarcode,
                            ),
                          ),
@@ -177,7 +178,7 @@ class _GalleryPageState extends State<GalleryPage> {
         await albums.firstWhere((item) => item.name == albumTitle).listMedia();
     setState(() {
       _albums = albums;
-      _media = mediaPage.items;
+      mediums = mediaPage.items;
     });
     print("change tite====> $albumTitle");
   }

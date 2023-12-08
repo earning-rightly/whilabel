@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:photo_gallery/photo_gallery.dart';
 import 'package:whilabel/data/whisky/short_whisky.dart';
 
 part 'camera_state.freezed.dart';
@@ -11,7 +12,7 @@ class CameraState with _$CameraState {
     required String barcode,
     required bool isFindWhiskyData,
     required List<ShortWhiskyData> shortWhisyDatas,
-    required List<String> mediumIds,
+    required List<Medium> mediums,
     File? barcodeImage,
   }) = _CameraState;
 }

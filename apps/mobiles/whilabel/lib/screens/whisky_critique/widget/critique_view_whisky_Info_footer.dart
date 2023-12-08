@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
+import 'package:whilabel/screens/camera/view_model/camera_event.dart';
+import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 import 'package:whilabel/screens/whisky_critique/pages/successful_upload_post_page.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';
@@ -27,6 +29,7 @@ class _CritiqueViewWhiskyInfoFooterState
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<WhiskyCritiqueViewModel>();
+    final cameraViewModel = context.watch<CameraViewModel>();
     final homeViewModel = context.watch<HomeViewModel>();
     final homeState = homeViewModel.state;
     final currentPostData = viewModel.state.whiskyNewArchivingPostUseCaseState;
@@ -116,6 +119,7 @@ class _CritiqueViewWhiskyInfoFooterState
                             ),
                             callback: () async {
                               setState(() {});
+                              await cameraViewModel.onEvent(CameraEvent.cleanMediums());
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(

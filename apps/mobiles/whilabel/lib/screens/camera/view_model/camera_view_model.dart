@@ -3,17 +3,18 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
+import 'package:photo_gallery/photo_gallery.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/domain/use_case/whisky_archiving_post_use_case.dart';
 import 'package:whilabel/domain/use_case/search_whisky_data_use_case.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
 import 'package:whilabel/screens/camera/view_model/camera_state.dart';
 
-class CarmeraViewModel with ChangeNotifier {
+class CameraViewModel with ChangeNotifier {
   final SearchWhiskeyDataUseCase _searchWhiskeyDataUseCase;
   final WhiskyNewArchivingPostUseCase _archivingPostStatus;
 
-  CarmeraViewModel(
+  CameraViewModel(
       {required SearchWhiskeyDataUseCase searchWhiskeyDataUseCase,
       required WhiskyNewArchivingPostUseCase archivingPostStatus})
       : _searchWhiskeyDataUseCase = searchWhiskeyDataUseCase,
@@ -25,14 +26,16 @@ class CarmeraViewModel with ChangeNotifier {
       barcode: "",
       isFindWhiskyData: false,
       shortWhisyDatas: [],
-       mediumIds: []
+      mediums: []
+
   );
 
   Future<void> onEvent(CameraEvent event, {VoidCallback? callback}) async {
     VoidCallback after = callback ?? () {};
     event
         .when(
-          addMediumIds: addMediumIds,
+          addMediums: addMediums,
+          cleanMediums: cleanMediums,
           searchWhiskeyWithBarcode: searchWhiskeyWithBarcode,
           searchWhiskyWithName: searchWhiskyWithName,
           saveBarcodeImage: saveBarcodeImage,
@@ -42,9 +45,15 @@ class CarmeraViewModel with ChangeNotifier {
         .then((_) => {after()});
   }
 
-  Future<void> addMediumIds(List<String> mediumIds) async{
-    if (mediumIds.isNotEmpty){
-      _state = _state.copyWith(mediumIds: mediumIds);
+  Future<void> cleanMediums() async{
+
+    _state = _state.copyWith(mediums: []);
+    notifyListeners();
+  }
+
+  Future<void> addMediums(List<Medium> mediums) async{
+    if (mediums.isNotEmpty){
+      _state = _state.copyWith(mediums: mediums);
       notifyListeners();
     }
   }

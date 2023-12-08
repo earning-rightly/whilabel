@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:photo_gallery/photo_gallery.dart';
 
 part 'camera_event.freezed.dart';
 
@@ -14,6 +15,8 @@ abstract class CameraEvent with _$CameraEvent {
       saveUserWhiskyImageOnNewArchivingPostState;
   const factory CameraEvent.searchWhiskyWithName(String whiskyName) =
       SearchWhiskyWithName;
-  const factory CameraEvent.addMediumIds(List<String> mediumIds) =
-      addMediumIds;
+  const factory CameraEvent.addMediums(List<Medium> mediums) =
+      addMediums;
+  const factory CameraEvent.cleanMediums() =
+  cleanMediums;
 }

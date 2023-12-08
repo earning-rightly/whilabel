@@ -23,7 +23,7 @@ class _GalleryAlbumPickerState extends State<GalleryAlbumPicker> {
   String _dropDownText = "";
   @override
   void initState() {
-    final viewModel = context.read<CarmeraViewModel>();
+    final viewModel = context.read<CameraViewModel>();
 
     valusList = widget.albumNameList;
     _dropDownText = viewModel.state.albumTitle;

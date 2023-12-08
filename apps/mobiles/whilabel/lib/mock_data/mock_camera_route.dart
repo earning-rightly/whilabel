@@ -31,7 +31,7 @@ class _MockCameraRouteState extends State<MockCameraRoute> {
     return Scaffold(
       appBar: AppBar(title: Text("mock camera route")),
       body: Builder(builder: (context) {
-        final viewModel = context.read<CarmeraViewModel>();
+        final viewModel = context.read<CameraViewModel>();
 
         return Center(
             child: Column(
