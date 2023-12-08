@@ -11,6 +11,7 @@ class CameraState with _$CameraState {
     required String barcode,
     required bool isFindWhiskyData,
     required List<ShortWhiskyData> shortWhisyDatas,
+    required List<String> mediumIds,
     File? barcodeImage,
   }) = _CameraState;
 }
