@@ -10,6 +10,7 @@ import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 
@@ -124,108 +125,125 @@ class _TakePicturePageState extends State<TakePicturePage>
                 },
               ),
             ]),
-        body: SafeArea(
-          child: SizedBox(
-            // color: Colors.red,
+        body: GestureDetector(
 
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+          onHorizontalDragEnd: (details) {
+            if (details.velocity.pixelsPerSecond.dx > 50 &&
+                Platform.isIOS) {
+              print("onHorizontalDragEnd close");
+              showMoveRootDialog(context, title: "위스키 기록을 중단 하실건가요?",rootIndex: 1);
+            }
+          },
+          child: WillPopScope(
+            onWillPop: () async {
+              if (Platform.isAndroid) showMoveRootDialog(context, title:  "위스키 기록을 중단 하실건가요?",rootIndex: 1);
 
-            child: Column(
-              children: [
-                Flexible(
-                    fit: FlexFit.tight,
-                    flex: 38,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      fit: StackFit.expand,
-                      children: [
-                        CameraPreview(
-                          controller,
-                        )
-                      ],
-                    )),
+              return false;
+            },
+            child: SafeArea(
+              child: SizedBox(
+                // color: Colors.red,
 
-                Flexible(
-                    flex: 12,
-                    child: Container(
-                      color: Color.fromARGB(158, 6, 5, 5),
-                      child: Stack(
-                        children: [
-                          // 갤러리 페이지 이동
-                          Positioned(
-                            bottom: 38,
-                            right: 16,
-                            child: IconButton(
-                              icon: SvgPicture.asset(
-                                SvgIconPath.image,
-                                width: 44.w,
-                                height: 44.h,
-                              ),
-                              onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => GalleryPage(),
-                                ),
-                              ),
-                            ),
-                          ),
-                          // camera 셔터
-                          Positioned(
-                            bottom: 24,
-                            left: 0,
-                            right: 0,
-                            child: Column(
-                              children: [
-                                Text(
-                                  textAlign: TextAlign.center,
-                                  "잘나온 위스키 사진을 찍어주세요!\n 위스키 대표 사진으로 사용될거에요!",
-                                  style: TextStylesManager.regular16,
-                                ),
-                                SizedBox(height: 24.h),
-                                InkWell(
-                                  onTap: () async {
-                                      try {
-                                        final image =
-                                            await controller.takePicture();
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
 
-                                        if (!mounted) return;
+                child: Column(
+                  children: [
+                    Flexible(
+                        fit: FlexFit.tight,
+                        flex: 38,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          fit: StackFit.expand,
+                          children: [
+                            CameraPreview(
+                              controller,
+                            )
+                          ],
+                        )),
 
-                                        await Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                DisplayPicturePage(
-                                              // Pass the automatically generated path to
-                                              // the DisplayPictureScreen widget.
-                                              imagePath: image.path,
-                                            ),
-                                          ),
-                                        );
-                                      } catch (e) {
-                                        // If an error occurs, log the error to the console.
-                                        print(e);
-                                      }
-                                    },
-
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                          SvgIconPath.cameraShutter,
-                                          width: 72.w,
-                                          height: 72.h
-                                      ),
-
-                                    ],
+                    Flexible(
+                        flex: 12,
+                        child: Container(
+                          color: Color.fromARGB(158, 6, 5, 5),
+                          child: Stack(
+                            children: [
+                              // 갤러리 페이지 이동
+                              Positioned(
+                                bottom: 38,
+                                right: 16,
+                                child: IconButton(
+                                  icon: SvgPicture.asset(
+                                    SvgIconPath.image,
+                                    width: 44.w,
+                                    height: 44.h,
+                                  ),
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => GalleryPage(),
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              // camera 셔터
+                              Positioned(
+                                bottom: 24,
+                                left: 0,
+                                right: 0,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      textAlign: TextAlign.center,
+                                      "잘나온 위스키 사진을 찍어주세요!\n 위스키 대표 사진으로 사용될거에요!",
+                                      style: TextStylesManager.regular16,
+                                    ),
+                                    SizedBox(height: 24.h),
+                                    InkWell(
+                                      onTap: () async {
+                                          try {
+                                            final image =
+                                                await controller.takePicture();
+
+                                            if (!mounted) return;
+
+                                            await Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DisplayPicturePage(
+                                                  // Pass the automatically generated path to
+                                                  // the DisplayPictureScreen widget.
+                                                  imagePath: image.path,
+                                                ),
+                                              ),
+                                            );
+                                          } catch (e) {
+                                            // If an error occurs, log the error to the console.
+                                            print(e);
+                                          }
+                                        },
+
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          SvgPicture.asset(
+                                              SvgIconPath.cameraShutter,
+                                              width: 72.w,
+                                              height: 72.h
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    )),
-              ],
+                        )),
+                  ],
+                ),
+              ),
             ),
           ),
         ));
