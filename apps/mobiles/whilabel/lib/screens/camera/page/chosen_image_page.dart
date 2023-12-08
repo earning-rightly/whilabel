@@ -17,20 +17,42 @@ import 'whisky_barcode_recognition_page.dart';
 // ignore: must_be_immutable
 class ChosenImagePage extends StatefulWidget {
   bool isFindingBarcode;
-  final Medium medium;
+  bool isUnableSlide;
+  final File initFileImage;
   final int index;
 
   // ignore: prefer_const_constructors_in_immutables
-  ChosenImagePage(Medium medium, int index, {bool isFindingBarcode = false})
-      : medium = medium,
+  ChosenImagePage(File initFileImage, int index,
+      {bool isFindingBarcode = false, bool isUnableSlide = true})
+      : initFileImage = initFileImage,
         index = index,
-        isFindingBarcode = isFindingBarcode;
+        isFindingBarcode = isFindingBarcode,
+        isUnableSlide = isUnableSlide;
 
   @override
   State<ChosenImagePage> createState() => _ChosenImagePageState();
 }
 
 class _ChosenImagePageState extends State<ChosenImagePage> {
+  int currentIndex = 0;
+  File? currentFile;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      currentIndex = widget.index;
+      currentFile = widget.initFileImage;
+    });
+  }
+
+  Future<void> changeCurrentFimeImage(Medium medium) async {
+    final imageFile = await medium.getFile();
+    setState(() {
+      currentFile = imageFile;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<CarmeraViewModel>();
@@ -43,57 +65,55 @@ class _ChosenImagePageState extends State<ChosenImagePage> {
           onPressed: () => Navigator.of(context).pop(),
           icon: SvgPicture.asset(SvgIconPath.backBold),
         ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorsManager.black300),
-              child: Text(
-                "편집",
-                style: TextStyle(color: ColorsManager.gray400),
-              ),
-              onPressed: () async {
-                File imageFile = await widget.medium.getFile();
-
-                CroppedFile? croppedFile = await ImageCropper().cropImage(
-                  sourcePath: imageFile.path,
-                  aspectRatioPresets: [CropAspectRatioPreset.ratio16x9],
-                  uiSettings: [
-                    AndroidUiSettings(
-                        toolbarTitle: 'crop barcode',
-                        toolbarColor: ColorsManager.black200,
-                        toolbarWidgetColor: Colors.white,
-                        hideBottomControls: true,
-                        initAspectRatio: CropAspectRatioPreset.original,
-                        lockAspectRatio: false),
-                    IOSUiSettings(
-                      title: 'crop barcode',
-                      hidesNavigationBar: true,
+        actions: (widget.isFindingBarcode == true)
+            ? [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorsManager.black300),
+                    child: Text(
+                      "편집",
+                      style: TextStyle(color: ColorsManager.gray400),
                     ),
-                  ],
-                );
+                    onPressed: () async {
+                      if (currentFile != null) {
+                        CroppedFile? croppedFile =
+                            await ImageCropper().cropImage(
+                          sourcePath: currentFile!.path,
+                          aspectRatioPresets: [CropAspectRatioPreset.ratio16x9],
+                          uiSettings: [
+                            AndroidUiSettings(
+                                toolbarTitle: 'crop barcode',
+                                toolbarColor: ColorsManager.black200,
+                                toolbarWidgetColor: Colors.white,
+                                hideBottomControls: true,
+                                initAspectRatio: CropAspectRatioPreset.original,
+                                lockAspectRatio: false),
+                            IOSUiSettings(
+                              title: 'crop barcode',
+                              hidesNavigationBar: true,
+                            ),
+                          ],
+                        );
 
-                if (croppedFile != null) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => WhiskyBarcodeRecognitionPage(
-                        imageFile: File(croppedFile.path),
-                      ),
-                    ),
-                  );
-                } else {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      arguments: 1,
-                      Routes.rootRoute,
-                      (route) => false);
-                }
-              },
-            ),
-          )
-        ],
+                        if (croppedFile != null) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  WhiskyBarcodeRecognitionPage(
+                                imageFile: File(croppedFile.path),
+                              ),
+                            ),
+                          );
+                        }
+                      }
+                    },
+                  ),
+                )
+              ]
+            : null,
       ),
       body: SafeArea(
         child: Column(
@@ -101,20 +121,30 @@ class _ChosenImagePageState extends State<ChosenImagePage> {
             Expanded(flex: 76, child: SizedBox()),
             Expanded(
               flex: 468,
-              child: CarouselSlider.builder(
-                options: CarouselOptions(initialPage: widget.index,autoPlay: false,
-                  height: height,
-                  viewportFraction: 1.0,
-                  enlargeCenterPage: false,
-                ),
-                itemCount: state.mediumIds.length,
-                itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex)
-                    => FadeInImage(
-                        fit: BoxFit.cover,
-                        placeholder: MemoryImage(kTransparentImage),
-                        image: PhotoProvider(mediumId: state.mediumIds[itemIndex]),
+              child: widget.isUnableSlide == true
+                  ? CarouselSlider.builder(
+                      // carouselController: buttonCarouselController,
+                      options: CarouselOptions(
+                        onPageChanged: (index, reason) =>
+                            changeCurrentFimeImage(state.mediums[index]),
+                        initialPage: widget.index,
+                        autoPlay: false,
+                        height: height,
+                        viewportFraction: 1.0,
+                        enlargeCenterPage: false,
                       ),
-                ),
+                      itemCount: state.mediums.length,
+                      itemBuilder: (BuildContext context, int itemIndex,
+                              int pageViewIndex) =>
+                          FadeInImage(
+                            fit: BoxFit.cover,
+                            placeholder: MemoryImage(kTransparentImage),
+                            image: PhotoProvider(
+                                mediumId: state.mediums[itemIndex].id),
+                          ))
+                  : Image.file(currentFile!,
+                      fit: BoxFit.fill,
+                      width: MediaQuery.of(context).size.width),
             ),
             Expanded(flex: 76, child: SizedBox()),
             Padding(
@@ -127,18 +157,17 @@ class _ChosenImagePageState extends State<ChosenImagePage> {
                       onPressedFunc: () async {
                         try {
                           // Medium패기지 내장 함수
-                          File imageFile = await widget.medium.getFile();
-                          setState(() {});
-
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  WhiskyBarcodeRecognitionPage(
-                                imageFile: imageFile,
+                          if (currentFile != null) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    WhiskyBarcodeRecognitionPage(
+                                  imageFile: currentFile!,
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          }
                           // Navigator.pushNamed(context, Routes.whiskeyCritiqueRoute);
                         } catch (error) {
                           debugPrint("사진 저장 오류 발생!!\n$error");
@@ -151,14 +180,15 @@ class _ChosenImagePageState extends State<ChosenImagePage> {
                       onPressedFunc: () async {
                         try {
                           // Medium패기지 내장 함수
-                          File imageFile = await widget.medium.getFile();
 
-                          await viewModel
-                              .saveUserWhiskyImageOnNewArchivingPostState(
-                                  imageFile);
+                          if (currentFile != null) {
+                            await viewModel
+                                .saveUserWhiskyImageOnNewArchivingPostState(
+                                    currentFile!);
 
-                          Navigator.pushNamed(
-                              context, Routes.whiskeyCritiqueRoute);
+                            Navigator.pushNamed(
+                                context, Routes.whiskeyCritiqueRoute);
+                          }
                         } catch (error) {
                           debugPrint("사진 저장 오류 발생!!\n$error");
                         }
