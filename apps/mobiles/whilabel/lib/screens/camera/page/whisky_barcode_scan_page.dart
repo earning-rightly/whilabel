@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
+import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/camera/page/whisky_barcode_recognition_page.dart';
 
 import 'gallery_page.dart';
@@ -11,6 +14,7 @@ import 'gallery_page.dart';
 /// CameraApp is the Main Application.
 class WhiskyBarCodeScanPage extends StatefulWidget {
   WhiskyBarCodeScanPage({super.key, required this.cameras});
+
   final List<CameraDescription> cameras;
 
   @override
@@ -22,6 +26,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
   late CameraController controller;
   late AnimationController _flashModeControlRowAnimationController;
   late Animation<double> _flashModeControlRowAnimation;
+  int flashIconIndex = 0;
 
   Future<XFile?> takePicture() async {
     final CameraController? cameraController = controller;
@@ -53,7 +58,6 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
     try {
       await controller.setFlashMode(mode);
     } on CameraException catch (e) {
-      // _showCameraException(e);
       debugPrint("$e");
       rethrow;
     }
@@ -71,7 +75,8 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
       curve: Curves.easeInCubic,
     );
 
-    controller = CameraController(widget.cameras[0], ResolutionPreset.max,enableAudio: false);
+    controller = CameraController(widget.cameras[0], ResolutionPreset.max,
+        enableAudio: false);
     controller.initialize().then((_) {
       if (!mounted) {
         return;
@@ -104,7 +109,18 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
       return Container();
     }
     return Scaffold(
-        appBar: AppBar(actions: [_flashModeControlRowWidget()]),
+        appBar: AppBar(
+            leading: IconButton(
+              padding: EdgeInsets.only(left: 16),
+              alignment: Alignment.centerLeft,
+              icon: SvgPicture.asset(SvgIconPath.close),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            centerTitle: true,
+            title: SvgPicture.asset(SvgIconPath.onBoardingStep1),
+            actions: [_flashModeControlRowWidget()]),
         body: SafeArea(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -117,8 +133,17 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                 cameraOverlay(
                     padding: 50,
                     aspectRatio: 1,
-                    color: Color.fromARGB(158, 6, 5, 5)),
-                Positioned(bottom: 174, child: Text("위스키 병에 바코드를 찍어주세요")),
+                    color: Color.fromARGB(158, 6, 5, 5)
+
+                ),
+                Positioned(bottom: 120, child: Column(
+                  children: [
+                    SvgPicture.asset(SvgIconPath.barcode, width: 52, height: 32),
+                    SizedBox(height: 16),
+                    Text("위스키 병에 바코드를 찍어주세요", style: TextStylesManager.regular16),
+                    SizedBox(height: 16),
+                  ],
+                )),
                 Positioned(
                     bottom: 24,
                     left: 0,
@@ -132,8 +157,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                           Align(
                             alignment: Alignment.centerRight,
                             child: IconButton(
-                              icon: Icon(Icons.image,
-                                  color: ColorsManager.gray500, size: 24),
+                              icon: SvgPicture.asset(SvgIconPath.image, width: 44, height: 44,),
                               onPressed: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -170,10 +194,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
-                                Icon(Icons.circle,
-                                    color: Colors.white38, size: 90),
-                                Icon(Icons.circle,
-                                    color: Colors.white, size: 75),
+                                SvgPicture.asset(SvgIconPath.cameraShutter, width: 72, height: 72),
                               ],
                             ),
                           ),
@@ -187,38 +208,54 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
   }
 
   Widget _flashModeControlRowWidget() {
+    List<Widget> flastIcons = [
+      Icon(Icons.flash_off, color: ColorsManager.gray400),
+      Icon(Icons.flash_auto, color: ColorsManager.gray400),
+      Icon(Icons.flash_on, color: ColorsManager.gray400),
+      Icon(Icons.highlight, color: ColorsManager.gray400)
+    ];
+
     return SizeTransition(
       sizeFactor: _flashModeControlRowAnimation,
       child: ClipRect(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            IconButton(
-                icon: const Icon(Icons.flash_off),
-                color: controller.value.flashMode == FlashMode.off
-                    ? Colors.orange
-                    : ColorsManager.gray400,
-                onPressed: () => onSetFlashModeButtonPressed(FlashMode.off)),
-            IconButton(
-                icon: const Icon(Icons.flash_auto),
-                color: controller.value.flashMode == FlashMode.auto
-                    ? Colors.orange
-                    : ColorsManager.gray400,
-                onPressed: () => onSetFlashModeButtonPressed(FlashMode.auto)),
-            IconButton(
-                icon: const Icon(Icons.flash_on),
-                color: controller.value.flashMode == FlashMode.always
-                    ? Colors.orange
-                    : ColorsManager.gray400,
-                onPressed: () => onSetFlashModeButtonPressed(FlashMode.always)),
-            IconButton(
-                icon: const Icon(Icons.highlight),
-                color: controller.value.flashMode == FlashMode.torch
-                    ? Colors.orange
-                    : ColorsManager.gray400,
-                onPressed: () => onSetFlashModeButtonPressed(FlashMode.torch)),
-          ],
-        ),
+        child: IconButton(
+            icon: flastIcons[flashIconIndex],
+            onPressed: () {
+              setState(() {
+                if (flashIconIndex >= 3) {
+                  flashIconIndex = 0;
+                } else {
+                  flashIconIndex++;
+                }
+              });
+
+              switch (flashIconIndex) {
+                case 0:
+                  onSetFlashModeButtonPressed(FlashMode.off);
+                  break;
+
+                case 1:
+                  onSetFlashModeButtonPressed(FlashMode.auto);
+                  setState(() {
+                    flashIconIndex = 1;
+                  });
+                  break;
+
+                case 2:
+                  onSetFlashModeButtonPressed(FlashMode.always);
+                  setState(() {
+                    flashIconIndex = 2;
+                  });
+                  break;
+
+                case 3:
+                  onSetFlashModeButtonPressed(FlashMode.torch);
+                  setState(() {
+                    flashIconIndex = 3;
+                  });
+                  break;
+              }
+            }),
       ),
     );
   }
@@ -278,7 +315,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                   // clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     // color: Colors.,
-                    border: Border.all(color: Colors.white, width: 2),
+                    border: Border.all(color: ColorsManager.gray500, width: 1),
                   ),
                 ),
               ),
