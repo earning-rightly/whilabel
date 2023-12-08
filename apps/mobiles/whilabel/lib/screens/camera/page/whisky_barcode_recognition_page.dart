@@ -100,7 +100,7 @@ class _WhiskyBarcodeRecognitionPageState
     // 계속 실행되는 것을 막기 위해서
     if (barcode != "" && initImageFile != null) {
       initImageFile = null;
-      viewModel.onEvent(CarmeraEvent.searchWhiskeyWithBarcode(barcode),
+      viewModel.onEvent(CameraEvent.searchWhiskeyWithBarcode(barcode),
           callback: () async {
           //  TakePicture에서 사용할 카메라 초기화
             WidgetsFlutterBinding.ensureInitialized();

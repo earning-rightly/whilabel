@@ -45,7 +45,7 @@ class _MockCameraRouteState extends State<MockCameraRoute> {
               child: Text("위스키 기록하기"),
               onPressed: () async {
                 viewModel.onEvent(
-                    CarmeraEvent.searchWhiskeyWithBarcode(
+                    CameraEvent.searchWhiskeyWithBarcode(
                         barCodeTextController.text), callback: () {
                   setState(() {});
                   if (viewModel.state.isFindWhiskyData) {
