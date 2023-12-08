@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'camera_event.freezed.dart';
 
 @freezed
-abstract class CameraEvent with _$CarmeraEvent {
+abstract class CameraEvent with _$CameraEvent {
   const factory CameraEvent.saveBarcodeImage(File barcodeImage) =
       saveBarcodeImage;
   const factory CameraEvent.searchWhiskeyWithBarcode(String whiskeyBarcode) =
