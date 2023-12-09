@@ -65,6 +65,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  barcode_finder:
+    dependency: "direct main"
+    description:
+      name: barcode_finder
+      sha256: f1ec99ba743d616ede6f200b21f49d74a260cad5a33fdefa1a8feb15f39b2bd4
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   boolean_selector:
     dependency: transitive
     description:
@@ -177,6 +185,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.2+3"
+  carousel_slider:
+    dependency: "direct main"
+    description:
+      name: carousel_slider
+      sha256: "9c695cc963bf1d04a47bd6021f68befce8970bcd61d24938e1fb0918cf5d9c42"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.1"
   characters:
     dependency: transitive
     description:
@@ -462,14 +478,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_barcode_scanner:
-    dependency: transitive
-    description:
-      name: flutter_barcode_scanner
-      sha256: a4ba37daf9933f451a5e812c753ddd045d6354e4a3280342d895b07fecaab3fa
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   flutter_dotenv:
     dependency: "direct main"
     description:
@@ -526,8 +534,64 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.1"
-  flutter_spinkit:
+  flutter_screenutil:
     dependency: "direct main"
+    description:
+      name: flutter_screenutil
+      sha256: "8cf100b8e4973dc570b6415a2090b0bfaa8756ad333db46939efc3e774ee100d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.9.0"
+  flutter_secure_storage:
+    dependency: "direct main"
+    description:
+      name: flutter_secure_storage
+      sha256: ffdbb60130e4665d2af814a0267c481bcf522c41ae2e43caf69fa0146876d685
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.0.0"
+  flutter_secure_storage_linux:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_linux
+      sha256: "3d5032e314774ee0e1a7d0a9f5e2793486f0dff2dd9ef5a23f4e3fb2a0ae6a9e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
+  flutter_secure_storage_macos:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_macos
+      sha256: bd33935b4b628abd0b86c8ca20655c5b36275c3a3f5194769a7b3f37c905369c
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
+  flutter_secure_storage_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_platform_interface
+      sha256: "0d4d3a5dd4db28c96ae414d7ba3b8422fd735a8255642774803b2532c9a61d7e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
+  flutter_secure_storage_web:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_web
+      sha256: "30f84f102df9dcdaa2241866a958c2ec976902ebdaa8883fbfe525f1f2f3cf20"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
+  flutter_secure_storage_windows:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_windows
+      sha256: "5809c66f9dd3b4b93b0a6e2e8561539405322ee767ac2f64d084e2ab5429d108"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
+  flutter_spinkit:
+    dependency: transitive
     description:
       name: flutter_spinkit
       sha256: b39c753e909d4796906c5696a14daf33639a76e017136c8d82bf3e620ce5bb8e
@@ -697,13 +761,37 @@ packages:
     source: hosted
     version: "4.0.2"
   image:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: image
       sha256: "028f61960d56f26414eb616b48b04eb37d700cbe477b7fb09bf1d7ce57fd9271"
       url: "https://pub.dev"
     source: hosted
     version: "4.1.3"
+  image_cropper:
+    dependency: "direct main"
+    description:
+      name: image_cropper
+      sha256: f4bad5ed2dfff5a7ce0dfbad545b46a945c702bb6182a921488ef01ba7693111
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.1"
+  image_cropper_for_web:
+    dependency: transitive
+    description:
+      name: image_cropper_for_web
+      sha256: "865d798b5c9d826f1185b32e5d0018c4183ddb77b7b82a931e1a06aa3b74974e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
+  image_cropper_platform_interface:
+    dependency: transitive
+    description:
+      name: image_cropper_platform_interface
+      sha256: ee160d686422272aa306125f3b6fb1c1894d9b87a5e20ed33fa008e7285da11e
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
   intl:
     dependency: "direct main"
     description:
@@ -832,6 +920,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  loading_animation_widget:
+    dependency: "direct main"
+    description:
+      name: loading_animation_widget
+      sha256: "1901682600273a966c34cf44a85fc5355da92a8d08a8a43c11adc4e471993e3a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0+4"
   logging:
     dependency: transitive
     description:
@@ -872,14 +968,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
-  mobile_scanner:
-    dependency: "direct main"
-    description:
-      name: mobile_scanner
-      sha256: c9ed2bb1bbf4b98394bc4a8477984c8ba2b55f706d634bf27cd9dd1c2e9b3a23
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.5.4"
   nested:
     dependency: transitive
     description:
@@ -913,7 +1001,7 @@ packages:
     source: hosted
     version: "1.0.1"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       sha256: a1aa8aaa2542a6bc57e381f132af822420216c80d4781f7aa085ca3229208aaa
@@ -961,7 +1049,7 @@ packages:
     source: hosted
     version: "2.2.1"
   permission_handler:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: permission_handler
       sha256: bc56bfe9d3f44c3c612d8d393bd9b174eb796d706759f9b495ac254e4294baa5
@@ -1112,14 +1200,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
-  searchfield:
+  share_plus:
     dependency: "direct main"
     description:
-      name: searchfield
-      sha256: "86fc0520f57a8ae7b3820af2d7c451357c7f2203dfee1a1a76bb90cc71c71cab"
+      name: share_plus
+      sha256: f74fc3f1cbd99f39760182e176802f693fa0ec9625c045561cfad54681ea93dd
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.8"
+    version: "7.2.1"
+  share_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: share_plus_platform_interface
+      sha256: df08bc3a07d01f5ea47b45d03ffcba1fa9cd5370fb44b3f38c70e42cced0f956
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.1"
   shared_preferences:
     dependency: transitive
     description:
@@ -1192,14 +1288,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
-  simple_barcode_scanner:
-    dependency: "direct main"
-    description:
-      name: simple_barcode_scanner
-      sha256: "2549a5a1426e2e3edb4fa2cd876fcf8463e09220cd36b5207742bc53e1d10fa6"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.8"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -1285,6 +1373,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.0"
+  the_apple_sign_in:
+    dependency: "direct main"
+    description:
+      name: the_apple_sign_in
+      sha256: "52163df2619e5461f63559002eee171fe78ebab3af6f6f34c4026df5f15859ad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   time:
     dependency: transitive
     description:
@@ -1325,6 +1421,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
+  url_launcher_linux:
+    dependency: transitive
+    description:
+      name: url_launcher_linux
+      sha256: "9f2d390e096fdbe1e6e6256f97851e51afc2d9c423d3432f1d6a02a8a9a8b9fd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
+  url_launcher_platform_interface:
+    dependency: transitive
+    description:
+      name: url_launcher_platform_interface
+      sha256: "980e8d9af422f477be6948bdfb68df8433be71f5743a188968b0c1b887807e50"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
+  url_launcher_web:
+    dependency: transitive
+    description:
+      name: url_launcher_web
+      sha256: "7fd2f55fe86cea2897b963e864dc01a7eb0719ecc65fcef4c1cc3d686d718bb2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
+  url_launcher_windows:
+    dependency: transitive
+    description:
+      name: url_launcher_windows
+      sha256: "7754a1ad30ee896b265f8d14078b0513a4dba28d358eabb9d5f339886f4a1adc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   uuid:
     dependency: "direct main"
     description:
@@ -1421,14 +1549,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.7.4"
-  webview_windows:
-    dependency: transitive
-    description:
-      name: webview_windows
-      sha256: a6d76f9f020e638c2e5417f473e2907c097d1fe3eac8bd4be7517bc3a0df6b86
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.2"
   win32:
     dependency: transitive
     description:
