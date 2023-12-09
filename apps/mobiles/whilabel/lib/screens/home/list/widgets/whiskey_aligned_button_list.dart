@@ -74,9 +74,9 @@ class WhiskeyAlignedButton extends StatelessWidget {
       },
       style: ElevatedButton.styleFrom(
         foregroundColor:
-            isSelected ? ColorsManager.black200 : ColorsManager.black300,
+            isSelected ? ColorsManager.black200 : Colors.transparent,
         backgroundColor:
-            isSelected ? ColorsManager.black300 : ColorsManager.black200,
+            isSelected ? ColorsManager.black300 : Colors.transparent,
         padding: EdgeInsets.symmetric(horizontal: 8),
         elevation: 0,
         shape: RoundedRectangleBorder(
