@@ -41,8 +41,8 @@ class _CritiqueViewWhiskyInfoFooterState
           isfilled = true;
         }
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: const BoxDecoration(
               color: ColorsManager.black100,
               border: Border(
                   top: BorderSide(width: 1, color: ColorsManager.black200))),
@@ -74,7 +74,7 @@ class _CritiqueViewWhiskyInfoFooterState
                         ? SizedBox(
                             child: Text(
                               "${currentPostData.archivingPost.location}\t${currentPostData.archivingPost.strength}%",
-                              style: TextStyle(fontSize: 12),
+                              style: const TextStyle(fontSize: 12),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
@@ -82,7 +82,7 @@ class _CritiqueViewWhiskyInfoFooterState
                         : SizedBox(
                             child: Text(
                               "\t${currentPostData.archivingPost.strength}%",
-                              style: TextStyle(fontSize: 12),
+                              style: const TextStyle(fontSize: 12),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
@@ -94,7 +94,6 @@ class _CritiqueViewWhiskyInfoFooterState
               Expanded(
                 flex: 96,
                 child: ElevatedButton(
-                  child: Text("저장하기"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ColorsManager.brown100,
                   ),
@@ -119,7 +118,7 @@ class _CritiqueViewWhiskyInfoFooterState
                             ),
                             callback: () async {
                               setState(() {});
-                              await cameraViewModel.onEvent(CameraEvent.cleanMediums());
+                              await cameraViewModel.onEvent(const CameraEvent.cleanMediums());
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
@@ -132,6 +131,7 @@ class _CritiqueViewWhiskyInfoFooterState
                             },
                           );
                         },
+                  child: const Text("등록하기"),
                 ),
               )
             ],
