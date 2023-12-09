@@ -158,7 +158,7 @@ class _WhiskyBarcodeRecognitionPageState
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            TakePicturePage(cameras: cameras),
+                                            TakePicturePage(cameras:  viewModel.state.cameras),
                                       ),
                                     );
                                   } else {
