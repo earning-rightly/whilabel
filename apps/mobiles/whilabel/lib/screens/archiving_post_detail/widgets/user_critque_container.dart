@@ -32,7 +32,7 @@ class UserCritiqueContainer extends StatelessWidget {
 
     // if (isModify)
     return Container(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         top: 15,
         bottom: 15,
         left: 10,
@@ -40,7 +40,7 @@ class UserCritiqueContainer extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: isModify ? ColorsManager.black200 : ColorsManager.black200,
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(14),
         ),
         border:
@@ -49,50 +49,54 @@ class UserCritiqueContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("별점", style: TextStylesManager.bold14),
+          const Text("별점", style: TextStylesManager.bold14),
+          const SizedBox(height: 8),
           createStarRating(initalStarValue, !isModify,
               onRatingUpdate: (starValue) {
-            print("change StarValue $starValue");
+            debugPrint("change StarValue $starValue");
             viewModel.onEvent(
               ArchivingPostDetailEvnet.addStarValueOnProvider(starValue),
             );
           }),
-          SizedBox(height: 20),
-          Text("테이스팅 노트", style: TextStylesManager.bold14),
-          TextFormField(
-            decoration: createLargeTextFieldStyle("당신의 의견을 기다릴게요"),
-            // initialValue: tasteNoteController,
-            controller: tasteNoteController,
-            maxLines: isModify ? 7 : tasteNoteMaxLine,
-            style: isModify
-                ? TextStylesManager.regular16
-                : TextStylesManager.createHadColorTextStyle(
-                    "R16", ColorsManager.gray200),
-            enabled: isModify,
-            maxLength: 1000,
-            buildCounter: (
-              _, {
-              required currentLength,
-              maxLength,
-              required isFocused,
-            }) =>
-                TextFieldLengthCounter(
-              currentLength: currentLength,
-              maxLength: maxLength!,
-            ),
-
-            onChanged: (text) {
-              viewModel.onEvent(
-                ArchivingPostDetailEvnet.addTasteNoteOnProvider(
-                    tasteNoteController.text),
-              );
-            },
-          ),
+          const SizedBox(height: 20),
+          const Text("테이스팅 노트", style: TextStylesManager.bold14),
+          const SizedBox(height: 8),
+          if (isModify)
+            TextFormField(
+              decoration: createLargeTextFieldStyle("당신의 의견을 기다릴게요"),
+              // initialValue: tasteNoteController,
+              controller: tasteNoteController,
+              maxLines: 7,
+              style: TextStylesManager.regular16,
+              maxLength: 1000,
+              buildCounter: (
+                _, {
+                required currentLength,
+                maxLength,
+                required isFocused,
+              }) =>
+                  TextFieldLengthCounter(
+                currentLength: currentLength,
+                maxLength: maxLength!,
+              ),
+              onChanged: (text) {
+                viewModel.onEvent(
+                  ArchivingPostDetailEvnet.addTasteNoteOnProvider(
+                      tasteNoteController.text),
+                );
+              },
+            )
+          else
+            Text(
+                tasteNoteController.text,
+                style: TextStylesManager.createHadColorTextStyle("R16", ColorsManager.gray200)
+            )
+          ,
           SizedBox(height: WhilabelSpacing.space24),
-          Text("맛 평가 (선택))", style: TextStylesManager.bold14),
+          const Text("맛 평가", style: TextStylesManager.bold14),
           SizedBox(height: WhilabelSpacing.space16),
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: ColorsManager.black100,
               borderRadius: BorderRadius.all(
                 Radius.circular(14),
