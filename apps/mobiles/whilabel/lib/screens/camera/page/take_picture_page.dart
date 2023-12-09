@@ -85,10 +85,10 @@ class _TakePicturePageState extends State<TakePicturePage>
       if (e is CameraException) {
         switch (e.code) {
           case 'CameraAccessDenied':
-            // Handle access errors here.
+          // Handle access errors here.
             break;
           default:
-            // Handle other errors here.
+          // Handle other errors here.
             break;
         }
       }
@@ -118,7 +118,7 @@ class _TakePicturePageState extends State<TakePicturePage>
                 alignment: Alignment.centerLeft,
                 icon: SvgPicture.asset(SvgIconPath.close),
                 onPressed: () {
-                  Navigator.pop(context);
+                  showMoveRootDialog(context, title: "위스키 기록을 중단 하실건가요?",rootIndex: 1);
                 },
               ),
             ]),
@@ -198,11 +198,7 @@ class _TakePicturePageState extends State<TakePicturePage>
                                     SizedBox(height: 24.h),
                                     InkWell(
                                       onTap: () async {
-                                          try {
-
-
-
-
+                                    try {
                                         XFile? rawImage = await takePicture();
                                         if (rawImage != null) {
                                           File imageFile = File(rawImage.path);
@@ -237,10 +233,10 @@ class _TakePicturePageState extends State<TakePicturePage>
                                             ),
                                           );
                                         } } catch (e) {
-                                            // If an error occurs, log the error to the console.
-                                            print(e);
-                                          }
-                                        },
+                                        // If an error occurs, log the error to the console.
+                                          print(e);
+                                        }
+                                      },
 
                                       child: Stack(
                                         alignment: Alignment.center,

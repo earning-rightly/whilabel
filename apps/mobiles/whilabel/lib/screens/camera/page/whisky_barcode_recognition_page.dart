@@ -10,15 +10,21 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/const_string.dart'as ConstString ;
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/camera/page/take_picture_page.dart';
+import 'package:whilabel/screens/camera/page/unregistered_whisky_page.dart';
 
 import '../view_model/camera_event.dart';
 import '../view_model/camera_view_model.dart';
 import 'package:image/image.dart' as img;
 
 class WhiskyBarcodeRecognitionPage extends StatefulWidget {
+  /// 바코드 인식 결과를 총 3개로 나누었다.
+  ///  1. 바코드 스캔 O. DB 메칭 O => 정상적으로 위스키 아카이빙 실행
+  ///  2 바코드 스캔 O, DB 매칭 X => 인식되지 않는 위스키 로직 실행
+  ///  3. 바코드 스캔 X   ===> 다시 바코드 인식을 요청하는 다이어로그 후 홈으로 이동
   const WhiskyBarcodeRecognitionPage({Key? key, required this.imageFile})
       : super(key: key);
   final File imageFile;
@@ -31,8 +37,9 @@ class WhiskyBarcodeRecognitionPage extends StatefulWidget {
 class _WhiskyBarcodeRecognitionPageState
     extends State<WhiskyBarcodeRecognitionPage> {
   String barcode = "";
-  File? initImageFile;
+  bool isResizedImage = false;
   List<CameraDescription> cameras = [];
+  StreamController<String> barcodeStream = StreamController<String>();
 
   @override
   void initState() {
@@ -41,6 +48,10 @@ class _WhiskyBarcodeRecognitionPageState
     });
 
     super.initState();
+  }
+
+  void addBarcodeOnStream(String barcode) {
+    barcodeStream.add(barcode);
   }
 
   /// 이미지 크기 때문에 barcodeScan이 안되는 경우가 있다.
@@ -64,128 +75,146 @@ class _WhiskyBarcodeRecognitionPageState
       debugPrint("\n\nresult ==> ${SavedPngImage.path}\n\n---");
 
       setState(() {
-        initImageFile = SavedPngImage;
+        isResizedImage = true;
       });
-      Future.delayed(const Duration(milliseconds: 2000), () {
-        scanBarcodeImage(SavedPngImage.path);
+      Future.delayed(const Duration(milliseconds: 2000), () async {
+        final _barcodeScanResult = await scanBarcodeImage(SavedPngImage.path);
+        if (_barcodeScanResult == null) {
+          addBarcodeOnStream(ConstString.SCAN_ERROR);
+
+          throw Exception("barcode scan error");
+        } else {
+          addBarcodeOnStream(_barcodeScanResult);
+        }
       });
     }
   }
 
-  void scanBarcodeImage(String imagePath) async {
+  Future<String?> scanBarcodeImage(String imagePath) async {
     try {
       String? _barcodeString = await BarcodeFinder.scanFile(path: imagePath);
       if (_barcodeString != null) {
-        setState(() {
-          barcode = _barcodeString;
-        });
-      } else {
-        setState(() {
-          barcode = "scan error";
-        });
+        return _barcodeString;
       }
     } catch (e) {
       debugPrint("$e");
-      setState(() {
-        barcode = "scan error";
-      });
-      throw Exception("barcode scan error ");
     }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<CameraViewModel>();
 
-    // 계속 실행되는 것을 막기 위해서
-    if (barcode != "" && initImageFile != null) {
-      initImageFile = null;
-      viewModel.onEvent(CameraEvent.searchWhiskeyWithBarcode(barcode),
-          callback: () async {
-          //  TakePicture에서 사용할 카메라 초기화
-            WidgetsFlutterBinding.ensureInitialized();
-            cameras = await availableCameras();
-
-        if (viewModel.state.isFindWhiskyData) {
-          showSuccedDialog();
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TakePicturePage(cameras: cameras),
-            ),
-          );
-        } else {
-          showFailedDialog();
-          Navigator.pushNamedAndRemoveUntil(
-              context, arguments: 1, Routes.rootRoute, (route) => false);
-
-          // addFailCounter();
-        }
-      });
-    }
 
     // Future<String> scan
     return Scaffold(
-      body: SafeArea(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              Flexible(
-                  flex: 10,
-                  child: Container(
-                    color: Colors.transparent,
-                  )),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: AspectRatio(
-                      aspectRatio: 1 / 1.3,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(24.0),
-                        child: SizedBox(
-                          width: 343,
-                          height: 427,
-                          child: Image.file(
-                            widget.imageFile,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+        body: SafeArea(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: [
+            Flexible(
+                flex: 10,
+                child: Container(
+                  color: Colors.transparent,
+                )),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: AspectRatio(
+                    aspectRatio: 1 / 1.3,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(24.0),
+                      child: StreamBuilder<String>(
+                          stream: barcodeStream.stream,
+                          builder: (context, snapshot) {
+
+                            if (snapshot.hasData && isResizedImage == true) {
+                              // 1번만 동작 시키기 위해서 추가한 코드
+                              isResizedImage = false;
+
+                              if (snapshot.data ==ConstString.SCAN_ERROR) {
+                                showFailedDialog().then((value) async {
+                                  await Navigator.pushNamed(
+                                      context, arguments: 1, Routes.rootRoute);
+                                });
+                              }
+                              else {
+                                viewModel.onEvent(
+                                    CameraEvent.searchWhiskeyWithBarcode(
+                                        snapshot.data!), callback: () async {
+                                  //  TakePicture에서 사용할 카메라 초기화
+                                  WidgetsFlutterBinding.ensureInitialized();
+                                  cameras = await availableCameras();
+
+                                  // 1. 바코드 스캔 O. DB 메칭 O => 정상적으로 위스키 아카이빙 실행
+                                  if (viewModel.state.isFindWhiskyData) {
+                                    showSuccedDialog();
+                                    await Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            TakePicturePage(cameras:  viewModel.state.cameras),
+                                      ),
+                                    );
+                                  } else {
+                                    // 2 바코드 스캔 O, DB 매칭 X => 인식되지 않는 위스키 로직 실행
+                                    await Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            UnregisteredWhiskyPage(
+                                                imageFile: widget.imageFile),
+                                      ),
+                                    );
+                                  }
+                                });
+                              }
+                            }
+                            return SizedBox(
+                              width: 343,
+                              height: 427,
+                              child: Image.file(
+                                widget.imageFile,
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          }),
+                    ),
+                  ),
+                ),
+                Divider(
+                  color: ColorsManager.gray500,
+                  thickness: 3,
+                ),
+              ],
+            ),
+            Flexible(
+                flex: 14,
+                child: Container(
+                  padding: EdgeInsets.only(top: WhilabelSpacing.space32),
+                  color: Colors.transparent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LoadingAnimationWidget.discreteCircle(
+                        color: ColorsManager.gray500,
+                        secondRingColor: ColorsManager.gray500,
+                        size: 20,
                       ),
-                    ),
+                      SizedBox(width: 5),
+                      Text("이미지 분석중입니다")
+                    ],
                   ),
-                  Divider(
-                    color: ColorsManager.gray500,
-                    thickness: 3,
-                  ),
-                ],
-              ),
-              Flexible(
-                  flex: 14,
-                  child: Container(
-                    padding: EdgeInsets.only(top: WhilabelSpacing.space32),
-                    color: Colors.transparent,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        LoadingAnimationWidget.discreteCircle(
-                          color: ColorsManager.gray500,
-                          secondRingColor: ColorsManager.gray500,
-                          size: 20,
-                        ),
-                        SizedBox(width: 5),
-                        Text("이미지 분석중입니다")
-                      ],
-                    ),
-                  )),
-            ],
-          ),
+                )),
+          ],
         ),
       ),
-    );
+    ));
   }
 
   Future<void> showSuccedDialog() async {
@@ -202,11 +231,11 @@ class _WhiskyBarcodeRecognitionPageState
 
   Future<void> showFailedDialog() async {
     await EasyLoading.showError(
-      "바코드 인식 실패\n다시 시도해주세요",
+      "바코드를 인식할 수 없습니다\n다시 시도해주세요",
     );
     if (EasyLoading.isShow) {
       // await Future.delayed(const Duration(seconds: 3));
-      Timer(Duration(milliseconds: 3000), () {
+      Timer(Duration(milliseconds: 4000), () {
         EasyLoading.dismiss();
       });
     }

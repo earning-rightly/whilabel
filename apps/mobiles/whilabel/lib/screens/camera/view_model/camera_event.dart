@@ -18,5 +18,7 @@ abstract class CameraEvent with _$CameraEvent {
   const factory CameraEvent.addMediums(List<Medium> mediums) =
       addMediums;
   const factory CameraEvent.cleanMediums() =
-  cleanMediums;
+      cleanMediums;
+  const factory CameraEvent.initCamera() =
+      initCamera;
 }
