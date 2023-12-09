@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAyizvlxOdlxunVhn6BmYV0CB9UgNQMlZY',
-    appId: '1:737612668977:android:3b24d5fe7a384bfb0eb510',
+    appId: '1:737612668977:android:7ba18756d8aa714d0eb510',
     messagingSenderId: '737612668977',
     projectId: 'whilabel',
     databaseURL: 'https://whilabel-default-rtdb.firebaseio.com',
