@@ -41,12 +41,12 @@ class WhilabelContextMenu {
 
     final result = await showMenu(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(16.0))),
+          borderRadius: BorderRadius.all(Radius.circular(12.0))),
       color: ColorsManager.black400,
       context: context,
       constraints:const BoxConstraints(
         minWidth: 250, maxWidth: 274,
-        minHeight:132, maxHeight: 140,
+        minHeight:133, maxHeight: 157,
         ),
       position: RelativeRect.fromRect(
           Rect.fromLTWH(left, top, 30, 30),
@@ -58,15 +58,14 @@ class WhilabelContextMenu {
             value: meunItemContent[index]["value"],
             padding: EdgeInsets.zero,
             child: Container(
-              margin: index == meunItemContent.length -1 ? EdgeInsets.only(bottom: 8)
-                  : EdgeInsets.zero,
+              margin: EdgeInsets.zero,
               padding: EdgeInsets.symmetric(horizontal: 16,vertical: 0),
               alignment: Alignment.center,
               height: 44,
               // MenuItem 구분선
               decoration: BoxDecoration(
                   border: index == meunItemContent.length -1 ? null
-                      : Border(bottom: BorderSide(color: ColorsManager.gray200, width: 2),)
+                      : Border(bottom: BorderSide(color: ColorsManager.gray200, width: 0.5),)
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
