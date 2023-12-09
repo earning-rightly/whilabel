@@ -41,7 +41,7 @@ class _MockCameraRouteState extends State<MockCameraRoute> {
               decoration: createBasicTextFieldStyle(hintText: "숫자만 가능"),
               controller: barCodeTextController,
             ),
-            ElevatedButton(
+            OutlinedButton(
               child: Text("위스키 기록하기"),
               onPressed: () async {
                 viewModel.onEvent(
@@ -59,7 +59,7 @@ class _MockCameraRouteState extends State<MockCameraRoute> {
                 });
               },
             ),
-            ElevatedButton(
+            OutlinedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -67,7 +67,7 @@ class _MockCameraRouteState extends State<MockCameraRoute> {
                   );
                 },
                 child: Text("garellery")),
-            ElevatedButton(
+            OutlinedButton(
                 onPressed: () {
                   Navigator.push(
                     context,

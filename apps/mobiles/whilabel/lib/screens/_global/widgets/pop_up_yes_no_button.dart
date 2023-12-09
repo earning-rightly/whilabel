@@ -29,10 +29,10 @@ class PopUpYesOrNoButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       contentPadding: EdgeInsets.zero, // 디폴트 값이 존재하므로 0으로 만들어서 넗혀주기
-      insetPadding: EdgeInsets.symmetric(horizontal: 5),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 5),
       backgroundColor: ColorsManager.black200,
 
-      title: Container(
+      title: SizedBox(
         width: 300, // AlertDialog의 width를 넓히기 위해서 사용
         child: Text(
           titleText,
@@ -52,16 +52,16 @@ class PopUpYesOrNoButton extends StatelessWidget {
               flex: 1,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 10, left: 15, right: 5),
-                child: ElevatedButton(
+                child: OutlinedButton(
                   onPressed: onClickNoButton,
-                  style: ElevatedButton.styleFrom(
+                  style: OutlinedButton.styleFrom(
                     backgroundColor: noButtonColor ?? ColorsManager.black300,
                     foregroundColor: ColorsManager.gray500,
-                    fixedSize: Size(120, 50),
+                    fixedSize: const Size(120, 50),
                     shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(WhilabelRadius.radius12)),
-                    side: BorderSide(
+                    side: const BorderSide(
                       width: 1.0,
                       color: ColorsManager.black200,
                     ),
@@ -78,23 +78,23 @@ class PopUpYesOrNoButton extends StatelessWidget {
               flex: 1,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 10, left: 5, right: 15),
-                child: ElevatedButton(
+                child: OutlinedButton(
                   onPressed: onClickYesButton,
-                  style: ElevatedButton.styleFrom(
+                  style: OutlinedButton.styleFrom(
                     backgroundColor: yesButtonColor ?? ColorsManager.brown100,
                     foregroundColor: ColorsManager.gray500,
                     fixedSize: Size(120, 50),
                     shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(WhilabelRadius.radius12)),
-                    side: BorderSide(
+                    side: const BorderSide(
                       width: 1.0,
                       color: ColorsManager.black200,
                     ),
                   ),
                   child: Text(
                     yesText,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

@@ -73,7 +73,7 @@ class SuccessfulUploadPostPage extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: SizedBox(
-                        child: ElevatedButton(
+                        child: OutlinedButton(
                           onPressed: () {
                             Navigator.pushNamedAndRemoveUntil(
                               context,

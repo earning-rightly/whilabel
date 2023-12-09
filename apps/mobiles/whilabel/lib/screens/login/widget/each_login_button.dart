@@ -28,7 +28,7 @@ class _EachLoginButtonState extends State<EachLoginButton> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 52,
-      child: ElevatedButton(
+      child: OutlinedButton(
         style: createBasicButtonStyle(ColorsManager.white),
         onPressed:
             (widget.onPressedFunc != null) ? widget.onPressedFunc : () {},

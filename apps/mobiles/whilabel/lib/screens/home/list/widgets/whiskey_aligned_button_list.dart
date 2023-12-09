@@ -67,12 +67,12 @@ class WhiskeyAlignedButton extends StatelessWidget {
     final alignedButtonsProvider = context.watch<WhiskyAlignedButtonStatus>();
     final homeViewModel = context.watch<HomeViewModel>();
 
-    return ElevatedButton(
+    return OutlinedButton(
       onPressed: () {
         alignedButtonsProvider.makeAllButtonsUnSelectedExceptOne(index);
         homeViewModel.onEvent(HomeEvent.changeButtonOrder(postButtonOrder));
       },
-      style: ElevatedButton.styleFrom(
+      style: OutlinedButton.styleFrom(
         foregroundColor:
             isSelected ? ColorsManager.black200 : Colors.transparent,
         backgroundColor:

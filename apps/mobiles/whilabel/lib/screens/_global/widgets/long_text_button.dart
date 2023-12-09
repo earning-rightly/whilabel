@@ -48,10 +48,10 @@ class LongTextButton extends StatelessWidget {
                 ))
             : null,
         height: height,
-        child: ElevatedButton(
+        child: OutlinedButton(
           onPressed: (enabled == false) ? null : onPressedFunc,
           style: buttonStyle ??
-              ElevatedButton.styleFrom(
+              OutlinedButton.styleFrom(
                 elevation: 0,
                 foregroundColor: ColorsManager.white, // 활성화 시 글자색
                 backgroundColor: color, // 활성화 시 배경색

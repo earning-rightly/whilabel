@@ -3,7 +3,7 @@ import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 
 ButtonStyle createBasicButtonStyle(Color color,
     {Size buttonSize = Size.infinite}) {
-  return ElevatedButton.styleFrom(
+  return OutlinedButton.styleFrom(
     backgroundColor: color,
     fixedSize: buttonSize,
     shape: RoundedRectangleBorder(
