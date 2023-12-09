@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
@@ -26,7 +27,8 @@ class CameraViewModel with ChangeNotifier {
       barcode: "",
       isFindWhiskyData: false,
       shortWhisyDatas: [],
-      mediums: []
+      mediums: [],
+      cameras: <CameraDescription>[]
 
   );
 
@@ -34,6 +36,7 @@ class CameraViewModel with ChangeNotifier {
     VoidCallback after = callback ?? () {};
     event
         .when(
+          initCamera: initCamera,
           addMediums: addMediums,
           cleanMediums: cleanMediums,
           searchWhiskeyWithBarcode: searchWhiskeyWithBarcode,
@@ -43,6 +46,15 @@ class CameraViewModel with ChangeNotifier {
               saveUserWhiskyImageOnNewArchivingPostState,
         )
         .then((_) => {after()});
+  }
+
+  Future<void> initCamera() async{
+    /// state.cameras를 초기화한다.
+    WidgetsFlutterBinding.ensureInitialized();
+    final _camera = await availableCameras();
+
+    _state = _state.copyWith(cameras: _camera);
+    notifyListeners();
   }
 
   Future<void> cleanMediums() async{
