@@ -9,7 +9,6 @@ import 'package:whilabel/data/whisky/whisky.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_event.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
-import 'package:whilabel/screens/archiving_post_detail/widgets/archiving_post_detail_footer.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/cancel_text_button.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/modify_text_button.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/user_critque_container.dart';
@@ -365,18 +364,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                   ),
                 ],
               ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: ArchivingPostDetailFooter(
-                isModify: isModify,
-                postImageUrl: widget.archivingPost.imageUrl,
-                whiskyName: widget.archivingPost.whiskyName,
-                strength: widget.archivingPost.strength.toString(),
-              ),
-            ),
+            )
           ],
         ),
       ),
