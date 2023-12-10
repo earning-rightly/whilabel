@@ -102,13 +102,11 @@ class EachWhiskeyGridView extends StatelessWidget {
         );
       },
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(
-                whiskeyNameGroupedArchivingPosts.first.imageUrl),
-          ),
+        child:  ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(16.0)),
+          child: Image.network(
+              fit: BoxFit.fill,
+              whiskeyNameGroupedArchivingPosts.first.imageUrl),
         ),
       ),
     );
