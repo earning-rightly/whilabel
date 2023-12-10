@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartx/dartx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/user/auth_user.dart';
@@ -43,6 +45,7 @@ class LoginUseCase {
 
       // 삭제된 유저도 초기화로 처리함
       if (existUser == null || existUser.isDeleted == true) {
+        String? _fcmToken = await FirebaseMessaging.instance.getToken();
         final timestampNow = Timestamp.now();
         _currentUserStatus.setState(
           AppUser(
@@ -50,6 +53,7 @@ class LoginUseCase {
             uid: "${firebaseUser.uid}+${timestampNow.microsecondsSinceEpoch}",
             email: authUser.email,
             creatAt: timestampNow,
+            fcmToken: _fcmToken,
             isPushNotificationEnabled: false,
             isMarketingNotificationEnabled: true,
             isDeleted: false,
@@ -60,11 +64,17 @@ class LoginUseCase {
         );
         return UserState.initial;
       } else {
+        if (existUser.fcmToken.isNullOrEmpty){
+          await _addFcmTokenOnDB(existUser);
+          final user = await _findUserWithFirebaseUserId(existUser.uid);
+          _currentUserStatus.setState(user, UserState.login);
+          return UserState.login;
+        }
         _currentUserStatus.setState(existUser, UserState.login);
         return UserState.login;
       }
     } catch (e) {
-      await LogoutUseCase(currentUserStatus: _currentUserStatus).call(snsType);
+      await LogoutUseCase(currentUserStatus: _currentUserStatus, appUserRepository: _appUserRepository).call(snsType);
       debugPrint("Fail to Login with ${snsType.name}: $e");
       return UserState.loginFail;
     }
@@ -95,5 +105,12 @@ class LoginUseCase {
       SnsType.APPLE => await AppleOauth().login(),
       _ => null
     };
+  }
+  Future<AppUser>_addFcmTokenOnDB(AppUser _user) async{
+    String? _fcmToken = await FirebaseMessaging.instance.getToken();
+    final user = _user.copyWith(fcmToken: _fcmToken );
+    await _appUserRepository.insertUser(user);
+
+    return user;
   }
 }

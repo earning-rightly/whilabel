@@ -24,6 +24,7 @@ class AppUser {
     this.isDeleted,
     this.isPushNotificationEnabled, // 푸시알림이 어떻게 작동되는지 알아야함
     this.isMarketingNotificationEnabled,
+    this.fcmToken,
     this.name,
     this.age,
     this.birthDay,
@@ -43,6 +44,7 @@ class AppUser {
   bool? isPushNotificationEnabled = false;
   bool? isMarketingNotificationEnabled = false;
 
+  String? fcmToken;// alim에서 필요 DB에 login때 추가. logout때 삭제
   String? birthDay;
   String? name;
   int? age;
@@ -68,6 +70,7 @@ class AppUser {
       Gender? gender,
       String? birthDay,
       String? sameKindWhiskyId,
+        String? fcmToken,
       int? age}) {
     return AppUser(
         uid: this.uid,
@@ -81,6 +84,7 @@ class AppUser {
             isPushNotificationEnabled ?? this.isPushNotificationEnabled,
         isMarketingNotificationEnabled: isMarketingNotificationEnabled ??
             this.isMarketingNotificationEnabled,
+        fcmToken: fcmToken ?? this.fcmToken,
         name: name ?? this.name,
         gender: gender ?? this.gender,
         birthDay: birthDay ?? this.birthDay,

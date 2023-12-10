@@ -10,7 +10,9 @@
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true">
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
@@ -19,18 +21,27 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
-            <intent-filter>
+                    <!--중요도가 낮기 때문에 높은 서비스에서 Push를 같이 전송하기 위해 -->
+              <meta-data 
+                android:name="com.google.firebase.messaging.default_notification_channel_id"
+                android:value="high_importance_channel"
+                />
+
+               <intent-filter>        <!--Push 메시지를 클릭하여 앱에 진입할 때에 메시지 안에 담겨있는 정보를 받기 위해 -->
+                    <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                </intent-filter>
+
+             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-              
             </intent-filter>
-            
         </activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
+        
         <!-- 카카오 로그인 커스텀 URL 스킴 설정 -->
         <activity 
         android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity"
@@ -61,6 +72,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
+    <!--firebase messaging르 위해서 추가한 코드 INTERNET은 이미 있기에 추가 x -->    
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>  
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 </manifest>

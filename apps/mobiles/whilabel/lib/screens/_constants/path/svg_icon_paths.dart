@@ -8,6 +8,13 @@ class SvgIconPath {
   static String cameraShutter = "assets/icon/camera_shutter.svg";
   static String image = "assets/icon/image.svg";
 
+  // login Page
+  static String instargramIcon = "assets/login/instagram_icon.svg";
+  static String kakaoIcon = "assets/login/kakao_icon.svg";
+  static String googleIcon = "assets/login/google_icon.svg";
+  static String appleIcon = "assets/login/apple_icon.svg";
+  static String  whilabelIcon = "assets/login/Whilabel.svg";
+
   static String document = "assets/icon/document.svg";
   static String setting = "assets/icon/settings.svg";
   static String toggleOff = "assets/icon/toggle_off.svg";
