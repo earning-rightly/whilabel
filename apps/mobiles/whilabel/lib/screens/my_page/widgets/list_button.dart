@@ -19,7 +19,7 @@ class ListTitleIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: WhilabelSpacing.space16),
           child: Row(
