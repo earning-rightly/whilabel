@@ -50,6 +50,7 @@ class InquiringPage extends StatelessWidget {
                       style: TextStylesManager.createHadColorTextStyle(
                           "B16", ColorsManager.gray200),
                     ),
+                    SizedBox(height:4),
                     TextFormField(
                       style: TextStylesManager.regular16,
                       decoration: createLargeTextFieldStyle(""),
@@ -63,6 +64,7 @@ class InquiringPage extends StatelessWidget {
                       style: TextStylesManager.createHadColorTextStyle(
                           "B16", ColorsManager.gray200),
                     ),
+                    SizedBox(height:4),
                     TextFormField(
                       style: TextStylesManager.regular16,
                       decoration: createLargeTextFieldStyle(""),
@@ -86,6 +88,7 @@ class InquiringPage extends StatelessWidget {
                       style: TextStylesManager.createHadColorTextStyle(
                           "B16", ColorsManager.gray200),
                     ),
+                    SizedBox(height:4),
                     TextFormField(
                       style: TextStylesManager.regular16,
                       decoration: createLargeTextFieldStyle(""),
