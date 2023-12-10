@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:whilabel/screens/_constants/path/image_paths.dart' as imagePaths;
 import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/button_style.dart';
 
@@ -37,7 +37,7 @@ class _EachLoginButtonState extends State<EachLoginButton> {
           children: [
             SvgPicture.asset(
               widget.svgImagePath,
-              width: widget.svgImagePath == imagePaths.instargramIcon ? 18 : 24,
+              width: widget.svgImagePath == SvgIconPath.instargramIcon ? 18 : 24,
             ),
             const SizedBox(width: 4),
             // Text 16 이 작은 것 같아 18로 키움

@@ -4,8 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/sns_type.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
-import 'package:whilabel/screens/_constants/path/image_paths.dart'
-    as imagePaths;
+import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
@@ -58,7 +57,7 @@ class _LoginViewState extends State<LoginView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SvgPicture.asset(
-                      imagePaths.whilabelIcon,
+                      SvgIconPath.whilabelIcon,
                       width: 270,
                     ),
                     SizedBox(height: WhilabelSpacing.space16),
@@ -76,7 +75,7 @@ class _LoginViewState extends State<LoginView> {
                       children: [
                         EachLoginButton(
                           buttonText: "카카오톡으로 로그인",
-                          svgImagePath: imagePaths.kakaoIcon,
+                          svgImagePath: SvgIconPath.kakaoIcon,
                           onPressedFunc: () {
                             startLogin();
 
@@ -93,7 +92,7 @@ class _LoginViewState extends State<LoginView> {
                         SizedBox(height: WhilabelSpacing.space16),
                         EachLoginButton(
                           buttonText: "구글 계정으로 로그인",
-                          svgImagePath: imagePaths.googleIcon,
+                          svgImagePath: SvgIconPath.googleIcon,
                           onPressedFunc: () {
                             startLogin();
 
@@ -111,7 +110,7 @@ class _LoginViewState extends State<LoginView> {
                           ...[SizedBox(height: WhilabelSpacing.space16),
                           EachLoginButton(
                             buttonText: "애플 계정으로 로그인",
-                            svgImagePath: imagePaths.appleIcon,
+                            svgImagePath: SvgIconPath.appleIcon,
                             onPressedFunc: () async {
                               startLogin();
 
