@@ -52,6 +52,7 @@ class ProvidersManager {
       currentUserStatus: _currentUserStatus);
   static final _logoutUseCase = LogoutUseCase(
     currentUserStatus: _currentUserStatus,
+    appUserRepository: _appUserRepository
   );
   static final _searchWhiskeyBarcodeUseCase = SearchWhiskeyDataUseCase(
     appUserRepository: _appUserRepository,
