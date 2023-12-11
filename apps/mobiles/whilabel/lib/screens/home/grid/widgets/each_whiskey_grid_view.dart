@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
@@ -22,10 +24,8 @@ class EachWhiskeyGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQueryHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    final mediaQueryHeight = MediaQuery.of(context).size.height;
+    final mediaQueryWidth = MediaQuery.of(context).size.width;
     final homeViewModel = context.watch<HomeViewModel>();
 
     final RenderObject? overlay =
@@ -36,79 +36,90 @@ class EachWhiskeyGridView extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        // ShowPopupWhiskyImage(
-        //     context, mediaQueryWidth * 0.5, mediaQueryHeight * 0.6);
 
         showDialog(
           context: context,
           builder: (context) =>
-              ExpandedImageItem(
-                useDots: false,
-                height: mediaQueryHeight * 0.6,
-                context: context,
-                images: [
-                  for (ArchivingPost whiskeyNameGroupedArchivingPost in whiskeyNameGroupedArchivingPosts)
-                    whiskeyNameGroupedArchivingPost.imageUrl,
-                ],
-                onClick: (index) {
-                  print("grid ====>>> current index: $index");
-                  // final ArchivingPost currentArchivingPost = archivingPosts
-                  //     .where((archivingPost) =>
-                  //         archivingPost.postId == shortArchivingPosts[index].postId)
-                  //     .first;
+              SafeArea(
+                child: Stack(
+                  children: [
+                    BackdropFilter(
+                      filter: ui.ImageFilter.blur(
+                        sigmaX: 6.0,
+                        sigmaY: 6.0,
+                      ),
 
-                  final ArchivingPost currentArchivingPost = whiskeyNameGroupedArchivingPosts[index];
+                      child: Container(
+                        height: mediaQueryHeight,
+                        width: mediaQueryWidth,
+                      ),
+                    ),
+                    Positioned(
+                      top: 12,
+                      right: 0,
+                      left: 0,
+                      child: ExpandedImageItem(
+                        useDots: false,
+                        height: mediaQueryHeight * 0.6,
+                        context: context,
+                        images: [
+                          for (ArchivingPost whiskeyNameGroupedArchivingPost in whiskeyNameGroupedArchivingPosts)
+                            whiskeyNameGroupedArchivingPost.imageUrl,
+                        ],
+                        onClick: (index) {
+                          final ArchivingPost currentArchivingPost = whiskeyNameGroupedArchivingPosts[index];
 
+                          WhilabelContextMenu.showContextMenu(
+                              context,
+                              overlay!.paintBounds.size.width,
+                              overlay.paintBounds.size.height * 0.6)
+                              .then((menuValue) {
+                            switch (menuValue) {
+                              case "share":
+                                WhilabelContextMenu.sharePostWhiskeyImage(
+                                    currentArchivingPost.imageUrl);
+                                break;
 
-                  WhilabelContextMenu.showContextMenu(
-                      context,
-                      overlay!.paintBounds.size.width,
-                      overlay.paintBounds.size.height * 0.6)
-                      .then((menuValue) {
-                    switch (menuValue) {
-                      case "share":
-                        WhilabelContextMenu.sharePostWhiskeyImage(
-                            currentArchivingPost.imageUrl);
-                        break;
+                              case "modify":
+                                Navigator.pushNamed(
+                                    context, Routes.archivingPostDetailRoute,
+                                    arguments: currentArchivingPost);
+                                break;
 
-                      case "modify":
-                        Navigator.pushNamed(
-                            context, Routes.archivingPostDetailRoute,
-                            arguments: currentArchivingPost);
-                        break;
-
-                      case "delete":
-                        showDeletePostDialog(
-                          context,
-                          onClickedYesButton: () {
-                            homeViewModel.onEvent(
-                                HomeEvent.deleteArchivingPost(
-                                  archivingPostId: currentArchivingPost.postId,
-                                  userid: currentArchivingPost.userId,
-                                  whiskyName: currentArchivingPost.whiskyName,
-                                ), callback: () {
-                              Navigator.pushReplacementNamed(
-                                context,
-                                Routes.rootRoute,
-                              );
-                              homeViewModel.state.listTypeArchivingPosts.length;
-                            });
-                          },
-                        );
-                    }
-                  });
-                },
+                              case "delete":
+                                showDeletePostDialog(
+                                  context,
+                                  onClickedYesButton: () {
+                                    homeViewModel.onEvent(
+                                        HomeEvent.deleteArchivingPost(
+                                          archivingPostId: currentArchivingPost.postId,
+                                          userid: currentArchivingPost.userId,
+                                          whiskyName: currentArchivingPost.whiskyName,
+                                        ), callback: () {
+                                      Navigator.pushReplacementNamed(
+                                        context,
+                                        Routes.rootRoute,
+                                      );
+                                      homeViewModel.state.listTypeArchivingPosts.length;
+                                    });
+                                  },
+                                );
+                            }
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
         );
       },
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(
-                whiskeyNameGroupedArchivingPosts.first.imageUrl),
-          ),
+        child:  ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(16.0)),
+          child: Image.network(
+              fit: BoxFit.fill,
+              whiskeyNameGroupedArchivingPosts.first.imageUrl),
         ),
       ),
     );

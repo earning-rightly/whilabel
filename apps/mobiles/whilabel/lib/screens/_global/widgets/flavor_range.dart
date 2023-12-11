@@ -88,7 +88,7 @@ class _FlavorRangeState extends State<FlavorRange> {
           right: 0,
           child: Text(
             widget.subTitleRight,
-            style: (filledCount > maxCount / 2 && filledCount != 3)
+            style: (filledCount > maxCount / 2 )
                 ? TextStylesManager.createHadColorTextStyle(
                     "B14", ColorsManager.yellow)
                 : TextStylesManager.createHadColorTextStyle(

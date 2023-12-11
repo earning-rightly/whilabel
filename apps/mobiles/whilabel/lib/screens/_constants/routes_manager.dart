@@ -14,7 +14,7 @@ import 'package:whilabel/screens/user_additional_info/user_additional_info_view.
 import 'package:whilabel/screens/whisky_critique/whisky_critique_view.dart';
 
 class MyPageRoutes {
-  static const String annoucementRoute = "announcemnet";
+  static const String announcementRoute = "announcementt";
   static const String faqRoute = "FAQ";
   static const String inquiringRoute = "inquiring";
   static const String privacyPolicyPage = "privacyPolicyPage";
@@ -61,7 +61,7 @@ class RouteGenerator {
       //   return MaterialPageRoute(builder: (_) => const AnnouncementPage());
 
       // MyPage Route
-      case MyPageRoutes.annoucementRoute:
+      case MyPageRoutes.announcementRoute:
         return MaterialPageRoute(builder: (_) => const AnnouncementPage());
       case MyPageRoutes.faqRoute:
         return MaterialPageRoute(builder: (_) => FaqPage());

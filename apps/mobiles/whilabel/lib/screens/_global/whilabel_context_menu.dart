@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -17,6 +18,7 @@ class WhilabelContextMenu {
       "icon_path": SvgIconPath.share,
       "icon_color": ColorsManager.white,
     },
+
     {
       "title": "수정하기",
       "value": "modify",
@@ -33,20 +35,38 @@ class WhilabelContextMenu {
       "icon_color": ColorsManager.red,
     }
   ];
+  static List<Map<String, dynamic>> meunItemContentSub = [
+    {
+      "title": "공유하기",
+      "value": "share",
+      "title_style": TextStylesManager.regular16,
+      "icon_path": SvgIconPath.share,
+      "icon_color": ColorsManager.white,
+    },
+    {
+      "title": "삭제하기",
+      "value": "delete",
+      "title_style":
+      TextStylesManager.createHadColorTextStyle("R16", ColorsManager.red),
+      "icon_path": SvgIconPath.delete,
+      "icon_color": ColorsManager.red,
+    }
+  ];
   /// ContextMenu창을 만들어주는 함수
   static Future<String> showContextMenu(
-      BuildContext context, double left, double top) async {
+      BuildContext context, double left, double top, ) async {
     final RenderObject? overlay =
         Overlay.of(context).context.findRenderObject();
 
     final result = await showMenu(
+
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(12.0))),
       color: ColorsManager.black400,
       context: context,
-      constraints:const BoxConstraints(
-        minWidth: 250, maxWidth: 274,
-        minHeight:133, maxHeight: 157,
+      constraints: BoxConstraints(
+        minWidth: 250.w, maxWidth: 274.w,
+        // minHeight:133, maxHeight: 157,
         ),
       position: RelativeRect.fromRect(
           Rect.fromLTWH(left, top, 30, 30),
@@ -86,6 +106,65 @@ class WhilabelContextMenu {
 
     return result ?? "";
   }
+
+
+
+
+  static Future<String> showContextMenuSub(
+      BuildContext context, double left, double top,) async {
+    final RenderObject? overlay =
+    Overlay.of(context).context.findRenderObject();
+    // int itemCount;
+
+    final result = await showMenu(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12.0))),
+      color: ColorsManager.black400,
+      context: context,
+      constraints: BoxConstraints(
+        minWidth: 250.w, maxWidth: 274.w,
+        // minHeight:133, maxHeight: 157,157
+      ),
+      position: RelativeRect.fromRect(
+          Rect.fromLTWH(left, top, 30, 30),
+          Rect.fromLTWH(0, 0, overlay!.paintBounds.size.width,
+              overlay.paintBounds.size.height)),
+      items: <PopupMenuItem>[
+        for (int index = 0; index < meunItemContentSub.length; index++)
+          PopupMenuItem(
+            value: meunItemContentSub[index]["value"],
+            padding: EdgeInsets.zero,
+            child: Container(
+              margin: EdgeInsets.zero,
+              padding: EdgeInsets.symmetric(horizontal: 16,vertical: 0),
+              alignment: Alignment.center,
+              height: 44,
+              // MenuItem 구분선
+              decoration: BoxDecoration(
+                  border: index == meunItemContentSub.length -1 ? null
+                      : Border(bottom: BorderSide(color: ColorsManager.gray200, width: 0.5),)
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    meunItemContentSub[index]["title"],
+                    style: meunItemContentSub[index]["title_style"],
+                  ),
+                  SvgPicture.asset(
+                    meunItemContentSub[index]["icon_path"],
+                  ),
+                ],
+              ),
+            ),
+          ),
+      ],
+    );
+
+    return result ?? "";
+  }
+
+
 
   static void sharePostWhiskeyImage(String imageUrl) async{
 

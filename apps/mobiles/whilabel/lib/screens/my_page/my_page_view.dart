@@ -94,7 +94,7 @@ class MyPageData {
     {
       "svg_path": SvgIconPath.announce,
       "title": "공지사항",
-      "route": MyPageRoutes.annoucementRoute
+      "route": MyPageRoutes.announcementRoute
     },
     {
       "svg_path": SvgIconPath.faq,
