@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/taste/taste_vote.dart';
 import 'package:whilabel/data/whisky/whisky.dart';
+import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
+import 'package:whilabel/screens/_global/whilabel_context_menu.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_event.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/cancel_text_button.dart';
@@ -29,7 +32,6 @@ import 'package:intl/intl.dart';
 // - 위스키 사진
 // - 위스키 맛 특징
 // - 바텀 버튼 2개(다시찍기, 등록하기)
-
 
 class ArchivingPostDetailView extends StatefulWidget {
   final ArchivingPost archivingPost;
@@ -55,6 +57,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
   bool isloading = true;
   bool isModify = false;
   String creatDate = "";
+
 
   @override
   void initState() {
@@ -103,6 +106,9 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
 
   @override
   Widget build(BuildContext context) {
+    final RenderObject? overlay =
+    Overlay.of(context).context.findRenderObject();
+
     Future.delayed(Duration(milliseconds: 1400), () {
       if (distilleryImage == null) {
         setState(() {
@@ -362,9 +368,50 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 6, left: 16, right: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: 32,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: ColorsManager.black400,
+                                shape: BoxShape.circle),
+                            child: IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: SvgPicture.asset(SvgIconPath.backBold)),
+                          ),
+                          Container(
+                            width: 32,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: ColorsManager.black400,
+                                // color: Color(0x00000080),
+
+                                shape: BoxShape.circle,
+                              ),
+                              child: IconButton(
+                                  icon: SvgPicture.asset(SvgIconPath.menu),
+                                  onPressed: (){
+                                WhilabelContextMenu.showContextMenuSub(  context,
+                                    overlay!.paintBounds.size.width * 0.9,
+                                    overlay.paintBounds.size.height * 0.1 + 10);
+                              },
+                              ),
+
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
