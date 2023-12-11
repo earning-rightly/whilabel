@@ -32,6 +32,7 @@ dependencies:
   firebase_storage: ^11.2.7
   flutter_secure_storage: ^9.0.0
   firebase_database: ^10.2.6
+  firebase_messaging: 14.3.0 # 최신 버전으로 사용하면 firebase DB에 데이타 못 불러옴
 
   # hive 패키지
   hive: ^2.2.3
@@ -47,6 +48,7 @@ dependencies:
   popup_banner: ^1.0.0
   loading_animation_widget: ^1.2.0+4 # loading indicator
   flutter_rating_bar: ^4.0.1
+  flutter_local_notifications: 16.2.0 # 알림 UI
 
 
   # image 관련 패키지
@@ -75,6 +77,7 @@ dependencies:
   permission_handler: ^10.4.5
   flutter_screenutil: ^5.9.0
   carousel_slider: ^4.2.1
+  logger: ^2.0.2+1
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/enum/post_sort_order.dart';
@@ -14,6 +16,7 @@ import 'package:whilabel/screens/home/list/list_archiving_post_page.dart';
 import 'package:whilabel/screens/home/view_model/home_event.dart';
 import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 
+
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -24,10 +27,72 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  var messageString = "";
+
+  Future<void> initAlim() async {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      RemoteNotification? notification = message.notification;
+
+      if (notification != null) {
+        FlutterLocalNotificationsPlugin().show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          const NotificationDetails(
+            android: AndroidNotificationDetails(
+              'high_importance_channel',
+              'high_importance_notification',
+              importance: Importance.max,
+              icon: "@mipmap/notification",
+
+              color: Colors.black,
+              // ledColor: Colors.red,
+              colorized: false
+            ),
+          ),
+        );
+
+        setState(() {
+          messageString = message.notification!.body!;
+          print("Foreground 메시지 수신: $messageString");
+        });
+      }
+    });
+  }
+
+  Future<void> setupInteractedMessage() async {
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    print("\n\n messge : $message\n\n");
+    print("-----------------------");
+    // if (message.data['type'] == 'chat') {
+    //   Navigator.pushNamed(context, '/chat',
+    //     arguments: ChatArguments(message),
+    //   );
+    // }
+  }
+
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: 2, animationDuration: Duration.zero);
+    initAlim();
+    _tabController =
+        TabController(vsync: this, length: 2, animationDuration: Duration.zero);
     Future.microtask(() async {
       loadPostAsync();
     });
@@ -63,7 +128,9 @@ class _HomeViewState extends State<HomeView>
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: ColorsManager.black300, width: 1))),
+                border: Border(
+                    bottom:
+                        BorderSide(color: ColorsManager.black300, width: 1))),
             child: TabBar(
               controller: _tabController,
               indicatorColor: ColorsManager.gray500,
@@ -78,9 +145,10 @@ class _HomeViewState extends State<HomeView>
           Expanded(
             child: Padding(
               padding: WhilabelPadding.basicPadding,
-              child: TabBarView(
-                  controller: _tabController,
-                  children: const [ListArchivingPostPage(), GridArchivingPostPage()]),
+              child: TabBarView(controller: _tabController, children: const [
+                ListArchivingPostPage(),
+                GridArchivingPostPage()
+              ]),
             ),
           )
         ],
