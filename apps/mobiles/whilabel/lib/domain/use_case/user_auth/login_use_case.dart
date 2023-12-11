@@ -65,11 +65,14 @@ class LoginUseCase {
         return UserState.initial;
       } else {
         if (existUser.fcmToken.isNullOrEmpty){
+
           await _addFcmTokenOnDB(existUser);
-          final user = await _findUserWithFirebaseUserId(existUser.uid);
+          final user = await _findUserWithFirebaseUserId(existUser.firebaseUserId);
+          print("user.fcmToekn ===> ${user?.fcmToken}");
           _currentUserStatus.setState(user, UserState.login);
           return UserState.login;
         }
+        print(" existUser.fcmToken    =>>>>\n ${existUser.fcmToken}");
         _currentUserStatus.setState(existUser, UserState.login);
         return UserState.login;
       }
@@ -109,7 +112,9 @@ class LoginUseCase {
   Future<AppUser>_addFcmTokenOnDB(AppUser _user) async{
     String? _fcmToken = await FirebaseMessaging.instance.getToken();
     final user = _user.copyWith(fcmToken: _fcmToken );
-    await _appUserRepository.insertUser(user);
+    await _appUserRepository.updateUser(user.uid,user);
+    print("` addFcmTokenOnDB`() used!!!!");
+    print("_fcmToken ==> ${_fcmToken}");
 
     return user;
   }
