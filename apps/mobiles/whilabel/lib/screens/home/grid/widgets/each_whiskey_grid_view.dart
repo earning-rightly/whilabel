@@ -2,8 +2,10 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
+import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/home/grid/expanded_image_item.dart';
@@ -115,15 +117,52 @@ class EachWhiskeyGridView extends StatelessWidget {
               ),
         );
       },
-      child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(16.0)),
-        child: SizedBox(
-          width: 300.w,
-          height: 375.h,
-          child:  Image.network(
-              fit: BoxFit.fill,
-              whiskeyNameGroupedArchivingPosts.first.imageUrl),
-        ),
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(16.0)),
+            child: SizedBox(
+              width: 300.w,
+              height: 375.h,
+              child:  Image.network(
+
+                  fit: BoxFit.fill,
+                  whiskeyNameGroupedArchivingPosts.first.imageUrl,
+                loadingBuilder: (BuildContext context,
+                    Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value:
+                      loadingProgress.expectedTotalBytes !=
+                          null
+                          ? loadingProgress
+                          .cumulativeBytesLoaded /
+                          loadingProgress
+                              .expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          Positioned(
+              bottom: 12,
+              right: 12,
+              child: SizedBox(
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(SvgIconPath.whisky, width: 16.w,),
+                      Text("${whiskeyNameGroupedArchivingPosts.length}")
+                    ],
+                  )))
+
+        ],
       ),
     );
   }
