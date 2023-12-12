@@ -26,7 +26,7 @@ class ImageScanAnimation extends StatefulWidget {
 class ImageScanAnimationState extends State<ImageScanAnimation>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  bool _animationStopped = false;
+  bool _animationStopped = false; // 스캔 애니메이션에서 사용할 코드
   bool scanning = false;
 
   @override
@@ -68,11 +68,11 @@ class ImageScanAnimationState extends State<ImageScanAnimation>
             ),
           ),
         ),
-        ScannerAnimation(
-          _animationStopped,
-          widget.width + 32,
-          animation: _animationController,
-        ),
+        // ScannerAnimation( // 스캔 애니메이션이 필요할떄 사용할 코드
+        //   _animationStopped,
+        //   widget.width + 32,
+        //   animation: _animationController,
+        // ),
       ]),
     );
   }
