@@ -16,6 +16,7 @@ class GridArchivingPostPage extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
       itemCount: gridTypeArchivingPosts.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+
         crossAxisCount: 2,
         childAspectRatio: 1 / 1.25,
         crossAxisSpacing: 10,
