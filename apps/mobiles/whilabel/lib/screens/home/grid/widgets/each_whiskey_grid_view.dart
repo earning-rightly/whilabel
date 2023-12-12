@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
@@ -114,10 +115,12 @@ class EachWhiskeyGridView extends StatelessWidget {
               ),
         );
       },
-      child: Container(
-        child:  ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(16.0)),
-          child: Image.network(
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(16.0)),
+        child: SizedBox(
+          width: 300.w,
+          height: 375.h,
+          child:  Image.network(
               fit: BoxFit.fill,
               whiskeyNameGroupedArchivingPosts.first.imageUrl),
         ),
