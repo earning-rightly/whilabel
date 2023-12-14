@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/taste/taste_feature.dart';
 import 'package:whilabel/screens/_global/widgets/text_field_length_counter.dart';
@@ -35,13 +36,13 @@ class UserCritiqueContainer extends StatelessWidget {
       padding: const EdgeInsets.only(
         top: 15,
         bottom: 15,
-        left: 10,
-        right: 10,
+        left: 16,
+        right: 16,
       ),
       decoration: BoxDecoration(
         color: isModify ? ColorsManager.black200 : ColorsManager.black200,
         borderRadius: const BorderRadius.all(
-          Radius.circular(14),
+          Radius.circular(16),
         ),
         border:
             isModify ? Border.all(width: 2, color: ColorsManager.orange) : null,
@@ -58,7 +59,7 @@ class UserCritiqueContainer extends StatelessWidget {
               ArchivingPostDetailEvnet.addStarValueOnProvider(starValue),
             );
           }),
-          const SizedBox(height: 20),
+           SizedBox(height:  WhilabelSpacing.space24.h),
           const Text("테이스팅 노트", style: TextStylesManager.bold14),
           const SizedBox(height: 8),
           if (isModify)
@@ -92,14 +93,14 @@ class UserCritiqueContainer extends StatelessWidget {
                 style: TextStylesManager.createHadColorTextStyle("R16", ColorsManager.gray200)
             )
           ,
-          SizedBox(height: WhilabelSpacing.space24),
+          SizedBox(height: WhilabelSpacing.space24.h),
           const Text("맛 평가", style: TextStylesManager.bold14),
           SizedBox(height: WhilabelSpacing.space16),
           Container(
             decoration: const BoxDecoration(
               color: ColorsManager.black100,
               borderRadius: BorderRadius.all(
-                Radius.circular(14),
+                Radius.circular(16),
               ),
             ),
             padding: const EdgeInsets.all(16.0),
