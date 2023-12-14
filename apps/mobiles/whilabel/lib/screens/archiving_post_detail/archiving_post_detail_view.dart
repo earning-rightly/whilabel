@@ -14,7 +14,7 @@ import 'package:whilabel/screens/_global/whilabel_context_menu.dart';
 import 'package:whilabel/screens/_global/widgets/back_listener.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_event.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
-import 'package:whilabel/screens/archiving_post_detail/widgets/cancel_text_button.dart';
+import 'package:whilabel/screens/archiving_post_detail/widgets/save_text_button.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/modify_text_button.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/user_critque_container.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
@@ -227,8 +227,23 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                       style: TextStylesManager.bold18,
                                     ),
                                     isModify
-                                        ? CancelTextButton(
-                                            onClickButton: cancelModifyfeature)
+                                        ? SaveTextButton(
+                                            onClickButton: (){
+                                              showUpdatePostDialog(
+                                                context,
+                                                onClickedYesButton: () {
+                                                  viewModel.onEvent(
+                                                    ArchivingPostDetailEvnet.updateUserCritique(),
+                                                    callback: () {
+                                                      Navigator.pushNamed(
+                                                        context,
+                                                        Routes.rootRoute,
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                              );
+                                            })
                                         : ModifyTextButton(
                                             onClickButton: () async {
 
