@@ -25,6 +25,8 @@ import 'package:whilabel/screens/_global/widgets/whilabel_divier.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:intl/intl.dart';
+import 'package:whilabel/screens/home/view_model/home_event.dart';
+import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 
 //-------- viwe 소개------------
 // - 위스키 인식이 성공적일때 유저에게 보여줄 view.
@@ -55,11 +57,11 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
   List<TasteVote>? tasteVotes; // dataBase의 정보 들어오면 실행 예정
   String? whiskyImageUrl;
   String? distilleryImage;
+  late ArchivingPost _currentArchivingPost;
 
   bool isloading = true;
   bool isModify = false;
   String creatDate = "";
-
 
   @override
   void initState() {
@@ -72,6 +74,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
 
     creatDate = DateFormat("yyyy.MM.dd").format(date1);
     tasteNoteController.text = widget.archivingPost.note;
+    _currentArchivingPost = widget.archivingPost;
 
     // downloadURLExample("Aultmore");
     // TEstFirebaseStorage().getDistilleryImage(distilleryName);
@@ -83,7 +86,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
       // status: Text("123244"),
     );
     if (EasyLoading.isShow) {
-      Timer(Duration(milliseconds: 1000), () {
+      Timer(Duration(milliseconds: 1500), () {
         EasyLoading.dismiss();
       });
     }
@@ -108,8 +111,10 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
 
   @override
   Widget build(BuildContext context) {
+    final homeViewModel = context.read<HomeViewModel>();
+
     final RenderObject? overlay =
-    Overlay.of(context).context.findRenderObject();
+        Overlay.of(context).context.findRenderObject();
 
     Future.delayed(Duration(milliseconds: 1400), () {
       if (distilleryImage == null) {
@@ -123,11 +128,12 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
     final viewModel = context.read<ArchivingPostDetailViewModel>();
 
     return BackListener(
-      onBackButtonClick: (){
+      onBackButtonClick: () {
         bool isAblePop = Navigator.canPop(context);
 
-        if (isAblePop)   Navigator.pop(context);
-        else{
+        if (isAblePop)
+          Navigator.pop(context);
+        else {
           Navigator.pushReplacementNamed(context, Routes.rootRoute);
         }
       },
@@ -182,7 +188,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(widget.archivingPost.whiskyName,
+                                          Text(_currentArchivingPost.whiskyName,
                                               maxLines: 3,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStylesManager.bold20),
@@ -190,7 +196,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                             height: WhilabelSpacing.space12 / 2,
                                           ),
                                           Text(
-                                            "${widget.archivingPost.strength}/\t${widget.archivingPost.location ?? ""}",
+                                            "${_currentArchivingPost.strength}/\t${_currentArchivingPost.location ?? ""}",
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStylesManager
@@ -227,29 +233,28 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                       style: TextStylesManager.bold18,
                                     ),
                                     isModify
-                                        ? SaveTextButton(
-                                            onClickButton: (){
-                                              showUpdatePostDialog(
-                                                context,
-                                                onClickedYesButton: () {
-                                                  viewModel.onEvent(
-                                                    ArchivingPostDetailEvnet.updateUserCritique(),
-                                                    callback: () {
-                                                      Navigator.pushNamed(
-                                                        context,
-                                                        Routes.rootRoute,
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                              );
-                                            })
+                                        ? SaveTextButton(onClickButton: () {
+                                            showUpdatePostDialog(
+                                              context,
+                                              onClickedYesButton: () {
+                                                viewModel.onEvent(
+                                                  ArchivingPostDetailEvnet
+                                                      .updateUserCritique(),
+                                                  callback: () {
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      Routes.rootRoute,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            );
+                                          })
                                         : ModifyTextButton(
                                             onClickButton: () async {
-
                                             await ArchivingPostDetailEvnet
                                                 .addStarValueOnProvider(widget
-                                                .archivingPost.starValue);
+                                                    .archivingPost.starValue);
 
                                             await viewModel.onEvent(
                                                 ArchivingPostDetailEvnet
@@ -258,8 +263,9 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                                             .text));
 
                                             await ArchivingPostDetailEvnet
-                                                .addTasteFeatureOnProvider(widget
-                                                    .archivingPost.tasteFeature);
+                                                .addTasteFeatureOnProvider(
+                                                _currentArchivingPost
+                                                        .tasteFeature);
 
                                             useModifyfeature();
                                           })
@@ -276,12 +282,11 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                 ),
                                 SizedBox(height: WhilabelSpacing.space16),
                                 UserCritiqueContainer(
-
                                     isModify: isModify,
                                     initalStarValue:
-                                        widget.archivingPost.starValue,
+                                    _currentArchivingPost.starValue,
                                     initalTasteFeature:
-                                        widget.archivingPost.tasteFeature,
+                                    _currentArchivingPost.tasteFeature,
                                     tasteNoteController: tasteNoteController),
                               ],
                             ),
@@ -289,8 +294,8 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                         ),
                         Container(
                           width: mediaQueryWidthSize,
-                          padding:
-                              const EdgeInsets.only(top: 10, right: 10, left: 10),
+                          padding: const EdgeInsets.only(
+                              top: 10, right: 10, left: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -375,14 +380,14 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
 
                                     return Center(
                                       child: CircularProgressIndicator(
-                                        value:
-                                            loadingProgress.expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes!
-                                                : null,
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!
+                                            : null,
                                       ),
                                     );
                                   },
@@ -410,31 +415,70 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                   onPressed: () {
                                     bool isAblePop = Navigator.canPop(context);
 
-                                    if (isAblePop)   Navigator.pop(context);
-                                    else{
-                                      Navigator.pushReplacementNamed(context, Routes.rootRoute);
+                                    if (isAblePop)
+                                      Navigator.pop(context);
+                                    else {
+                                      Navigator.pushReplacementNamed(
+                                          context, Routes.rootRoute);
                                     }
                                   },
                                   icon: SvgPicture.asset(SvgIconPath.backBold)),
                             ),
                             Container(
                               width: 32,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: ColorsManager.black400,
-                                  // color: Color(0x00000080),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: ColorsManager.black400,
+                                // color: Color(0x00000080),
 
-                                  shape: BoxShape.circle,
-                                ),
-                                child: IconButton(
-                                    icon: SvgPicture.asset(SvgIconPath.menu),
-                                    onPressed: (){
-                                  WhilabelContextMenu.showContextMenuSub(  context,
-                                      overlay!.paintBounds.size.width * 0.9,
-                                      overlay.paintBounds.size.height * 0.1 + 10);
+                                shape: BoxShape.circle,
+                              ),
+                              child: IconButton(
+                                icon: SvgPicture.asset(SvgIconPath.menu),
+                                onPressed: () async {
+                              await WhilabelContextMenu.showContextMenuSub(
+                                          context,
+                                          overlay!.paintBounds.size.width * 0.9,
+                                          overlay.paintBounds.size.height * 0.1 + 10)
+                                      .then((menuValue) {
+                                    switch (menuValue) {
+                                      case "share":
+                                        WhilabelContextMenu
+                                            .sharePostWhiskeyImage(
+                                            _currentArchivingPost.imageUrl);
+                                        break;
+
+                                      case "delete":
+                                        showDeletePostDialog(
+                                          context,
+                                          onClickedYesButton: () {
+                                            homeViewModel.onEvent(
+                                                HomeEvent.deleteArchivingPost(
+                                                    archivingPostId:
+                                                        _currentArchivingPost
+                                                            .postId,
+                                                    userid:
+                                                        _currentArchivingPost
+                                                            .userId,
+                                                    whiskyName:
+                                                        _currentArchivingPost
+                                                            .whiskyName),
+                                                callback: () {
+                                              Navigator.pushReplacementNamed(
+                                                context,
+                                                Routes.rootRoute,
+                                              );
+                                              homeViewModel
+                                                  .state
+                                                  .listTypeArchivingPosts
+                                                  .length;
+                                            });
+                                          },
+                                        );
+                                    }
+                                  });
                                 },
-                                ),
-
+                              ),
                             )
                           ],
                         ),
