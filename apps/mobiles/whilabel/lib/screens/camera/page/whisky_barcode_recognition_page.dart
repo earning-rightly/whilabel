@@ -11,7 +11,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
-import 'package:whilabel/screens/_constants/const_string.dart'as ConstString ;
+import 'package:whilabel/screens/_constants/string_manger.dart'as strManger ;
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/camera/page/take_picture_page.dart';
@@ -82,7 +82,7 @@ class _WhiskyBarcodeRecognitionPageState
       Future.delayed(const Duration(milliseconds: 2000), () async {
         final _barcodeScanResult = await scanBarcodeImage(SavedPngImage.path);
         if (_barcodeScanResult == null) {
-          addBarcodeOnStream(ConstString.SCAN_ERROR);
+          addBarcodeOnStream(strManger.SCAN_ERROR);
 
           throw Exception("barcode scan error");
         } else {
@@ -130,7 +130,7 @@ class _WhiskyBarcodeRecognitionPageState
                         // 1번만 동작 시키기 위해서 추가한 코드
                         isResizedImage = false;
 
-                        if (snapshot.data ==ConstString.SCAN_ERROR) {
+                        if (snapshot.data ==strManger.SCAN_ERROR) {
                           showFailedDialog().then((value) async {
                             await Navigator.pushNamed(
                                 context, arguments: 1, Routes.rootRoute);
