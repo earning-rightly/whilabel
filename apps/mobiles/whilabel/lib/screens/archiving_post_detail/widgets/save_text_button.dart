@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 
-class CancelTextButton extends StatelessWidget {
+class SaveTextButton extends StatelessWidget {
   final Function()? onClickButton;
 
-  const CancelTextButton({
+  const SaveTextButton({
     Key? key,
     this.onClickButton,
   }) : super(key: key);
@@ -20,7 +20,7 @@ class CancelTextButton extends StatelessWidget {
           foregroundColor: ColorsManager.black400),
       onPressed: onClickButton ?? () {},
       child: Text(
-        "취소",
+        "저장",
         style: TextStylesManager.createHadColorTextStyle(
             "R14", ColorsManager.brown100),
       ),

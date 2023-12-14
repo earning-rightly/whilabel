@@ -17,6 +17,7 @@ import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 class EachListArchivingPostCard extends StatelessWidget {
   final ArchivingPost archivingPost;
   final int sameWhiskyNameCounter;
+
   EachListArchivingPostCard({
     Key? key,
     required this.archivingPost,
@@ -40,9 +41,10 @@ class EachListArchivingPostCard extends StatelessWidget {
         Navigator.pushNamed(context, Routes.archivingPostDetailRoute,
             arguments: archivingPost);
       },
-      child: SizedBox(
+      child: Container(
         width: 350,
         height: 110,
+        color: Colors.transparent,
         child: Row(
           children: [
             // 리스트 왼쪽 위스키 사진
@@ -54,6 +56,7 @@ class EachListArchivingPostCard extends StatelessWidget {
                   width: 85,
                   height: 120,
                   child: Image.network(
+                    filterQuality: FilterQuality.low,
                     archivingPost.imageUrl,
                     fit: BoxFit.cover,
                   ),
@@ -89,23 +92,25 @@ class EachListArchivingPostCard extends StatelessWidget {
                         icon: SvgPicture.asset(SvgIconPath.menu),
                         padding: EdgeInsets.zero,
                         constraints:
-                          const BoxConstraints(minWidth: 10, minHeight: 10),
+                            const BoxConstraints(minWidth: 10, minHeight: 10),
                         style: IconButton.styleFrom(
                           padding: EdgeInsets.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         onPressed: () async {
-                          RenderBox popUpMenuBox = key.currentContext?.findRenderObject()
-                            as RenderBox;
+                          RenderBox popUpMenuBox = key.currentContext
+                              ?.findRenderObject() as RenderBox;
                           // meauitems가 나타나야 하는 곳에 위치를 통일 시키기 위해서
-                          Offset position = popUpMenuBox.localToGlobal(Offset.zero); //this is global position
+                          Offset position = popUpMenuBox.localToGlobal(
+                              Offset.zero); //this is global position
                           // 디바이스가 터치된 곳 좌표를 보내준다.
                           await WhilabelContextMenu.showContextMenu(
-                                context, position.dx + 1000, position.dy)
-                                .then((menuValue) {
+                                  context, position.dx + 1000, position.dy)
+                              .then((menuValue) {
                             switch (menuValue) {
                               case "share":
-                                WhilabelContextMenu.sharePostWhiskeyImage(archivingPost.imageUrl);
+                                WhilabelContextMenu.sharePostWhiskeyImage(
+                                    archivingPost.imageUrl);
                                 break;
 
                               case "modify":
@@ -121,7 +126,7 @@ class EachListArchivingPostCard extends StatelessWidget {
                                     homeViewModel.onEvent(
                                         HomeEvent.deleteArchivingPost(
                                             archivingPostId:
-                                              archivingPost.postId,
+                                                archivingPost.postId,
                                             userid: archivingPost.userId,
                                             whiskyName: archivingPost
                                                 .whiskyName), callback: () {
@@ -129,7 +134,8 @@ class EachListArchivingPostCard extends StatelessWidget {
                                         context,
                                         Routes.rootRoute,
                                       );
-                                      homeViewModel.state.listTypeArchivingPosts.length;
+                                      homeViewModel
+                                          .state.listTypeArchivingPosts.length;
                                     });
                                   },
                                 );
@@ -208,4 +214,3 @@ class EachListArchivingPostCard extends StatelessWidget {
     );
   }
 }
-
