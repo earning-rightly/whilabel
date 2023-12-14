@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:path_provider/path_provider.dart';
@@ -166,10 +168,15 @@ class WhilabelContextMenu {
 
 
 
-  static void sharePostWhiskeyImage(String imageUrl) async{
+  static Future<void> sharePostWhiskeyImage(String imageUrl) async{
+
 
     DateTime dt = DateTime.now();
     int timestamp = dt.millisecondsSinceEpoch;
+
+   await EasyLoading.show(
+     dismissOnTap: true
+    );
 
     try{
       //  `http` 패키지를 사용하여 이미지를 다운로드합니다.
@@ -177,7 +184,15 @@ class WhilabelContextMenu {
       // getTemporaryDirectory()을 이용하여 캐쉬메모리 저장소 path를 가져옵니다
       final Directory directory = await getTemporaryDirectory();
       // 사진파일을 캐쉬메모리에 저장하고 그 정보를 file 변수에 담습니다.
-      final File file = await File('${directory.path}/$timestamp.png').writeAsBytes(response.bodyBytes);
+      final File file = await File('${directory.path}/$timestamp.png').writeAsBytes(response.bodyBytes).then((value) {
+        if (EasyLoading.isShow) {
+          // await Future.delayed(const Duration(seconds: 3));
+          Timer(Duration(milliseconds: 2000), () {
+            EasyLoading.dismiss();
+          });
+        }
+        return value;
+      });
       // Share패키지를 이용해서 os에 내장된 공유 기능을 사용합니다.
       await Share.shareXFiles(
         [XFile(file.path)],
@@ -187,7 +202,15 @@ class WhilabelContextMenu {
 
     catch(e){
       debugPrint("공유기능 사용중에 에러 발생\n ====> $e");
+      if (EasyLoading.isShow) {
+        // await Future.delayed(const Duration(seconds: 3));
+        Timer(Duration(milliseconds: 2000), () {
+          EasyLoading.dismiss();
+        });
+      }
     }
+
+
   }
 }
 

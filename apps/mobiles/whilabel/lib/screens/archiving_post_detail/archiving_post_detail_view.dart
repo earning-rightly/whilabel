@@ -14,7 +14,8 @@ import 'package:whilabel/screens/_global/whilabel_context_menu.dart';
 import 'package:whilabel/screens/_global/widgets/back_listener.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_event.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
-import 'package:whilabel/screens/archiving_post_detail/widgets/cancel_text_button.dart';
+import 'package:whilabel/screens/archiving_post_detail/widgets/distillery_and_strength_text.dart';
+import 'package:whilabel/screens/archiving_post_detail/widgets/save_text_button.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/modify_text_button.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/user_critque_container.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
@@ -25,6 +26,8 @@ import 'package:whilabel/screens/_global/widgets/whilabel_divier.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:intl/intl.dart';
+import 'package:whilabel/screens/home/view_model/home_event.dart';
+import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 
 //-------- viwe 소개------------
 // - 위스키 인식이 성공적일때 유저에게 보여줄 view.
@@ -55,11 +58,12 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
   List<TasteVote>? tasteVotes; // dataBase의 정보 들어오면 실행 예정
   String? whiskyImageUrl;
   String? distilleryImage;
+  String? distilleryName;
+  late ArchivingPost _currentArchivingPost;
 
   bool isloading = true;
   bool isModify = false;
   String creatDate = "";
-
 
   @override
   void initState() {
@@ -72,6 +76,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
 
     creatDate = DateFormat("yyyy.MM.dd").format(date1);
     tasteNoteController.text = widget.archivingPost.note;
+    _currentArchivingPost = widget.archivingPost;
 
     // downloadURLExample("Aultmore");
     // TEstFirebaseStorage().getDistilleryImage(distilleryName);
@@ -83,7 +88,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
       // status: Text("123244"),
     );
     if (EasyLoading.isShow) {
-      Timer(Duration(milliseconds: 1000), () {
+      Timer(Duration(milliseconds: 1500), () {
         EasyLoading.dismiss();
       });
     }
@@ -108,8 +113,10 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
 
   @override
   Widget build(BuildContext context) {
+    final homeViewModel = context.read<HomeViewModel>();
+
     final RenderObject? overlay =
-    Overlay.of(context).context.findRenderObject();
+        Overlay.of(context).context.findRenderObject();
 
     Future.delayed(Duration(milliseconds: 1400), () {
       if (distilleryImage == null) {
@@ -182,21 +189,19 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(widget.archivingPost.whiskyName,
+                                          Text(_currentArchivingPost.whiskyName != ""
+                                              ? _currentArchivingPost.whiskyName
+                                              : "위스키를 등록 중입니다",
                                               maxLines: 3,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStylesManager.bold20),
                                           SizedBox(
                                             height: WhilabelSpacing.space12 / 2,
                                           ),
-                                          Text(
-                                            "${widget.archivingPost.strength}/\t${widget.archivingPost.location ?? ""}",
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStylesManager
-                                                .createHadColorTextStyle(
-                                                    "R14", Colors.grey),
-                                          ),
+                                          DistilleryAndStrengthText(
+                                            distilleryName: distilleryName,
+                                            strength: _currentArchivingPost.strength,
+                                          )
                                         ],
                                       ),
                                     ),
@@ -227,12 +232,28 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                       style: TextStylesManager.bold18,
                                     ),
                                     isModify
-                                        ? CancelTextButton(
-                                            onClickButton: cancelModifyfeature)
+                                        ? SaveTextButton(onClickButton: () {
+                                            showUpdatePostDialog(
+                                              context,
+                                              onClickedYesButton: () {
+                                                viewModel.onEvent(
+                                                  ArchivingPostDetailEvnet
+                                                      .updateUserCritique(),
+                                                  callback: () {
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      Routes.rootRoute,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            );
+                                          })
                                         : ModifyTextButton(
                                             onClickButton: () async {
-                                            print("cnamclel");
-
+                                            await ArchivingPostDetailEvnet
+                                                .addStarValueOnProvider(widget
+                                                    .archivingPost.starValue);
                                             await viewModel.onEvent(
                                                 ArchivingPostDetailEvnet
                                                     .addTasteNoteOnProvider(
@@ -240,13 +261,12 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                                             .text));
 
                                             await ArchivingPostDetailEvnet
-                                                .addStarValueOnProvider(widget
-                                                    .archivingPost.starValue);
+                                                .addStarValueOnProvider(
+                                                    _currentArchivingPost.starValue);
 
                                             await ArchivingPostDetailEvnet
-                                                .addTasteFeatureOnProvider(widget
-                                                    .archivingPost.tasteFeature);
-
+                                                .addTasteFeatureOnProvider(
+                                                  _currentArchivingPost.tasteFeature);
                                             useModifyfeature();
                                           })
                                   ],
@@ -263,10 +283,10 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                 SizedBox(height: WhilabelSpacing.space16),
                                 UserCritiqueContainer(
                                     isModify: isModify,
-                                    initalStarValue:
-                                        widget.archivingPost.starValue,
+                                    initalStarValue:                                     
+                                    _currentArchivingPost.starValue,
                                     initalTasteFeature:
-                                        widget.archivingPost.tasteFeature,
+                                    _currentArchivingPost.tasteFeature,
                                     tasteNoteController: tasteNoteController),
                               ],
                             ),
@@ -280,7 +300,6 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(height: WhilabelSpacing.space24),
-
                               BasicDivider(),
                               SizedBox(height: WhilabelSpacing.space24),
 
@@ -344,13 +363,14 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                       child: Container(
                         height: 106,
                         width: 80,
-                        padding: EdgeInsets.only(top: 6),
+                        // padding: EdgeInsets.only(top: 6),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: whiskyImageUrl != null
                               ? Image.network(
                                   whiskyImageUrl!,
                                   fit: BoxFit.fill,
+                                  filterQuality: FilterQuality.low,
                                   loadingBuilder: (BuildContext context,
                                       Widget child,
                                       ImageChunkEvent? loadingProgress) {
@@ -397,29 +417,66 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
 
                                     if (isAblePop)   Navigator.pop(context);
                                     else{
-                                      Navigator.pushReplacementNamed(context, Routes.rootRoute);
+                                      Navigator.pushReplacementNamed(context, Routes.rootRoute);                                    
                                     }
                                   },
                                   icon: SvgPicture.asset(SvgIconPath.backBold)),
                             ),
                             Container(
                               width: 32,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: ColorsManager.black400,
-                                  // color: Color(0x00000080),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: ColorsManager.black400,
+                                // color: Color(0x00000080),
 
-                                  shape: BoxShape.circle,
-                                ),
-                                child: IconButton(
-                                    icon: SvgPicture.asset(SvgIconPath.menu),
-                                    onPressed: (){
-                                  WhilabelContextMenu.showContextMenuSub(  context,
-                                      overlay!.paintBounds.size.width * 0.9,
-                                      overlay.paintBounds.size.height * 0.1 + 10);
+                                shape: BoxShape.circle,
+                              ),
+                              child: IconButton(
+                                icon: SvgPicture.asset(SvgIconPath.menu),
+                                onPressed: () async {
+                              await WhilabelContextMenu.showContextMenuSub(
+                                          context,
+                                          overlay!.paintBounds.size.width * 0.9,
+                                          overlay.paintBounds.size.height * 0.1 + 10)
+                                      .then((menuValue) {
+                                    switch (menuValue) {
+                                      case "share":
+                                        WhilabelContextMenu
+                                            .sharePostWhiskeyImage(
+                                            _currentArchivingPost.imageUrl);
+                                        break;
+
+                                      case "delete":
+                                        showDeletePostDialog(
+                                          context,
+                                          onClickedYesButton: () {
+                                            homeViewModel.onEvent(
+                                                HomeEvent.deleteArchivingPost(
+                                                    archivingPostId:
+                                                        _currentArchivingPost
+                                                            .postId,
+                                                    userid:
+                                                        _currentArchivingPost
+                                                            .userId,
+                                                    whiskyName:
+                                                        _currentArchivingPost
+                                                            .whiskyName),
+                                                callback: () {
+                                              Navigator.pushReplacementNamed(
+                                                context,
+                                                Routes.rootRoute,
+                                              );
+                                              homeViewModel
+                                                  .state
+                                                  .listTypeArchivingPosts
+                                                  .length;
+                                            });
+                                          },
+                                        );
+                                    }
+                                  });
                                 },
-                                ),
-
+                              ),
                             )
                           ],
                         ),
@@ -446,24 +503,25 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
   }
 
   //  distillery 사진을 받아올 함수
-  Future<void> getDistilleryImage(String distilleryName) async {
+  Future<void> getDistilleryImage(String _distilleryName) async {
     final FirebaseStorage _storage = FirebaseStorage.instance;
     String? downLoadUrl;
-    if (distilleryName != "") {
-      print("distilleryName ==> $distilleryName");
+    if (_distilleryName != "") {
+      print("distilleryName ==> $_distilleryName");
       try {
         final storageRef =
-            _storage.ref().child("distillery_images/$distilleryName.jpeg");
+            _storage.ref().child("distillery_images/$_distilleryName.jpeg");
 
         downLoadUrl = await storageRef.getDownloadURL();
         print("down load url $downLoadUrl");
 
         setState(() {
           distilleryImage = downLoadUrl;
+          distilleryName = _distilleryName;
         });
       } catch (e) {
         debugPrint("$e");
-        throw Exception('cannot find $distilleryName.jpeg  ');
+        throw Exception('cannot find $_distilleryName.jpeg  ');
       }
     } else {
       debugPrint("distillery 이름이 비어있습니다");
