@@ -14,6 +14,7 @@ import 'package:whilabel/screens/_global/whilabel_context_menu.dart';
 import 'package:whilabel/screens/_global/widgets/back_listener.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_event.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
+import 'package:whilabel/screens/archiving_post_detail/widgets/distillery_and_strength_text.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/save_text_button.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/modify_text_button.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/user_critque_container.dart';
@@ -57,6 +58,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
   List<TasteVote>? tasteVotes; // dataBase의 정보 들어오면 실행 예정
   String? whiskyImageUrl;
   String? distilleryImage;
+  String? distilleryName;
   late ArchivingPost _currentArchivingPost;
 
   bool isloading = true;
@@ -188,21 +190,19 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(_currentArchivingPost.whiskyName,
+                                          Text(_currentArchivingPost.whiskyName != ""
+                                              ? _currentArchivingPost.whiskyName
+                                              : "위스키를 등록 중입니다",
                                               maxLines: 3,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStylesManager.bold20),
                                           SizedBox(
                                             height: WhilabelSpacing.space12 / 2,
                                           ),
-                                          Text(
-                                            "${_currentArchivingPost.strength}/\t${_currentArchivingPost.location ?? ""}",
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStylesManager
-                                                .createHadColorTextStyle(
-                                                    "R14", Colors.grey),
-                                          ),
+                                          DistilleryAndStrengthText(
+                                            distilleryName: distilleryName,
+                                            strength: _currentArchivingPost.strength,
+                                          )
                                         ],
                                       ),
                                     ),
@@ -371,6 +371,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                               ? Image.network(
                                   whiskyImageUrl!,
                                   fit: BoxFit.fill,
+                                  filterQuality: FilterQuality.low,
                                   loadingBuilder: (BuildContext context,
                                       Widget child,
                                       ImageChunkEvent? loadingProgress) {
@@ -505,24 +506,25 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
   }
 
   //  distillery 사진을 받아올 함수
-  Future<void> getDistilleryImage(String distilleryName) async {
+  Future<void> getDistilleryImage(String _distilleryName) async {
     final FirebaseStorage _storage = FirebaseStorage.instance;
     String? downLoadUrl;
-    if (distilleryName != "") {
-      print("distilleryName ==> $distilleryName");
+    if (_distilleryName != "") {
+      print("distilleryName ==> $_distilleryName");
       try {
         final storageRef =
-            _storage.ref().child("distillery_images/$distilleryName.jpeg");
+            _storage.ref().child("distillery_images/$_distilleryName.jpeg");
 
         downLoadUrl = await storageRef.getDownloadURL();
         print("down load url $downLoadUrl");
 
         setState(() {
           distilleryImage = downLoadUrl;
+          distilleryName = _distilleryName;
         });
       } catch (e) {
         debugPrint("$e");
-        throw Exception('cannot find $distilleryName.jpeg  ');
+        throw Exception('cannot find $_distilleryName.jpeg  ');
       }
     } else {
       debugPrint("distillery 이름이 비어있습니다");
