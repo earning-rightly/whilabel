@@ -1,3 +1,4 @@
+import 'package:dartx/dartx.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,6 +19,7 @@ class MyPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     final myPageData = MyPageData();
     final currentAppUser = context.watch<CurrentUserStatus>().state.appUser!;
+    final _width = MediaQuery.of(context).size.width;
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -26,28 +28,52 @@ class MyPageView extends StatelessWidget {
           child: Column(
             children: [
               // 마이페이지 최상상단 부분 (닉네임과 설정 아이콘)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                      "${currentAppUser.nickName}님",
-                      style: TextStylesManager.bold24,
-                      maxLines: 2,
+              SizedBox(
+                width: _width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: _width * 0.7,
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "${currentAppUser.nickName}님",
+                              // "가나다라마바사아자차카타파하아자차카타파하",
+                              style: TextStylesManager.bold24,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          IconButton( // 유저정보 수정하는 view로 이동
+                            icon: SvgPicture.asset(SvgIconPath.modify),
+                            onPressed: () {
+                             if ( currentAppUser.nickName.isNullOrEmpty != true) {
+                               Navigator.pushNamed(context,
+                                   arguments: currentAppUser.nickName,
+                                   Routes.userAdditionalInfoRoute);
+                             }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    icon: SvgPicture.asset(myPageData.settingIconPath),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SettingPage(),
-                        ),
-                      );
-                    },
-                  )
-                ],
+                    Align(
+                      child: IconButton(
+                        icon: SvgPicture.asset(myPageData.settingIconPath),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SettingPage(),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
 
               // 마이페이지 리스트 중에 설정과 공지사랑으로 이동시켜주는 리스트 버튼

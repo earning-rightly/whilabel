@@ -9,7 +9,7 @@ abstract class MyPageEvent with _$MyPageEvent {
       ChangePushAlimValue;
   const factory MyPageEvent.changeMarketingAlimValue(String uid) =
       ChangeMarketingAlimValue;
-  const factory MyPageEvent.withdrawAccount(String firebaseUserId) = WithdrawAccount;
+  const factory MyPageEvent.withdrawAccount(String uid) = WithdrawAccount;
 
   const factory MyPageEvent.sendEmail(String uid) = SendEmail;
 }

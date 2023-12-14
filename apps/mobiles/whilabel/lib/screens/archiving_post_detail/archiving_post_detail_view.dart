@@ -130,12 +130,11 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
     final viewModel = context.read<ArchivingPostDetailViewModel>();
 
     return BackListener(
-      onBackButtonClick: () {
+      onBackButtonClick: (){
         bool isAblePop = Navigator.canPop(context);
 
-        if (isAblePop)
-          Navigator.pop(context);
-        else {
+        if (isAblePop)   Navigator.pop(context);
+        else{
           Navigator.pushReplacementNamed(context, Routes.rootRoute);
         }
       },
@@ -255,7 +254,6 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                             await ArchivingPostDetailEvnet
                                                 .addStarValueOnProvider(widget
                                                     .archivingPost.starValue);
-
                                             await viewModel.onEvent(
                                                 ArchivingPostDetailEvnet
                                                     .addTasteNoteOnProvider(
@@ -263,10 +261,12 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                                             .text));
 
                                             await ArchivingPostDetailEvnet
-                                                .addTasteFeatureOnProvider(
-                                                _currentArchivingPost
-                                                        .tasteFeature);
+                                                .addStarValueOnProvider(
+                                                    _currentArchivingPost.starValue);
 
+                                            await ArchivingPostDetailEvnet
+                                                .addTasteFeatureOnProvider(
+                                                  _currentArchivingPost.tasteFeature);
                                             useModifyfeature();
                                           })
                                   ],
@@ -283,7 +283,7 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                 SizedBox(height: WhilabelSpacing.space16),
                                 UserCritiqueContainer(
                                     isModify: isModify,
-                                    initalStarValue:
+                                    initalStarValue:                                     
                                     _currentArchivingPost.starValue,
                                     initalTasteFeature:
                                     _currentArchivingPost.tasteFeature,
@@ -294,13 +294,12 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                         ),
                         Container(
                           width: mediaQueryWidthSize,
-                          padding: const EdgeInsets.only(
-                              top: 10, right: 10, left: 10),
+                          padding:
+                              const EdgeInsets.only(top: 10, right: 10, left: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(height: WhilabelSpacing.space24),
-
                               BasicDivider(),
                               SizedBox(height: WhilabelSpacing.space24),
 
@@ -381,14 +380,14 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
 
                                     return Center(
                                       child: CircularProgressIndicator(
-                                        value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes!
-                                            : null,
+                                        value:
+                                            loadingProgress.expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes!
+                                                : null,
                                       ),
                                     );
                                   },
@@ -416,11 +415,9 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                   onPressed: () {
                                     bool isAblePop = Navigator.canPop(context);
 
-                                    if (isAblePop)
-                                      Navigator.pop(context);
-                                    else {
-                                      Navigator.pushReplacementNamed(
-                                          context, Routes.rootRoute);
+                                    if (isAblePop)   Navigator.pop(context);
+                                    else{
+                                      Navigator.pushReplacementNamed(context, Routes.rootRoute);                                    
                                     }
                                   },
                                   icon: SvgPicture.asset(SvgIconPath.backBold)),
