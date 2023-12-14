@@ -120,14 +120,16 @@ class EachWhiskeyGridView extends StatelessWidget {
       child: Stack(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(16.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(16.0)),
             child: SizedBox(
               width: 300.w,
               height: 375.h,
               child:  Image.network(
+                filterQuality: FilterQuality.low,
 
                   fit: BoxFit.fill,
                   whiskeyNameGroupedArchivingPosts.first.imageUrl,
+
                 loadingBuilder: (BuildContext context,
                     Widget child,
                     ImageChunkEvent? loadingProgress) {
