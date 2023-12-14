@@ -53,8 +53,11 @@ class RouteGenerator {
       case Routes.whiskeyCritiqueRoute:
         return MaterialPageRoute(builder: (_) => WhiskyCritiqueView());
       case Routes.userAdditionalInfoRoute:
+        final nickName = routeSettings.arguments as String?;
         return MaterialPageRoute(
-            builder: (_) => const UserAdditionalInfoView());
+    builder: (_) =>  UserAdditionalInfoView(
+      nickName: nickName,
+    ));
       case Routes.onBoardingRoute:
         return MaterialPageRoute(builder: (_) => const OnboardingStep1Page());
       // case Routes.announcementPageRoute:

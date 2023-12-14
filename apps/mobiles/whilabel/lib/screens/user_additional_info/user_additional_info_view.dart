@@ -1,9 +1,13 @@
+import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/_global/functions/text_feild_rules.dart';
 import 'package:whilabel/screens/_global/functions/text_field_styles.dart';
 import 'package:whilabel/screens/_global/widgets/app_bars.dart';
@@ -13,8 +17,11 @@ import 'package:whilabel/screens/user_additional_info/view_model/user_additional
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
 import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
 
+// ignore: must_be_immutable
 class UserAdditionalInfoView extends StatefulWidget {
-  const UserAdditionalInfoView({super.key});
+  UserAdditionalInfoView({super.key, this.nickName });
+  String? nickName;
+
 
   @override
   State<UserAdditionalInfoView> createState() => _UserAdditionalInfoViewState();
@@ -24,13 +31,14 @@ class UserAdditionalInfoView extends StatefulWidget {
 // 추가 정보 페이지를 my 페이지에서 유저 정보 수정에서 사용할 가능성 있음
 class _UserAdditionalInfoViewState extends State<UserAdditionalInfoView> {
   final _formKey = GlobalKey();
-  final nickNameText = TextEditingController();
+ late TextEditingController  nickNameText = TextEditingController( text: widget.nickName);
   String userNickname = "";
   String? errorMessage = "";
 
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<UserAdditionalInfoViewModel>();
+    final currentUserStatus = context.read<CurrentUserStatus>();
 
     return Scaffold(
         appBar: buildScaffoldAppBar(context, SvgIconPath.close, ""),
@@ -54,6 +62,7 @@ class _UserAdditionalInfoViewState extends State<UserAdditionalInfoView> {
                           height: 32,
                         ),
                         TextFormField(
+
                           style: TextStylesManager.regular16,
                           maxLength: 20,
                           controller: nickNameText,
@@ -87,37 +96,63 @@ class _UserAdditionalInfoViewState extends State<UserAdditionalInfoView> {
                         color: ColorsManager.brown100,
                         enabled: errorMessage == null,
                         onPressedFunc: () {
-                          viewModel.onEvent(
-                            CheckNickName(userNickname),
-                            callback: () {
-                              setState(() {});
+                          if (widget.nickName.isNullOrEmpty == true) {
+                            viewModel.onEvent(
+                              CheckNickName(userNickname),
+                              callback: () {
+                                setState(() {});
 
-                              if (viewModel.state.isAbleNickName &&
-                                  viewModel.state.forbiddenWord == "") {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        RestInfoAddtionalPage(
-                                            nickName: userNickname),
-                                  ),
-                                );
-                              } else {
-                                String dialogSubTitle = "";
+                                if (viewModel.state.isAbleNickName &&
+                                    viewModel.state.forbiddenWord == "") {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          RestInfoAddtionalPage(
+                                              nickName: userNickname),
+                                    ),
+                                  );
+                                } else {
+                                  String dialogSubTitle = "";
 
-                                if (viewModel.state.isAbleNickName ==
-                                    false) {
-                                  dialogSubTitle = "중복된 닉네임입니다";
+                                  if (viewModel.state.isAbleNickName ==
+                                      false) {
+                                    dialogSubTitle = "중복된 닉네임입니다";
+                                  }
+                                  if (viewModel.state.forbiddenWord != "") {
+                                    dialogSubTitle = "\"${viewModel.state
+                                        .forbiddenWord}\" 는 금지어입니다";
+                                  }
+
+                                  showSimpleDialog(context, "<닉네임 사용불가>",
+                                      dialogSubTitle);
                                 }
-                                if (viewModel.state.forbiddenWord != "") {
-                                  dialogSubTitle = "\"${viewModel.state.forbiddenWord}\" 는 금지어입니다";
-                                }
+                              },
+                            );
+                          }
+                          // MyPage에서 nickname을 수정하고자 할때 동작
+                          // widget.nickName의 String이 있을 때
+                          else{
+                           final _user = currentUserStatus.state.appUser!.copyWith(
+                             nickName: nickNameText.text
+                           );
 
-                                showSimpleDialog(context, "<닉네임 사용불가>",
-                                    dialogSubTitle);
-                              }
-                            },
-                          );
+                           showUpdatePostDialog(
+                             context,onClickedYesButton: (){
+                             viewModel.onEvent(
+                               AddUserInfo(_user),
+                               callback: () {
+                                 currentUserStatus.updateUserState();
+                                 Navigator.pushNamedAndRemoveUntil(
+                                   context,
+                                   Routes.rootRoute,
+                                       (route) => false,
+                                 );
+                               },
+                             );
+                           }
+                           );
+                        }
                         }),
                   ),
                 ),
