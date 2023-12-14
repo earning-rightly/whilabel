@@ -126,8 +126,8 @@ class WithdrawalPage extends StatelessWidget {
                         onPressedFunc: () async {
                           showWithdrawalDialog(
                             context,
-                            onClickedYesButton: () {
-                              viewModel.onEvent(
+                            onClickedYesButton: () async{
+                             await viewModel.onEvent(
                                   MyPageEvent.withdrawAccount(appUser.uid));
                               loginViewModel.onEvent(
                                 LoginEvent.logout(appUser.snsType),
