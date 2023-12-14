@@ -29,10 +29,11 @@ class _ListArchivingPostPageState extends State<ListArchivingPostPage> {
             child: ListView.separated(
                 itemCount: state.listTypeArchivingPosts.length,
                 itemBuilder: (context, index) {
+                  final currentArchivingPost =  state.listTypeArchivingPosts[index];
 
                   return EachListArchivingPostCard(
-                    archivingPost: state.listTypeArchivingPosts[index],
-                    sameWhiskyNameCounter:state.listTypeArchivingPosts.length,
+                    archivingPost: currentArchivingPost,
+                    sameWhiskyNameCounter:state.gridTypeArchivingPost[currentArchivingPost.whiskyName]?.length ?? 0,
                   );
                 },
                 separatorBuilder: (context, index) {
