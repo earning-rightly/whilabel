@@ -52,11 +52,11 @@ class LogoutUseCase {
   }
   Future<void> _deleteFcmToken() async{
     /// 로그인한 디바이스 바뀌면 fcmToken도 변경되어한다
-   AppUser? _user  = _currentUserStatus.state.appUser;
+   AppUser? user  = _currentUserStatus.state.appUser;
 
-   if (_user != null) {
-     _user = _user.copyWith(fcmToken: "");
-     _appUserRepository.insertUser(_user);
+   if (user != null) {
+     user = user.copyWith(fcmToken: "");
+     _appUserRepository.insertUser(user);
    }
   }
 }
