@@ -8,8 +8,11 @@ import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_global/functions/button_style.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/camera/page/take_picture_page.dart';
+import 'package:whilabel/screens/camera/page/whisky_barcode_scan_page.dart';
 
 import '../view_model/camera_view_model.dart';
 
@@ -97,30 +100,103 @@ class _WhiskyBarcodeRecognitionPageState
                   ),
                 ],
               ),
-          Positioned(
-            bottom: 8,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: LongTextButton(
-              buttonText: "다음",
-              color: ColorsManager.brown100,
-              onPressedFunc: () async {
+          // Positioned(
+          //   bottom: 8,
+          //   left: 0,
+          //   right: 0,
+          //   child: Padding(
+          //     padding: EdgeInsets.symmetric(horizontal: 16),
+          //     child: LongTextButton(
+          //     buttonText: "다음",
+          //     color: ColorsManager.brown100,
+          //     onPressedFunc: () async {
+          //
+          //      Navigator.push(
+          //        context,
+          //        MaterialPageRoute(
+          //          builder: (context) =>
+          //              TakePicturePage(
+          //                cameras: viewModel.state.cameras,
+          //              ),
+          //        ),
+          //      );
+          //     },
+          // ),
+          //   ),
+          // ),
+              Positioned(
+                  bottom: 0,
+                  child: Container(
+                    // alignment: ,
 
-               Navigator.push(
-                 context,
-                 MaterialPageRoute(
-                   builder: (context) =>
-                       TakePicturePage(
-                         cameras: viewModel.state.cameras,
-                       ),
-                 ),
-               );
-              },
-          ),
-            ),
-          )
+                    width: MediaQuery.of(context).size.width,
+                    height: 70,
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: SizedBox(
+                            child: OutlinedButton(
+                              onPressed: () async{
+
+                                     Navigator.push(
+                                       context,
+                                       MaterialPageRoute(
+                                         builder: (context) =>
+                                             WhiskyBarCodeScanPage(
+                                               cameras: viewModel.state.cameras,
+                                             ),
+                                       ),
+                                     );
+
+
+                              },
+                              child: Text(
+                                "다시찍기",
+                                style: TextStylesManager.bold16,
+                              ),
+                              style: createBasicButtonStyle(
+                                ColorsManager.black300,
+                                buttonSize: Size(120, 53),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // 공유하기 기능을 만들면 추가
+                        SizedBox(width: WhilabelSpacing.space12),
+                        Expanded(
+                          flex: 1,
+                          child: SizedBox(
+                            child: ElevatedButton(
+                              onPressed: () async{
+
+                                Navigator.push(
+                                           context,
+                                           MaterialPageRoute(
+                                             builder: (context) =>
+                                                 TakePicturePage(
+                                                   cameras: viewModel.state.cameras,
+                                                 ),
+                                           ),
+                                         );
+                              },
+                              child: Text(
+                                "다음",
+                                style: TextStylesManager.bold16,
+                              ),
+                              style: createBasicButtonStyle(
+                                ColorsManager.brown100,
+                                buttonSize: Size(120, 53),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ))
             ],
           ),
         ),

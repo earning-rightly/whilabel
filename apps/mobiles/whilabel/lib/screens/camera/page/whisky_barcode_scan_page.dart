@@ -10,6 +10,7 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/camera/page/whisky_barcode_recognition_page.dart';
 
+
 import 'gallery_page.dart';
 
 /// CameraApp is the Main Application.
@@ -185,7 +186,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                                 File barcodeImage = await imageFile.copy(
                                   '${directory.path}/$currentUnix.$fileFormat',
                                 );
-                                Navigator.push(
+                              await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
