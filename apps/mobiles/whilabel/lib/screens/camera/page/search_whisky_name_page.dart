@@ -9,7 +9,7 @@ import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/text_field_styles.dart';
-import 'package:whilabel/screens/camera/page/gallery_page.dart';
+import 'package:whilabel/screens/camera/page/take_picture_page.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 
@@ -125,7 +125,7 @@ class _SearchedWhiskyListTitleState extends State<SearchedWhiskyListTitle> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => GalleryPage(),
+                builder: (context) => TakePicturePage(cameras: viewModel.state.cameras),
               ),
             );
           }

@@ -116,7 +116,9 @@ class WithdrawalPage extends StatelessWidget {
                         buttonText: "위라벨 계속 사용하기",
                         buttonTextColor: ColorsManager.gray500,
                         color: ColorsManager.orange,
-                        onPressedFunc: () {},
+                        onPressedFunc: () {
+                          Navigator.pushReplacementNamed(context, Routes.rootRoute);
+                        },
                       ),
                       // 탈퇴하기 => 팝업 창 생성
                       LongTextButton(
