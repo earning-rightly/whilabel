@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
@@ -12,6 +11,7 @@ import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/_global/whilabel_context_menu.dart';
 import 'package:whilabel/screens/_global/widgets/back_listener.dart';
+import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_event.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
 import 'package:whilabel/screens/archiving_post_detail/widgets/distillery_and_strength_text.dart';
@@ -83,17 +83,12 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
   }
 
   Future<void> getWhiskData(ArchivingPostDetailViewModel viewModel) async {
-    await EasyLoading.show(
-      maskType: EasyLoadingMaskType.black,
-      // status: Text("123244"),
-    );
-    if (EasyLoading.isShow) {
-      Timer(Duration(milliseconds: 1500), () {
-        EasyLoading.dismiss();
-      });
-    }
+   await CustomLoadingIndicator.showLodingProgress(); // 로딩 생성
 
-    Whisky _whiskyData = await viewModel.getWhiskyData(
+    CustomLoadingIndicator.dimissonProgress(milliseconds: 1800); //
+
+
+   Whisky _whiskyData = await viewModel.getWhiskyData(
         widget.archivingPost.barcode, widget.archivingPost.postId);
     await viewModel.getWhiskyData(
         widget.archivingPost.barcode, widget.archivingPost.postId);

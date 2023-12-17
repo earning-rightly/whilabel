@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/enum/post_sort_order.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
+import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 import 'package:whilabel/screens/home/view_model/home_event.dart';
@@ -108,9 +108,7 @@ class _CritiqueViewWhiskyInfoFooterState
                           );
                         }
                       : () async {
-                          EasyLoading.show(
-                            maskType: EasyLoadingMaskType.black,
-                          );
+                        CustomLoadingIndicator.showLodingProgress();
 
                           await viewModel.onEvent(
                             SaveArchivingPostOnDb(

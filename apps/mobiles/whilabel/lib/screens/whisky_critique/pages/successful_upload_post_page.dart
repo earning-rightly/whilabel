@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
@@ -12,6 +9,7 @@ import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/button_style.dart';
 import 'package:whilabel/screens/_global/whilabel_context_menu.dart';
 import 'package:whilabel/screens/_global/widgets/back_listener.dart';
+import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 
 class SuccessfulUploadPostPage extends StatelessWidget {
@@ -27,12 +25,8 @@ class SuccessfulUploadPostPage extends StatelessWidget {
   Widget build(BuildContext context) {
   // final  homeState = context.read<HomeViewModel>().state;
     final homeViewModel =context.read<HomeViewModel>();
+    CustomLoadingIndicator.dimissonProgress();
 
-    if (EasyLoading.isShow) {
-      Timer(Duration(milliseconds: 1000), () {
-        EasyLoading.dismiss();
-      });
-    }
     return BackListener(
       onBackButtonClick: (){
         bool isAblePop = Navigator.canPop(context);

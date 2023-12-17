@@ -26,7 +26,6 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  bool _isLoginProgress = false;
   bool get isiOS => foundation.defaultTargetPlatform == foundation.TargetPlatform.iOS;
 
   @override
@@ -134,9 +133,6 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ],
               ),
-              LodingProgressIndicator(
-                offstage: !_isLoginProgress,
-              )
             ],
           ),
         ),
@@ -145,15 +141,14 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void startLogin() {
-    setState(() {
-      _isLoginProgress = true;
-    });
+
+    CustomLoadingIndicator.showLodingProgress();
+
   }
 
   void endLogin() {
-    setState(() {
-      _isLoginProgress = false;
-    });
+    CustomLoadingIndicator.dimissonProgress(milliseconds: 5000);
+
   }
 
   void checkNextRoute({
