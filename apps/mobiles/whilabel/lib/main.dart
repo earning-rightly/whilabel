@@ -15,7 +15,7 @@ import 'package:whilabel/provider_manager.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/themedata_manager.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:whilabel/screens/_global/alim.dart';
+import 'package:whilabel/screens/_global/flutter_local_notificatication.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
