@@ -56,7 +56,7 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
     return distilleryData!;
   }
 
-  Future<Whisky> getWhiskyData(String barCode, String postId) async {
+  Future<Whisky?> getWhiskyData(String barCode, String postId) async {
     final whiskyData =
         await _whiskyRepository.getWhiskyDataWithBarcode(barCode);
     // 데이터 베이스에서 distilleryName이 String이였을 때 사용 했던 코드
@@ -75,7 +75,7 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
       notifyListeners();
     }
 
-    return whiskyData!;
+    return whiskyData;
   }
 
 // post가 존하기 때문에 상세페이지 이동 가능

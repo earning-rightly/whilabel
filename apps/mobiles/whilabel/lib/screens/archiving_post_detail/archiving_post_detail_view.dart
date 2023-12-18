@@ -88,22 +88,24 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
     CustomLoadingIndicator.dimissonProgress(milliseconds: 1800); //
 
 
-   Whisky _whiskyData = await viewModel.getWhiskyData(
+   Whisky? _whiskyData = await viewModel.getWhiskyData(
         widget.archivingPost.barcode, widget.archivingPost.postId);
-    await viewModel.getWhiskyData(
-        widget.archivingPost.barcode, widget.archivingPost.postId);
-    List<String?> distilleryNames = _whiskyData.wbWhisky?.distilleryName ?? [];
+   if (_whiskyData != null) {
+     await viewModel.getWhiskyData(
+         widget.archivingPost.barcode, widget.archivingPost.postId);
+     List<String?> distilleryNames = _whiskyData.wbWhisky?.distilleryName ?? [];
 
-    if (distilleryNames.isNotEmpty) {
-      distilleryNames =
-          distilleryNames.map((name) => name!.split(" ").join("_")).toList();
-      getDistilleryImage(distilleryNames.first!);
-    }
+     if (distilleryNames.isNotEmpty) {
+       distilleryNames =
+           distilleryNames.map((name) => name!.split(" ").join("_")).toList();
+       getDistilleryImage(distilleryNames.first!);
+     }
 
-    setState(() {
-      // tasteVotes =     _whiskyData.tasteVotes ?? _whiskyData.wbWhisky!.tasteVotes!;
-      whiskyImageUrl = _whiskyData.imageUrl ?? _whiskyData.wbWhisky!.image_url!;
-    });
+     setState(() {
+       whiskyImageUrl =
+           _whiskyData.imageUrl ?? _whiskyData.wbWhisky!.image_url!;
+     });
+   }
   }
 
   @override
