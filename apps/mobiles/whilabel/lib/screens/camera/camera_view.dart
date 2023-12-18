@@ -146,7 +146,7 @@ class _CameraViewState extends State<CameraView> {
                             },
                           ),
                         ),
-                        Expanded(flex: 10, child: SizedBox()),
+                        Expanded(flex: height > width * 1.2? 10:1, child: SizedBox()),
                       ],
                     ),
                   ],
