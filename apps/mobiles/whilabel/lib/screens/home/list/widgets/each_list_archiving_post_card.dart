@@ -176,7 +176,7 @@ class EachListArchivingPostCard extends StatelessWidget {
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                     height: 30,
-                    width:160.w,
+                    width:175.w,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                         color: ColorsManager.black200),
