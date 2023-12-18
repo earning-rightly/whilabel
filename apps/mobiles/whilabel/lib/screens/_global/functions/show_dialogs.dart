@@ -38,6 +38,7 @@ Future<void> showRuleForCamera(BuildContext context) async {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
+                      textAlign: TextAlign.center,
                       title,
                       style: TextStylesManager.bold20,
                     ),
