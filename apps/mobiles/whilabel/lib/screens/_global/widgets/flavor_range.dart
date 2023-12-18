@@ -104,7 +104,7 @@ class _FlavorRangeState extends State<FlavorRange> {
     return RatingBar.builder(
         ignoreGestures: disable, // 별점 매길 것 인지 보기만 할 것인지
         initialRating: initialRating, // 처음에 보여 줘야 할 별점 개수
-        minRating: 1,
+        minRating: 0,
         itemCount: 5,
         itemSize: size,
         direction: Axis.horizontal,
