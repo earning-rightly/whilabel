@@ -87,8 +87,7 @@ class AppUser {
         fcmToken: fcmToken ?? this.fcmToken,
         name: name ?? this.name,
         gender: gender ?? this.gender,
-        birthDay: birthDay ?? this.birthDay,
-        sameKindWhiskyId: sameKindWhiskyId ?? this.sameKindWhiskyId);
+        birthDay: birthDay ?? this.birthDay,);
   }
 }
 
