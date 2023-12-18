@@ -21,7 +21,7 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
   late ArchivingPostDetailState _state = ArchivingPostDetailState(
     whiskyData: Whisky(id: ""),
     distilleryData: Distillery(id: ""),
-    currentPostId: "",
+    currentPostId: ""
   );
   ArchivingPostDetailState get state => _state;
 
@@ -82,7 +82,6 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
   Future<void> updateUserCritique() async {
     ArchivingPost? newArchivingPost =
         await _archivingPostRepository.getArchivingPost(_state.currentPostId);
-
     newArchivingPost = newArchivingPost!.copyWith(
       starValue: _state.starValue,
       note: _state.tasteNote,
@@ -90,5 +89,16 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
       modifyAt: Timestamp.now(),
     );
     _archivingPostRepository.updateArchivingPost(newArchivingPost);
+  }
+  Future<void> cleanState() async{
+      _state = _state.copyWith(
+          whiskyData: Whisky(id: ""),
+          distilleryData: Distillery(id: ""),
+          currentPostId: "",
+          starValue: null,
+          tasteFeature: null,
+          tasteNote: null
+      );
+      notifyListeners();
   }
 }
