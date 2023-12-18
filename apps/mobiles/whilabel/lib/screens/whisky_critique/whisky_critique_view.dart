@@ -42,7 +42,7 @@ class WhiskyCritiqueView extends StatelessWidget {
                     padding: WhilabelPadding.basicPadding,
                     scrollDirection: Axis.vertical,
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.width * 2.1,
+                      height: MediaQuery.of(context).size.width * 2.3,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -150,7 +150,9 @@ class WhiskyCritiqueView extends StatelessWidget {
                                     tasteFeature),
                               );
                             },
-                          )
+
+                          ),
+                          Container(height: 32, color: Colors.transparent,)
                         ],
                       ),
                     ),
