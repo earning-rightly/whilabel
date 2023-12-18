@@ -7,7 +7,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class PrivacyPolicyPage extends StatelessWidget {
   PrivacyPolicyPage({super.key});
 
-  String initUrl = dotenv.get("PRIVACY_POlicy_URL");
+  String initUrl = dotenv.get("PRIVACY_POLICY_URL");
 
   // String redirectUri = dotenv.get("REDIRECT_URL");
   @override

@@ -6,6 +6,7 @@ import 'package:whilabel/screens/login/login_view.dart';
 import 'package:whilabel/screens/my_page/page/announcement_page.dart';
 import 'package:whilabel/screens/my_page/page/f_a_q_page.dart';
 import 'package:whilabel/screens/my_page/page/inquiring_page.dart';
+import 'package:whilabel/screens/my_page/page/privacy_policy_page.dart';
 import 'package:whilabel/screens/my_page/page/setting_page.dart';
 import 'package:whilabel/screens/my_page/page/term_condition_service_page.dart';
 import 'package:whilabel/screens/my_page/page/withdrawal_page.dart';
@@ -17,9 +18,9 @@ class MyPageRoutes {
   static const String announcementRoute = "announcementt";
   static const String faqRoute = "FAQ";
   static const String inquiringRoute = "inquiring";
-  static const String privacyPolicyPage = "privacyPolicyPage";
+  static const String privacyPolicyRoute = "privacyPolicyPage";
   static const String settingRoute = "setting";
-  static const String termConditionSerciceRoute = "termConditionService";
+  static const String termConditionServiceRoute = "termConditionService";
   static const String withdrawalRoute = "withdrawal";
 }
 
@@ -72,7 +73,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => InquiringPage());
       case MyPageRoutes.settingRoute:
         return MaterialPageRoute(builder: (_) => const SettingPage());
-      case MyPageRoutes.termConditionSerciceRoute:
+      case MyPageRoutes.privacyPolicyRoute:
+        return MaterialPageRoute(builder: (_) => PrivacyPolicyPage());
+      case MyPageRoutes.termConditionServiceRoute:
         return MaterialPageRoute(builder: (_) => TermConditionServicePage());
       case MyPageRoutes.withdrawalRoute:
         return MaterialPageRoute(builder: (_) => WithdrawalPage());

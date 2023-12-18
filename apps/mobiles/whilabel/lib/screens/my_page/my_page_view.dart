@@ -142,13 +142,13 @@ class MyPageData {
   List<Map<String, dynamic>> myPageViewDucButtonDatas = [
     {
       "svg_path": SvgIconPath.document,
-      "title": "서비스, 이용약관",
-      "route": MyPageRoutes.termConditionSerciceRoute,
+      "title": "서비스 이용약관",
+      "route": MyPageRoutes.termConditionServiceRoute,
     },
     {
       "svg_path": SvgIconPath.document,
       "title": "개인정보 처리방침",
-      "route": MyPageRoutes.privacyPolicyPage,
+      "route": MyPageRoutes.privacyPolicyRoute,
     },
   ];
 }
