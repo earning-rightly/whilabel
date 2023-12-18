@@ -8,7 +8,6 @@ import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/_global/widgets/back_listener.dart';
-import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/camera/camera_view.dart';
 import 'package:whilabel/screens/home/home_view.dart';
 import 'package:whilabel/screens/login/login_view.dart';
@@ -52,7 +51,6 @@ class AppRoot extends StatelessWidget {
             return LoginView();
           }
 
-          CustomLoadingIndicator.showLodingProgress();
 
           return DefaultTabController(
             // tabBar를 사용하기 필요한 widget
