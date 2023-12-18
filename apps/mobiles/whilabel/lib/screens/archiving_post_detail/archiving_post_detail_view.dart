@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/taste/taste_vote.dart';
@@ -378,15 +379,10 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                     }
 
                                     return Center(
-                                      child: CircularProgressIndicator(
-                                        value:
-                                            loadingProgress.expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes!
-                                                : null,
+                                      child:  LoadingAnimationWidget.discreteCircle(
+                                        color: ColorsManager.gray500,
+                                        secondRingColor: ColorsManager.gray500,
+                                        size: 20,
                                       ),
                                     );
                                   },

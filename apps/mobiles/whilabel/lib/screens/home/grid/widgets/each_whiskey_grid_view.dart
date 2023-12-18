@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
@@ -142,15 +143,10 @@ class EachWhiskeyGridView extends StatelessWidget {
                   }
 
                   return Center(
-                    child: CircularProgressIndicator(
-                      value:
-                      loadingProgress.expectedTotalBytes !=
-                          null
-                          ? loadingProgress
-                          .cumulativeBytesLoaded /
-                          loadingProgress
-                              .expectedTotalBytes!
-                          : null,
+                   child: LoadingAnimationWidget.discreteCircle(
+                      color: ColorsManager.gray500,
+                      secondRingColor: ColorsManager.gray500,
+                      size: 30,
                     ),
                   );
                 },
