@@ -143,7 +143,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                   children: [
                     SvgPicture.asset(SvgIconPath.barcode, width: 52, height: 32),
                     SizedBox(height: 16),
-                    Text("위스키 병에 바코드를 찍어주세요", style: TextStylesManager.regular16),
+                    Text("위스키 병의 바코드를 찍어주세요", style: TextStylesManager.regular16),
                     SizedBox(height: 16),
                   ],
                 )),
