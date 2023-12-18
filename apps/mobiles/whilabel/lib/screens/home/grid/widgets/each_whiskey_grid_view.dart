@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
@@ -62,7 +63,10 @@ class EachWhiskeyGridView extends StatelessWidget {
                       right: 0,
                       left: 0,
                       child: ExpandedImageItem(
-                        useDots: false,
+                        useDots: true,
+                        dotsAlignment: Alignment.bottomCenter,
+                        dotsColorInactive: ColorsManager.gray500,
+                        dotsColorActive: ColorsManager.gray200,
                         height: mediaQueryHeight * 0.6,
                         context: context,
                         images: [
