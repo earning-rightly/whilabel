@@ -106,7 +106,7 @@ class _CritiqueViewWhiskyInfoFooterState
                           showSimpleDialog(
                             context,
                             "필수 입력 정보가 비었습니다",
-                            "별점은 필수 입력 정보입니다. 탭을 해주세요",
+                            "별점은 필수 입력 정보입니다.\n탭을 해주세요",
                           );
                         }
                       : () async {
