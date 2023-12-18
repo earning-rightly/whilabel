@@ -92,13 +92,14 @@ class _HomeViewState extends State<HomeView>
   @override
   void initState() {
     super.initState();
+    CustomLoadingIndicator.showLodingProgress();
+
     initAlim();
     _tabController =
         TabController(vsync: this, length: 2, animationDuration: Duration.zero);
     Future.microtask(() async {
       loadPostAsync();
     });
-
 
   }
 

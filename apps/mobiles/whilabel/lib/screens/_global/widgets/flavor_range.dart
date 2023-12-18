@@ -45,7 +45,7 @@ class _FlavorRangeState extends State<FlavorRange> {
   @override
   Widget build(BuildContext context) {
     // 채우는 값이 잘못들어오면 빈박스 반환
-    if (widget.initialCount < 1 || widget.initialCount > maxCount) {
+    if (widget.initialCount < 0 || widget.initialCount > maxCount) {
       return SizedBox();
     }
 
@@ -102,9 +102,9 @@ class _FlavorRangeState extends State<FlavorRange> {
   Widget createFlaverRating(double initialRating, bool disable,
       {onRatingUpdate, double size = 67}) {
     return RatingBar.builder(
-        ignoreGestures: disable, // 별점 매길 것 인지 보기만 할 것인지
-        initialRating: initialRating, // 처음에 보여 줘야 할 별점 개수
-        minRating: 1,
+        ignoreGestures: disable, // 맛을 매길것 인지 보기만 할 것인지
+        initialRating: initialRating, // 처음에 보여 줘야 할 맛 개수
+        minRating: 0,
         itemCount: 5,
         itemSize: size,
         direction: Axis.horizontal,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:popup_banner/src/slider_item.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
 
 class ExpandedImageItem extends StatelessWidget {
   final BuildContext context;
@@ -54,7 +55,7 @@ class ExpandedImageItem extends StatelessWidget {
       children: <Widget>[
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: ColorsManager.black200,
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(16),
             boxShadow: const [

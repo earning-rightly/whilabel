@@ -1,3 +1,4 @@
+import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/enum/post_sort_order.dart';
@@ -10,6 +11,7 @@ import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 import 'package:whilabel/screens/home/view_model/home_event.dart';
 import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 import 'package:whilabel/screens/whisky_critique/pages/successful_upload_post_page.dart';
+import 'package:whilabel/screens/whisky_critique/pages/unregistered_whisky_upload_page.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_view_model.dart';
 
@@ -104,11 +106,11 @@ class _CritiqueViewWhiskyInfoFooterState
                           showSimpleDialog(
                             context,
                             "필수 입력 정보가 비었습니다",
-                            "별점은 필수 입력 정보입니다. 탭을 해주세요",
+                            "별점은 필수 입력 정보입니다.\n탭을 해주세요",
                           );
                         }
                       : () async {
-                        CustomLoadingIndicator.showLodingProgress();
+                          CustomLoadingIndicator.showLodingProgress();
 
                           await viewModel.onEvent(
                             SaveArchivingPostOnDb(
@@ -117,20 +119,36 @@ class _CritiqueViewWhiskyInfoFooterState
                               viewModel.state.tasteFeature!,
                             ),
                             callback: () async {
-                              setState(() {});
-                              await homeViewModel
-                                  .onEvent( const LoadArchivingPost(PostButtonOrder.LATEST));
-                              await cameraViewModel.onEvent(const CameraEvent.cleanMediums());
+                              await homeViewModel.onEvent(
+                                  const LoadArchivingPost(
+                                      PostButtonOrder.LATEST));
+                              await cameraViewModel
+                                  .onEvent(const CameraEvent.cleanMediums());
 
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          SuccessfulUploadPostPage(
-                                            currentWhiskyCount:
-                                            homeState.listTypeArchivingPosts.length,
-                                          )),
-                                  (route) => false);
+                              if (currentPostData
+                                  .archivingPost.whiskyName.isNullOrEmpty) {
+                                await Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            UnregisteredWhiskyUploadPage(
+                                              currentWhiskyCount: homeState
+                                                  .listTypeArchivingPosts
+                                                  .length,
+                                            )),
+                                    (route) => false);
+                              } else {
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            SuccessfulUploadPostPage(
+                                              currentWhiskyCount: homeState
+                                                  .listTypeArchivingPosts
+                                                  .length,
+                                            )),
+                                    (route) => false);
+                              }
                             },
                           );
                         },

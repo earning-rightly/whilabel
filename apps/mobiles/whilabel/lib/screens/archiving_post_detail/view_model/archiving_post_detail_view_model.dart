@@ -21,7 +21,7 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
   late ArchivingPostDetailState _state = ArchivingPostDetailState(
     whiskyData: Whisky(id: ""),
     distilleryData: Distillery(id: ""),
-    currentPostId: "",
+    currentPostId: ""
   );
   ArchivingPostDetailState get state => _state;
 
@@ -56,7 +56,7 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
     return distilleryData!;
   }
 
-  Future<Whisky> getWhiskyData(String barCode, String postId) async {
+  Future<Whisky?> getWhiskyData(String barCode, String postId) async {
     final whiskyData =
         await _whiskyRepository.getWhiskyDataWithBarcode(barCode);
     // 데이터 베이스에서 distilleryName이 String이였을 때 사용 했던 코드
@@ -75,14 +75,13 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
       notifyListeners();
     }
 
-    return whiskyData!;
+    return whiskyData;
   }
 
 // post가 존하기 때문에 상세페이지 이동 가능
   Future<void> updateUserCritique() async {
     ArchivingPost? newArchivingPost =
         await _archivingPostRepository.getArchivingPost(_state.currentPostId);
-
     newArchivingPost = newArchivingPost!.copyWith(
       starValue: _state.starValue,
       note: _state.tasteNote,
@@ -90,5 +89,16 @@ class ArchivingPostDetailViewModel with ChangeNotifier {
       modifyAt: Timestamp.now(),
     );
     _archivingPostRepository.updateArchivingPost(newArchivingPost);
+  }
+  Future<void> cleanState() async{
+      _state = _state.copyWith(
+          whiskyData: Whisky(id: ""),
+          distilleryData: Distillery(id: ""),
+          currentPostId: "",
+          starValue: null,
+          tasteFeature: null,
+          tasteNote: null
+      );
+      notifyListeners();
   }
 }
