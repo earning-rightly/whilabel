@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
+import 'package:whilabel/screens/_constants/string_manger.dart'as strManger;
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/camera/page/whisky_barcode_recognition_page.dart';
@@ -68,6 +70,9 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
   @override
   void initState() {
     super.initState();
+    final watchAgainCheckBox = Hive.box(strManger.WATCH_AGAIN_CHECKBOX);
+    final isShowCameraRule= watchAgainCheckBox.get(strManger.CAMERA_RULE);
+    print("isShowCameraRule ========> $isShowCameraRule");
     _flashModeControlRowAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -96,7 +101,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
         }
       }
     });
-    showRuleForCamera(context);
+    if (isShowCameraRule == false || isShowCameraRule == null) showRuleForCamera(context);
   }
 
   @override

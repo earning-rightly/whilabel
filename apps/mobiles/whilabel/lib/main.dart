@@ -15,7 +15,7 @@ import 'package:whilabel/provider_manager.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/themedata_manager.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:whilabel/screens/_global/flutter_local_notificatication.dart';
+import 'package:whilabel/screens/_constants/string_manger.dart'as strManger;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
@@ -51,8 +51,8 @@ void initializeNotification() async {
   await flutterLocalNotificationsPlugin.initialize(const InitializationSettings(
     android: AndroidInitializationSettings("@mipmap/ic_launcher"),
     iOS: DarwinInitializationSettings(
-        requestAlertPermission: false,
-        requestBadgePermission: false,
+        requestAlertPermission: true,
+        requestBadgePermission: true,
         requestSoundPermission: false),
   ));
 }
@@ -61,15 +61,18 @@ void main() async {
   await dotenv.load(fileName: 'assets/config/.env');
 
   await Hive.initFlutter(); // * Hive 초기화
+  await Hive.openBox(strManger.WATCH_AGAIN_CHECKBOX); // 다시 보지 않을 UI를 보여 줄지 여부를 저장하는 박스
+
   KakaoSdk.init(nativeAppKey: dotenv.get("KAKAO_NATIVE_APP_KEY"));
   WidgetsFlutterBinding.ensureInitialized();
 
-  // initializeNotification();
-  FlutterLocalNotification.init();
+
+  initializeNotification();
+  // FlutterLocalNotification.init();
   // 3초 후 권한 요청
 
-  Future.delayed(const Duration(seconds: 3),
-      FlutterLocalNotification.requestNotificationPermission());
+  // Future.delayed(const Duration(seconds: 3),
+  //     FlutterLocalNotification.requestNotificationPermission());
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

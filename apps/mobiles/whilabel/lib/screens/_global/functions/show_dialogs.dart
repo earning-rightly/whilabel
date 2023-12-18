@@ -7,9 +7,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
+import 'package:whilabel/screens/_global/widgets/watch_again_checkbox.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/_global/widgets/pop_up_yes_no_button.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
+import 'package:whilabel/screens/_constants/string_manger.dart'as strManger;
+
 
 Future<void> showRuleForCamera(BuildContext context) async {
   await Future.delayed(const Duration(milliseconds: 100));
@@ -18,6 +21,8 @@ Future<void> showRuleForCamera(BuildContext context) async {
   const String rule1 = "프레임 안에 맞춰 주세요";
   const String rule2 = "밝은 곳에서 촬양해 주세요";
   const String rule3 = "초점이 흔들리지 않게 찍어주세요";
+
+  const String checkBoxText = "다시 보지 않으시겠습니까?";
 
   showDialog(
       context: context,
@@ -46,7 +51,11 @@ Future<void> showRuleForCamera(BuildContext context) async {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(SvgIconPath.checkBold),
+                      SvgPicture.asset(SvgIconPath.checkBold,
+                      colorFilter: const ColorFilter.mode(
+                          ColorsManager.brown100,
+                          BlendMode.srcIn),),
+                        SizedBox(height:6),
                         Text(rule1,
                             style: TextStylesManager.regular16
                                 .copyWith(color: ColorsManager.gray)),
@@ -56,7 +65,11 @@ Future<void> showRuleForCamera(BuildContext context) async {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(SvgIconPath.checkBold),
+                        SvgPicture.asset(SvgIconPath.checkBold,
+                          colorFilter: const ColorFilter.mode(
+                              ColorsManager.brown100,
+                              BlendMode.srcIn),),
+                        SizedBox(height:6),
                         Text(rule2,
                             style: TextStylesManager.regular16
                                 .copyWith(color: ColorsManager.gray)),
@@ -66,7 +79,11 @@ Future<void> showRuleForCamera(BuildContext context) async {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(SvgIconPath.checkBold),
+                        SvgPicture.asset(SvgIconPath.checkBold,
+                          colorFilter: const ColorFilter.mode(
+                              ColorsManager.brown100,
+                              BlendMode.srcIn),),
+                        SizedBox(height:6),
                         Text(rule3,
                             style: TextStylesManager.regular16
                                 .copyWith(color: ColorsManager.gray)),
@@ -77,14 +94,24 @@ Future<void> showRuleForCamera(BuildContext context) async {
                         buttonText: "알겠어요",
                         enabled: true,
                         color: ColorsManager.brown100,
-                        onPressedFunc: () {
+                        onPressedFunc: () async {
+
                           Navigator.pop(context);
                         },
 
                     ),
+                    Row(
+                      children: [
+                        WatchAgainCheckBox(boxKey: strManger.CAMERA_RULE,),
+                        SizedBox(width: 8),
+                        Text(checkBoxText,
+                            style: TextStylesManager.regular16
+                                .copyWith(color: ColorsManager.gray))
+                      ],
+                    ),
                   ],
                 ),
-              )
+              ),
             ]);
       });
 }
