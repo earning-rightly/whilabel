@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>737612668977-j44ou1pblf6rrl7pqhvtmeo9nr3p39vu.apps.googleusercontent.com</string>
+	<string>737612668977-pv1gtftu42hflra2qh8i9jiv46anmerr.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.737612668977-j44ou1pblf6rrl7pqhvtmeo9nr3p39vu</string>
+	<string>com.googleusercontent.apps.737612668977-pv1gtftu42hflra2qh8i9jiv46anmerr</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>737612668977-25elkdtbrv1ldd3402ad0ji9hkgenbeq.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAQCvAuomQcgoHFnjOPEiJ0y7JondVQuNg</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.whilabel</string>
+	<string>com.earningRight.whilabel</string>
 	<key>PROJECT_ID</key>
 	<string>whilabel</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:737612668977:ios:de4753700c01605c0eb510</string>
+	<string>1:737612668977:ios:39608ec615e819220eb510</string>
 	<key>DATABASE_URL</key>
 	<string>https://whilabel-default-rtdb.firebaseio.com</string>
 </dict>
