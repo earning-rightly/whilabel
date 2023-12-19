@@ -25,7 +25,7 @@ class WhiskyCritiqueView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double initalStarValue = 1;
+    const double initalStarValue = 0;
     return Scaffold(
       appBar: createScaffoldAppBar(context, SvgIconPath.close, "나의 평가"),
       body: ChangeNotifierProvider<WhiskyCritiqueViewModel>(
@@ -42,7 +42,7 @@ class WhiskyCritiqueView extends StatelessWidget {
                     padding: WhilabelPadding.basicPadding,
                     scrollDirection: Axis.vertical,
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.width * 2.1,
+                      height: MediaQuery.of(context).size.width * 2.3,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -150,7 +150,9 @@ class WhiskyCritiqueView extends StatelessWidget {
                                     tasteFeature),
                               );
                             },
-                          )
+
+                          ),
+                          Container(height: 32, color: Colors.transparent,)
                         ],
                       ),
                     ),

@@ -15,28 +15,28 @@ import 'package:whilabel/provider_manager.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/themedata_manager.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:whilabel/screens/_constants/string_manger.dart'as strManger;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-    RemoteNotification? notification = message.notification;
+  RemoteNotification? notification = message.notification;
 
-    if (notification != null) {
-      await FlutterLocalNotificationsPlugin().show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        const NotificationDetails(
+  if (notification != null) {
+    await FlutterLocalNotificationsPlugin().show(
+      notification.hashCode,
+      notification.title,
+      notification.body,
+      const NotificationDetails(
           android: AndroidNotificationDetails(
             'high_importance_channel',
             'high_importance_notification',
             importance: Importance.max,
-              icon: "@mipmap/notification",
+            icon: "@mipmap/notification",
           ),
-        ),
-      );
-    }
+          iOS: DarwinNotificationDetails(badgeNumber: 1)),
+    );
+  }
   // });
-
 }
 
 void initializeNotification() async {
@@ -50,6 +50,10 @@ void initializeNotification() async {
           importance: Importance.max));
   await flutterLocalNotificationsPlugin.initialize(const InitializationSettings(
     android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+    iOS: DarwinInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: false),
   ));
 }
 
@@ -57,10 +61,18 @@ void main() async {
   await dotenv.load(fileName: 'assets/config/.env');
 
   await Hive.initFlutter(); // * Hive 초기화
+  await Hive.openBox(strManger.WATCH_AGAIN_CHECKBOX); // 다시 보지 않을 UI를 보여 줄지 여부를 저장하는 박스
+
   KakaoSdk.init(nativeAppKey: dotenv.get("KAKAO_NATIVE_APP_KEY"));
   WidgetsFlutterBinding.ensureInitialized();
 
+
   initializeNotification();
+  // FlutterLocalNotification.init();
+  // 3초 후 권한 요청
+
+  // Future.delayed(const Duration(seconds: 3),
+  //     FlutterLocalNotification.requestNotificationPermission());
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -69,10 +81,12 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await Future.delayed(const Duration(seconds: 1));
+  Future.delayed(const Duration(seconds: 2),(){
+    FlutterNativeSplash.remove();
+
+  });
 
   print('app start!');
-  FlutterNativeSplash.remove();
 
   // 알림 권한 묻는 로직
   // 마이페이지에 알림 버튼을 누르면 허용창을 띄우는 것으로 변경
@@ -90,7 +104,9 @@ void main() async {
 
 class MainApp extends StatefulWidget {
   const MainApp._internal();
+
   static final MainApp instance = MainApp._internal();
+
   factory MainApp() => instance; // to guarantee Sigleton
 
   @override
@@ -112,14 +128,14 @@ class _MainAppState extends State<MainApp> {
     );
   }
 
-  // void _removeSplash() async {
-  //   print('ready in 3...');
-  //   await Future.delayed(const Duration(seconds: 1));
-  //   print('ready in 2...');
-  //   await Future.delayed(const Duration(seconds: 1));
-  //   print('ready in 1...');
-  //   await Future.delayed(const Duration(seconds: 1));
-  //   print('go!');
-  //   FlutterNativeSplash.remove();
-  // }
+// void _removeSplash() async {
+//   print('ready in 3...');
+//   await Future.delayed(const Duration(seconds: 1));
+//   print('ready in 2...');
+//   await Future.delayed(const Duration(seconds: 1));
+//   print('ready in 1...');
+//   await Future.delayed(const Duration(seconds: 1));
+//   print('go!');
+//   FlutterNativeSplash.remove();
+// }
 }

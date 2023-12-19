@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -175,7 +176,7 @@ class EachListArchivingPostCard extends StatelessWidget {
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                     height: 30,
-                    width: MediaQuery.of(context).size.width / 2,
+                    width:175.w,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                         color: ColorsManager.black200),
@@ -183,6 +184,7 @@ class EachListArchivingPostCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(Icons.star, color: ColorsManager.yellow, size: 16),
+                        SizedBox(width: 4),
                         Text(
                           "${archivingPost.starValue}",
                           style: TextStylesManager.createHadColorTextStyle(
@@ -197,11 +199,6 @@ class EachListArchivingPostCard extends StatelessWidget {
                           "\t\t- $sameWhiskyNameCounter잔",
                           style: TextStylesManager.createHadColorTextStyle(
                               "M12", ColorsManager.gray),
-                        ),
-                        Text(
-                          archivingPost.location ?? "",
-                          style: TextStylesManager.createHadColorTextStyle(
-                              "R12", ColorsManager.gray),
                         ),
                       ],
                     ),

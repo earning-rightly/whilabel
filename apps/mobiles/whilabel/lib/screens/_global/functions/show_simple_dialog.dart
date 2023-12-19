@@ -29,7 +29,9 @@ void showSimpleDialog(
                   style: TextStylesManager.bold20,
                 ),
                 const SizedBox(height: 20),
-                Text(subTitle, style: TextStylesManager.regular16.copyWith(color: ColorsManager.gray)),
+                Text(subTitle,
+                    textAlign: TextAlign.center,
+                    style: TextStylesManager.regular16.copyWith(color: ColorsManager.gray)),
                 const SizedBox(height: 30),
                 LongTextButton(
                   buttonText: "확인",

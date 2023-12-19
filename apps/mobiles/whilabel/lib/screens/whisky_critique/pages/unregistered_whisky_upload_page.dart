@@ -7,19 +7,17 @@ import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/button_style.dart';
-import 'package:whilabel/screens/_global/whilabel_context_menu.dart';
 import 'package:whilabel/screens/_global/widgets/back_listener.dart';
 import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/home/view_model/home_view_model.dart';
 
-class SuccessfulUploadPostPage extends StatelessWidget {
+class UnregisteredWhiskyUploadPage extends StatelessWidget {
   final int currentWhiskyCount;
-  const SuccessfulUploadPostPage({
+  const UnregisteredWhiskyUploadPage({
     Key? key,
     required this.currentWhiskyCount,
   }) : super(key: key);
 
-  void initState() {}
 
   @override
   Widget build(BuildContext context) {
@@ -64,67 +62,38 @@ class SuccessfulUploadPostPage extends StatelessWidget {
                         "M16", ColorsManager.brown100),
                   ),
                   SizedBox(height: WhilabelSpacing.space8),
-                  Text("등록이 완료되었습니다", style: TextStylesManager.bold20),
+                  Text("나의 위스키로 등록했어요.\n나머지 정보는 최대한 빨리 검토하여\n추가해드릴게요!",
+                      style: TextStylesManager.bold20,
+                  textAlign: TextAlign.center,
+                  ),
                 ],
               ),
             ),
             Positioned(
                 bottom: 0,
                 child: Container(
-                  // alignment: ,
-
                   width: MediaQuery.of(context).size.width,
                   height: 70,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: SizedBox(
-                          child: OutlinedButton(
-                            onPressed: () async{
-                            final lastArchivingPost  =  homeViewModel.state.listTypeArchivingPosts.first;
-                              await  WhilabelContextMenu.sharePostWhiskeyImage(lastArchivingPost.imageUrl);
+                  child: SizedBox(
+                    child: ElevatedButton(
+                      onPressed: () async{
+                        final lastArchivingPost  =  homeViewModel.state.listTypeArchivingPosts.first;
 
-                            },
-                            child: Text(
-                              "공유하기",
-                              style: TextStylesManager.bold16,
-                            ),
-                            style: createBasicButtonStyle(
-                              ColorsManager.black300,
-                              buttonSize: Size(120, 53),
-                            ),
-                          ),
-                        ),
+                        Navigator.pushReplacementNamed(context,
+                            arguments: lastArchivingPost,
+                            Routes.archivingPostDetailRoute);
+                      },
+                      child: Text(
+                        "완료",
+                        style: TextStylesManager.bold16,
                       ),
-                      // 공유하기 기능을 만들면 추가
-                      SizedBox(width: WhilabelSpacing.space12),
-                      Expanded(
-                        flex: 1,
-                        child: SizedBox(
-                          child: ElevatedButton(
-                            onPressed: () async{
-                              final lastArchivingPost  =  homeViewModel.state.listTypeArchivingPosts.first;
-
-                              Navigator.pushReplacementNamed(context,
-                                  arguments: lastArchivingPost,
-                                  Routes.archivingPostDetailRoute);
-                            },
-                            child: Text(
-                              "완료",
-                              style: TextStylesManager.bold16,
-                            ),
-                            style: createBasicButtonStyle(
-                              ColorsManager.brown100,
-                              buttonSize: Size(120, 53),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
+                      style: createBasicButtonStyle(
+                        ColorsManager.brown100,
+                        buttonSize: Size(120, 53),
+                      ),
+                    ),
                   ),
                 ))
           ],

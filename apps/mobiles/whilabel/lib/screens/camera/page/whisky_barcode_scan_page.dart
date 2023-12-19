@@ -3,12 +3,15 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
+import 'package:whilabel/screens/_constants/string_manger.dart'as strManger;
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/camera/page/whisky_barcode_recognition_page.dart';
+
 
 import 'gallery_page.dart';
 
@@ -67,6 +70,9 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
   @override
   void initState() {
     super.initState();
+    final watchAgainCheckBox = Hive.box(strManger.WATCH_AGAIN_CHECKBOX);
+    final isShowCameraRule= watchAgainCheckBox.get(strManger.CAMERA_RULE);
+    print("isShowCameraRule ========> $isShowCameraRule");
     _flashModeControlRowAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -95,7 +101,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
         }
       }
     });
-    showRuleForCamera(context);
+    if (isShowCameraRule == false || isShowCameraRule == null) showRuleForCamera(context);
   }
 
   @override
@@ -142,7 +148,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                   children: [
                     SvgPicture.asset(SvgIconPath.barcode, width: 52, height: 32),
                     SizedBox(height: 16),
-                    Text("위스키 병에 바코드를 찍어주세요", style: TextStylesManager.regular16),
+                    Text("위스키 병의 바코드를 찍어주세요", style: TextStylesManager.regular16),
                     SizedBox(height: 16),
                   ],
                 )),
@@ -185,7 +191,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                                 File barcodeImage = await imageFile.copy(
                                   '${directory.path}/$currentUnix.$fileFormat',
                                 );
-                                Navigator.push(
+                              await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>

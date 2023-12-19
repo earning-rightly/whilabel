@@ -39,14 +39,17 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera permission is required.</string>
-	<key>io.flutter.embedded_views_preview</key>
-	<string>YES</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Microphone permission is required.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Example usage description</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

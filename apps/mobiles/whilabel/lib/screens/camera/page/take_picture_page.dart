@@ -180,7 +180,7 @@ class _TakePicturePageState extends State<TakePicturePage>
                                 children: [
                                   Text(
                                     textAlign: TextAlign.center,
-                                    "잘나온 위스키 사진을 찍어주세요!\n 위스키 대표 사진으로 사용될거에요!",
+                                    "잘 나온 위스키 사진을 찍어주세요!\n 위스키 대표 사진으로 사용될거에요!",
                                     style: TextStylesManager.regular16,
                                   ),
                                   SizedBox(height: 24.h),

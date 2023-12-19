@@ -16,17 +16,22 @@ class DistilleryAndStrengthText extends StatelessWidget {
       return Row(
           children: [
             distilleryName.isNullOrEmpty == false
-                ? Text("${distilleryName}",
+                ? Text("$distilleryName",
               overflow: TextOverflow.ellipsis,
               style: TextStylesManager
                   .createHadColorTextStyle(
                   "R14", Colors.grey),)
                 :  SizedBox(),
             ( distilleryName.isNullOrEmpty == false && strength != null && strength! > 0)
-                ? Text("${strManger.dot}")
-                : SizedBox(),
+                ? const Row(
+                  children: [
+                    SizedBox(width: 5),
+                    const Text("${strManger.dot}"),
+                  ],
+                )
+                : const SizedBox(),
             strength != null
-                ? Text("${strength}%",
+                ? Text("$strength%",
               overflow: TextOverflow.ellipsis,
               style: TextStylesManager
                   .createHadColorTextStyle(

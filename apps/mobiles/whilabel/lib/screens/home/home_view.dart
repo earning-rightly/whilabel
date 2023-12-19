@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +10,7 @@ import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/app_bars.dart';
+import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
 import 'package:whilabel/screens/home/grid/grid_archiving_post_page.dart';
 import 'package:whilabel/screens/home/list/list_archiving_post_page.dart';
 import 'package:whilabel/screens/home/view_model/home_event.dart';
@@ -32,6 +32,7 @@ class _HomeViewState extends State<HomeView>
   Future<void> initAlim() async {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification? notification = message.notification;
+      print("메세지 도착 => ${notification?.title}");
 
       if (notification != null) {
         FlutterLocalNotificationsPlugin().show(
@@ -39,23 +40,24 @@ class _HomeViewState extends State<HomeView>
           notification.title,
           notification.body,
           const NotificationDetails(
-            android: AndroidNotificationDetails(
-              'high_importance_channel',
-              'high_importance_notification',
-              importance: Importance.max,
-              icon: "@mipmap/notification",
-
-              color: Colors.black,
-              // ledColor: Colors.red,
-              colorized: false
-            ),
+            // android: AndroidNotificationDetails(
+            //   'high_importance_channel',
+            //   'high_importance_notification',
+            //   importance: Importance.max,
+            //   icon: "@mipmap/notification",
+            //
+            //   color: Colors.black,
+            //   // ledColor: Colors.red,
+            //   colorized: false
+            // ),
+            iOS: DarwinNotificationDetails(badgeNumber: 1)
           ),
         );
 
-        setState(() {
-          messageString = message.notification!.body!;
-          print("Foreground 메시지 수신: $messageString");
-        });
+        // setState(() {
+        //   messageString = message.notification!.body!;
+        //   print("Foreground 메시지 수신: $messageString");
+        // });
       }
     });
   }
@@ -90,17 +92,15 @@ class _HomeViewState extends State<HomeView>
   @override
   void initState() {
     super.initState();
+    CustomLoadingIndicator.showLodingProgress();
+
     initAlim();
     _tabController =
         TabController(vsync: this, length: 2, animationDuration: Duration.zero);
     Future.microtask(() async {
       loadPostAsync();
     });
-    if (EasyLoading.isShow) {
-      Timer(const Duration(milliseconds: 1000), () {
-        EasyLoading.dismiss();
-      });
-    }
+
   }
 
   @override
@@ -113,7 +113,11 @@ class _HomeViewState extends State<HomeView>
     final viewModel = context.read<HomeViewModel>();
 
     await viewModel
-        .onEvent(const HomeEvent.loadArchivingPost(PostButtonOrder.LATEST));
+        .onEvent(const HomeEvent.loadArchivingPost(PostButtonOrder.LATEST),callback:(){
+
+      CustomLoadingIndicator.dimissonProgress(milliseconds: 2000);
+
+    } );
   }
 
   @override

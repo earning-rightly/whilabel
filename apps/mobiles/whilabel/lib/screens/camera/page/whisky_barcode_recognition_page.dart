@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:barcode_finder/barcode_finder.dart';
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,8 +12,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
-import 'package:whilabel/screens/_constants/string_manger.dart'as strManger ;
-import 'package:whilabel/screens/_constants/routes_manager.dart';
+import 'package:whilabel/screens/_constants/string_manger.dart' as strManger;
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/camera/page/take_picture_page.dart';
 import 'package:whilabel/screens/camera/page/unregistered_whisky_page.dart';
@@ -61,15 +61,30 @@ class _WhiskyBarcodeRecognitionPageState
   Future<void> scanFileinLocalMemory(File imageFile) async {
     img.Image? decodedImage = img.decodeImage(imageFile.readAsBytesSync());
     final tempDir = await getTemporaryDirectory();
-    debugPrint("원본이미지 주소 =>>\n   ${imageFile.path}");
+    // debugPrint("원본이미지 주소 =>>\n   ${imageFile.path}");
+    debugPrint("width =>>   ${decodedImage?.width}");
+    debugPrint("height =>>   ${decodedImage?.height}");
 
     if (decodedImage != null) {
       // cropRect에 해당하는 부분을 decodeImageFromList() 함수를 사용하여 decodedImage로 변환합니다.
       // 이미지의 사이즈, byte가 크면 이미지 전환과 스캔하는데 오랜 시간이 걸린다.
       img.Image thumbnail = img.copyResize(decodedImage,
-          height: decodedImage.height > 850 ? 800 : decodedImage.height,
-          width: decodedImage.width > 650 ? 600 : decodedImage.width);
-      Uint8List unit8ListPng = img.encodePng(thumbnail);
+          height: decodedImage.height > 1600 ? 1600 : decodedImage.height,
+          width: decodedImage.width > 1200 ? 1200 : decodedImage.width);
+
+      int testX = 0;
+      int testY = thumbnail.height ~/ 4;
+      var cropSizeX = thumbnail.width.toInt();
+      var cropSizeY = thumbnail.height ~/ 2;
+
+      img.Image cropImage = img.copyCrop(
+        thumbnail,
+        x: testX,
+        y: testY,
+        width: cropSizeX,
+        height: cropSizeY,
+      );
+      Uint8List unit8ListPng = img.encodePng(cropImage);
 
       File SavedPngImage =
           File("${tempDir.path}/${Timestamp.now().millisecondsSinceEpoch}.png")
@@ -96,6 +111,8 @@ class _WhiskyBarcodeRecognitionPageState
     try {
       String? _barcodeString = await BarcodeFinder.scanFile(path: imagePath);
       if (_barcodeString != null) {
+        debugPrint("barcode san 성공입니다!!");
+
         return _barcodeString;
       }
     } catch (e) {
@@ -130,45 +147,40 @@ class _WhiskyBarcodeRecognitionPageState
                         // 1번만 동작 시키기 위해서 추가한 코드
                         isResizedImage = false;
 
-                        if (snapshot.data ==strManger.SCAN_ERROR) {
-                          showFailedDialog().then((value) async {
-                            await Navigator.pushNamed(
-                                context, arguments: 1, Routes.rootRoute);
-                          });
-                        }
-                        else {
-                          viewModel.onEvent(
-                              CameraEvent.searchWhiskeyWithBarcode(
-                                  snapshot.data!), callback: () async {
-                            //  TakePicture에서 사용할 카메라 초기화
-                            WidgetsFlutterBinding.ensureInitialized();
-                            cameras = await availableCameras();
+                        viewModel.onEvent(
+                            CameraEvent.searchWhiskeyWithBarcode(
+                                snapshot.data!), callback: () async {
+                          //  TakePicture에서 사용할 카메라 초기화
+                          WidgetsFlutterBinding.ensureInitialized();
+                          cameras = await availableCameras();
 
-                            // 1. 바코드 스캔 O. DB 메칭 O => 정상적으로 위스키 아카이빙 실행
-                            if (viewModel.state.isFindWhiskyData) {
-                              showSuccedDialog();
-                              await Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      TakePicturePage(cameras:  viewModel.state.cameras),
-                                ),
-                              );
-                            } else {
-                              // 2 바코드 스캔 O, DB 매칭 X => 인식되지 않는 위스키 로직 실행
-                              await Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      UnregisteredWhiskyPage(
-                                          imageFile: widget.imageFile),
-                                ),
-                              );
-                            }
-                          });
-                        }
+                          // 1. 바코드 스캔 O. DB 메칭 O => 정상적으로 위스키 아카이빙 실행
+                          if (viewModel.state.isFindWhiskyData) {
+                            showSuccedDialog();
+                            await Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TakePicturePage(
+                                    cameras: viewModel.state.cameras),
+                              ),
+                            );
+                          } else {
+                            // 2 바코드 스캔 O, DB 매칭 X => 인식되지 않는 위스키 로직 실행
+                            await Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UnregisteredWhiskyPage(
+                                    imageFile: widget.imageFile),
+                              ),
+                            );
+                          }
+                        });
                       }
-                      return ImageScanAnimation(imageFile: widget.imageFile,width:343.w ,height: 427.h,);
+                      return ImageScanAnimation(
+                        imageFile: widget.imageFile,
+                        width: 343.w,
+                        height: 427.h,
+                      );
                     }),
               ],
             ),
