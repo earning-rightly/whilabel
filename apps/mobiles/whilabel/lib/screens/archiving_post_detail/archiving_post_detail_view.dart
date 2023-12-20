@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
@@ -358,11 +359,11 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
 
                     // wb whiskyImage
                     Positioned(
-                      top: 174,
+                      top: 170,
                       right: 16,
-                      child: Container(
-                        height: 106,
-                        width: 80,
+                      child: SizedBox(
+                        height: 110.h,
+                        width: 80.w,
                         // padding: EdgeInsets.only(top: 6),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
