@@ -54,6 +54,8 @@ class _CameraViewState extends State<CameraView> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
+    print("height ====>>> $height \n width =====>> $width");
+
     return SafeArea(
         child: Padding(
       padding: WhilabelPadding.onlyHoizBasicPadding,
@@ -61,7 +63,15 @@ class _CameraViewState extends State<CameraView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
+            height * 0.8 <= width
+                ?  Container(
+        margin: EdgeInsets.symmetric(vertical: 32),
+        child: Text(
+          "위스키 기록",
+          style: TextStylesManager.bold24,
+        ),
+      )
+            :Expanded(
               flex: 1,
               child: Padding(
                 padding: EdgeInsets.only(top: 32),
@@ -72,20 +82,21 @@ class _CameraViewState extends State<CameraView> {
               ),
             ),
             Expanded(
-              flex: height * 0.85 <= width ? 0 : 3,
+              flex: height * 0.8 <= width ? 1 : 3,
               child: SizedBox(
                 child: Column(
                   children: [
                     Image.asset(
                       cameraViewPngImage,
+
                     ),
-                    SizedBox(height: WhilabelSpacing.space32),
+                    SizedBox(height: height * 0.85 <= width ? 0: WhilabelSpacing.space32),
                     Text(
                       "오늘 마신 위스키를 기록해볼까요?",
                       style: TextStylesManager.bold20,
                       textAlign: TextAlign.left,
                     ),
-                    SizedBox(height: WhilabelSpacing.space24),
+                    SizedBox(height: height * 0.85 <= width ? 0: WhilabelSpacing.space24),
                     Row(
                       children: [
                         Expanded(flex: 10, child: SizedBox()),
@@ -146,14 +157,16 @@ class _CameraViewState extends State<CameraView> {
                             },
                           ),
                         ),
-                        Expanded(flex: 10, child: SizedBox()),
+                             Expanded(flex:  10, child: SizedBox())
                       ],
                     ),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            height * 0.8 <= width
+                ?  SizedBox()
+                : SizedBox(height: 20)
           ],
         ),
       ),

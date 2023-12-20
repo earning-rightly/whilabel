@@ -15,11 +15,11 @@ class MyPageViewModel with ChangeNotifier {
     VoidCallback after = callback ?? () {};
     event
         .when(
-          changePushAlimValue: changePushAlimValue,
-          changeMarketingAlimValue: changeMarketingAlimValue,
-          withdrawAccount: withdrawAccount,
-          sendEmail: changePushAlimValue,
-        )
+      changePushAlimValue: changePushAlimValue,
+      changeMarketingAlimValue: changeMarketingAlimValue,
+      withdrawAccount: withdrawAccount,
+      sendEmail: changePushAlimValue,
+    )
         .then((_) => {after()});
   }
 
@@ -39,7 +39,7 @@ class MyPageViewModel with ChangeNotifier {
 
     final newAppUser = appUser.copyWith(
         isMarketingNotificationEnabled:
-            !(appUser.isMarketingNotificationEnabled!));
+        !(appUser.isMarketingNotificationEnabled!));
 
     await _appUserRepository.updateUser(uid, newAppUser);
   }
@@ -88,6 +88,16 @@ class MyPageViewModel with ChangeNotifier {
 
       debugPrint(error.toString());
       return false;
+    }
+  }
+
+  Future<void> delAnnouncement() async {
+    AppUser? appUser = await _appUserRepository.getCurrentUser();
+
+    if (appUser != null) {
+      final newAppUser = appUser.copyWith(announcements: []);
+
+      await _appUserRepository.updateUser(appUser.uid, newAppUser);
     }
   }
 }

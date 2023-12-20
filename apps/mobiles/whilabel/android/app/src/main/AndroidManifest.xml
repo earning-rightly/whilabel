@@ -11,7 +11,7 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize"
-            android:showWhenLocked="true"
+            android:showWhenLocked="false"
             android:turnScreenOn="true">
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
@@ -26,6 +26,12 @@
                 android:name="com.google.firebase.messaging.default_notification_channel_id"
                 android:value="high_importance_channel"
                 />
+            <meta-data
+                android:name="firebase_messaging_auto_init_enabled"
+                android:value="false" />
+            <meta-data
+                android:name="firebase_analytics_collection_enabled"
+                android:value="false" />
 
                <intent-filter>        <!--Push 메시지를 클릭하여 앱에 진입할 때에 메시지 안에 담겨있는 정보를 받기 위해 -->
                     <action android:name="FLUTTER_NOTIFICATION_CLICK" />
@@ -36,6 +42,7 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"

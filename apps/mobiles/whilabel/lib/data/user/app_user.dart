@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:whilabel/data/post/announcement.dart';
 import 'package:whilabel/data/user/enum/gender.dart';
 import 'package:whilabel/data/user/sns_type.dart';
 
@@ -32,6 +33,7 @@ class AppUser {
     this.email,
     this.imageUrl,
     this.sameKindWhiskyId,
+    this.announcements
   });
   final String firebaseUserId;
   final String uid;
@@ -40,6 +42,7 @@ class AppUser {
   final SnsType snsType;
   final Timestamp creatAt;
 
+  List<Announcement>? announcements;
   bool? isDeleted = false;
   bool? isPushNotificationEnabled = false;
   bool? isMarketingNotificationEnabled = false;
@@ -70,8 +73,10 @@ class AppUser {
       Gender? gender,
       String? birthDay,
       String? sameKindWhiskyId,
-        String? fcmToken,
-      int? age}) {
+      String? fcmToken,
+      int? age,
+      List<Announcement>? announcements
+      }) {
     return AppUser(
         uid: this.uid,
         firebaseUserId:  this.firebaseUserId,
@@ -88,7 +93,8 @@ class AppUser {
         name: name ?? this.name,
         gender: gender ?? this.gender,
         birthDay: birthDay ?? this.birthDay,
-        sameKindWhiskyId: sameKindWhiskyId ?? this.sameKindWhiskyId);
+        announcements: announcements ?? this.announcements
+    );
   }
 }
 
