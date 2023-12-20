@@ -43,7 +43,7 @@ class _GalleryPageState extends State<GalleryPage> {
 
       setState(() {
         _albums = albums;
-        mediums.add(mediaPage.items[0]); // 카메라 버튼을 만들기 위한 쓰레기 데이터
+        // mediums.add(mediaPage.items[0]); // 카메라 버튼을 만들기 위한 쓰레기 데이터
         mediums.addAll(images);
         // _loading = false;
       });
