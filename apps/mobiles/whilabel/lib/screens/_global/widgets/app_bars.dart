@@ -6,7 +6,7 @@ import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 
 // scaffold의 appBar 파라미터는 AppBar타입만 들어갈 수 있기에 함수로 생성
-AppBar buildScaffoldAppBar(BuildContext context, String svgPath, String title) {
+AppBar buildScaffoldAppBar(BuildContext context, String svgPath, String title,{Function()? onPop}) {
   return AppBar(
     toolbarHeight: 44,
     centerTitle: true,
@@ -16,6 +16,7 @@ AppBar buildScaffoldAppBar(BuildContext context, String svgPath, String title) {
       icon: SvgPicture.asset(svgPath),
       onPressed: () {
         Navigator.pop(context);
+        if (onPop != null) onPop();
       },
     ),
     title: Text(
@@ -27,10 +28,11 @@ AppBar buildScaffoldAppBar(BuildContext context, String svgPath, String title) {
 
 class HomeAppBar extends StatelessWidget {
   final int myWhiskeyCounters;
+  final bool isHasAnnouncement;
 
   const HomeAppBar({
     Key? key,
-    required this.myWhiskeyCounters,
+    required this.myWhiskeyCounters, required this.isHasAnnouncement,
   }) : super(key: key);
 
   @override
@@ -62,7 +64,7 @@ class HomeAppBar extends StatelessWidget {
             splashColor: ColorsManager.black300,
             splashRadius: 15,
             color: ColorsManager.gray200,
-            icon: SvgPicture.asset(SvgIconPath.notification),
+            icon: SvgPicture.asset(isHasAnnouncement ? SvgIconPath.notificationNew :SvgIconPath.notification),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(minWidth: 10, minHeight: 10),
             style: IconButton.styleFrom(

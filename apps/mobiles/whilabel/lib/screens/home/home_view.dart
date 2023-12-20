@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/enum/post_sort_order.dart';
+import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
@@ -27,6 +28,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  bool isHasAnnouncement = false;
   var messageString = "";
 
   Future<void> initAlim() async {
@@ -40,16 +42,16 @@ class _HomeViewState extends State<HomeView>
           notification.title,
           notification.body,
           const NotificationDetails(
-            // android: AndroidNotificationDetails(
-            //   'high_importance_channel',
-            //   'high_importance_notification',
-            //   importance: Importance.max,
-            //   icon: "@mipmap/notification",
-            //
-            //   color: Colors.black,
-            //   // ledColor: Colors.red,
-            //   colorized: false
-            // ),
+            android: AndroidNotificationDetails(
+              'high_importance_channel',
+              'high_importance_notification',
+              importance: Importance.max,
+              icon: "@mipmap/notification",
+
+              color: Colors.black,
+              // ledColor: Colors.red,
+              colorized: false
+            ),
             iOS: DarwinNotificationDetails(badgeNumber: 1)
           ),
         );
@@ -62,36 +64,28 @@ class _HomeViewState extends State<HomeView>
     });
   }
 
-  Future<void> setupInteractedMessage() async {
-    // Get any messages which caused the application to open from
-    // a terminated state.
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
+  void checkAnnouncement(CurrentUserStatus currentUserStatus){
+    final _announcements = currentUserStatus.state.appUser?.announcements;
+    if ( _announcements != null && _announcements.isNotEmpty) {
+      print("1323323");
+      setState(() {
+        isHasAnnouncement = true;
+      });
 
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
-    if (initialMessage != null) {
-      _handleMessage(initialMessage);
+    }else{
+      setState(() {
+        isHasAnnouncement = false;
+      });
     }
-
-    // Also handle any interaction when the app is in the background via a
-    // Stream listener
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   }
 
-  void _handleMessage(RemoteMessage message) {
-    print("\n\n messge : $message\n\n");
-    print("-----------------------");
-    // if (message.data['type'] == 'chat') {
-    //   Navigator.pushNamed(context, '/chat',
-    //     arguments: ChatArguments(message),
-    //   );
-    // }
-  }
 
   @override
   void initState() {
     super.initState();
+   final currentUserStatus = context.read<CurrentUserStatus>();
+    checkAnnouncement(currentUserStatus);
+
     CustomLoadingIndicator.showLodingProgress();
 
     initAlim();
@@ -100,7 +94,6 @@ class _HomeViewState extends State<HomeView>
     Future.microtask(() async {
       loadPostAsync();
     });
-
   }
 
   @override
@@ -127,7 +120,7 @@ class _HomeViewState extends State<HomeView>
     return SafeArea(
       child: Column(
         children: [
-          HomeAppBar(myWhiskeyCounters: state.listTypeArchivingPosts.length),
+          HomeAppBar(myWhiskeyCounters: state.listTypeArchivingPosts.length, isHasAnnouncement: isHasAnnouncement),
           SizedBox(height: WhilabelSpacing.space20),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
