@@ -28,12 +28,12 @@ class AppleOauth {
               '로그인 결과 : ${result.credential!.fullName}\n ${result.credential!.email} \n 유저:${result.credential?.user.toString()} ');
 
           loginedAuthUser = AuthUser(
-            uid: result.credential!.user.toString().substring(15) ?? "uuid",
+            uid: result.credential!.user.toString().substring(15) ,
             // 사용자 이름도 마찬가지
             displayName:
-                result.credential!.fullName.toString() ?? "displayname",
+                result.credential!.fullName.toString(),
             // email은 필수 항목이 아니라서 null able로 되어 있다.
-            email: result.credential!.email ?? "apple1234@gmail.com",
+            email: "apple1234@gmail.com",
             photoUrl: "",
             snsType: SnsType.APPLE,
           );
