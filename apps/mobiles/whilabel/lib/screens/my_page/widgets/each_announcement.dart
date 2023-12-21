@@ -20,6 +20,7 @@ class EachAnnouncement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: EdgeInsets.symmetric(horizontal: 16),
       leading: SizedBox(
         height: 50,
         width: 50,
@@ -53,6 +54,7 @@ class EachAnnouncement extends StatelessWidget {
           )
         ],
       ),
+
     );
   }
 }
