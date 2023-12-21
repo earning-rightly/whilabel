@@ -72,7 +72,7 @@ class MyPageViewModel with ChangeNotifier {
         //  emailjs에 들어갈 정보
         {
           'subject': subject,
-          'name': uid,
+          'uid': uid,
           'user_email': userEmail,
           'message': message,
         },
