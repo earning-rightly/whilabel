@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Whilabel</string>
+	<string>위라벨</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -29,7 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.737612668977-j44ou1pblf6rrl7pqhvtmeo9nr3p39vu</string>
+				<string>com.googleusercontent.apps.737612668977-pv1gtftu42hflra2qh8i9jiv46anmerr</string>
 			</array>
 		</dict>
 	</array>
