@@ -191,7 +191,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                                 File barcodeImage = await imageFile.copy(
                                   '${directory.path}/$currentUnix.$fileFormat',
                                 );
-                              await Navigator.push(
+                              await Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>

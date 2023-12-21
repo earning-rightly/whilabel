@@ -10,7 +10,6 @@ import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/button_style.dart';
-import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/camera/page/take_picture_page.dart';
 import 'package:whilabel/screens/camera/page/whisky_barcode_scan_page.dart';
 
@@ -100,30 +99,6 @@ class _WhiskyBarcodeRecognitionPageState
                   ),
                 ],
               ),
-          // Positioned(
-          //   bottom: 8,
-          //   left: 0,
-          //   right: 0,
-          //   child: Padding(
-          //     padding: EdgeInsets.symmetric(horizontal: 16),
-          //     child: LongTextButton(
-          //     buttonText: "다음",
-          //     color: ColorsManager.brown100,
-          //     onPressedFunc: () async {
-          //
-          //      Navigator.push(
-          //        context,
-          //        MaterialPageRoute(
-          //          builder: (context) =>
-          //              TakePicturePage(
-          //                cameras: viewModel.state.cameras,
-          //              ),
-          //        ),
-          //      );
-          //     },
-          // ),
-          //   ),
-          // ),
               Positioned(
                   bottom: 0,
                   child: Container(
@@ -141,18 +116,14 @@ class _WhiskyBarcodeRecognitionPageState
                           child: SizedBox(
                             child: OutlinedButton(
                               onPressed: () async{
-
-                                     Navigator.push(
+                                     Navigator.pushReplacement(
                                        context,
                                        MaterialPageRoute(
                                          builder: (context) =>
                                              WhiskyBarCodeScanPage(
                                                cameras: viewModel.state.cameras,
                                              ),
-                                       ),
-                                     );
-
-
+                                       ),);
                               },
                               child: Text(
                                 "다시찍기",
