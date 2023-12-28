@@ -120,7 +120,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                             callback: () {
                               Navigator.pushNamedAndRemoveUntil(
                                 context,
-                                Routes.rootRoute,
+                                Routes.onBoardingRoute,
                                 (route) => false,
                               );
                             },

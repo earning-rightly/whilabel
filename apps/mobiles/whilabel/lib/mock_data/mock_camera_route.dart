@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/camera/page/gallery_page.dart';
 import 'package:whilabel/screens/camera/page/search_whisky_name_page.dart';
+import 'package:whilabel/screens/camera/page/whisky_barcode_scan_page.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
@@ -82,4 +86,59 @@ class _MockCameraRouteState extends State<MockCameraRoute> {
       }),
     );
   }
+}
+
+
+void choicerWhiskyArchiving(BuildContext context){
+  /// 나중에 개발하다가 필요할 수도 있기에 보관중인 코드 함수 안에서 정의된 viewModel은 사용 x
+  final viewModel = context.read<CameraViewModel>(); // 사용 할때는 함수 밖에서 사용해야 합니다.
+
+  showModalBottomSheet<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return Container(
+        padding:
+        EdgeInsets.symmetric(horizontal: 18),
+        color: ColorsManager.black200,
+        height: 200,
+        child: Center(
+          child: Column(
+            mainAxisAlignment:
+            MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+
+              // 바코드로 인식하기
+              LongTextButton(
+                buttonText: "위스키 병 바코드 인식",
+                onPressedFunc: () async {
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            WhiskyBarCodeScanPage(
+                              cameras: viewModel.state.cameras,
+                            ),
+                      ));
+                },
+              ),
+              SizedBox(
+                  height: WhilabelSpacing.space8),
+              LongTextButton(
+                buttonText: "위스키 이름 검색",
+                onPressedFunc: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            SerachWhiskyNamePage()),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

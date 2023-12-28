@@ -4,13 +4,17 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/_global/widgets/back_listener.dart';
 import 'package:whilabel/screens/camera/page/chosen_image_page.dart';
+import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 
 import 'gallery_page.dart';
 
@@ -104,6 +108,8 @@ class _TakePicturePageState extends State<TakePicturePage>
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<CameraViewModel>();
+
     if (!controller.value.isInitialized) {
       return Container();
     }
@@ -158,18 +164,44 @@ class _TakePicturePageState extends State<TakePicturePage>
                               bottom: 38,
                               right: 16,
                               child: IconButton(
-                                icon: SvgPicture.asset(
-                                  SvgIconPath.image,
-                                  width: 44.w,
-                                  height: 44.h,
-                                ),
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => GalleryPage(),
+                                  icon: SvgPicture.asset(
+                                    SvgIconPath.image,
+                                    width: 44.w,
+                                    height: 44.h,
                                   ),
-                                ),
-                              ),
+                                  onPressed: () async {
+                                    if (Platform.isIOS) {
+                                      final ImagePicker picker = ImagePicker();
+// Pick an image.
+                                      final XFile? image =
+                                          await picker.pickImage(
+                                              source: ImageSource.gallery);
+                                      if (image != null) {
+                                        File currentFile = File(image.path);
+
+                                        try {
+                                            await viewModel
+                                                .saveUserWhiskyImageOnNewArchivingPostState(
+                                                    currentFile);
+
+                                            Navigator.pushNamed(context,
+                                                Routes.whiskeyCritiqueRoute);
+
+                                        } catch (error) {
+                                          debugPrint("사진 저장 오류 발생!!\n$error");
+                                        }
+                                      } else {
+                                        Navigator.pop(context);
+                                      }
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => GalleryPage(),
+                                        ),
+                                      );
+                                    }
+                                  }),
                             ),
                             // camera 셔터
                             Positioned(

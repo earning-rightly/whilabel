@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="whilabel"
+        android:label="위라벨"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
