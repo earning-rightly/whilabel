@@ -65,7 +65,7 @@ class DefaultFirebaseOptions {
     projectId: 'whilabel',
     databaseURL: 'https://whilabel-default-rtdb.firebaseio.com',
     storageBucket: 'whilabel.appspot.com',
-    androidClientId: '737612668977-25elkdtbrv1ldd3402ad0ji9hkgenbeq.apps.googleusercontent.com',
+    androidClientId: '737612668977-0hb3jljbg2gc38mm7gjibfklps7ivv97.apps.googleusercontent.com',
     iosClientId: '737612668977-pv1gtftu42hflra2qh8i9jiv46anmerr.apps.googleusercontent.com',
     iosBundleId: 'com.earningRight.whilabel',
   );
