@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:photo_gallery/photo_gallery.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
+import 'package:whilabel/domain/use_case/scan_whisky_barcode_use_case.dart';
 import 'package:whilabel/domain/use_case/whisky_archiving_post_use_case.dart';
 import 'package:whilabel/domain/use_case/search_whisky_data_use_case.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
@@ -14,12 +15,15 @@ import 'package:whilabel/screens/camera/view_model/camera_state.dart';
 class CameraViewModel with ChangeNotifier {
   final SearchWhiskeyDataUseCase _searchWhiskeyDataUseCase;
   final WhiskyNewArchivingPostUseCase _archivingPostStatus;
+  final ScanWhiskyBarcodeUseCase _scanWhiskyBarCodeUseCase;
 
   CameraViewModel(
       {required SearchWhiskeyDataUseCase searchWhiskeyDataUseCase,
-      required WhiskyNewArchivingPostUseCase archivingPostStatus})
+      required WhiskyNewArchivingPostUseCase archivingPostStatus,
+      required ScanWhiskyBarcodeUseCase scanWhiskyBarcodeUseCase})
       : _searchWhiskeyDataUseCase = searchWhiskeyDataUseCase,
-        _archivingPostStatus = archivingPostStatus;
+        _archivingPostStatus = archivingPostStatus,
+        _scanWhiskyBarCodeUseCase = scanWhiskyBarcodeUseCase;
 
   CameraState get state => _state;
   CameraState _state = CameraState(
@@ -59,7 +63,8 @@ class CameraViewModel with ChangeNotifier {
 
   Future<void> cleanMediums() async{
 
-    _state = _state.copyWith(mediums: []);
+    _state = _state.copyWith(mediums: [], barcode: "");
+    // _state = _state.copyWith(mediums: [], barcode: "");
     notifyListeners();
   }
 
@@ -69,6 +74,23 @@ class CameraViewModel with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> scanBarcode(File imageFile) async{
+
+    final resizedImageFile = await _scanWhiskyBarCodeUseCase.resizeImage(imageFile);
+    if (resizedImageFile == null) {
+      throw Exception("barcode scan error");
+    } else {
+      String? scanResult = await  _scanWhiskyBarCodeUseCase.scanBarcodeImage(resizedImageFile.path);
+      // log(scanResult);
+      print("show scan result \n\n ==> $scanResult");
+
+      _state = _state.copyWith(barcode: scanResult ?? "");
+      notifyListeners();
+    }
+
+  }
+
 
   Future<void> searchWhiskeyWithBarcode(String whiskeyBarcode) async {
     debugPrint("whisky barcode ===> $whiskeyBarcode");

@@ -7,6 +7,7 @@ import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/whisky/whisky.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/domain/use_case/load_archiving_posts_use_case.dart';
+import 'package:whilabel/domain/use_case/scan_whisky_barcode_use_case.dart';
 import 'package:whilabel/domain/use_case/whisky_archiving_post_use_case.dart';
 import 'package:whilabel/domain/post/archiving_post_repository.dart';
 import 'package:whilabel/domain/post/firebase_archiving_post_repository_impl.dart';
@@ -54,12 +55,14 @@ class ProvidersManager {
     currentUserStatus: _currentUserStatus,
     appUserRepository: _appUserRepository
   );
+
+  static final _scanBarcodeUseCase = ScanWhiskyBarcodeUseCase();
   static final _searchWhiskeyBarcodeUseCase = SearchWhiskeyDataUseCase(
     appUserRepository: _appUserRepository,
     whiskyBrandDistilleryRepository: _whiskyBrandDistilleryRepository,
   );
 
-  static final whiskeyNewArchivingPostUseCase = WhiskyNewArchivingPostUseCase(
+  static final _whiskeyNewArchivingPostUseCase = WhiskyNewArchivingPostUseCase(
     archivingPostRepository: _archivingPostRepository);
   static final _loadArchivingPostUseCase = LoadArchivingPostsUseCase(
     archivingPostRepository: _archivingPostRepository,
@@ -75,7 +78,8 @@ class ProvidersManager {
     );
     final carmeraViewModel = CameraViewModel(
       searchWhiskeyDataUseCase: _searchWhiskeyBarcodeUseCase,
-      archivingPostStatus: whiskeyNewArchivingPostUseCase,
+      archivingPostStatus: _whiskeyNewArchivingPostUseCase,
+      scanWhiskyBarcodeUseCase: _scanBarcodeUseCase
     );
 
     final homeViewModel = HomeViewModel(
@@ -121,7 +125,7 @@ class ProvidersManager {
   static WhiskyCritiqueViewModel callWhiskyCritiqueViewModel() {
     final whiskyCritiqueViewModel = WhiskyCritiqueViewModel(
       appUserRepository: _appUserRepository,
-      whiskyNewArchivingPostUseCase: whiskeyNewArchivingPostUseCase,
+      whiskyNewArchivingPostUseCase: _whiskeyNewArchivingPostUseCase,
     );
     return whiskyCritiqueViewModel;
   }
