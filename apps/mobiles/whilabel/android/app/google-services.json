@@ -40,10 +40,10 @@
               "client_type": 3
             },
             {
-              "client_id": "737612668977-57lru79h5vpdagdh4t31uvpjqeapjq98.apps.googleusercontent.com",
+              "client_id": "737612668977-pv1gtftu42hflra2qh8i9jiv46anmerr.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.testFirebaseOdm"
+                "bundle_id": "com.earningRight.whilabel"
               }
             }
           ]
