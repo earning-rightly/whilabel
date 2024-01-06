@@ -6,14 +6,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/string_manger.dart' as strManger;
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
+import 'package:whilabel/screens/camera/page/chosen_image_page.dart';
 import 'package:whilabel/screens/camera/page/whisky_barcode_recognition_page.dart';
-import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 
 import 'gallery_page.dart';
 
@@ -116,7 +115,6 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<CameraViewModel>();
     if (!controller.value.isInitialized) {
       return Container();
     }
@@ -186,19 +184,16 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                                       File currentFile = File(image.path);
 
                                       try {
-                                        // Medium패기지 내장 함수
-
-                                        await viewModel
-                                            .saveUserWhiskyImageOnNewArchivingPostState(
-                                                currentFile);
-
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                WhiskyBarcodeRecognitionPage(
-                                                  imageFile: currentFile,
-                                                ),
+                                                ChosenImagePage(
+                                              currentFile,
+                                              0,
+                                              isFindingBarcode: true,
+                                              isUnableSlide: false,
+                                            ),
                                           ),
                                         );
                                       } catch (error) {
@@ -208,7 +203,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                                       Navigator.pop(context);
                                     }
                                   } else {
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => GalleryPage(
@@ -234,9 +229,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                                 File barcodeImage = await imageFile.copy(
                                   '${directory.path}/$currentUnix.$fileFormat',
                                 );
-                                // ios에서만 실행될 코드
-
-                                await Navigator.pushReplacement(
+                                await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
