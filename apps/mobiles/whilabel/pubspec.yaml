@@ -109,6 +109,7 @@ flutter:
     - assets/icon/on_boarding/
     - assets/icon/pop_menu/
     - assets/config/.env
+    - assets/mock_assets/mock_barcode/
   fonts:
     - family: Pretendard
       fonts:
