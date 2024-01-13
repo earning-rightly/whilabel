@@ -123,7 +123,7 @@ class _CritiqueViewWhiskyInfoFooterState
                                   const LoadArchivingPost(
                                       PostButtonOrder.LATEST));
                               await cameraViewModel
-                                  .onEvent(const CameraEvent.cleanMediums());
+                                  .onEvent(const CameraEvent.cleanCameraState());
 
                               if (currentPostData
                                   .archivingPost.whiskyName.isNullOrEmpty) {

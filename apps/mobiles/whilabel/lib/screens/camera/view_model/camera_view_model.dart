@@ -40,7 +40,7 @@ class CameraViewModel with ChangeNotifier {
         .when(
           initCamera: initCamera,
           addMediums: addMediums,
-          cleanMediums: cleanMediums,
+          cleanCameraState: cleanCamerState,
           searchWhiskeyWithBarcode: searchWhiskeyWithBarcode,
           searchWhiskyWithName: searchWhiskyWithName,
           saveBarcodeImage: saveBarcodeImage,
@@ -59,7 +59,7 @@ class CameraViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> cleanMediums() async {
+  Future<void> cleanCamerState() async {
     _state = _state.copyWith(mediums: [], barcode: null);
     // _state = _state.copyWith(mediums: [], barcode: "");
     notifyListeners();
