@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/whisky/short_whisky.dart';
-import 'package:whilabel/provider_manager.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
@@ -18,7 +17,6 @@ import 'gallery_page.dart';
 class SerachWhiskyNamePage extends StatelessWidget {
   SerachWhiskyNamePage({super.key});
 
-  final testWhikyDB = ProvidersManager.testWhiskDB();
 
   List<ShortWhiskyData> searchedResult = [];
   final whiskyNameTextController = TextEditingController();

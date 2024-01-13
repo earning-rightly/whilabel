@@ -25,7 +25,6 @@ class _MockCameraRouteState extends State<MockCameraRoute> {
     barCodeTextController.dispose();
   }
 
-  // final testWhikyDB = ProvidersManager.testWhiskDB();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
