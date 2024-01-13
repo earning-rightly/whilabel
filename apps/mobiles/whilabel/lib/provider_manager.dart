@@ -26,6 +26,9 @@ import 'package:whilabel/screens/my_page/view_model/my_page_view_model.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_view_model.dart';
 
+// mock 관련 root
+import 'mock_data/mock_camera/mock_camera_view_modle.dart';
+
 class ProvidersManager {
   static final AppUserCollectionReference appUserRef = usersRef;
   static final AppUserRepository _appUserRepository =
@@ -76,7 +79,7 @@ class ProvidersManager {
       appUserRepository: _appUserRepository,
       currentUserStatus: _currentUserStatus,
     );
-    final carmeraViewModel = CameraViewModel(
+    final cameraViewModel = CameraViewModel(
       searchWhiskeyDataUseCase: _searchWhiskeyBarcodeUseCase,
       archivingPostStatus: _whiskeyNewArchivingPostUseCase,
       scanWhiskyBarcodeUseCase: _scanBarcodeUseCase
@@ -110,7 +113,7 @@ class ProvidersManager {
         create: (context) => archivingPostDetailViewModel,
       ),
       ChangeNotifierProvider(
-        create: (context) => carmeraViewModel,
+        create: (context) => cameraViewModel,
       ),
       ChangeNotifierProvider(
         create: (context) => homeViewModel,
@@ -130,8 +133,23 @@ class ProvidersManager {
     return whiskyCritiqueViewModel;
   }
 
-  static FirebaseWhiskyBrandDistilleryRepositoryImpl testWhiskDB() {
+  static FirebaseWhiskyBrandDistilleryRepositoryImpl mockWhiskDB() {
     return FirebaseWhiskyBrandDistilleryRepositoryImpl(
         _whiskyRef, _brandRef, _distilleryRef);
+  }
+
+  static List<SingleChildWidget> mockInitialProviders() {
+
+    final mockCameraViewModel = MockCameraViewModel(
+        searchWhiskeyDataUseCase: _searchWhiskeyBarcodeUseCase,
+        archivingPostStatus: _whiskeyNewArchivingPostUseCase,
+        scanWhiskyBarcodeUseCase: _scanBarcodeUseCase
+    );
+
+    return [
+      ChangeNotifierProvider(
+        create: (context) => mockCameraViewModel,
+      ),
+    ];
   }
 }
