@@ -10,11 +10,12 @@ part 'camera_state.freezed.dart';
 class CameraState with _$CameraState {
   factory CameraState({
     required String albumTitle,
-    required String barcode,
     required bool isFindWhiskyData,
     required List<ShortWhiskyData> shortWhisyDatas,
     required List<Medium> mediums,
     required List<CameraDescription> cameras,
     File? barcodeImage,
+    String? barcode,
+
   }) = _CameraState;
 }
