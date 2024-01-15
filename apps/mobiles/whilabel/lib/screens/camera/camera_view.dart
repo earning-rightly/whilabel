@@ -9,7 +9,6 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/camera/page/whisky_barcode_scan_page.dart';
-import 'package:whilabel/screens/camera/page/search_whisky_name_page.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 
@@ -27,13 +26,11 @@ class _CameraViewState extends State<CameraView> {
   List<CameraDescription> cameras = [];
   StreamController<int> _events = StreamController();
 
-
   @override
   void initState() {
     super.initState();
     final viewModel = context.read<CameraViewModel>();
     initCamera(viewModel);
-
   }
 
   void addFailCounter() {
@@ -64,23 +61,23 @@ class _CameraViewState extends State<CameraView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             height * 0.8 <= width
-                ?  Container(
-        margin: EdgeInsets.symmetric(vertical: 32),
-        child: Text(
-          "위스키 기록",
-          style: TextStylesManager.bold24,
-        ),
-      )
-            :Expanded(
-              flex: 1,
-              child: Padding(
-                padding: EdgeInsets.only(top: 32),
-                child: Text(
-                  "위스키 기록",
-                  style: TextStylesManager.bold24,
-                ),
-              ),
-            ),
+                ? Container(
+                    margin: EdgeInsets.symmetric(vertical: 32),
+                    child: Text(
+                      "위스키 기록",
+                      style: TextStylesManager.bold24,
+                    ),
+                  )
+                : Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 32),
+                      child: Text(
+                        "위스키 기록",
+                        style: TextStylesManager.bold24,
+                      ),
+                    ),
+                  ),
             Expanded(
               flex: height * 0.8 <= width ? 1 : 3,
               child: SizedBox(
@@ -88,15 +85,20 @@ class _CameraViewState extends State<CameraView> {
                   children: [
                     Image.asset(
                       cameraViewPngImage,
-
                     ),
-                    SizedBox(height: height * 0.85 <= width ? 0: WhilabelSpacing.space32),
+                    SizedBox(
+                        height: height * 0.85 <= width
+                            ? 0
+                            : WhilabelSpacing.space32),
                     Text(
                       "오늘 마신 위스키를 기록해볼까요?",
                       style: TextStylesManager.bold20,
                       textAlign: TextAlign.left,
                     ),
-                    SizedBox(height: height * 0.85 <= width ? 0: WhilabelSpacing.space24),
+                    SizedBox(
+                        height: height * 0.85 <= width
+                            ? 0
+                            : WhilabelSpacing.space24),
                     Row(
                       children: [
                         Expanded(flex: 10, child: SizedBox()),
@@ -105,68 +107,25 @@ class _CameraViewState extends State<CameraView> {
                           child: LongTextButton(
                             buttonText: "위스키 기록하기",
                             color: ColorsManager.brown100,
-                            onPressedFunc: () {
-                              showModalBottomSheet<void>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 18),
-                                    color: ColorsManager.black200,
-                                    height: 200,
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-
-                                          // 바코드로 인식하기
-                                          LongTextButton(
-                                            buttonText: "위스키 병 바코드 인식",
-                                            onPressedFunc: () async {
-                                              await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        WhiskyBarCodeScanPage(
-                                                      cameras: viewModel.state.cameras,
-                                                    ),
-                                                  ));
-                                            },
-                                          ),
-                                          SizedBox(
-                                              height: WhilabelSpacing.space8),
-                                          LongTextButton(
-                                            buttonText: "위스키 이름 검색",
-                                            onPressedFunc: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        SerachWhiskyNamePage()),
-                                              );
-                                            },
-                                          ),
-                                        ],
-                                      ),
+                            onPressedFunc: () async {
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => WhiskyBarCodeScanPage(
+                                      cameras: viewModel.state.cameras,
                                     ),
-                                  );
-                                },
-                              );
+                                  ));
                             },
                           ),
                         ),
-                             Expanded(flex:  10, child: SizedBox())
+                        Expanded(flex: 10, child: SizedBox())
                       ],
                     ),
                   ],
                 ),
               ),
             ),
-            height * 0.8 <= width
-                ?  SizedBox()
-                : SizedBox(height: 20)
+            height * 0.8 <= width ? SizedBox() : SizedBox(height: 20)
           ],
         ),
       ),
