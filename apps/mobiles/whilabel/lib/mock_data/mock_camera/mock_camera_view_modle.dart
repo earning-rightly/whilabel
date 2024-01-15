@@ -59,18 +59,16 @@ class MockCameraViewModel with ChangeNotifier {
 
         print(
             "cameraViewModel code scanBarcode show scan result ==> $scanResult");
-        await _mockPrivateSaveImageOnStorage(imageName, resizeImage);
+        await _mockPrivateSaveImageOnStorage("$imageName+$level", resizeImage);
 
 
         if (scanResult == null) {
-          print(" ######  resize를 다시 시도합니다. level: $level  #####");
-          if (level < 3)
+          print(" ######  resize를 다시 시도합니다. 현재 level: $level  #####");
+          if (level <= 5)
             mockBarcodeLibaryTest(imageFile, level: level + 1);
-          else
-            _state = _state.copyWith(barcode: "");
+          else _state = _state.copyWith(barcode: "");
         }
-        else
-          _state = _state.copyWith(barcode: scanResult);
+        else _state = _state.copyWith(barcode: scanResult);
         notifyListeners();
       });
     }

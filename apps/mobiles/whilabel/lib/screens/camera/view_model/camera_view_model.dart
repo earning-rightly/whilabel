@@ -82,8 +82,8 @@ class CameraViewModel with ChangeNotifier {
             await _scanWhiskyBarCodeUseCase.scanBarcodeImage(resizeImage.path);
 
         if (scanResult == null) {
-          print(" ######  resize를 다시 시도합니다. level: $level  #####");
-          if (level < 3) scanBarcode(imageFile, level: level+1);
+          print(" ######  resize를 다시 시도합니다. 현재 level: $level  #####");
+          if (level <= 5) scanBarcode(imageFile, level: level+1);
           else _state = _state.copyWith(barcode: "");
         }
         else _state = _state.copyWith(barcode: scanResult);
