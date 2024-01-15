@@ -9,7 +9,6 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/camera/page/whisky_barcode_scan_page.dart';
-import 'package:whilabel/screens/camera/page/search_whisky_name_page.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 
@@ -54,7 +53,7 @@ class _CameraViewState extends State<CameraView> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    print("height ====>>> $height \n width =====>> $width");
+
 
     return SafeArea(
         child: Padding(
@@ -105,55 +104,18 @@ class _CameraViewState extends State<CameraView> {
                           child: LongTextButton(
                             buttonText: "위스키 기록하기",
                             color: ColorsManager.brown100,
-                            onPressedFunc: () {
-                              showModalBottomSheet<void>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 18),
-                                    color: ColorsManager.black200,
-                                    height: 200,
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
+                            onPressedFunc: () async{
+                             await viewModel.cleanCamerState();
 
-                                          // 바코드로 인식하기
-                                          LongTextButton(
-                                            buttonText: "위스키 병 바코드 인식",
-                                            onPressedFunc: () async {
-                                              await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        WhiskyBarCodeScanPage(
-                                                      cameras: viewModel.state.cameras,
-                                                    ),
-                                                  ));
-                                            },
-                                          ),
-                                          SizedBox(
-                                              height: WhilabelSpacing.space8),
-                                          LongTextButton(
-                                            buttonText: "위스키 이름 검색",
-                                            onPressedFunc: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        SerachWhiskyNamePage()),
-                                              );
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        WhiskyBarCodeScanPage(
+                                          cameras: viewModel.state.cameras,
+                                        ),
+                                  ));
+
                             },
                           ),
                         ),

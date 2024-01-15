@@ -88,30 +88,6 @@ class UnregisteredWhiskyPage extends StatelessWidget {
                   ),
                 ],
               ),
-          // Positioned(
-          //   bottom: 8,
-          //   left: 0,
-          //   right: 0,
-          //   child: Padding(
-          //     padding: EdgeInsets.symmetric(horizontal: 16),
-          //     child: LongTextButton(
-          //     buttonText: "다음",
-          //     color: ColorsManager.brown100,
-          //     onPressedFunc: () async {
-          //
-          //      Navigator.push(
-          //        context,
-          //        MaterialPageRoute(
-          //          builder: (context) =>
-          //              TakePicturePage(
-          //                cameras: viewModel.state.cameras,
-          //              ),
-          //        ),
-          //      );
-          //     },
-          // ),
-          //   ),
-          // ),
               Positioned(
                   bottom: 0,
                   child: Container(
@@ -139,10 +115,7 @@ class UnregisteredWhiskyPage extends StatelessWidget {
                                              WhiskyBarCodeScanPage(
                                                cameras: viewModel.state.cameras,
                                              ),
-                                       ),
-                                     );
-
-
+                                       ),);
                               },
                               child: Text(
                                 "다시찍기",
