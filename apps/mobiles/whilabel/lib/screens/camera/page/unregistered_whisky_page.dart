@@ -10,14 +10,13 @@ import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/button_style.dart';
+import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/camera/page/take_picture_page.dart';
 import 'package:whilabel/screens/camera/page/whisky_barcode_scan_page.dart';
-import 'package:whilabel/screens/camera/view_model/camera_event.dart';
 
 import '../view_model/camera_view_model.dart';
 
-// ignore: must_be_immutable
-class UnregisteredWhiskyPage extends StatelessWidget {
+class UnregisteredWhiskyPage extends StatefulWidget {
   /// 용도 : 바코드 인식 O, DB 매칭 X 일떄 이동하는 페이지
   /// 목적 : 유저에게 인식되지 않는 위스키를 등록할 수 있도록 유도하기 위해서
   /// 다음 버튼을 누르면 WhiskyCritiqueView()로 이동
@@ -25,9 +24,22 @@ class UnregisteredWhiskyPage extends StatelessWidget {
       : super(key: key);
   final File imageFile;
 
+  @override
+  State<UnregisteredWhiskyPage> createState() =>
+      _WhiskyBarcodeRecognitionPageState();
+}
+
+class _WhiskyBarcodeRecognitionPageState
+    extends State<UnregisteredWhiskyPage> {
   String barcode = "";
   File? initImageFile;
   List<CameraDescription> cameras = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +76,7 @@ class UnregisteredWhiskyPage extends StatelessWidget {
                           height: 427.h,
                           child:
                           Image.file(
-                            imageFile ,
+                            widget.imageFile ,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -88,6 +100,30 @@ class UnregisteredWhiskyPage extends StatelessWidget {
                   ),
                 ],
               ),
+          // Positioned(
+          //   bottom: 8,
+          //   left: 0,
+          //   right: 0,
+          //   child: Padding(
+          //     padding: EdgeInsets.symmetric(horizontal: 16),
+          //     child: LongTextButton(
+          //     buttonText: "다음",
+          //     color: ColorsManager.brown100,
+          //     onPressedFunc: () async {
+          //
+          //      Navigator.push(
+          //        context,
+          //        MaterialPageRoute(
+          //          builder: (context) =>
+          //              TakePicturePage(
+          //                cameras: viewModel.state.cameras,
+          //              ),
+          //        ),
+          //      );
+          //     },
+          // ),
+          //   ),
+          // ),
               Positioned(
                   bottom: 0,
                   child: Container(
@@ -105,17 +141,18 @@ class UnregisteredWhiskyPage extends StatelessWidget {
                           child: SizedBox(
                             child: OutlinedButton(
                               onPressed: () async{
-                                await viewModel.onEvent(const CameraEvent.cleanCameraState());
-                                await viewModel.onEvent(CameraEvent.initCamera());
 
-                                     Navigator.pushReplacement(
+                                     Navigator.push(
                                        context,
                                        MaterialPageRoute(
                                          builder: (context) =>
                                              WhiskyBarCodeScanPage(
                                                cameras: viewModel.state.cameras,
                                              ),
-                                       ),);
+                                       ),
+                                     );
+
+
                               },
                               child: Text(
                                 "다시찍기",
@@ -136,7 +173,7 @@ class UnregisteredWhiskyPage extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: () async{
 
-                                Navigator.pushReplacement(
+                                Navigator.push(
                                            context,
                                            MaterialPageRoute(
                                              builder: (context) =>

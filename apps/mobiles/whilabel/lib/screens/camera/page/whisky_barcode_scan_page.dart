@@ -4,15 +4,14 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
-import 'package:whilabel/screens/_constants/string_manger.dart' as strManger;
+import 'package:whilabel/screens/_constants/string_manger.dart'as strManger;
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/camera/page/whisky_barcode_recognition_page.dart';
-import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
+
 
 import 'gallery_page.dart';
 
@@ -56,6 +55,9 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
   }
 
   Future<void> setFlashMode(FlashMode mode) async {
+    // if (controller == null) {
+    //   return;
+    // }
 
     try {
       await controller.setFlashMode(mode);
@@ -70,7 +72,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
     super.initState();
     final watchAgainCheckBox = Hive.box(strManger.WATCH_AGAIN_CHECKBOX);
     final isShowCameraRule= watchAgainCheckBox.get(strManger.CAMERA_RULE);
-
+    print("isShowCameraRule ========> $isShowCameraRule");
     _flashModeControlRowAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -99,8 +101,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
         }
       }
     });
-    if (isShowCameraRule == false || isShowCameraRule == null)
-      showRuleForCamera(context);
+    if (isShowCameraRule == false || isShowCameraRule == null) showRuleForCamera(context);
   }
 
   @override
@@ -112,7 +113,6 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<CameraViewModel>();
     if (!controller.value.isInitialized) {
       return Container();
     }
@@ -141,19 +141,17 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                 cameraOverlay(
                     padding: 50,
                     aspectRatio: 1,
-                    color: Color.fromARGB(158, 6, 5, 5)),
-                Positioned(
-                    bottom: 120,
-                    child: Column(
-                      children: [
-                        SvgPicture.asset(SvgIconPath.barcode,
-                            width: 52, height: 32),
-                        SizedBox(height: 16),
-                        Text("위스키 병의 바코드를 찍어주세요",
-                            style: TextStylesManager.regular16),
-                        SizedBox(height: 16),
-                      ],
-                    )),
+                    color: Color.fromARGB(158, 6, 5, 5)
+
+                ),
+                Positioned(bottom: 120, child: Column(
+                  children: [
+                    SvgPicture.asset(SvgIconPath.barcode, width: 52, height: 32),
+                    SizedBox(height: 16),
+                    Text("위스키 병의 바코드를 찍어주세요", style: TextStylesManager.regular16),
+                    SizedBox(height: 16),
+                  ],
+                )),
                 Positioned(
                     bottom: 24,
                     left: 0,
@@ -167,73 +165,44 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                           Align(
                             alignment: Alignment.centerRight,
                             child: IconButton(
-                                icon: SvgPicture.asset(
-                                  SvgIconPath.image,
-                                  width: 44,
-                                  height: 44,
+                              icon: SvgPicture.asset(SvgIconPath.image, width: 44, height: 44,),
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => GalleryPage(
+                                    isFindingBarcode: true,
+                                  ),
                                 ),
-                                onPressed: () async {
-                                  if (Platform.isIOS) {
-                                    final ImagePicker picker = ImagePicker();
-// Pick an image.
-                                    final XFile? image = await picker.pickImage(
-                                        source: ImageSource.gallery);
-                                    if (image != null) {
-                                      File currentFile = File(image.path);
-
-                                      try {
-                                        // Medium패기지 내장 함수
-
-                                        await viewModel
-                                            .saveUserWhiskyImageOnNewArchivingPostState(
-                                                currentFile);
-
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                WhiskyBarcodeRecognitionPage(
-                                                  imageFile: currentFile,
-                                                ),
-                                          ),
-                                        );
-                                      } catch (error) {
-                                        debugPrint("사진 저장 오류 발생!!\n$error");
-                                      }
-                                    } else {
-                                      Navigator.pop(context);
-                                    }
-                                  } else {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => GalleryPage(
-                                          isFindingBarcode: true,
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                }),
+                              ),
+                            ),
                           ),
                           InkWell(
                             onTap: () async {
                               XFile? rawImage = await takePicture();
                               if (rawImage != null) {
                                 File imageFile = File(rawImage.path);
+                                int currentUnix =
+                                    DateTime.now().millisecondsSinceEpoch;
+                                final directory =
+                                    await getApplicationDocumentsDirectory();
+                                String fileFormat =
+                                    imageFile.path.split('.').last;
 
-                                await Navigator.pushReplacement(
+                                File barcodeImage = await imageFile.copy(
+                                  '${directory.path}/$currentUnix.$fileFormat',
+                                );
+                              await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             WhiskyBarcodeRecognitionPage(
-                                                imageFile: imageFile)));
+                                                imageFile: barcodeImage)));
                               }
                             },
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
-                                SvgPicture.asset(SvgIconPath.cameraShutter,
-                                    width: 72, height: 72),
+                                SvgPicture.asset(SvgIconPath.cameraShutter, width: 72, height: 72),
                               ],
                             ),
                           ),

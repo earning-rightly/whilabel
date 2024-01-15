@@ -25,15 +25,15 @@ class AppleOauth {
         // 3-1. 로그인 권한을 부여받은 경우
         case AuthorizationStatus.authorized:
           debugPrint(
-              '로그인 결과 : ${result.credential!.fullName}\n ${result.credential!.email} \n 유저:${result.credential?.user.toString()} ');
+              '로그인 결과 : ${result.credential?.fullName}\n ${result.credential?.email} \n 유저:${result.credential?.user.toString()} ');
 
           loginedAuthUser = AuthUser(
-            uid: result.credential!.user.toString().substring(15) ?? "uuid",
+            uid: result.credential!.user.toString() ,
             // 사용자 이름도 마찬가지
             displayName:
-                result.credential!.fullName.toString() ?? "displayname",
+                result.credential?.fullName?.middleName ?? "애플로그인",
             // email은 필수 항목이 아니라서 null able로 되어 있다.
-            email: result.credential!.email ?? "apple1234@gmail.com",
+            email:"${result.credential!.user}@gmail.com" ,// 이메일이 중복되면 로그인 불가는 하기에 uid 이용
             photoUrl: "",
             snsType: SnsType.APPLE,
           );

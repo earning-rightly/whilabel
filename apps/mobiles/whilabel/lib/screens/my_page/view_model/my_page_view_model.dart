@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:emailjs/emailjs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:whilabel/data/user/app_user.dart';
@@ -18,7 +20,7 @@ class MyPageViewModel with ChangeNotifier {
       changePushAlimValue: changePushAlimValue,
       changeMarketingAlimValue: changeMarketingAlimValue,
       withdrawAccount: withdrawAccount,
-      sendEmail: changePushAlimValue,
+      sendEmail: (String str) async{ log("비이었는 함수 입니다");} ,
     )
         .then((_) => {after()});
   }
@@ -72,7 +74,7 @@ class MyPageViewModel with ChangeNotifier {
         //  emailjs에 들어갈 정보
         {
           'subject': subject,
-          'name': uid,
+          'uid': uid,
           'user_email': userEmail,
           'message': message,
         },

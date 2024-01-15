@@ -39,7 +39,8 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
             child: (announcements == null || announcements.isEmpty)
                 ? AnnouncmentPageEmpty()
                 : ListView.separated(
-                    itemCount: announcements.length,
+              padding: EdgeInsets.only(top: 10, left: 16, right: 16),
+                    itemCount:announcements.length,
                     itemBuilder: (context, index) {
                       return EachAnnouncement(
                         title: announcements[index].title,
@@ -48,7 +49,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                       );
                     },
                     separatorBuilder: (context, index) {
-                      return SizedBox(height: 5);
+                      return  const Divider(color: ColorsManager.black200);
                     }),
           )),
     );
