@@ -11,7 +11,9 @@ import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/string_manger.dart' as strManger;
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
+import 'package:whilabel/screens/camera/page/chosen_image_page.dart';
 import 'package:whilabel/screens/camera/page/whisky_barcode_recognition_page.dart';
+
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 
 import 'gallery_page.dart';
@@ -56,7 +58,6 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
   }
 
   Future<void> setFlashMode(FlashMode mode) async {
-
     try {
       await controller.setFlashMode(mode);
     } on CameraException catch (e) {
@@ -69,7 +70,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
   void initState() {
     super.initState();
     final watchAgainCheckBox = Hive.box(strManger.WATCH_AGAIN_CHECKBOX);
-    final isShowCameraRule= watchAgainCheckBox.get(strManger.CAMERA_RULE);
+    final isShowCameraRule = watchAgainCheckBox.get(strManger.CAMERA_RULE);
 
     _flashModeControlRowAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
@@ -182,19 +183,16 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                                       File currentFile = File(image.path);
 
                                       try {
-                                        // Medium패기지 내장 함수
-
-                                        await viewModel
-                                            .saveUserWhiskyImageOnNewArchivingPostState(
-                                                currentFile);
-
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                WhiskyBarcodeRecognitionPage(
-                                                  imageFile: currentFile,
-                                                ),
+                                                ChosenImagePage(
+                                              currentFile,
+                                              0,
+                                              isFindingBarcode: true,
+                                              isUnableSlide: false,
+                                            ),
                                           ),
                                         );
                                       } catch (error) {
@@ -204,7 +202,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                                       Navigator.pop(context);
                                     }
                                   } else {
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => GalleryPage(

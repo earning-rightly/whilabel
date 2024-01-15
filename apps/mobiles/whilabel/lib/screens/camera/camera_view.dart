@@ -26,13 +26,11 @@ class _CameraViewState extends State<CameraView> {
   List<CameraDescription> cameras = [];
   StreamController<int> _events = StreamController();
 
-
   @override
   void initState() {
     super.initState();
     final viewModel = context.read<CameraViewModel>();
     initCamera(viewModel);
-
   }
 
   void addFailCounter() {
@@ -53,8 +51,6 @@ class _CameraViewState extends State<CameraView> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-
-
     return SafeArea(
         child: Padding(
       padding: WhilabelPadding.onlyHoizBasicPadding,
@@ -63,23 +59,23 @@ class _CameraViewState extends State<CameraView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             height * 0.8 <= width
-                ?  Container(
-        margin: EdgeInsets.symmetric(vertical: 32),
-        child: Text(
-          "위스키 기록",
-          style: TextStylesManager.bold24,
-        ),
-      )
-            :Expanded(
-              flex: 1,
-              child: Padding(
-                padding: EdgeInsets.only(top: 32),
-                child: Text(
-                  "위스키 기록",
-                  style: TextStylesManager.bold24,
-                ),
-              ),
-            ),
+                ? Container(
+                    margin: EdgeInsets.symmetric(vertical: 32),
+                    child: Text(
+                      "위스키 기록",
+                      style: TextStylesManager.bold24,
+                    ),
+                  )
+                : Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 32),
+                      child: Text(
+                        "위스키 기록",
+                        style: TextStylesManager.bold24,
+                      ),
+                    ),
+                  ),
             Expanded(
               flex: height * 0.8 <= width ? 1 : 3,
               child: SizedBox(
@@ -87,15 +83,20 @@ class _CameraViewState extends State<CameraView> {
                   children: [
                     Image.asset(
                       cameraViewPngImage,
-
                     ),
-                    SizedBox(height: height * 0.85 <= width ? 0: WhilabelSpacing.space32),
+                    SizedBox(
+                        height: height * 0.85 <= width
+                            ? 0
+                            : WhilabelSpacing.space32),
                     Text(
                       "오늘 마신 위스키를 기록해볼까요?",
                       style: TextStylesManager.bold20,
                       textAlign: TextAlign.left,
                     ),
-                    SizedBox(height: height * 0.85 <= width ? 0: WhilabelSpacing.space24),
+                    SizedBox(
+                        height: height * 0.85 <= width
+                            ? 0
+                            : WhilabelSpacing.space24),
                     Row(
                       children: [
                         Expanded(flex: 10, child: SizedBox()),
@@ -104,31 +105,27 @@ class _CameraViewState extends State<CameraView> {
                           child: LongTextButton(
                             buttonText: "위스키 기록하기",
                             color: ColorsManager.brown100,
-                            onPressedFunc: () async{
-                             await viewModel.cleanCamerState();
+                            onPressedFunc: () async {
+                              await viewModel.cleanCamerState();
 
                               await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        WhiskyBarCodeScanPage(
-                                          cameras: viewModel.state.cameras,
-                                        ),
+                                    builder: (context) => WhiskyBarCodeScanPage(
+                                      cameras: viewModel.state.cameras,
+                                    ),
                                   ));
-
                             },
                           ),
                         ),
-                             Expanded(flex:  10, child: SizedBox())
+                        Expanded(flex: 10, child: SizedBox())
                       ],
                     ),
                   ],
                 ),
               ),
             ),
-            height * 0.8 <= width
-                ?  SizedBox()
-                : SizedBox(height: 20)
+            height * 0.8 <= width ? SizedBox() : SizedBox(height: 20)
           ],
         ),
       ),
