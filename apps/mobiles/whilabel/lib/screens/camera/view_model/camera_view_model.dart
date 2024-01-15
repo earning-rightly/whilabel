@@ -19,8 +19,8 @@ class CameraViewModel with ChangeNotifier {
 
   CameraViewModel(
       {required SearchWhiskeyDataUseCase searchWhiskeyDataUseCase,
-      required WhiskyNewArchivingPostUseCase archivingPostStatus,
-      required ScanWhiskyBarcodeUseCase scanWhiskyBarcodeUseCase})
+        required WhiskyNewArchivingPostUseCase archivingPostStatus,
+        required ScanWhiskyBarcodeUseCase scanWhiskyBarcodeUseCase})
       : _searchWhiskeyDataUseCase = searchWhiskeyDataUseCase,
         _archivingPostStatus = archivingPostStatus,
         _scanWhiskyBarCodeUseCase = scanWhiskyBarcodeUseCase;
@@ -32,15 +32,14 @@ class CameraViewModel with ChangeNotifier {
       shortWhisyDatas: [],
       mediums: [],
       cameras: <CameraDescription>[]
-    );
-
+  );
   Future<void> onEvent(CameraEvent event, {VoidCallback? callback}) async {
     VoidCallback after = callback ?? () {};
     event
         .when(
           initCamera: initCamera,
           addMediums: addMediums,
-          cleanCameraState: cleanCamerState,
+          cleanCameraState: cleanCameraState,
           searchWhiskeyWithBarcode: searchWhiskeyWithBarcode,
           searchWhiskyWithName: searchWhiskyWithName,
           saveBarcodeImage: saveBarcodeImage,
@@ -50,7 +49,7 @@ class CameraViewModel with ChangeNotifier {
         .then((_) => {after()});
   }
 
-  Future<void> initCamera() async {
+  Future<void> initCamera() async{
     /// state.cameras를 초기화한다.
     WidgetsFlutterBinding.ensureInitialized();
     final _camera = await availableCameras();
@@ -59,27 +58,14 @@ class CameraViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> cleanCamerState() async {
-    _state = _state.copyWith(mediums: [], barcode: null);
-    // _state = _state.copyWith(mediums: [], barcode: "");
-    notifyListeners();
-  }
-
-  Future<void> addMediums(List<Medium> mediums) async {
-    if (mediums.isNotEmpty) {
-      _state = _state.copyWith(mediums: mediums);
-      notifyListeners();
-    }
-  }
-
   Future<void> scanBarcode(File imageFile, {int level = 0}) async {
     File? resizeImage =
-        await _scanWhiskyBarCodeUseCase.resizeImage(imageFile, level: level);
+    await _scanWhiskyBarCodeUseCase.resizeImage(imageFile, level: level);
 
     if (resizeImage != null) {
       await Future.delayed(const Duration(milliseconds: 1000), () async {
         String? scanResult =
-            await _scanWhiskyBarCodeUseCase.scanBarcodeImage(resizeImage.path);
+        await _scanWhiskyBarCodeUseCase.scanBarcodeImage(resizeImage.path);
 
         if (scanResult == null) {
           print(" ######  resize를 다시 시도합니다. 현재 level: $level  #####");
@@ -94,6 +80,18 @@ class CameraViewModel with ChangeNotifier {
 
 
 
+  Future<void> cleanCameraState() async{
+
+    _state = _state.copyWith(mediums: [], barcode: "");
+    notifyListeners();
+  }
+
+  Future<void> addMediums(List<Medium> mediums) async{
+    if (mediums.isNotEmpty){
+      _state = _state.copyWith(mediums: mediums);
+      notifyListeners();
+    }
+  }
 
   Future<void> searchWhiskeyWithBarcode(String whiskeyBarcode) async {
     debugPrint("whisky barcode ===> $whiskeyBarcode");
@@ -139,7 +137,9 @@ class CameraViewModel with ChangeNotifier {
   //   notifyListeners();
   // }
   Future<void> saveBarcodeImage(File barcodeImage) async {
-    _state = _state.copyWith(barcodeImage: barcodeImage);
+    _state = _state.copyWith(
+      barcodeImage: barcodeImage
+    );
     notifyListeners();
   }
 
