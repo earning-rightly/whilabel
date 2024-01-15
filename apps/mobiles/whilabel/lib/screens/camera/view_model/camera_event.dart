@@ -17,7 +17,7 @@ abstract class CameraEvent with _$CameraEvent {
       SearchWhiskyWithName;
   const factory CameraEvent.addMediums(List<Medium> mediums) =
       addMediums;
-  const factory CameraEvent.cleanMediums() =
+  const factory CameraEvent.cleanCameraState() =
       cleanMediums;
   const factory CameraEvent.initCamera() =
       initCamera;

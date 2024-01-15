@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:photo_gallery/photo_gallery.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
+import 'package:whilabel/domain/use_case/scan_whisky_barcode_use_case.dart';
 import 'package:whilabel/domain/use_case/whisky_archiving_post_use_case.dart';
 import 'package:whilabel/domain/use_case/search_whisky_data_use_case.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
@@ -14,23 +15,24 @@ import 'package:whilabel/screens/camera/view_model/camera_state.dart';
 class CameraViewModel with ChangeNotifier {
   final SearchWhiskeyDataUseCase _searchWhiskeyDataUseCase;
   final WhiskyNewArchivingPostUseCase _archivingPostStatus;
+  final ScanWhiskyBarcodeUseCase _scanWhiskyBarCodeUseCase;
 
   CameraViewModel(
       {required SearchWhiskeyDataUseCase searchWhiskeyDataUseCase,
-      required WhiskyNewArchivingPostUseCase archivingPostStatus})
+      required WhiskyNewArchivingPostUseCase archivingPostStatus,
+      required ScanWhiskyBarcodeUseCase scanWhiskyBarcodeUseCase})
       : _searchWhiskeyDataUseCase = searchWhiskeyDataUseCase,
-        _archivingPostStatus = archivingPostStatus;
+        _archivingPostStatus = archivingPostStatus,
+        _scanWhiskyBarCodeUseCase = scanWhiskyBarcodeUseCase;
 
   CameraState get state => _state;
   CameraState _state = CameraState(
       albumTitle: "",
-      barcode: "",
       isFindWhiskyData: false,
       shortWhisyDatas: [],
       mediums: [],
       cameras: <CameraDescription>[]
-
-  );
+    );
 
   Future<void> onEvent(CameraEvent event, {VoidCallback? callback}) async {
     VoidCallback after = callback ?? () {};
@@ -38,7 +40,7 @@ class CameraViewModel with ChangeNotifier {
         .when(
           initCamera: initCamera,
           addMediums: addMediums,
-          cleanMediums: cleanMediums,
+          cleanCameraState: cleanCamerState,
           searchWhiskeyWithBarcode: searchWhiskeyWithBarcode,
           searchWhiskyWithName: searchWhiskyWithName,
           saveBarcodeImage: saveBarcodeImage,
@@ -48,7 +50,7 @@ class CameraViewModel with ChangeNotifier {
         .then((_) => {after()});
   }
 
-  Future<void> initCamera() async{
+  Future<void> initCamera() async {
     /// state.cameras를 초기화한다.
     WidgetsFlutterBinding.ensureInitialized();
     final _camera = await availableCameras();
@@ -57,18 +59,41 @@ class CameraViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> cleanMediums() async{
-
-    _state = _state.copyWith(mediums: []);
+  Future<void> cleanCamerState() async {
+    _state = _state.copyWith(mediums: [], barcode: null);
+    // _state = _state.copyWith(mediums: [], barcode: "");
     notifyListeners();
   }
 
-  Future<void> addMediums(List<Medium> mediums) async{
-    if (mediums.isNotEmpty){
+  Future<void> addMediums(List<Medium> mediums) async {
+    if (mediums.isNotEmpty) {
       _state = _state.copyWith(mediums: mediums);
       notifyListeners();
     }
   }
+
+  Future<void> scanBarcode(File imageFile, {int level = 0}) async {
+    File? resizeImage =
+        await _scanWhiskyBarCodeUseCase.resizeImage(imageFile, level: level);
+
+    if (resizeImage != null) {
+      await Future.delayed(const Duration(milliseconds: 1000), () async {
+        String? scanResult =
+            await _scanWhiskyBarCodeUseCase.scanBarcodeImage(resizeImage.path);
+
+        if (scanResult == null) {
+          print(" ######  resize를 다시 시도합니다. 현재 level: $level  #####");
+          if (level <= 5) scanBarcode(imageFile, level: level+1);
+          else _state = _state.copyWith(barcode: "");
+        }
+        else _state = _state.copyWith(barcode: scanResult);
+        notifyListeners();
+      });
+    }
+  }
+
+
+
 
   Future<void> searchWhiskeyWithBarcode(String whiskeyBarcode) async {
     debugPrint("whisky barcode ===> $whiskeyBarcode");
@@ -114,9 +139,7 @@ class CameraViewModel with ChangeNotifier {
   //   notifyListeners();
   // }
   Future<void> saveBarcodeImage(File barcodeImage) async {
-    _state = _state.copyWith(
-      barcodeImage: barcodeImage
-    );
+    _state = _state.copyWith(barcodeImage: barcodeImage);
     notifyListeners();
   }
 
