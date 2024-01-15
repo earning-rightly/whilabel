@@ -23,7 +23,7 @@ class RestInfoAddtionalPage extends StatefulWidget {
   }) : super(key: key);
   final String nickName;
 
-  bool isMale = true;
+  Gender? gender;
 
   @override
   State<RestInfoAddtionalPage> createState() => _RestInfoAddtionalPageState();
@@ -85,7 +85,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                               nameTextController: nameTextController),
                           // // 성별 선택
                           GenderChoicer(
-                            isMale: widget.isMale,
+                            gender: widget.gender,
                             onPressedFemale: onPressedFemaleButton,
                             onPressedMale: onPressedMaleButton,
                           ),
@@ -112,7 +112,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                           AppUser newUser = currentUserStatus.state.appUser!.copyWith(
                               nickName: widget.nickName,
                               birthDay: birthDayTextController.text,
-                              gender: widget.isMale ? Gender.MALE : Gender.FEMALE,
+                              gender: widget.gender,
                               name: nameTextController.text);
 
                           viewModel.onEvent(
@@ -155,14 +155,14 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
   //GenderChoicer()에서에 파라미터로 보내서 부모 state를 변동 시킨다.
   void onPressedMaleButton() {
     setState(() {
-      widget.isMale = true;
+      widget.gender = Gender.MALE;
     });
   }
 
   //GenderChoicer()에서에 파라미터로 보내서 부모 state를 변동 시킨다.
   void onPressedFemaleButton() {
     setState(() {
-      widget.isMale = false;
+      widget.gender = Gender.FEMALE;
     });
   }
 }

@@ -2,23 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 
+import '../../../data/user/enum/gender.dart';
+
 class GenderChoicer extends StatelessWidget {
   const GenderChoicer({
     Key? key,
     this.onPressedMale,
     this.onPressedFemale,
-    required this.isMale,
+    this.gender,
   }) : super(key: key);
   final Function()? onPressedMale;
   final Function()? onPressedFemale;
-  final bool isMale;
+  final Gender? gender;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 32),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text("성별", style: TextStylesManager.bold14,),
+        const Text("성별(선택)", style: TextStylesManager.bold14,),
         const SizedBox(height: 12),
         Row(
           children: <Widget>[
@@ -30,7 +32,7 @@ class GenderChoicer extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   side: const BorderSide(color: ColorsManager.brown100),
                   fixedSize: const Size(142, 52),
-                  backgroundColor: isMale
+                  backgroundColor: gender == Gender.MALE
                       ? ColorsManager.brown100
                       : ColorsManager.black100,
                   shape: const RoundedRectangleBorder(
@@ -50,7 +52,7 @@ class GenderChoicer extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   side: const BorderSide(color: ColorsManager.brown100),
                   fixedSize: const Size(142, 52),
-                  backgroundColor: !isMale
+                  backgroundColor: gender == Gender.FEMALE
                       ? ColorsManager.brown100
                       : ColorsManager.black100,
                   shape: const RoundedRectangleBorder(
