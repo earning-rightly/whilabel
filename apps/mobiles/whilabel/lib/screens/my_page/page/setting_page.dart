@@ -1,4 +1,6 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
@@ -25,8 +27,26 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  late bool isPushAlim;
+  // late bool _isPushAlim = widget.isPushAlim;
+  bool _isPushAlim = false;
   late bool isMarketingAlim;
+
+  Future <void> initAsync() async {
+    await checkPermissionNotification();
+  }
+
+  Future <void> checkPermissionNotification() async{
+    bool result = await Permission.notification.isGranted;
+    setState(()  {
+      _isPushAlim = result;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initAsync();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,14 +82,28 @@ class _SettingPageState extends State<SettingPage> {
                   flex: 2,
                   child: ListToggleButton(
                     title: "푸시알림",
-                    isToggleState: appUser!.isPushNotificationEnabled!,
+                    isToggleState: _isPushAlim,
                     onPressedButton: () async {
-                      viewModel.onEvent(
-                        MyPageEvent.changePushAlimValue(appUser.uid),
+                      try {
+                        showOpenSetting(context, "알림",
+                            onClickedYesButton: () async {
+
+                          await AppSettings.openAppSettings().then((value){
+                            Navigator.pop(context);
+                          });
+                        });
+
+                      } catch (e) {
+                        debugPrint("$e");
+                      }
+
+                      await viewModel.onEvent(
+                        MyPageEvent.changePushAlimValue(appUser!.uid),
                         callback: () async {
                           await currentUserStatus.refreshAppUser();
                         },
                       );
+                     await checkPermissionNotification();
                     },
                   ),
                 ),
@@ -79,10 +113,12 @@ class _SettingPageState extends State<SettingPage> {
                   flex: 2,
                   child: ListToggleButton(
                       title: "마케팅 정보 알림",
-                      isToggleState: appUser.isMarketingNotificationEnabled!,
+                      // 알림 권한을 사용 안하면 자동으로 false
+                      isToggleState: _isPushAlim &&
+                          appUser!.isMarketingNotificationEnabled!,
                       onPressedButton: () {
                         viewModel.onEvent(
-                          MyPageEvent.changeMarketingAlimValue(appUser.uid),
+                          MyPageEvent.changeMarketingAlimValue(appUser!.uid),
                           callback: () async {
                             await currentUserStatus.refreshAppUser();
                           },
