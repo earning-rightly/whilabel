@@ -24,7 +24,7 @@ class _UserBirthDatePickerState extends State<UserBirthDatePicker> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("생년월일", style: TextStyle(color: Colors.white),),
+          const Text("생년월일(선택)", style: TextStyle(color: Colors.white),),
           const SizedBox(height: 12),
           GestureDetector(
             child: TextFormField(

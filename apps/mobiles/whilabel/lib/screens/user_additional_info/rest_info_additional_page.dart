@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/user/enum/gender.dart';
@@ -111,7 +112,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                         onPressedFunc: () {
                           AppUser newUser = currentUserStatus.state.appUser!.copyWith(
                               nickName: widget.nickName,
-                              birthDay: birthDayTextController.text,
+                              birthDay: getBirthDay(),
                               gender: widget.gender,
                               name: nameTextController.text);
 
@@ -138,7 +139,6 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
 
   bool checkUserDataFill() {
     bool isfilledName = false;
-    bool isfilledBirthDay = false;
     bool isNameVaild = false;
 
     if (nameTextController.text != "") {
@@ -147,9 +147,7 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
       if (erroMessage == null) isNameVaild = true;
     }
 
-    if (birthDayTextController.text != "") isfilledBirthDay = true;
-
-    return (isfilledName && isfilledBirthDay && isNameVaild);
+    return (isfilledName && isNameVaild);
   }
 
   //GenderChoicer()에서에 파라미터로 보내서 부모 state를 변동 시킨다.
@@ -164,5 +162,14 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
     setState(() {
       widget.gender = Gender.FEMALE;
     });
+  }
+
+  // 만약 20살 이하로 나오면 null 값 세팅
+  String? getBirthDay() {
+    DateTime now = DateTime.now();
+    DateTime twentyOld = DateTime(now.year - 20, now.month, now.day);
+    DateTime birthDay = DateFormat("yyyy-MM-dd").parse(birthDayTextController.text);
+
+    return birthDay.isBefore(twentyOld) ? birthDayTextController.text : null;
   }
 }
