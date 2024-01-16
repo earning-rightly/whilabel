@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:emailjs/emailjs.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/domain/user/app_user_repository.dart';
 import 'package:whilabel/screens/my_page/view_model/my_page_event.dart';
@@ -27,10 +28,11 @@ class MyPageViewModel with ChangeNotifier {
 
   Future<void> changePushAlimValue(String uid) async {
     AppUser? appUser = await _appUserRepository.getCurrentUser();
-    print(appUser!.toJson());
 
-    final newAppUser = appUser.copyWith(
-        isPushNotificationEnabled: !(appUser.isPushNotificationEnabled!));
+
+    final isGranted = await Permission.notification.isGranted;
+    final newAppUser = appUser!.copyWith(isPushNotificationEnabled: isGranted);
+
 
     await _appUserRepository.updateUser(uid, newAppUser);
   }
@@ -38,12 +40,15 @@ class MyPageViewModel with ChangeNotifier {
   Future<void> changeMarketingAlimValue(String uid) async {
     AppUser? appUser = await _appUserRepository.getCurrentUser();
     print(appUser!.toJson());
+    final isGranted = await Permission.notification.isGranted;
 
-    final newAppUser = appUser.copyWith(
-        isMarketingNotificationEnabled:
-        !(appUser.isMarketingNotificationEnabled!));
+    if (isGranted) {
+      final newAppUser = appUser.copyWith(
+          isMarketingNotificationEnabled:
+          !(appUser.isMarketingNotificationEnabled!));
 
-    await _appUserRepository.updateUser(uid, newAppUser);
+      await _appUserRepository.updateUser(uid, newAppUser);
+    }
   }
 
   Future<void> withdrawAccount(String uid) async {

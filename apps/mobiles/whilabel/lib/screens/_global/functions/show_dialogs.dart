@@ -11,8 +11,7 @@ import 'package:whilabel/screens/_global/widgets/watch_again_checkbox.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/_global/widgets/pop_up_yes_no_button.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
-import 'package:whilabel/screens/_constants/string_manger.dart'as strManger;
-
+import 'package:whilabel/screens/_constants/string_manger.dart' as strManger;
 
 Future<void> showRuleForCamera(BuildContext context) async {
   await Future.delayed(const Duration(milliseconds: 100));
@@ -28,8 +27,9 @@ Future<void> showRuleForCamera(BuildContext context) async {
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: 22.w),
-          contentPadding: EdgeInsets.symmetric(horizontal:  24.w, vertical: 24.h),
+            insetPadding: EdgeInsets.symmetric(horizontal: 22.w),
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
             backgroundColor: ColorsManager.black200,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
@@ -51,11 +51,12 @@ Future<void> showRuleForCamera(BuildContext context) async {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                      SvgPicture.asset(SvgIconPath.checkBold,
-                      colorFilter: const ColorFilter.mode(
-                          ColorsManager.brown100,
-                          BlendMode.srcIn),),
-                        SizedBox(height:6),
+                        SvgPicture.asset(
+                          SvgIconPath.checkBold,
+                          colorFilter: const ColorFilter.mode(
+                              ColorsManager.brown100, BlendMode.srcIn),
+                        ),
+                        SizedBox(height: 6),
                         Text(rule1,
                             style: TextStylesManager.regular16
                                 .copyWith(color: ColorsManager.gray)),
@@ -65,11 +66,12 @@ Future<void> showRuleForCamera(BuildContext context) async {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(SvgIconPath.checkBold,
+                        SvgPicture.asset(
+                          SvgIconPath.checkBold,
                           colorFilter: const ColorFilter.mode(
-                              ColorsManager.brown100,
-                              BlendMode.srcIn),),
-                        SizedBox(height:6),
+                              ColorsManager.brown100, BlendMode.srcIn),
+                        ),
+                        SizedBox(height: 6),
                         Text(rule2,
                             style: TextStylesManager.regular16
                                 .copyWith(color: ColorsManager.gray)),
@@ -79,30 +81,31 @@ Future<void> showRuleForCamera(BuildContext context) async {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(SvgIconPath.checkBold,
+                        SvgPicture.asset(
+                          SvgIconPath.checkBold,
                           colorFilter: const ColorFilter.mode(
-                              ColorsManager.brown100,
-                              BlendMode.srcIn),),
-                        SizedBox(height:6),
+                              ColorsManager.brown100, BlendMode.srcIn),
+                        ),
+                        SizedBox(height: 6),
                         Text(rule3,
                             style: TextStylesManager.regular16
                                 .copyWith(color: ColorsManager.gray)),
                       ],
                     ),
                     const SizedBox(height: 16),
-                  LongTextButton(
-                        buttonText: "알겠어요",
-                        enabled: true,
-                        color: ColorsManager.brown100,
-                        onPressedFunc: () async {
-
-                          Navigator.pop(context);
-                        },
-
+                    LongTextButton(
+                      buttonText: "알겠어요",
+                      enabled: true,
+                      color: ColorsManager.brown100,
+                      onPressedFunc: () async {
+                        Navigator.pop(context);
+                      },
                     ),
                     Row(
                       children: [
-                        WatchAgainCheckBox(boxKey: strManger.CAMERA_RULE,),
+                        WatchAgainCheckBox(
+                          boxKey: strManger.CAMERA_RULE,
+                        ),
                         SizedBox(width: 8),
                         Text(checkBoxText,
                             style: TextStylesManager.regular16
@@ -114,6 +117,24 @@ Future<void> showRuleForCamera(BuildContext context) async {
               ),
             ]);
       });
+}
+
+void showOpenSetting(BuildContext context, String permissionName, {Function()? onClickedYesButton}) {
+  final String title = "$permissionName 권한이 필요합니다 \n설정에서 권한을 활성화 해주세요";
+
+  showDialog(
+    context: context,
+    // 주의) builder parameter에 있는 context 객체를 사용하면 Provider 객체를 불러올 수 없음.
+    builder: (BuildContext _) => PopUpYesOrNoButton(
+      titleText: title,
+      noText: "취소",
+      yesText: "예",
+      onClickYesButton: onClickedYesButton,
+      onClickNoButton: () {
+        Navigator.pop(context);
+      },
+    ),
+  );
 }
 
 void showLogoutDialog(BuildContext context, {Function()? onClickedYesButton}) {
