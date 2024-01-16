@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/data/user/enum/post_sort_order.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
@@ -16,6 +17,7 @@ import 'package:whilabel/screens/home/grid/grid_archiving_post_page.dart';
 import 'package:whilabel/screens/home/list/list_archiving_post_page.dart';
 import 'package:whilabel/screens/home/view_model/home_event.dart';
 import 'package:whilabel/screens/home/view_model/home_view_model.dart';
+import 'package:whilabel/screens/my_page/view_model/my_page_view_model.dart';
 
 
 class HomeView extends StatefulWidget {
@@ -64,10 +66,9 @@ class _HomeViewState extends State<HomeView>
     });
   }
 
-  void checkAnnouncement(CurrentUserStatus currentUserStatus){
-    final _announcements = currentUserStatus.state.appUser?.announcements;
+  void checkAnnouncement(AppUser appUser){
+    final _announcements = appUser.announcements;
     if ( _announcements != null && _announcements.isNotEmpty) {
-      print("1323323");
       setState(() {
         isHasAnnouncement = true;
       });
@@ -83,8 +84,12 @@ class _HomeViewState extends State<HomeView>
   @override
   void initState() {
     super.initState();
-   final currentUserStatus = context.read<CurrentUserStatus>();
-    checkAnnouncement(currentUserStatus);
+    final currentUserStatus = context.read<CurrentUserStatus>();
+    final appUser = currentUserStatus.state.appUser;
+    final myPageViewModel = context.read<MyPageViewModel>();
+
+    myPageViewModel.changePushAlimValue(appUser!.uid); // 처음 시작할때 받은 알림 권한 저장하기
+    checkAnnouncement(appUser);
 
     CustomLoadingIndicator.showLodingProgress();
 
