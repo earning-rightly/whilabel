@@ -3,7 +3,7 @@ String? checkAbleNameRule(String? value) {
 
   if (value.toString().length > 10) return '최대 10자까지 입력 가능합니다.';
 
-  if (!RegExp(r'^[ㄱ-ㅎㅏ-ㅣ가-힣]+$').hasMatch(value)) return '한글만 입력 가능합니다.';
+  if (!RegExp(r'^[가-힣]+$').hasMatch(value)) return '한글만 입력 가능합니다.';
 
   return null;
 }
@@ -13,7 +13,7 @@ String? checkAbleNickNameRule(String? value) {
 
   if (value.length > 20) return '최대 20자까지 입력 가능';
 
-  if (!RegExp(r'^[_a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]+$')
+  if (!RegExp(r'^[_a-zA-Z0-9가-힣]+$')
       .hasMatch(value)) return '[한글, 영문, 숫자, 언더바]만 사용 가능합니다.';
 
   return null;
