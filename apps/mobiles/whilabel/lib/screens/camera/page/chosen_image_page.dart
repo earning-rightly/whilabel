@@ -172,7 +172,7 @@ class _ChosenImagePageState extends State<ChosenImagePage> {
                                     currentFile!);
 
                             Navigator.pushNamed(
-                                context, Routes.whiskeyCritiqueRoute);
+                                context, Routes.whiskyCritiqueRoutes.whiskeyCritiqueRoute);
                           }
                         } catch (error) {
                           debugPrint("사진 저장 오류 발생!!\n$error");
