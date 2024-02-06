@@ -10,12 +10,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
-import 'package:whilabel/screens/_constants/string_manger.dart'as strManger;
+import 'package:whilabel/screens/_constants/string_manger.dart' as strManger;
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 
-
-import 'gallery_page.dart';
 
 /// CameraApp is the Main Application.
 class WhiskyBarCodeScanPage extends StatefulWidget {
@@ -68,17 +66,16 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
       rethrow;
     }
   }
-  Future<void> checkCameraPermission(BuildContext context) async{
+
+  Future<void> checkCameraPermission(BuildContext context) async {
     var status = await Permission.camera.status;
     if (status.isDenied) {
       // await Permission.camera.request();
-      showOpenSetting(context, "카메라",
-          onClickedYesButton: () async {
-
-            await AppSettings.openAppSettings().then((value){
-              Navigator.pop(context);
-            });
-          });
+      showOpenSetting(context, "카메라", onClickedYesButton: () async {
+        await AppSettings.openAppSettings().then((value) {
+          Navigator.pop(context);
+        });
+      });
     }
   }
 
@@ -87,9 +84,8 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
     checkCameraPermission(context);
     super.initState();
     final watchAgainCheckBox = Hive.box(strManger.WATCH_AGAIN_CHECKBOX);
-    final isShowCameraRule= watchAgainCheckBox.get(strManger.CAMERA_RULE);
+    final isShowCameraRule = watchAgainCheckBox.get(strManger.CAMERA_RULE);
     print("isShowCameraRule ========> $isShowCameraRule");
-
 
     _flashModeControlRowAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
@@ -119,7 +115,8 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
         }
       }
     });
-    if (isShowCameraRule == false || isShowCameraRule == null) showRuleForCamera(context);
+    if (isShowCameraRule == false || isShowCameraRule == null)
+      showRuleForCamera(context);
   }
 
   @override
@@ -159,17 +156,19 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                 cameraOverlay(
                     padding: 50,
                     aspectRatio: 1,
-                    color: Color.fromARGB(158, 6, 5, 5)
-
-                ),
-                Positioned(bottom: 120, child: Column(
-                  children: [
-                    SvgPicture.asset(SvgIconPath.barcode, width: 52, height: 32),
-                    SizedBox(height: 16),
-                    Text("위스키 병의 바코드를 찍어주세요", style: TextStylesManager.regular16),
-                    SizedBox(height: 16),
-                  ],
-                )),
+                    color: Color.fromARGB(158, 6, 5, 5)),
+                Positioned(
+                    bottom: 120,
+                    child: Column(
+                      children: [
+                        SvgPicture.asset(SvgIconPath.barcode,
+                            width: 52, height: 32),
+                        SizedBox(height: 16),
+                        Text("위스키 병의 바코드를 찍어주세요",
+                            style: TextStylesManager.regular16),
+                        SizedBox(height: 16),
+                      ],
+                    )),
                 Positioned(
                     bottom: 24,
                     left: 0,
@@ -183,15 +182,14 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                           Align(
                             alignment: Alignment.centerRight,
                             child: IconButton(
-                              icon: SvgPicture.asset(SvgIconPath.image, width: 44, height: 44,),
-                              onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => GalleryPage(
-                                    isFindingBarcode: true,
-                                  ),
-                                ),
+                              icon: SvgPicture.asset(
+                                SvgIconPath.image,
+                                width: 44,
+                                height: 44,
                               ),
+                              onPressed: () => Navigator.pushNamed(
+                                  context, Routes.cameraRoutes.galleryRoute,
+                                  arguments: true),
                             ),
                           ),
                           InkWell(
@@ -210,15 +208,18 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                                   '${directory.path}/$currentUnix.$fileFormat',
                                 );
 
-                               await  Navigator.pushReplacementNamed(context,
-                                    Routes.cameraRoutes.whiskyBarcodeRecognition,
+                                await Navigator.pushReplacementNamed(
+                                    context,
+                                    Routes
+                                        .cameraRoutes.whiskyBarcodeRecognition,
                                     arguments: barcodeImage);
                               }
                             },
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
-                                SvgPicture.asset(SvgIconPath.cameraShutter, width: 72, height: 72),
+                                SvgPicture.asset(SvgIconPath.cameraShutter,
+                                    width: 72, height: 72),
                               ],
                             ),
                           ),
