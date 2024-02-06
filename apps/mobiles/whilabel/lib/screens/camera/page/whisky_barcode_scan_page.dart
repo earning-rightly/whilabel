@@ -9,10 +9,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/string_manger.dart'as strManger;
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
-import 'package:whilabel/screens/camera/page/whisky_barcode_recognition_page.dart';
 
 
 import 'gallery_page.dart';
@@ -209,12 +209,10 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                                 File barcodeImage = await imageFile.copy(
                                   '${directory.path}/$currentUnix.$fileFormat',
                                 );
-                              await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            WhiskyBarcodeRecognitionPage(
-                                                imageFile: barcodeImage)));
+
+                               await  Navigator.pushReplacementNamed(context,
+                                    Routes.cameraRoutes.whiskyBarcodeRecognition,
+                                    arguments: barcodeImage);
                               }
                             },
                             child: Stack(

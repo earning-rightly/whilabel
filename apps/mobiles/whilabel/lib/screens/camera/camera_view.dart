@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/image_paths.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
-import 'package:whilabel/screens/camera/page/whisky_barcode_scan_page.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 
@@ -108,13 +108,9 @@ class _CameraViewState extends State<CameraView> {
                             buttonText: "위스키 기록하기",
                             color: ColorsManager.brown100,
                             onPressedFunc: () async {
-                              await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => WhiskyBarCodeScanPage(
-                                      cameras: viewModel.state.cameras,
-                                    ),
-                                  ));
+                              Navigator.pushNamed(context,
+                                  Routes.cameraRoutes.whiskyBarcodeScan,
+                                  arguments: viewModel.state.cameras);
                             },
                           ),
                         ),

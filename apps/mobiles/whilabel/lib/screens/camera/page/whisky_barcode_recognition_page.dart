@@ -7,17 +7,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
-import 'package:whilabel/screens/camera/page/take_picture_page.dart';
-import 'package:whilabel/screens/camera/page/unregistered_whisky_page.dart';
 
 import '../view_model/camera_event.dart';
 import '../view_model/camera_view_model.dart';
 import '../widget/image_scan_animation.dart';
 
 class WhiskyBarcodeRecognitionPage extends StatefulWidget {
-
-
   // todo
   // 1. 바코드 스캔 useCaase 만들기
   // 2. 바코드 resize 비율 새로 만들기
@@ -33,50 +30,36 @@ class WhiskyBarcodeRecognitionPage extends StatefulWidget {
 
 class _WhiskyBarcodeRecognitionPageState
     extends State<WhiskyBarcodeRecognitionPage> {
-
   @override
   void initState() {
     final viewModel = context.read<CameraViewModel>();
 
     Future.delayed(const Duration(milliseconds: 1000), () {
-     viewModel.scanBarcode(widget.imageFile);
-      });
+      viewModel.scanBarcode(widget.imageFile);
+    });
 
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final viewModel = context.read<CameraViewModel>();
-    String? whiskyBarcode = context.select<CameraViewModel, String?>((CameraViewModel cameraViewModel) => cameraViewModel.state.barcode);
-
+    String? whiskyBarcode = context.select<CameraViewModel, String?>(
+        (CameraViewModel cameraViewModel) => cameraViewModel.state.barcode);
 
     if (whiskyBarcode != null) {
-
       Future.delayed(const Duration(milliseconds: 2000), () {
-        viewModel.onEvent(
-            CameraEvent.searchWhiskeyWithBarcode(
-                whiskyBarcode), callback: () async {
-
+        viewModel.onEvent(CameraEvent.searchWhiskeyWithBarcode(whiskyBarcode),
+            callback: () async {
           if (whiskyBarcode != "" && viewModel.state.isFindWhiskyData) {
-            await Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    TakePicturePage(
-                        cameras: viewModel.state.cameras),
-              ),
-            );
+
+            Navigator.pushReplacementNamed(context, Routes.cameraRoutes.takePictureRoute,
+            arguments: viewModel.state.cameras);
+
           } else {
-            await Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    UnregisteredWhiskyPage(
-                        imageFile: widget.imageFile),
-              ),
-            );
+            await Navigator.pushReplacementNamed(
+                context, Routes.cameraRoutes.unregisteredWhiskyRoute,
+                arguments: widget.imageFile);
           }
         });
       });
@@ -95,11 +78,11 @@ class _WhiskyBarcodeRecognitionPageState
                 )),
             Stack(
               children: [
-               ImageScanAnimation(
-              imageFile: widget.imageFile,
-              width: 343.w,
-              height: 427.h,
-            ),
+                ImageScanAnimation(
+                  imageFile: widget.imageFile,
+                  width: 343.w,
+                  height: 427.h,
+                ),
               ],
             ),
             Flexible(
