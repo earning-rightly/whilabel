@@ -75,7 +75,7 @@ class _MockCameraRouteState extends State<MockCameraRoute> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SerachWhiskyNamePage()),
+                        builder: (context) => SearchWhiskyNamePage()),
                   );
                 },
                 child: Text("SerachWhiskyNamePage")),
@@ -130,7 +130,7 @@ void choicerWhiskyArchiving(BuildContext context){
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            SerachWhiskyNamePage()),
+                            SearchWhiskyNamePage()),
                   );
                 },
               ),
