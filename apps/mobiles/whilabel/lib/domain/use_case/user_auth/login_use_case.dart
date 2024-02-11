@@ -20,7 +20,7 @@ class LoginUseCase {
   final AppUserRepository _appUserRepository;
 
   LoginUseCase({
-    required CurrentUserStatus currentUserStatus,
+    required  currentUserStatus,
     required AppUserRepository appUserRepository,
   })  : _currentUserStatus = currentUserStatus,
         _appUserRepository = appUserRepository;

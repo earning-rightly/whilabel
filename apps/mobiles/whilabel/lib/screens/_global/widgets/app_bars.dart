@@ -73,7 +73,7 @@ class HomeAppBar extends StatelessWidget {
               iconSize: 24
             ),
             onPressed: () {
-              Navigator.pushNamed(context, MyPageRoutes.announcementRoute);
+              Navigator.pushNamed(context, Routes.myPageRoutes.announcementRoute);
             },
           ),
           // SvgPicture.asset(SvgIconPath.notification),

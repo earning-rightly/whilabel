@@ -63,11 +63,9 @@ class MyPageView extends StatelessWidget {
                       child: IconButton(
                         icon: SvgPicture.asset(myPageData.settingIconPath),
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushNamed(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => const SettingPage(),
-                            ),
+                           Routes.myPageRoutes.settingRoute
                           );
                         },
                       ),
@@ -120,17 +118,17 @@ class MyPageData {
     {
       "svg_path": SvgIconPath.announce,
       "title": "공지사항",
-      "route": MyPageRoutes.announcementRoute
+      "route": Routes.myPageRoutes.announcementRoute
     },
     {
       "svg_path": SvgIconPath.faq,
       "title": "FAQ",
-      "route": MyPageRoutes.faqRoute,
+      "route": Routes.myPageRoutes.faqRoute,
     },
     {
       "svg_path": SvgIconPath.customer,
       "title": "1:1 문의하기",
-      "route": MyPageRoutes.inquiringRoute
+      "route": Routes.myPageRoutes.inquiringRoute
     },
     {
       "svg_path": SvgIconPath.announce,
@@ -143,12 +141,12 @@ class MyPageData {
     {
       "svg_path": SvgIconPath.document,
       "title": "서비스 이용약관",
-      "route": MyPageRoutes.termConditionServiceRoute,
+      "route": Routes.myPageRoutes.termConditionServiceRoute,
     },
     {
       "svg_path": SvgIconPath.document,
       "title": "개인정보 처리방침",
-      "route": MyPageRoutes.privacyPolicyRoute,
+      "route": Routes.myPageRoutes.privacyPolicyRoute,
     },
   ];
 }

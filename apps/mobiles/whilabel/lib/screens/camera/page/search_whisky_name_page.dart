@@ -14,8 +14,8 @@ import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 import 'gallery_page.dart';
 
 // ignore: must_be_immutable
-class SerachWhiskyNamePage extends StatelessWidget {
-  SerachWhiskyNamePage({super.key});
+class SearchWhiskyNamePage extends StatelessWidget {
+  SearchWhiskyNamePage({super.key});
 
 
   List<ShortWhiskyData> searchedResult = [];

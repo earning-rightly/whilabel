@@ -1,7 +1,16 @@
+import 'dart:io';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/screens/archiving_post_detail/archiving_post_detail_view.dart';
 import 'package:whilabel/app_root.dart';
+import 'package:whilabel/screens/camera/page/chosen_image_page.dart';
+import 'package:whilabel/screens/camera/page/gallery_page.dart';
+import 'package:whilabel/screens/camera/page/search_whisky_name_page.dart';
+import 'package:whilabel/screens/camera/page/take_picture_page.dart';
+import 'package:whilabel/screens/camera/page/unregistered_whisky_page.dart';
+import 'package:whilabel/screens/camera/page/whisky_barcode_recognition_page.dart';
+import 'package:whilabel/screens/camera/page/whisky_barcode_scan_page.dart';
 import 'package:whilabel/screens/login/login_view.dart';
 import 'package:whilabel/screens/my_page/page/announcement_page.dart';
 import 'package:whilabel/screens/my_page/page/f_a_q_page.dart';
@@ -12,81 +21,153 @@ import 'package:whilabel/screens/my_page/page/term_condition_service_page.dart';
 import 'package:whilabel/screens/my_page/page/withdrawal_page.dart';
 import 'package:whilabel/screens/onboarding/onboarding_step1.dart';
 import 'package:whilabel/screens/user_additional_info/user_additional_info_view.dart';
+import 'package:whilabel/screens/whisky_critique/pages/successful_upload_post_page.dart';
+import 'package:whilabel/screens/whisky_critique/pages/unregistered_whisky_upload_page.dart';
 import 'package:whilabel/screens/whisky_critique/whisky_critique_view.dart';
 
-class MyPageRoutes {
-  static const String announcementRoute = "announcementt";
-  static const String faqRoute = "FAQ";
-  static const String inquiringRoute = "inquiring";
-  static const String privacyPolicyRoute = "privacyPolicyPage";
-  static const String settingRoute = "setting";
-  static const String termConditionServiceRoute = "termConditionService";
-  static const String withdrawalRoute = "withdrawal";
+class _MyPageRoutes {
+  final String myPageRoute = "/myPage";
+  final String announcementRoute = "/myPage/announcement";
+  final String faqRoute = "/myPage/Faq";
+  final String inquiringRoute = "/myPage/inquiring";
+  final String privacyPolicyRoute = "/myPage/privacyPolicy";
+  final String settingRoute = "/myPage/setting";
+  final String termConditionServiceRoute = "/myPage/termConditionService";
+  final String withdrawalRoute = "/myPage/withdrawal";
+}
+
+class _CameraRoutes {
+  final String cameraRoute = "/camera";
+  final String chosenImageRoute = "/camera/chosenImage";
+  final String galleryRoute = "/camera/gallery";
+  final String searchWhiskyNameRoute = "/camera/searchWhiskyName";
+  final String takePictureRoute = "/camera/takePicture";
+  final String unregisteredWhiskyRoute = "/camera/unregisteredWhisky";
+  final String whiskyBarcodeRecognition = "/camera/whiskyBarcodeRecognition";
+  final String whiskyBarcodeScan = "/camera/whiskyBarcodeScan";
+}
+
+class _WhiskyCritiqueRoutes {
+  final String whiskeyCritiqueRoute = "/whiskey_critique";
+  final String successfulUploadPostRoute =
+      "/whiskey_critique/successfulUploadPost";
+  final String unregisteredWhiskyUploadPageRoute =
+      "/whiskey_critique/unregisteredWhiskyUploadPage";
 }
 
 class Routes {
-  static const String rootRoute = "/root";
+  static final myPageRoutes = _MyPageRoutes();
+  static final cameraRoutes = _CameraRoutes();
+  static final whiskyCritiqueRoutes = _WhiskyCritiqueRoutes();
+
+  static const String rootRoute = "/";
   static const String loginRoute = "/login";
+  static const String homeRoute = "/home";
+
+
   static const String archivingPostDetailRoute = "/whiskey_register";
-  static const String whiskeyCritiqueRoute = "/whiskey_critque";
   static const String userAdditionalInfoRoute = "/user_additional_info";
   static const String onBoardingRoute = "/on_boarding";
-  static const String announcementPageRoute = "my_page/announcement_page";
 }
 
 class RouteGenerator {
-  static Route<dynamic> getRoute(RouteSettings routeSettings,) {
+  static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.rootRoute:
         final rootIndex = routeSettings.arguments as int?;
-        return MaterialPageRoute(builder: (_) => AppRoot(
-          screenIndex: rootIndex ?? 0,
-        ));
+        return MaterialPageRoute(
+            builder: (_) => AppRoot(screenIndex: rootIndex ?? 0));
       case Routes.loginRoute:
         return MaterialPageRoute(builder: (_) => LoginView());
       case Routes.archivingPostDetailRoute:
         final whiskyRegisterViewArgs = routeSettings.arguments as ArchivingPost;
-
         return MaterialPageRoute(
-            builder: (_) => ArchivingPostDetailView(
-                  archivingPost: whiskyRegisterViewArgs,
-                ));
-      case Routes.whiskeyCritiqueRoute:
-        return MaterialPageRoute(builder: (_) => WhiskyCritiqueView());
+            builder: (_) =>
+                ArchivingPostDetailView(archivingPost: whiskyRegisterViewArgs));
+
       case Routes.userAdditionalInfoRoute:
         final nickName = routeSettings.arguments as String?;
         return MaterialPageRoute(
-    builder: (_) =>  UserAdditionalInfoView(
-      nickName: nickName,
-    ));
+            builder: (_) => UserAdditionalInfoView(nickName: nickName));
       case Routes.onBoardingRoute:
         return MaterialPageRoute(builder: (_) => const OnboardingStep1Page());
-      // case Routes.announcementPageRoute:
-      //   return MaterialPageRoute(builder: (_) => const AnnouncementPage());
 
-      // MyPage Route
-      case MyPageRoutes.announcementRoute:
+      //  "/myPage"를 경로로 가지고 있을 경우
+      case "/myPage/announcementPage":
         return MaterialPageRoute(builder: (_) => const AnnouncementPage());
-      case MyPageRoutes.faqRoute:
+      case "/myPage/faqPage":
         return MaterialPageRoute(builder: (_) => FaqPage());
-      case MyPageRoutes.inquiringRoute:
+      case "/myPage/inquiringPage":
         return MaterialPageRoute(builder: (_) => InquiringPage());
-      case MyPageRoutes.settingRoute:
-        return MaterialPageRoute(builder: (_) => const SettingPage());
-      case MyPageRoutes.privacyPolicyRoute:
+      case "/myPage/setting":
+        return MaterialPageRoute(builder: (_) => SettingPage());
+      case "/myPage/privacyPolicyPage":
         return MaterialPageRoute(builder: (_) => PrivacyPolicyPage());
-      case MyPageRoutes.termConditionServiceRoute:
+      case "/myPage/termConditionServicePage":
         return MaterialPageRoute(builder: (_) => TermConditionServicePage());
-      case MyPageRoutes.withdrawalRoute:
+      case "/myPage/withdrawalPage":
         return MaterialPageRoute(builder: (_) => WithdrawalPage());
 
+      // "/camera"를 경로할 경우
+      case "/camera":
+        return MaterialPageRoute(builder: (_) => AppRoot(screenIndex: 1));
+      case "/camera/chosenImage":
+        final chosenImagePageArgs =
+            routeSettings.arguments as ChosenImagePageArgs;
+        return MaterialPageRoute(
+            builder: (_) => ChosenImagePage(
+                chosenImagePageArgs.initFileImage, chosenImagePageArgs.index,
+                isFindingBarcode: chosenImagePageArgs.isFindingBarcode,
+                isUnableSlide: chosenImagePageArgs.isUnableSlid));
+      case "/camera/gallery":
+        final _argument = routeSettings.arguments as bool;
+        return MaterialPageRoute(
+            builder: (_) => GalleryPage(isFindingBarcode: _argument));
+      case "/camera/searchWhiskyName":
+        return MaterialPageRoute(builder: (_) => SearchWhiskyNamePage());
+      case "/camera/takePicture":
+        final _cameraDescriptions =
+            routeSettings.arguments as List<CameraDescription>;
+        return MaterialPageRoute(
+            builder: (_) => TakePicturePage(cameras: _cameraDescriptions));
+      case "/camera/unregisteredWhisky":
+        final _imageFile = routeSettings.arguments as File;
+        return MaterialPageRoute(
+            builder: (_) => UnregisteredWhiskyPage(imageFile: _imageFile));
+      case "/camera/whiskyBarcodeRecognition":
+        final _imageFile = routeSettings.arguments as File;
+        return MaterialPageRoute(
+            builder: (_) =>
+                WhiskyBarcodeRecognitionPage(imageFile: _imageFile));
+      case "/camera/whiskyBarcodeScan":
+        final _cameraDescriptions =
+            routeSettings.arguments as List<CameraDescription>;
+        return MaterialPageRoute(
+            builder: (_) =>
+                WhiskyBarCodeScanPage(cameras: _cameraDescriptions));
+
+//  "/whiskey_critique"를 경로로 가지는 경우
+      case "/whiskey_critique":
+        return MaterialPageRoute(builder: (_) => WhiskyCritiqueView());
+      case "/whiskey_critique/successfulUploadPost":
+        final _currentWhiskyCount = routeSettings.arguments as int;
+        return MaterialPageRoute(
+            builder: (_) => SuccessfulUploadPostPage(
+                currentWhiskyCount: _currentWhiskyCount));
+      case "/whiskey_critique/unregisteredWhiskyUploadPage":
+        final _currentWhiskyCount = routeSettings.arguments as int;
+        return MaterialPageRoute(
+            builder: (_) => UnregisteredWhiskyUploadPage(
+                currentWhiskyCount: _currentWhiskyCount));
+
+      // 경로가 없는 경우
       default:
         return undefinedRoute();
     }
   }
 
   static Route<dynamic> undefinedRoute() {
-    const String noRouteFound = "페이지를 찾을 수  없습니다";
+    const String noRouteFound = "페이지를 찾을 수 없습니다";
     return MaterialPageRoute(
       builder: (_) => Scaffold(
         appBar: AppBar(
@@ -98,4 +179,18 @@ class RouteGenerator {
       ),
     );
   }
+}
+
+class ChosenImagePageArgs {
+  final File initFileImage;
+  final int index;
+  bool? isFindingBarcode;
+  bool? isUnableSlid;
+
+  // 생성자
+  ChosenImagePageArgs(
+      {required this.initFileImage,
+      required this.index,
+      this.isFindingBarcode,
+      this.isUnableSlid});
 }

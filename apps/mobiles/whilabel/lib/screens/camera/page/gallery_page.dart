@@ -5,7 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_gallery/photo_gallery.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:whilabel/screens/camera/page/chosen_image_page.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/camera/view_model/camera_event.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 import 'package:whilabel/screens/camera/widget/gallery_album_picker.dart';
@@ -14,6 +14,7 @@ import 'package:whilabel/screens/_constants/colors_manager.dart';
 // ignore: must_be_immutable
 class GalleryPage extends StatefulWidget {
   GalleryPage({super.key, this.isFindingBarcode = false});
+
   bool isFindingBarcode;
 
   @override
@@ -139,20 +140,20 @@ class _GalleryPageState extends State<GalleryPage> {
                   final viewModel = context.watch<CameraViewModel>();
 
                   return GestureDetector(
+                    onTap: () async {
+                      final initalFileImage = await medium.getFile();
+                      await viewModel.onEvent(CameraEvent.addMediums(mediums),
+                          callback: () {
+                        Navigator.pushNamed(
+                            context, Routes.cameraRoutes.chosenImageRoute,
+                            arguments: ChosenImagePageArgs(
+                              initFileImage: initalFileImage,
+                              index: mediums.indexOf(medium),
+                              isFindingBarcode: widget.isFindingBarcode,
+                            ));
 
-                      onTap: () async{
-                        final initalFileImage = await medium.getFile();
-                       await viewModel.onEvent(CameraEvent.addMediums(mediums), callback: (){
-                         Navigator.of(context).push( MaterialPageRoute(
-                           builder: (context) => ChosenImagePage(
-                             initalFileImage,
-                             mediums.indexOf(medium),
-                             isFindingBarcode: widget.isFindingBarcode,
-                           ),
-                         ),
-                         );
-                       });
-                      },
+                      });
+                    },
                     child: SizedBox(
                       child: FadeInImage(
                         fit: BoxFit.cover,

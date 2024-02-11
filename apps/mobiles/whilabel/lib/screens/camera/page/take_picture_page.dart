@@ -13,10 +13,8 @@ import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
 import 'package:whilabel/screens/_global/widgets/back_listener.dart';
-import 'package:whilabel/screens/camera/page/chosen_image_page.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 
-import 'gallery_page.dart';
 
 /// CameraApp is the Main Application.
 class TakePicturePage extends StatefulWidget {
@@ -184,8 +182,8 @@ class _TakePicturePageState extends State<TakePicturePage>
                                                 .saveUserWhiskyImageOnNewArchivingPostState(
                                                     currentFile);
 
-                                            Navigator.pushNamed(context,
-                                                Routes.whiskeyCritiqueRoute);
+                                            Navigator.pushNamed(
+                                                context, Routes.whiskyCritiqueRoutes.whiskeyCritiqueRoute);
 
                                         } catch (error) {
                                           debugPrint("사진 저장 오류 발생!!\n$error");
@@ -194,12 +192,8 @@ class _TakePicturePageState extends State<TakePicturePage>
                                         Navigator.pop(context);
                                       }
                                     } else {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => GalleryPage(),
-                                        ),
-                                      );
+                                      Navigator.pushNamed(
+                                          context, Routes.cameraRoutes.galleryRoute);
                                     }
                                   }),
                             ),
@@ -234,18 +228,14 @@ class _TakePicturePageState extends State<TakePicturePage>
                                             '${directory.path}/$currentUnix.$fileFormat',
                                           );
 
-                                          await Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) => ChosenImagePage(
-                                                  isUnableSlide: false,
-                                                  finalImage,
-                                                  0
-                                                  // Pass the automatically generated path to
-                                                  // the DisplayPictureScreen widget.
+                                          await  Navigator.pushNamed(
+                                              context, Routes.cameraRoutes.chosenImageRoute,
+                                              arguments: ChosenImagePageArgs(
+                                                initFileImage: finalImage,
+                                                index:0,
+                                                isUnableSlid: false
+                                              ));
 
-                                                  ),
-                                            ),
-                                          );
                                         }
                                       } catch (e) {
                                         // If an error occurs, log the error to the console.

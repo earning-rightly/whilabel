@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/enum/post_sort_order.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
+import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
 import 'package:whilabel/screens/_global/widgets/loding_progress_indicator.dart';
@@ -10,8 +13,6 @@ import 'package:whilabel/screens/camera/view_model/camera_event.dart';
 import 'package:whilabel/screens/camera/view_model/camera_view_model.dart';
 import 'package:whilabel/screens/home/view_model/home_event.dart';
 import 'package:whilabel/screens/home/view_model/home_view_model.dart';
-import 'package:whilabel/screens/whisky_critique/pages/successful_upload_post_page.dart';
-import 'package:whilabel/screens/whisky_critique/pages/unregistered_whisky_upload_page.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_event.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_view_model.dart';
 
@@ -122,32 +123,27 @@ class _CritiqueViewWhiskyInfoFooterState
                               await homeViewModel.onEvent(
                                   const LoadArchivingPost(
                                       PostButtonOrder.LATEST));
-                              await cameraViewModel
-                                  .onEvent(const CameraEvent.cleanCameraState());
+                              await cameraViewModel.onEvent(
+                                  const CameraEvent.cleanCameraState());
 
                               if (currentPostData
                                   .archivingPost.whiskyName.isNullOrEmpty) {
-                                await Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            UnregisteredWhiskyUploadPage(
-                                              currentWhiskyCount: homeState
-                                                  .listTypeArchivingPosts
-                                                  .length,
-                                            )),
-                                    (route) => false);
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  Routes.whiskyCritiqueRoutes
+                                      .unregisteredWhiskyUploadPageRoute,
+                                  (route) => false,
+                                  arguments:
+                                      homeState.listTypeArchivingPosts.length,
+                                );
                               } else {
-                                Navigator.pushAndRemoveUntil(
+                                Navigator.pushNamedAndRemoveUntil(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            SuccessfulUploadPostPage(
-                                              currentWhiskyCount: homeState
-                                                  .listTypeArchivingPosts
-                                                  .length,
-                                            )),
-                                    (route) => false);
+                                    Routes.whiskyCritiqueRoutes
+                                        .successfulUploadPostRoute,
+                                    (route) => false,
+                                    arguments: homeState
+                                        .listTypeArchivingPosts.length);
                               }
                             },
                           );

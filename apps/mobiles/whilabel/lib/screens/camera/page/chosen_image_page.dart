@@ -12,8 +12,6 @@ import 'package:whilabel/screens/_constants/path/svg_icon_paths.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 
-import 'whisky_barcode_recognition_page.dart';
-
 // ignore: must_be_immutable
 class ChosenImagePage extends StatefulWidget {
   bool isFindingBarcode;
@@ -23,11 +21,11 @@ class ChosenImagePage extends StatefulWidget {
 
   // ignore: prefer_const_constructors_in_immutables
   ChosenImagePage(File initFileImage, int index,
-      {bool isFindingBarcode = false, bool isUnableSlide = true})
+      {bool? isFindingBarcode, bool? isUnableSlide})
       : initFileImage = initFileImage,
         index = index,
-        isFindingBarcode = isFindingBarcode,
-        isUnableSlide = isUnableSlide;
+        isFindingBarcode = isFindingBarcode ?? false,
+        isUnableSlide = isUnableSlide ?? true;
 
   @override
   State<ChosenImagePage> createState() => _ChosenImagePageState();
@@ -98,15 +96,9 @@ class _ChosenImagePageState extends State<ChosenImagePage> {
                         );
 
                         if (croppedFile != null) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  WhiskyBarcodeRecognitionPage(
-                                imageFile: File(croppedFile.path),
-                              ),
-                            ),
-                          );
+                          Navigator.pushReplacementNamed(context,
+                              Routes.cameraRoutes.unregisteredWhiskyRoute,
+                              arguments: File(croppedFile.path));
                         }
                       }
                     },
@@ -158,17 +150,10 @@ class _ChosenImagePageState extends State<ChosenImagePage> {
                         try {
                           // Medium패기지 내장 함수
                           if (currentFile != null) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    WhiskyBarcodeRecognitionPage(
-                                  imageFile: currentFile!,
-                                ),
-                              ),
-                            );
+                            Navigator.pushReplacementNamed(context,
+                                Routes.cameraRoutes.whiskyBarcodeRecognition,
+                                arguments: currentFile!);
                           }
-                          // Navigator.pushNamed(context, Routes.whiskeyCritiqueRoute);
                         } catch (error) {
                           debugPrint("사진 저장 오류 발생!!\n$error");
                         }
@@ -187,7 +172,7 @@ class _ChosenImagePageState extends State<ChosenImagePage> {
                                     currentFile!);
 
                             Navigator.pushNamed(
-                                context, Routes.whiskeyCritiqueRoute);
+                                context, Routes.whiskyCritiqueRoutes.whiskeyCritiqueRoute);
                           }
                         } catch (error) {
                           debugPrint("사진 저장 오류 발생!!\n$error");
