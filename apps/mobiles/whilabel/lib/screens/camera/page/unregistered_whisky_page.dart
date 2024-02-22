@@ -118,7 +118,8 @@ class _UnregisteredWhiskyPageState extends State<UnregisteredWhiskyPage> {
                           child: SizedBox(
                             child: OutlinedButton(
                               onPressed: () async {
-                                Navigator.pushNamed(context,
+                                await viewModel.cleanCameraState();
+                                Navigator.popAndPushNamed(context,
                                     Routes.cameraRoutes.whiskyBarcodeScan,
                                     arguments: viewModel.state.cameras);
                               },
