@@ -85,7 +85,6 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
     super.initState();
     final watchAgainCheckBox = Hive.box(strManger.WATCH_AGAIN_CHECKBOX);
     final isShowCameraRule = watchAgainCheckBox.get(strManger.CAMERA_RULE);
-    print("isShowCameraRule ========> $isShowCameraRule");
 
     _flashModeControlRowAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
@@ -115,6 +114,8 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
         }
       }
     });
+    onSetFlashModeButtonPressed(FlashMode.off); // 항상 플레시는 꺼짐으로 초기 설정
+    // 유저에게 barcode 사진 찍는 법을 알려주는 모달창
     if (isShowCameraRule == false || isShowCameraRule == null)
       showRuleForCamera(context);
   }
@@ -208,7 +209,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
                                   '${directory.path}/$currentUnix.$fileFormat',
                                 );
 
-                                await Navigator.pushReplacementNamed(
+                                await Navigator.popAndPushNamed(
                                     context,
                                     Routes
                                         .cameraRoutes.whiskyBarcodeRecognition,
@@ -256,6 +257,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
 
               switch (flashIconIndex) {
                 case 0:
+                  print("FlashMode.off");
                   onSetFlashModeButtonPressed(FlashMode.off);
                   break;
 
