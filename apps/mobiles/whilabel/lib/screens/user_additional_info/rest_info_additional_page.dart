@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' as foundation;
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
@@ -35,7 +36,8 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
   final nameTextController = TextEditingController();
   final birthDayTextController = TextEditingController();
 
-  bool isfilledAllData = false;
+  bool isIOS = foundation.defaultTargetPlatform == foundation.TargetPlatform.iOS;
+  bool isfilledAllData = foundation.defaultTargetPlatform == foundation.TargetPlatform.iOS;
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +84,8 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                             ),
                           ),
                           //이름 입력
-                          UserNameInputTextField(
-                              nameTextController: nameTextController),
+                          if (!isIOS)
+                            UserNameInputTextField(nameTextController: nameTextController),
                           // // 성별 선택
                           GenderChoicer(
                             gender: widget.gender,
@@ -110,11 +112,18 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                         color: ColorsManager.brown100,
                         enabled: isfilledAllData,
                         onPressedFunc: () {
+                          debugPrint("click 다음");
+
+                          debugPrint("appUser ${currentUserStatus.state.appUser?.toJson().toString()}");
+                          debugPrint("widget ${widget.gender} ${widget.nickName}");
+
                           AppUser newUser = currentUserStatus.state.appUser!.copyWith(
                               nickName: widget.nickName,
                               birthDay: getBirthDay(),
                               gender: widget.gender,
-                              name: nameTextController.text);
+                              name: isIOS ? "apple" : nameTextController.text);
+
+                          debugPrint("newUser is ${newUser.toJson().toString()}");
 
                           viewModel.onEvent(
                             AddUserInfo(newUser),
@@ -138,6 +147,8 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
   }
 
   bool checkUserDataFill() {
+    if (isIOS) return true;
+
     bool isfilledName = false;
     bool isNameVaild = false;
 

@@ -11,6 +11,7 @@ class FirestoreUserRepositoryImpl implements AppUserRepository {
 
   @override
   Future<void> insertUser(AppUser appUser) async {
+    debugPrint("insertUser: " + appUser.toJson().toString());
     _ref.doc(appUser.uid).set(appUser);
   }
 
@@ -26,6 +27,7 @@ class FirestoreUserRepositoryImpl implements AppUserRepository {
   @override
   Future<void> updateUser(String uid, AppUser updateUser) async {
     // String? uid = _getCurrentUid();
+    debugPrint("insertUser: " + updateUser.toJson().toString());
 
     final userDoc = await _findUserDoc(uid);
 
