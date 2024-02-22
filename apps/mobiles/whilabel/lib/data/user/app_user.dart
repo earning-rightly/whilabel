@@ -77,13 +77,16 @@ class AppUser {
       int? age,
       List<Announcement>? announcements
       }) {
+
+    print("copyWith");
     return AppUser(
-        uid: this.uid,
-        firebaseUserId:  this.firebaseUserId,
-        snsType: this.snsType,
-        creatAt: this.creatAt,
+        firebaseUserId: firebaseUserId,
+        uid: uid,
         nickName: nickName ?? this.nickName,
         snsUserInfo: snsUserInfo ?? this.snsUserInfo,
+        snsType: snsType,
+        creatAt: creatAt,
+        announcements: announcements ?? this.announcements,
         isDeleted: isDeleted ?? this.isDeleted,
         isPushNotificationEnabled:
             isPushNotificationEnabled ?? this.isPushNotificationEnabled,
@@ -91,9 +94,12 @@ class AppUser {
             this.isMarketingNotificationEnabled,
         fcmToken: fcmToken ?? this.fcmToken,
         name: name ?? this.name,
-        gender: gender ?? this.gender,
+        age: age ?? this.age,
         birthDay: birthDay ?? this.birthDay,
-        announcements: announcements ?? this.announcements
+        gender: gender ?? this.gender,
+        email: email,
+        imageUrl: imageUrl,
+        sameKindWhiskyId: sameKindWhiskyId ?? this.sameKindWhiskyId
     );
   }
 }
