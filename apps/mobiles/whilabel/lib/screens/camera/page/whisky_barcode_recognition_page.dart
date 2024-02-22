@@ -53,11 +53,11 @@ class _WhiskyBarcodeRecognitionPageState
             callback: () async {
           if (whiskyBarcode != "" && viewModel.state.isFindWhiskyData) {
 
-            Navigator.pushReplacementNamed(context, Routes.cameraRoutes.takePictureRoute,
+            Navigator.popAndPushNamed(context, Routes.cameraRoutes.takePictureRoute,
             arguments: viewModel.state.cameras);
 
           } else {
-            await Navigator.pushReplacementNamed(
+            await Navigator.popAndPushNamed(
                 context, Routes.cameraRoutes.unregisteredWhiskyRoute,
                 arguments: widget.imageFile);
           }
