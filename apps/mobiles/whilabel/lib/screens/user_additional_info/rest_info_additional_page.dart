@@ -112,18 +112,28 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                         color: ColorsManager.brown100,
                         enabled: isfilledAllData,
                         onPressedFunc: () {
-                          debugPrint("click 다음");
+                          AppUser appUser = currentUserStatus.state.appUser!;
 
-                          debugPrint("appUser ${currentUserStatus.state.appUser?.toJson().toString()}");
-                          debugPrint("widget ${widget.gender} ${widget.nickName}");
-
-                          AppUser newUser = currentUserStatus.state.appUser!.copyWith(
+                          AppUser newUser = AppUser(
+                              firebaseUserId: appUser.firebaseUserId,
+                              uid: appUser.uid,
                               nickName: widget.nickName,
+                              snsUserInfo: appUser.snsUserInfo,
+                              snsType: appUser.snsType,
+                              creatAt: appUser.creatAt,
+                              isDeleted: appUser.isDeleted,
+                              isPushNotificationEnabled: appUser.isPushNotificationEnabled, // 푸시알림이 어떻게 작동되는지 알아야함
+                              isMarketingNotificationEnabled: appUser.isMarketingNotificationEnabled,
+                              fcmToken: appUser.fcmToken,
+                              name: isIOS ? "apple" : nameTextController.text,
+                              age: appUser.age,
                               birthDay: getBirthDay(),
                               gender: widget.gender,
-                              name: isIOS ? "apple" : nameTextController.text);
-
-                          debugPrint("newUser is ${newUser.toJson().toString()}");
+                              email: appUser.email,
+                              imageUrl: appUser.imageUrl,
+                              sameKindWhiskyId: appUser.sameKindWhiskyId,
+                              announcements: appUser.announcements
+                          );
 
                           viewModel.onEvent(
                             AddUserInfo(newUser),
@@ -177,6 +187,8 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
 
   // 만약 20살 이하로 나오면 null 값 세팅
   String? getBirthDay() {
+    if (birthDayTextController.text.isEmpty) return null;
+
     DateTime now = DateTime.now();
     DateTime twentyOld = DateTime(now.year - 20, now.month, now.day);
     DateTime birthDay = DateFormat("yyyy-MM-dd").parse(birthDayTextController.text);
