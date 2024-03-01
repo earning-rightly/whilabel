@@ -12,7 +12,6 @@ import 'package:whilabel/screens/_global/functions/text_feild_rules.dart';
 import 'package:whilabel/screens/_global/functions/text_field_styles.dart';
 import 'package:whilabel/screens/_global/widgets/app_bars.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
-import 'package:whilabel/screens/user_additional_info/pages/rest_info_additional/rest_info_additional_page.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_event.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
 import 'package:whilabel/screens/_global/functions/show_simple_dialog.dart';
@@ -103,13 +102,10 @@ class _UserAdditionalInfoViewState extends State<UserAdditionalInfoView> {
 
                                 if (viewModel.state.isAbleNickName &&
                                     viewModel.state.forbiddenWord == "") {
-                                  Navigator.push(
+                                  Navigator.pushNamed(
                                     context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          RestInfoAdditionalPage(
-                                              nickName: userNickname),
-                                    ),
+                                    Routes.restInfoAdditionalRoute,
+                                    arguments: userNickname
                                   );
                                 } else {
                                   String dialogSubTitle = "";

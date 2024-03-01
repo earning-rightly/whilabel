@@ -11,7 +11,8 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/text_feild_rules.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
-import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_event.dart';
+import 'package:whilabel/screens/user_additional_info/pages/rest_info_additional/view_model/rest_info_additional_event.dart';
+import 'package:whilabel/screens/user_additional_info/pages/rest_info_additional/view_model/rest_info_additional_view_model.dart';
 import 'package:whilabel/screens/user_additional_info/widget/gender_choicer.dart';
 import 'package:whilabel/screens/user_additional_info/widget/user_birth_date_picker.dart';
 import 'package:whilabel/screens/user_additional_info/widget/user_name_input_text_field.dart';
@@ -42,7 +43,7 @@ class _RestInfoAdditionalPageState extends State<RestInfoAdditionalPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final viewModel = context.watch<RestInfoAdditionalPage>();
+    final viewModel = context.read<RestInfoAdditionalViewModel>();
     final currentUserStatus = context.read<CurrentUserStatus>();
 
     return Scaffold(
@@ -121,13 +122,15 @@ class _RestInfoAdditionalPageState extends State<RestInfoAdditionalPage> {
                             birthDay: getBirthDay(),
                                 gender: widget.gender,
                           );
-
-                            UserAdditionalInfoEvent.addUserInfo(newUser);
-                            Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            Routes.onBoardingRoute,
-                                (route) => false,
-                          );
+                          viewModel.onEvent(
+                              RestInfoAdditionalEvent.addUserInfo(newUser),
+                              callback: (){
+                                Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                Routes.onBoardingRoute,
+                                    (route) => false,
+                            );
+                          });
                         },
                       ),
                     ),
