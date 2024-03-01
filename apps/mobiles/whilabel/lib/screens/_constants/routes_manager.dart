@@ -23,6 +23,8 @@ import 'package:whilabel/screens/my_page/page/setting_page.dart';
 import 'package:whilabel/screens/my_page/page/term_condition_service_page.dart';
 import 'package:whilabel/screens/my_page/page/withdrawal_page.dart';
 import 'package:whilabel/screens/onboarding/onboarding_step1.dart';
+import 'package:whilabel/screens/user_additional_info/pages/rest_info_additional/rest_info_additional_page.dart';
+import 'package:whilabel/screens/user_additional_info/pages/rest_info_additional/view_model/rest_info_additional_view_model.dart';
 import 'package:whilabel/screens/user_additional_info/user_additional_info_view.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
 import 'package:whilabel/screens/whisky_critique/pages/successful_upload_post_page.dart';
@@ -111,7 +113,13 @@ class RouteGenerator {
             builder: (_) => ChangeNotifierProvider<UserAdditionalInfoViewModel>(
                 create: (_) => UserAdditionalInfoViewModel(currentUserStatus: ProvidersManager.currentUserStatus, appUserRepository: _appUserRepository),
                 child: UserAdditionalInfoView(nickName: nickName)));
-      case Routes.onBoardingRoute:
+      case Routes.restInfoAdditionalRoute:
+        final nickName = routeSettings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => ChangeNotifierProvider<RestInfoAdditionalViewModel>(
+                create: (_) => RestInfoAdditionalViewModel(currentUserStatus: ProvidersManager.currentUserStatus, appUserRepository: _appUserRepository),
+                child: RestInfoAdditionalPage(nickName: nickName)));
+        case Routes.onBoardingRoute:
         return MaterialPageRoute(builder: (_) => const OnboardingStep1Page());
 
       //  "/myPage"를 경로로 가지고 있을 경우
