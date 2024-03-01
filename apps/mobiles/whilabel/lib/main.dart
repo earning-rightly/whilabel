@@ -97,7 +97,7 @@ void main() async {
   runApp(
     MultiProvider(
       // mock provider를 추가해서 사용
-      providers: ProvidersManager.initialProviders()..addAll(ProvidersManager.mockInitialProviders(),),
+      providers: ProvidersManager.initialProviders(),
       child: MainApp(),
     ),
   );

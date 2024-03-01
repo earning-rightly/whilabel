@@ -1,9 +1,12 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
+import 'package:whilabel/provider_manager.dart';
 import 'package:whilabel/screens/archiving_post_detail/archiving_post_detail_view.dart';
 import 'package:whilabel/app_root.dart';
+import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_view_model.dart';
 import 'package:whilabel/screens/camera/page/chosen_image_page.dart';
 import 'package:whilabel/screens/camera/page/gallery_page.dart';
 import 'package:whilabel/screens/camera/page/search_whisky_name_page.dart';
@@ -20,9 +23,13 @@ import 'package:whilabel/screens/my_page/page/setting_page.dart';
 import 'package:whilabel/screens/my_page/page/term_condition_service_page.dart';
 import 'package:whilabel/screens/my_page/page/withdrawal_page.dart';
 import 'package:whilabel/screens/onboarding/onboarding_step1.dart';
+import 'package:whilabel/screens/user_additional_info/pages/rest_info_additional/rest_info_additional_page.dart';
+import 'package:whilabel/screens/user_additional_info/pages/rest_info_additional/view_model/rest_info_additional_view_model.dart';
 import 'package:whilabel/screens/user_additional_info/user_additional_info_view.dart';
+import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
 import 'package:whilabel/screens/whisky_critique/pages/successful_upload_post_page.dart';
 import 'package:whilabel/screens/whisky_critique/pages/unregistered_whisky_upload_page.dart';
+import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_view_model.dart';
 import 'package:whilabel/screens/whisky_critique/whisky_critique_view.dart';
 
 class _MyPageRoutes {
@@ -64,14 +71,21 @@ class Routes {
   static const String loginRoute = "/login";
   static const String homeRoute = "/home";
 
-
   static const String archivingPostDetailRoute = "/whiskey_register";
   static const String userAdditionalInfoRoute = "/user_additional_info";
+  static const String restInfoAdditionalRoute = "/user_additional_info/restInfoAdditional";
   static const String onBoardingRoute = "/on_boarding";
 }
 
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
+    final _whiskyBrandDistilleryRepository =
+        ProvidersManager.whiskyBrandDistilleryRepository;
+    final _archivingPostRepository = ProvidersManager.archivingPostRepository;
+    final _appUserRepository = ProvidersManager.appUserRepository;
+    final _whiskyNewArchivingPostUseCase =
+        ProvidersManager.whiskeyNewArchivingPostUseCase;
+
     switch (routeSettings.name) {
       case Routes.rootRoute:
         final rootIndex = routeSettings.arguments as int?;
@@ -81,15 +95,31 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => LoginView());
       case Routes.archivingPostDetailRoute:
         final whiskyRegisterViewArgs = routeSettings.arguments as ArchivingPost;
+
         return MaterialPageRoute(
             builder: (_) =>
-                ArchivingPostDetailView(archivingPost: whiskyRegisterViewArgs));
+                ChangeNotifierProvider<ArchivingPostDetailViewModel>(
+                  create: (_) => ArchivingPostDetailViewModel(
+                      archivingPostRepository: _archivingPostRepository,
+                      whiskyBrandDistilleryRepository:
+                          _whiskyBrandDistilleryRepository),
+                  child: ArchivingPostDetailView(
+                      archivingPost: whiskyRegisterViewArgs),
+                ));
 
       case Routes.userAdditionalInfoRoute:
         final nickName = routeSettings.arguments as String?;
         return MaterialPageRoute(
-            builder: (_) => UserAdditionalInfoView(nickName: nickName));
-      case Routes.onBoardingRoute:
+            builder: (_) => ChangeNotifierProvider<UserAdditionalInfoViewModel>(
+                create: (_) => UserAdditionalInfoViewModel(currentUserStatus: ProvidersManager.currentUserStatus, appUserRepository: _appUserRepository),
+                child: UserAdditionalInfoView(nickName: nickName)));
+      case Routes.restInfoAdditionalRoute:
+        final nickName = routeSettings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => ChangeNotifierProvider<RestInfoAdditionalViewModel>(
+                create: (_) => RestInfoAdditionalViewModel(currentUserStatus: ProvidersManager.currentUserStatus, appUserRepository: _appUserRepository),
+                child: RestInfoAdditionalPage(nickName: nickName)));
+        case Routes.onBoardingRoute:
         return MaterialPageRoute(builder: (_) => const OnboardingStep1Page());
 
       //  "/myPage"를 경로로 가지고 있을 경우
@@ -147,8 +177,14 @@ class RouteGenerator {
                 WhiskyBarCodeScanPage(cameras: _cameraDescriptions));
 
 //  "/whiskey_critique"를 경로로 가지는 경우
+
+    // case Routes.whiskeyCritiqueRoute:
+
       case "/whiskey_critique":
-        return MaterialPageRoute(builder: (_) => WhiskyCritiqueView());
+      return MaterialPageRoute(builder: (_) => ChangeNotifierProvider<WhiskyCritiqueViewModel>(
+create: (_)=>WhiskyCritiqueViewModel(appUserRepository: _appUserRepository, whiskyNewArchivingPostUseCase: _whiskyNewArchivingPostUseCase),
+child: WhiskyCritiqueView()));
+//         return MaterialPageRoute(builder: (_) => WhiskyCritiqueView());
       case "/whiskey_critique/successfulUploadPost":
         final _currentWhiskyCount = routeSettings.arguments as int;
         return MaterialPageRoute(
@@ -194,3 +230,15 @@ class ChosenImagePageArgs {
       this.isFindingBarcode,
       this.isUnableSlid});
 }
+
+// return MaterialPageRoute(
+// builder: (_) => ChangeNotifierProvider<ArchivingPostDetailViewModel>(
+// create: (_)=> ArchivingPostDetailViewModel(archivingPostRepository: _archivingPostRepository, whiskyBrandDistilleryRepository:  _whiskyBrandDistilleryRepository),
+// child: ArchivingPostDetailView(
+// archivingPost: whiskyRegisterViewArgs,
+// ),
+// ));
+// case Routes.whiskeyCritiqueRoute:
+// return MaterialPageRoute(builder: (_) => ChangeNotifierProvider<WhiskyCritiqueViewModel>(
+// create: (_)=>WhiskyCritiqueViewModel(appUserRepository: _appUserRepository, whiskyNewArchivingPostUseCase: _whiskyNewArchivingPostUseCase),
+// child: WhiskyCritiqueView()));

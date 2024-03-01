@@ -82,7 +82,7 @@ class CameraViewModel with ChangeNotifier {
 
   Future<void> cleanCameraState() async{
 
-    _state = _state.copyWith(mediums: [], barcode: "");
+    _state = _state.copyWith(mediums: [], barcode: null);
     notifyListeners();
   }
 

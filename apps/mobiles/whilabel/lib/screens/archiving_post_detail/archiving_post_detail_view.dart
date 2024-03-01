@@ -240,10 +240,11 @@ class _ArchivingPostDetailViewState extends State<ArchivingPostDetailView> {
                                                       .updateUserCritique(),
                                                   callback: () async{
                                                    await viewModel.cleanState();
-                                                    Navigator.pushNamed(
-                                                      context,
-                                                      Routes.rootRoute,
-                                                    );
+                                                   Navigator.pushNamedAndRemoveUntil(
+                                                     context,
+                                                     Routes.rootRoute,
+                                                         (route) => false,
+                                                   );
                                                   },
                                                 );
                                               },

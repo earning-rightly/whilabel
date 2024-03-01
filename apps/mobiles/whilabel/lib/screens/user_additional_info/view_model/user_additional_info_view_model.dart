@@ -36,7 +36,6 @@ class UserAdditionalInfoViewModel with ChangeNotifier {
   Future<void> addUserInfo(AppUser appUser) async {
     await _appUserRepository.insertUser(appUser);
     await _currentUserStatus.updateUserState();
-    notifyListeners();
   }
 
   Future<void> checkNickName(String nickName) async {
