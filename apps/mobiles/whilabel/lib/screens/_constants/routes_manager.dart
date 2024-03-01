@@ -24,6 +24,7 @@ import 'package:whilabel/screens/my_page/page/term_condition_service_page.dart';
 import 'package:whilabel/screens/my_page/page/withdrawal_page.dart';
 import 'package:whilabel/screens/onboarding/onboarding_step1.dart';
 import 'package:whilabel/screens/user_additional_info/user_additional_info_view.dart';
+import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
 import 'package:whilabel/screens/whisky_critique/pages/successful_upload_post_page.dart';
 import 'package:whilabel/screens/whisky_critique/pages/unregistered_whisky_upload_page.dart';
 import 'package:whilabel/screens/whisky_critique/view_model/whisky_critique_view_model.dart';
@@ -70,6 +71,7 @@ class Routes {
 
   static const String archivingPostDetailRoute = "/whiskey_register";
   static const String userAdditionalInfoRoute = "/user_additional_info";
+  static const String restInfoAdditionalRoute = "/user_additional_info/restInfoAdditional";
   static const String onBoardingRoute = "/on_boarding";
 }
 
@@ -106,7 +108,9 @@ class RouteGenerator {
       case Routes.userAdditionalInfoRoute:
         final nickName = routeSettings.arguments as String?;
         return MaterialPageRoute(
-            builder: (_) => UserAdditionalInfoView(nickName: nickName));
+            builder: (_) => ChangeNotifierProvider<UserAdditionalInfoViewModel>(
+                create: (_) => UserAdditionalInfoViewModel(currentUserStatus: ProvidersManager.currentUserStatus, appUserRepository: _appUserRepository),
+                child: UserAdditionalInfoView(nickName: nickName)));
       case Routes.onBoardingRoute:
         return MaterialPageRoute(builder: (_) => const OnboardingStep1Page());
 

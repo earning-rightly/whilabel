@@ -38,7 +38,7 @@ class ProvidersManager {
 
 
 
-  static final _currentUserStatus = CurrentUserStatus(appUserRepository);
+  static final currentUserStatus = CurrentUserStatus(appUserRepository);
   static final WhiskyBrandDistilleryRepository
   whiskyBrandDistilleryRepository =
   FirebaseWhiskyBrandDistilleryRepositoryImpl(
@@ -50,9 +50,9 @@ class ProvidersManager {
   // use case provider
   static final loginUseCase = LoginUseCase(
       appUserRepository: appUserRepository,
-      currentUserStatus: _currentUserStatus);
+      currentUserStatus: currentUserStatus);
   static final logoutUseCase = LogoutUseCase(
-      currentUserStatus: _currentUserStatus,
+      currentUserStatus: currentUserStatus,
       appUserRepository: appUserRepository
   );
 
@@ -95,7 +95,7 @@ class ProvidersManager {
 
     return [
       ChangeNotifierProvider(
-        create: (context) => _currentUserStatus,
+        create: (context) => currentUserStatus,
       ),
       ChangeNotifierProvider(
         create: (context) => loginViewModel,

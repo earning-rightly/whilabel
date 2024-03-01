@@ -12,14 +12,13 @@ import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/functions/text_feild_rules.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_event.dart';
-import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_view_model.dart';
 import 'package:whilabel/screens/user_additional_info/widget/gender_choicer.dart';
 import 'package:whilabel/screens/user_additional_info/widget/user_birth_date_picker.dart';
 import 'package:whilabel/screens/user_additional_info/widget/user_name_input_text_field.dart';
 
 // ignore: must_be_immutable
-class RestInfoAddtionalPage extends StatefulWidget {
-  RestInfoAddtionalPage({
+class RestInfoAdditionalPage extends StatefulWidget {
+  RestInfoAdditionalPage({
     Key? key,
     required this.nickName,
   }) : super(key: key);
@@ -28,20 +27,22 @@ class RestInfoAddtionalPage extends StatefulWidget {
   Gender? gender;
 
   @override
-  State<RestInfoAddtionalPage> createState() => _RestInfoAddtionalPageState();
+  State<RestInfoAdditionalPage> createState() => _RestInfoAdditionalPageState();
 }
 
-class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
+class _RestInfoAdditionalPageState extends State<RestInfoAdditionalPage> {
   final _formKey = GlobalKey<FormState>();
   final nameTextController = TextEditingController();
   final birthDayTextController = TextEditingController();
 
-  bool isIOS = foundation.defaultTargetPlatform == foundation.TargetPlatform.iOS;
-  bool isfilledAllData = foundation.defaultTargetPlatform == foundation.TargetPlatform.iOS;
+  bool isIOS = foundation.defaultTargetPlatform ==
+      foundation.TargetPlatform.iOS;
+  bool isfilledAllData = foundation.defaultTargetPlatform ==
+      foundation.TargetPlatform.iOS;
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<UserAdditionalInfoViewModel>();
+    // final viewModel = context.watch<RestInfoAdditionalPage>();
     final currentUserStatus = context.read<CurrentUserStatus>();
 
     return Scaffold(
@@ -85,7 +86,8 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                           ),
                           //이름 입력
                           if (!isIOS)
-                            UserNameInputTextField(nameTextController: nameTextController),
+                            UserNameInputTextField(
+                                nameTextController: nameTextController),
                           // // 성별 선택
                           GenderChoicer(
                             gender: widget.gender,
@@ -113,37 +115,18 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
                         enabled: isfilledAllData,
                         onPressedFunc: () {
                           AppUser appUser = currentUserStatus.state.appUser!;
-
-                          AppUser newUser = AppUser(
-                              firebaseUserId: appUser.firebaseUserId,
-                              uid: appUser.uid,
-                              nickName: widget.nickName,
-                              snsUserInfo: appUser.snsUserInfo,
-                              snsType: appUser.snsType,
-                              creatAt: appUser.creatAt,
-                              isDeleted: appUser.isDeleted,
-                              isPushNotificationEnabled: appUser.isPushNotificationEnabled, // 푸시알림이 어떻게 작동되는지 알아야함
-                              isMarketingNotificationEnabled: appUser.isMarketingNotificationEnabled,
-                              fcmToken: appUser.fcmToken,
-                              name: isIOS ? "apple" : nameTextController.text,
-                              age: appUser.age,
-                              birthDay: getBirthDay(),
-                              gender: widget.gender,
-                              email: appUser.email,
-                              imageUrl: appUser.imageUrl,
-                              sameKindWhiskyId: appUser.sameKindWhiskyId,
-                              announcements: appUser.announcements
+                          AppUser newUser = appUser.copyWith(
+                            nickName: widget.nickName,
+                            name: isIOS ? "apple" : nameTextController.text,
+                            birthDay: getBirthDay(),
+                                gender: widget.gender,
                           );
 
-                          viewModel.onEvent(
-                            AddUserInfo(newUser),
-                            callback: () {
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                Routes.onBoardingRoute,
+                            UserAdditionalInfoEvent.addUserInfo(newUser);
+                            Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            Routes.onBoardingRoute,
                                 (route) => false,
-                              );
-                            },
                           );
                         },
                       ),
@@ -191,7 +174,8 @@ class _RestInfoAddtionalPageState extends State<RestInfoAddtionalPage> {
 
     DateTime now = DateTime.now();
     DateTime twentyOld = DateTime(now.year - 20, now.month, now.day);
-    DateTime birthDay = DateFormat("yyyy-MM-dd").parse(birthDayTextController.text);
+    DateTime birthDay = DateFormat("yyyy-MM-dd").parse(
+        birthDayTextController.text);
 
     return birthDay.isBefore(twentyOld) ? birthDayTextController.text : null;
   }
