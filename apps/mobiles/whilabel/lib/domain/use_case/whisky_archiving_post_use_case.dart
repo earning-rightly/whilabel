@@ -48,8 +48,8 @@ class WhiskyNewArchivingPostUseCase extends ChangeNotifier {
     ),
   );
 
-  void saveImageFile(File imagePath) {
-    _state = _state.copyWith(images: imagePath);
+  void saveImageFile(File imageFile) {
+    _state = _state.copyWith(images: imageFile);
     notifyListeners();
   }
 
