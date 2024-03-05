@@ -4,7 +4,7 @@ import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/taste/taste_feature.dart';
 import 'package:whilabel/data/whisky/short_whisky.dart';
 import 'package:whilabel/data/whisky/whisky.dart';
-import 'package:whilabel/domain/user/app_user_repository.dart';
+import 'package:whilabel/domain/repository/user/app_user_repository.dart';
 import 'package:whilabel/domain/whisky_brand_distillery/whisky_brand_distillery_repository.dart';
 
 class SearchWhiskeyDataUseCase {

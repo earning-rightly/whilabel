@@ -1,6 +1,7 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
-import 'package:whilabel/domain/post/archiving_post_repository.dart';
+
+import 'archiving_post_repository.dart';
 
 class FirestoreArchivingPostRepositoryImple implements ArchivingPostRepository {
   final ArchivingPostCollectionReference _archivingPostRef;

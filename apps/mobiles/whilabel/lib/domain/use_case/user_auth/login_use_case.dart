@@ -12,8 +12,9 @@ import 'package:whilabel/domain/login_services/apple_oauth.dart';
 import 'package:whilabel/domain/login_services/googel_oauth.dart';
 import 'package:whilabel/domain/login_services/instargram_oauth.dart';
 import 'package:whilabel/domain/login_services/kakao_oauth.dart';
+import 'package:whilabel/domain/repository/user/app_user_repository.dart';
 import 'package:whilabel/domain/use_case/user_auth/logout_use_case.dart';
-import 'package:whilabel/domain/user/app_user_repository.dart';
+
 
 class LoginUseCase {
   final CurrentUserStatus _currentUserStatus;

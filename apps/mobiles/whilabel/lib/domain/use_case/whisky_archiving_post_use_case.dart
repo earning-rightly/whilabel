@@ -6,7 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uuid/uuid.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/taste/taste_feature.dart';
-import 'package:whilabel/domain/post/archiving_post_repository.dart';
+import 'package:whilabel/domain/repository/post/archiving_post_repository.dart';
 
 part 'whisky_archiving_post_use_case.freezed.dart';
 

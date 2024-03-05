@@ -2,15 +2,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/user/enum/post_sort_order.dart';
-import 'package:whilabel/domain/post/archiving_post_repository.dart';
+import 'package:whilabel/domain/repository/post/archiving_post_repository.dart';
+import 'package:whilabel/domain/repository/user/app_user_repository.dart';
 import 'package:whilabel/domain/use_case/load_archiving_posts_use_case.dart';
-import 'package:whilabel/domain/user/app_user_repository.dart';
 import 'package:whilabel/screens/home/view_model/home_event.dart';
 import 'package:whilabel/screens/home/view_model/home_state.dart';
 
 class HomeViewModel with ChangeNotifier {
   final LoadArchivingPostsUseCase _loadArchivingPostUseCase;
   final ArchivingPostRepository _archivingPostRepository;
+  // todo AppUserRepository 말고 currentUserSate으로 변경
   final AppUserRepository _appUserRepository;
 
   HomeViewModel({

@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
-import 'package:whilabel/domain/user/app_user_repository.dart';
+import 'package:whilabel/domain/repository/user/app_user_repository.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_event.dart';
 import 'package:whilabel/screens/user_additional_info/view_model/user_additional_info_state.dart';
 

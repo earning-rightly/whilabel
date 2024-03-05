@@ -8,8 +8,10 @@ import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/domain/login_services/apple_oauth.dart';
 import 'package:whilabel/domain/login_services/googel_oauth.dart';
 import 'package:whilabel/domain/login_services/kakao_oauth.dart';
-import 'package:whilabel/domain/user/app_user_repository.dart';
+import 'package:whilabel/domain/repository/user/app_user_repository.dart';
 
+// 유저 탈퇴할때 삭제 로직 확실하게 오류 없이 DB에 데이터를 삭제하는 방향으로
+// 삭제후에 다시 회원가입 가능하게 만든다. FirebaseDB 
 class LogoutUseCase {
   final CurrentUserStatus _currentUserStatus;
   final AppUserRepository _appUserRepository;
