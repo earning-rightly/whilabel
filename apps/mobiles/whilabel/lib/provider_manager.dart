@@ -10,7 +10,8 @@ import 'package:whilabel/domain/repository/post/archiving_post_repository.dart';
 import 'package:whilabel/domain/repository/post/firebase_archiving_post_repository_impl.dart';
 import 'package:whilabel/domain/repository/user/app_user_repository.dart';
 import 'package:whilabel/domain/repository/user/firestore_user_repository_impl.dart';
-import 'package:whilabel/domain/use_case/load_archiving_posts_use_case.dart';
+import 'package:whilabel/domain/use_case/archiving_post/load_archiving_posts_use_case.dart';
+import 'package:whilabel/domain/use_case/compressing_archiving_image_use_case.dart';
 import 'package:whilabel/domain/use_case/scan_whisky_barcode_use_case.dart';
 import 'package:whilabel/domain/use_case/whisky_archiving_post_use_case.dart';
 import 'package:whilabel/domain/use_case/user_auth/login_use_case.dart';
@@ -35,7 +36,6 @@ class ProvidersManager {
   static final DistilleryCollectionReference _distilleryRef = distilleryRef;
   static final ArchivingPostCollectionReference _archivingPostRef =
       archivingPostRef;
-
 
 
   static final currentUserStatus = CurrentUserStatus(appUserRepository);
@@ -67,6 +67,7 @@ class ProvidersManager {
   static final _loadArchivingPostUseCase = LoadArchivingPostsUseCase(
     archivingPostRepository: archivingPostRepository,
   );
+  static final _resizeArchivingWhiskyImageUseCase = CompressingArchivingImageUseCase();
 
   static List<SingleChildWidget> initialProviders() {
 // view model Provider
@@ -76,7 +77,8 @@ class ProvidersManager {
     final cameraViewModel = CameraViewModel(
         searchWhiskeyDataUseCase: _searchWhiskeyBarcodeUseCase,
         archivingPostStatus: whiskeyNewArchivingPostUseCase,
-        scanWhiskyBarcodeUseCase: _scanBarcodeUseCase
+        scanWhiskyBarcodeUseCase: _scanBarcodeUseCase,
+        resizeArchivingWhiskyImageUseCase: _resizeArchivingWhiskyImageUseCase
     );
 
     final homeViewModel = HomeViewModel(
@@ -113,14 +115,12 @@ class ProvidersManager {
   }
 
 
-
   static FirebaseWhiskyBrandDistilleryRepositoryImpl mockWhiskDB() {
     return FirebaseWhiskyBrandDistilleryRepositoryImpl(
         _whiskyRef, _brandRef, _distilleryRef);
   }
 
   static List<SingleChildWidget> mockInitialProviders() {
-
     final mockCameraViewModel = MockCameraViewModel(
         searchWhiskeyDataUseCase: _searchWhiskeyBarcodeUseCase,
         archivingPostStatus: whiskeyNewArchivingPostUseCase,
