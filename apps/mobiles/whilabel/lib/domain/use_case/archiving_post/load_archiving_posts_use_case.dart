@@ -2,7 +2,7 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/user/enum/post_sort_order.dart';
-import 'package:whilabel/domain/post/archiving_post_repository.dart';
+import 'package:whilabel/domain/repository/post/archiving_post_repository.dart';
 
 class LoadArchivingPostsUseCase {
   final ArchivingPostRepository archivingPostRepository;

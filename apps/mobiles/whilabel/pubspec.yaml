@@ -52,13 +52,13 @@ dependencies:
 
 
   # image 관련 패키지
-  photo_gallery: ^2.1.1
-  transparent_image: ^2.0.1
-  flutter_native_image: ^0.0.6+1
-  share_plus: ^7.2.1
-  image_cropper: ^5.0.1
-  flutter_svg: ^2.0.7
-  image_picker: ^1.0.5 # ios에서만 사용
+  photo_gallery: 2.1.1
+  transparent_image: 2.0.1
+  flutter_native_image: 0.0.6+1
+  share_plus: 7.2.1
+  image_cropper: 5.0.1
+  flutter_svg: 2.0.7
+  image_picker: 1.0.5 # ios에서만 사용
 
 
   # 기타 패키지
@@ -72,7 +72,7 @@ dependencies:
   intl: ^0.18.1
   emailjs: ^1.3.0
   # simple_barcode_scanner: ^0.0.8
-  camera: ^0.10.5+5
+  camera: 0.10.5+5
   path_provider: ^2.1.1
   barcode_finder: 0.0.5
   image: ^4.1.3
@@ -111,7 +111,6 @@ flutter:
     - assets/icon/on_boarding/
     - assets/icon/pop_menu/
     - assets/config/.env
-    - assets/mock_assets/mock_barcode/
   fonts:
     - family: Pretendard
       fonts:

@@ -4,9 +4,10 @@ import 'package:emailjs/emailjs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:whilabel/data/user/app_user.dart';
-import 'package:whilabel/domain/user/app_user_repository.dart';
+import 'package:whilabel/domain/repository/user/app_user_repository.dart';
 import 'package:whilabel/screens/my_page/view_model/my_page_event.dart';
 
+// todo AppUserRepository말고 다른 usecase로 로직을 변동하자
 class MyPageViewModel with ChangeNotifier {
   final AppUserRepository _appUserRepository;
 

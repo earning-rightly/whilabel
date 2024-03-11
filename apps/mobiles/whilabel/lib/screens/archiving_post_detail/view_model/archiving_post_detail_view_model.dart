@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:whilabel/data/distillery/distillery.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
 import 'package:whilabel/data/whisky/whisky.dart';
-import 'package:whilabel/domain/post/archiving_post_repository.dart';
+import 'package:whilabel/domain/repository/post/archiving_post_repository.dart';
 import 'package:whilabel/domain/whisky_brand_distillery/whisky_brand_distillery_repository.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_event.dart';
 import 'package:whilabel/screens/archiving_post_detail/view_model/archiving_post_detail_state.dart';

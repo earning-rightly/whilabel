@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:whilabel/data/user/app_user.dart';
-import 'package:whilabel/domain/user/app_user_repository.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:whilabel/domain/repository/user/app_user_repository.dart';
 
 part 'current_user_status.freezed.dart';
 

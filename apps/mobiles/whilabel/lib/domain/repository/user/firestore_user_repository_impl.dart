@@ -2,7 +2,8 @@ import 'package:dartx/dartx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:whilabel/data/user/app_user.dart';
-import 'package:whilabel/domain/user/app_user_repository.dart';
+
+import 'app_user_repository.dart';
 
 class FirestoreUserRepositoryImpl implements AppUserRepository {
   final AppUserCollectionReference _ref;
