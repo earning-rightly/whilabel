@@ -160,10 +160,9 @@ class _LoginViewState extends State<LoginView> {
     // 뉴비면 유저 추가 정보를 받는 화면으로 이동
     if (userState == UserState.initial) {
       debugPrint("회원가입을 진행합니다.");
-      Navigator.pushNamedAndRemoveUntil(
+      Navigator.pushNamed(
         context,
         Routes.userAdditionalInfoRoute,
-        (route) => false,
       );
     }
     // 뉴비가 아닌 유저면 홈 화면으로 이동
