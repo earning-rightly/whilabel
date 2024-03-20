@@ -43,8 +43,8 @@ class EachListArchivingPostCard extends StatelessWidget {
             arguments: archivingPost);
       },
       child: Container(
-        width: 350,
-        height: 110,
+        width: 350.w,
+        height: 110.h,
         color: Colors.transparent,
         child: Row(
           children: [
@@ -54,8 +54,8 @@ class EachListArchivingPostCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: SizedBox(
-                  width: 85,
-                  height: 120,
+                  width: 85.w,
+                  height: 120.h,
                   child: Image.network(
                     filterQuality: FilterQuality.low,
                     archivingPost.imageUrl,
@@ -165,7 +165,7 @@ class EachListArchivingPostCard extends StatelessWidget {
                               : "${archivingPost.note.substring(0, 24)}...",
                           style: TextStylesManager.createHadColorTextStyle(
                               "R14", ColorsManager.gray300),
-                          maxLines: 1,
+                          maxLines:1 ,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -176,7 +176,7 @@ class EachListArchivingPostCard extends StatelessWidget {
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                     height: 30,
-                    width:175.w,
+                    width:175.w > 160 ? 175.w : 160,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                         color: ColorsManager.black200),
