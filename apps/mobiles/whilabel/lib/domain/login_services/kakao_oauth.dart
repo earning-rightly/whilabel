@@ -16,12 +16,12 @@ class KaKaoOauth {
         loginedAuthUser = AuthUser(
             uid: user.id.toString(),
             displayName: user.kakaoAccount!.profile!.nickname.toString(),
-            email: user.kakaoAccount!.email!,
-            photoUrl: user.kakaoAccount!.profile!.profileImageUrl!,
+            email: user.kakaoAccount!.email ?? "kakao${user.id}@daum.net",
+            photoUrl: user.kakaoAccount!.profile?.profileImageUrl ?? "",
             snsType: SnsType.KAKAO);
       } catch (erro) {
         debugPrint("$erro");
-        ("firebase function 접근할 수 없습니다.");
+        debugPrint("firebase function 접근할 수 없습니다.");
         return null;
       }
     } else {
