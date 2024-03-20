@@ -45,9 +45,9 @@ dependencies:
   readmore: ^2.1.0
   # searchfield: ^0.8.4
   flutter_native_splash: ^2.3.2 # splash pack
-  popup_banner: ^1.0.0
+  popup_banner: 1.0.0
   loading_animation_widget: ^1.2.0+4 # loading indicator
-  flutter_rating_bar: ^4.0.1
+  flutter_rating_bar: 4.0.1
   flutter_local_notifications: 16.2.0 # 알림 UI
 
 
