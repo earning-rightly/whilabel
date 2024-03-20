@@ -5,15 +5,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/domain/repository/user/app_user_repository.dart';
+import 'package:whilabel/domain/use_case/user_auth/withdraw_use_case.dart';
 import 'package:whilabel/screens/my_page/view_model/my_page_event.dart';
 
 // todo AppUserRepository말고 다른 usecase로 로직을 변동하자
 class MyPageViewModel with ChangeNotifier {
   final AppUserRepository _appUserRepository;
+  final WithdrawUseCase _withdrawUseCase;
 
   MyPageViewModel({
     required AppUserRepository appUserRepository,
-  }) : _appUserRepository = appUserRepository;
+    required WithdrawUseCase withdrawUseCase,
+  }) : _appUserRepository = appUserRepository,
+        _withdrawUseCase = withdrawUseCase;
 
   Future<void> onEvent(MyPageEvent event, {VoidCallback? callback}) async {
     VoidCallback after = callback ?? () {};
@@ -52,13 +56,10 @@ class MyPageViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> withdrawAccount(String uid) async {
-    AppUser? appUser = await _appUserRepository.getCurrentUser();
-    print(appUser!.toJson());
+  Future<void> withdrawAccount(String uid, String nickName) async {
 
-    final newAppUser = appUser.copyWith(isDeleted: true);
+    _withdrawUseCase.call(uid, nickName);
 
-    await _appUserRepository.updateUser(uid, newAppUser);
   }
 
   // InquiringPage()가 stless이기 때문에 현재 event안에 넣지 않고 사용

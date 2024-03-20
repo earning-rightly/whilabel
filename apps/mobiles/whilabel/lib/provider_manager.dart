@@ -25,6 +25,7 @@ import 'package:whilabel/screens/login/view_model/login_view_model.dart';
 import 'package:whilabel/screens/my_page/view_model/my_page_view_model.dart';
 
 // mock 관련 root
+import 'domain/use_case/user_auth/withdraw_use_case.dart';
 import 'mock_data/mock_camera/mock_camera_view_modle.dart';
 
 class ProvidersManager {
@@ -69,6 +70,8 @@ class ProvidersManager {
   );
   static final _resizeArchivingWhiskyImageUseCase = CompressingArchivingImageUseCase();
 
+  static final _withdrawUseCase = WithdrawUseCase();
+
   static List<SingleChildWidget> initialProviders() {
 // view model Provider
     final loginViewModel = LoginViewModel(loginUseCase, logoutUseCase);
@@ -88,6 +91,7 @@ class ProvidersManager {
     );
     final myPageViewModel = MyPageViewModel(
       appUserRepository: appUserRepository,
+      withdrawUseCase: _withdrawUseCase,
     );
 
     // final archivingPostDetailViewModel = ArchivingPostDetailViewModel(

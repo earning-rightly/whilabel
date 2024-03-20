@@ -130,7 +130,7 @@ class WithdrawalPage extends StatelessWidget {
                             context,
                             onClickedYesButton: () async{
                              await viewModel.onEvent(
-                                  MyPageEvent.withdrawAccount(appUser.uid));
+                                  MyPageEvent.withdrawAccount(appUser.uid, appUser.nickName));
                               loginViewModel.onEvent(
                                 LoginEvent.logout(appUser.snsType),
                                 callback: () {
