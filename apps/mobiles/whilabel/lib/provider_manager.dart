@@ -57,8 +57,8 @@ class ProvidersManager {
       appUserRepository: appUserRepository
   );
 
-  static final _scanBarcodeUseCase = ScanWhiskyBarcodeUseCase();
-  static final _searchWhiskeyBarcodeUseCase = SearchWhiskeyDataUseCase(
+  static final ScanWhiskyBarcodeUseCase scanBarcodeUseCase = ScanWhiskyBarcodeUseCase();
+  static final searchWhiskeyBarcodeUseCase = SearchWhiskeyDataUseCase(
     appUserRepository: appUserRepository,
     whiskyBrandDistilleryRepository: whiskyBrandDistilleryRepository,
   );
@@ -78,9 +78,9 @@ class ProvidersManager {
 
 
     final cameraViewModel = CameraViewModel(
-        searchWhiskeyDataUseCase: _searchWhiskeyBarcodeUseCase,
+        searchWhiskeyDataUseCase: searchWhiskeyBarcodeUseCase,
         archivingPostStatus: whiskeyNewArchivingPostUseCase,
-        scanWhiskyBarcodeUseCase: _scanBarcodeUseCase,
+        scanWhiskyBarcodeUseCase: scanBarcodeUseCase,
         resizeArchivingWhiskyImageUseCase: _resizeArchivingWhiskyImageUseCase
     );
 
@@ -126,9 +126,9 @@ class ProvidersManager {
 
   static List<SingleChildWidget> mockInitialProviders() {
     final mockCameraViewModel = MockCameraViewModel(
-        searchWhiskeyDataUseCase: _searchWhiskeyBarcodeUseCase,
+        searchWhiskeyDataUseCase: searchWhiskeyBarcodeUseCase,
         archivingPostStatus: whiskeyNewArchivingPostUseCase,
-        scanWhiskyBarcodeUseCase: _scanBarcodeUseCase
+        scanWhiskyBarcodeUseCase: scanBarcodeUseCase
     );
 
     return [
