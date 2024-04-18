@@ -78,10 +78,11 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
       });
     }
   }
-
   @override
   void initState() {
-    checkCameraPermission(context);
+    Future.delayed(Duration(milliseconds: 400), () {
+      checkCameraPermission(context);
+    });
     super.initState();
     final watchAgainCheckBox = Hive.box(strManger.WATCH_AGAIN_CHECKBOX);
     final isShowCameraRule = watchAgainCheckBox.get(strManger.CAMERA_RULE);
@@ -98,6 +99,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
     controller = CameraController(widget.cameras[0], ResolutionPreset.max,
         enableAudio: false);
     controller.initialize().then((_) {
+      onSetFlashModeButtonPressed(FlashMode.off); // 항상 플레시는 꺼짐으로 초기 설정
       if (!mounted) {
         return;
       }
@@ -114,7 +116,7 @@ class _WhiskyBarCodeScanPageState extends State<WhiskyBarCodeScanPage>
         }
       }
     });
-    onSetFlashModeButtonPressed(FlashMode.off); // 항상 플레시는 꺼짐으로 초기 설정
+
     // 유저에게 barcode 사진 찍는 법을 알려주는 모달창
     if (isShowCameraRule == false || isShowCameraRule == null)
       showRuleForCamera(context);
