@@ -80,6 +80,7 @@ class _TakePicturePageState extends State<TakePicturePage>
     controller = CameraController(widget.cameras[0], ResolutionPreset.max,
         enableAudio: false);
     controller.initialize().then((_) {
+      onSetFlashModeButtonPressed(FlashMode.off); // 항상 플레시는 꺼짐으로 초기 설정
       if (!mounted) {
         return;
       }

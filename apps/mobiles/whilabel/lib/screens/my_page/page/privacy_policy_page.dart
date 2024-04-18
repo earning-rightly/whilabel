@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 // ignore: must_be_immutable
 class PrivacyPolicyPage extends StatelessWidget {
   PrivacyPolicyPage({super.key});
 
-  String initUrl = dotenv.get("PRIVACY_POLICY_URL");
+  String initUrl = 'https://fir-herring-a74.notion.site/c3a1abcc91c249c6b04f7e78d8f4dc0e?pvs=4';
 
-  // String redirectUri = dotenv.get("REDIRECT_URL");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

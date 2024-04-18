@@ -61,28 +61,6 @@ class CameraViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> scanBarcode(File imageFile, {int level = 0}) async {
-    File? resizeImage =
-    await _scanWhiskyBarCodeUseCase.resizeImage(imageFile, level: level);
-
-    if (resizeImage != null) {
-      await Future.delayed(const Duration(milliseconds: 1000), () async {
-        String? scanResult =
-        await _scanWhiskyBarCodeUseCase.scanBarcodeImage(resizeImage.path);
-
-        if (scanResult == null) {
-          print(" ######  resize를 다시 시도합니다. 현재 level: $level  #####");
-          if (level <= 5)
-            scanBarcode(imageFile, level: level + 1);
-          else
-            _state = _state.copyWith(barcode: "");
-        }
-        else
-          _state = _state.copyWith(barcode: scanResult);
-        notifyListeners();
-      });
-    }
-  }
 
 
   Future<void> cleanCameraState() async {
@@ -139,6 +117,12 @@ class CameraViewModel with ChangeNotifier {
   Future<void> saveBarcodeImage(File barcodeImage) async {
     _state = _state.copyWith(
         barcodeImage: barcodeImage
+    );
+    notifyListeners();
+  }
+  Future<void> saveBarcode(String barcode) async{
+    _state = _state.copyWith(
+        barcode: barcode
     );
     notifyListeners();
   }

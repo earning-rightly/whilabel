@@ -131,13 +131,12 @@ class InquiringPage extends StatelessWidget {
                           if (EasyLoading.isShow) {
                             EasyLoading.dismiss();
                             if (value) {
-                              showSimpleDialog(context, "email 등록 성공",
-                                  "3~4일 안에 꼭 답변을 드리겠습니다.\n답변주셔서 감사합니다");
+                              showSimpleDialog(context, "문의 완료",
+                                  "문의주셔서 대단히 감사합니다. \n 최대 5일 안에 답변 드리겠습니다.");
                             } else {
                               showSimpleDialog(context, "email 등록 실패",
-                                  "죄송합니다. 원인 불명으로 이메밀을 등록이 실패하였습니다./n빠른 시일낼에 조치하겠습니다");
+                                  "죄송합니다. 원인 불명으로 이메밀을 등록이 실패하였습니다.\n빠른 시일낼에 조치하겠습니다");
                             }
-                            // Navigator.;
                           }
                         }),
                   ))

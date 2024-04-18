@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 // ignore: must_be_immutable
 class TermConditionServicePage extends StatelessWidget {
   TermConditionServicePage({super.key});
 
-  String initUrl = dotenv.get("TERM_CONDITION_SERVICE_URL");
-
-  // String redirectUri = dotenv.get("REDIRECT_URL");
+String initUrl =   "https://fir-herring-a74.notion.site/27f452e63a084840a9bb2e75fb21b87b?pvs=4";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

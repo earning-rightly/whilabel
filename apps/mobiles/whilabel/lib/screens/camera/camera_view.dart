@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/path/image_paths.dart';
@@ -108,9 +109,10 @@ class _CameraViewState extends State<CameraView> {
                             buttonText: "위스키 기록하기",
                             color: ColorsManager.brown100,
                             onPressedFunc: () async {
+                              await Permission.camera.request();
                               Navigator.pushNamed(context,
-                                  Routes.cameraRoutes.whiskyBarcodeScan,
-                                  arguments: viewModel.state.cameras);
+                                Routes.cameraRoutes.whiskyBarcodeScan,
+                                arguments: viewModel.state.cameras);
                             },
                           ),
                         ),

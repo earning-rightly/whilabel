@@ -78,6 +78,7 @@
     <!-- <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <!--firebase messaging르 위해서 추가한 코드 INTERNET은 이미 있기에 추가 x -->    
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>  

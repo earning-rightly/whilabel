@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/user/app_user.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
@@ -13,6 +14,11 @@ import 'package:whilabel/screens/home/home_view.dart';
 import 'package:whilabel/screens/login/login_view.dart';
 import 'package:whilabel/screens/my_page/my_page_view.dart';
 
+
+void _initRequestPermissions() async{
+  // 카메라 관한
+  await Permission.camera.request();
+}
 // ignore: must_be_immutable
 class AppRoot extends StatelessWidget {
   AppRoot({super.key, this.screenIndex = 0});
@@ -47,6 +53,9 @@ class AppRoot extends StatelessWidget {
         future: currentUserStatus.refreshAppUser(),
         initialData: currentUserStatus.state.appUser,
         builder: (context, snapshot) {
+          _initRequestPermissions();
+
+          // 앱에서 로그인되어 있는 유저 정보를 확인
           if (snapshot.data == null || !snapshot.hasData) {
             return LoginView();
           }

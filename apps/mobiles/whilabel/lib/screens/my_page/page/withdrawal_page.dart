@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/domain/global_provider/current_user_status.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
@@ -9,27 +8,22 @@ import 'package:whilabel/screens/_constants/text_styles_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
 import 'package:whilabel/screens/_global/widgets/long_text_button.dart';
 import 'package:whilabel/screens/_global/widgets/app_bars.dart';
-import 'package:whilabel/screens/_global/functions/show_dialogs.dart';
-import 'package:whilabel/screens/login/view_model/login_event.dart';
-import 'package:whilabel/screens/login/view_model/login_view_model.dart';
-import 'package:whilabel/screens/my_page/view_model/my_page_event.dart';
-import 'package:whilabel/screens/my_page/view_model/my_page_view_model.dart';
+
+import '../widgets/withdrawal_button.dart';
 
 // ignore: must_be_immutable
 class WithdrawalPage extends StatelessWidget {
   WithdrawalPage({super.key});
 
-  String withDrowPageTitle = "지금 탈퇴하면 위라벨에서 제공하는\t다양한\t혜택을 더 이상 누릴 수 없어요";
-  String withDrowPageWaringText1 = "위스키 맛과 브랜드의 특징에 접근할 수 없습니다";
-  String withDrowPageWaringText2 = "수동적으로 등록된 위스키에 대한 정보는 보관됩니다";
-  String withDrowPageWaringText3 = "나의 위스키 기록(사진, 별점, 한 줄평 등)이 영구적으로 삭제됩니다";
+  String withdrawalPageTitle = "지금 탈퇴하면 위라벨에서 제공하는\t다양한\t혜택을 더 이상 누릴 수 없어요";
+  String withdrawalPageWaringText1 = "위스키 맛과 브랜드의 특징에 접근할 수 없습니다";
+  String withdrawalPageWaringText2 = "수동적으로 등록된 위스키에 대한 정보는 보관됩니다";
+  String withdrawalPageWaringText3 = "나의 위스키 기록(사진, 별점, 한 줄평 등)이 영구적으로 삭제됩니다";
   String dot = "\u2022\t\t"; // 점 구현
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<MyPageViewModel>();
-    final loginViewModel = context.watch<LoginViewModel>();
-    final appUser = context.watch<CurrentUserStatus>().state.appUser!;
+    final appUser = context.read<CurrentUserStatus>().state.appUser!;
 
     return Scaffold(
       appBar: buildScaffoldAppBar(context, SvgIconPath.close, "탈퇴하기"),
@@ -44,60 +38,19 @@ class WithdrawalPage extends StatelessWidget {
                   SizedBox(height: WhilabelSpacing.space8),
 
                   // 상단 굵은 탈퇴 안내글
-                  SizedBox(
-                    child: Text(
-                      withDrowPageTitle,
-                      maxLines: 3,
-                      style: TextStylesManager.bold20,
-                      softWrap: true,
-                    ),
-                  ),
+                  createWaringTitle(withdrawalPageTitle),
                   SizedBox(height: WhilabelSpacing.space24),
 
                   // 첫 번째 리스트 글
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(dot, style: TextStylesManager.regular14),
-                      Text(
-                        withDrowPageWaringText1,
-                        style: TextStylesManager.regular14,
-                      ),
-                    ],
-                  ),
+                  createWaringText(withdrawalPageWaringText1),
                   SizedBox(height: WhilabelSpacing.space12),
 
                   // 두 번째 리스트 글
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(dot, style: TextStylesManager.regular14),
-                      Text(
-                        withDrowPageWaringText2,
-                        style: TextStylesManager.regular14,
-                      ),
-                    ],
-                  ),
+                  createWaringText(withdrawalPageWaringText2),
                   SizedBox(height: WhilabelSpacing.space12),
 
                   // 세 번째 리스트 글
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(dot, style: TextStylesManager.regular14),
-                      Flexible(
-                        child: SizedBox(
-                          height: 50,
-                          child: Text(
-                            textAlign: TextAlign.justify,
-                            maxLines: 2,
-                            withDrowPageWaringText3,
-                            style: TextStylesManager.regular14,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  createWaringText(withdrawalPageWaringText3, maxLine: 2),
                 ],
               ),
               Positioned(
@@ -112,40 +65,18 @@ class WithdrawalPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       // 탈퇴 보류 버튼 //todo 어느 곳을 이동?
-                      LongTextButton(
-                        buttonText: "위라벨 계속 사용하기",
-                        buttonTextColor: ColorsManager.gray500,
-                        color: ColorsManager.orange,
-                        onPressedFunc: () {
-                          Navigator.pushReplacementNamed(context, Routes.rootRoute);
-                        },
-                      ),
+                      createWithdrawalPendingButton(context),
+                      // LongTextButton(
+                      //   buttonText: "위라벨 계속 사용하기",
+                      //   buttonTextColor: ColorsManager.gray500,
+                      //   color: ColorsManager.orange,
+                      //   onPressedFunc: () {
+                      //     Navigator.pushReplacementNamed(
+                      //         context, Routes.rootRoute);
+                      //   },
+                      // ),
                       // 탈퇴하기 => 팝업 창 생성
-                      LongTextButton(
-                        buttonText: "탈퇴하기",
-                        buttonTextColor: ColorsManager.gray500,
-                        color: ColorsManager.black100,
-                        onPressedFunc: () async {
-                          showWithdrawalDialog(
-                            context,
-                            onClickedYesButton: () async{
-                             await viewModel.onEvent(
-                                  MyPageEvent.withdrawAccount(appUser.uid, appUser.nickName));
-                              loginViewModel.onEvent(
-                                LoginEvent.logout(appUser.snsType),
-                                callback: () {
-                                  // SystemNavigator.pop();
-                                  Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    Routes.loginRoute,
-                                        (route) => false,
-                                  );
-                                },
-                              );
-                            },
-                          );
-                        },
-                      ),
+                      WithdrawalButton(appUser: appUser)
                     ],
                   ),
                 ),
@@ -154,6 +85,42 @@ class WithdrawalPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget createWaringTitle(String title) {
+    return SizedBox(
+      child: Text(
+        title,
+        maxLines: 3,
+        style: TextStylesManager.bold20,
+        softWrap: true,
+      ),
+    );
+  }
+
+  Widget createWaringText(String content, {int maxLine = 1}) {
+    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(dot, style: TextStylesManager.regular14),
+      Flexible(
+        child: Text(
+          content,
+          style: TextStylesManager.regular14,
+          maxLines: maxLine,
+        ),
+      )
+    ]);
+  }
+
+  Widget createWithdrawalPendingButton (BuildContext context){
+    return   LongTextButton(
+    buttonText: "위라벨 계속 사용하기",
+    buttonTextColor: ColorsManager.gray500,
+    color: ColorsManager.orange,
+    onPressedFunc: () {
+      Navigator.pushReplacementNamed(
+          context, Routes.rootRoute);
+    },
     );
   }
 }
