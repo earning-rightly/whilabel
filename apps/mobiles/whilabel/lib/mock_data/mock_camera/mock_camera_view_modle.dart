@@ -1,10 +1,9 @@
-
-
 import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:whilabel/domain/use_case/scan_whisky_barcode_use_case.dart';
 import 'package:whilabel/domain/use_case/search_whisky_data_use_case.dart';
 import 'package:whilabel/domain/use_case/whisky_archiving_post_use_case.dart';
@@ -42,8 +41,9 @@ class MockCameraViewModel with ChangeNotifier {
   }
 
   Future<void> mockBarcodeLibaryTest(File imageFile, {int level = 0}) async {
+    final tempDir = await getTemporaryDirectory();
     File? resizeImage =
-    await _scanWhiskyBarCodeUseCase.resizeImage(imageFile, level: level);
+    await _scanWhiskyBarCodeUseCase.resizeImage(imageFile,tempDir.path, level: level);
 
     if (resizeImage != null) {
       await Future.delayed(const Duration(milliseconds: 1000), () async {
