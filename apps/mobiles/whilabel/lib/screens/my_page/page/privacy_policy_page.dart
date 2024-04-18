@@ -6,7 +6,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 class PrivacyPolicyPage extends StatelessWidget {
   PrivacyPolicyPage({super.key});
 
-  String initUrl = 'https://fir-herring-a74.notion.site/27f452e63a084840a9bb2e75fb21b87b?pvs=4';
+  String initUrl = 'https://fir-herring-a74.notion.site/c3a1abcc91c249c6b04f7e78d8f4dc0e?pvs=4';
+
 
   @override
   Widget build(BuildContext context) {

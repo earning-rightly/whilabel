@@ -37,7 +37,7 @@ import 'package:whilabel/screens/whisky_critique/whisky_critique_view.dart';
 class _MyPageRoutes {
   final String myPageRoute = "/myPage";
   final String announcementRoute = "/myPage/announcement";
-  final String faqRoute = "/myPage/Faq";
+  final String faqRoute = "/myPage/faq";
   final String inquiringRoute = "/myPage/inquiring";
   final String privacyPolicyRoute = "/myPage/privacyPolicy";
   final String settingRoute = "/myPage/setting";
@@ -130,19 +130,19 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const OnboardingStep1Page());
 
       //  "/myPage"를 경로로 가지고 있을 경우
-      case "/myPage/announcementPage":
+      case "/myPage/announcement":
         return MaterialPageRoute(builder: (_) => const AnnouncementPage());
-      case "/myPage/faqPage":
+      case "/myPage/faq":
         return MaterialPageRoute(builder: (_) => FaqPage());
-      case "/myPage/inquiringPage":
+      case "/myPage/inquiring":
         return MaterialPageRoute(builder: (_) => InquiringPage());
       case "/myPage/setting":
         return MaterialPageRoute(builder: (_) => SettingPage());
-      case "/myPage/privacyPolicyPage":
+      case "/myPage/privacyPolicy":
         return MaterialPageRoute(builder: (_) => PrivacyPolicyPage());
-      case "/myPage/termConditionServicePage":
+      case "/myPage/termConditionService":
         return MaterialPageRoute(builder: (_) => TermConditionServicePage());
-      case "/myPage/withdrawalPage":
+      case "/myPage/withdrawal":
         return MaterialPageRoute(builder: (_) => WithdrawalPage());
 
       // "/camera"를 경로할 경우
