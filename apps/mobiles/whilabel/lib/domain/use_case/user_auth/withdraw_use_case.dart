@@ -15,7 +15,6 @@ class WithdrawUseCase {
 
     if (idToken != null) {
       final header = {"authorization": 'Bearer $idToken'};
-      print('$uid \ $nickName');
       Map<String, dynamic> _json = {'uid': uid, 'nickName': nickName};
 
       try {
@@ -29,21 +28,5 @@ class WithdrawUseCase {
         return null;
       }
     }
-  }
-}
-
-Future<String?> withdrawUseCase(String uid, String nickName) async {
-  const String url =
-      'https://us-central1-whilabel.cloudfunctions.net/EraseUserDataOnFirebase';
-
-  Map<String, dynamic> _json = {'uid': uid, 'docId': nickName};
-
-  try {
-    final response = await http.post(Uri.parse(url), body: _json);
-    debugPrint("withdrawUseCase \n${response.body}");
-    return response.body;
-  } catch (error) {
-    debugPrint("withdrawUseCase error ===>>>\n $error");
-    return null;
   }
 }
