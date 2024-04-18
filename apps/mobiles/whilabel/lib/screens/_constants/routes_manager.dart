@@ -3,6 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/data/post/archiving_post.dart';
+import 'package:whilabel/domain/use_case/scan_whisky_barcode_use_case.dart';
 import 'package:whilabel/provider_manager.dart';
 import 'package:whilabel/screens/archiving_post_detail/archiving_post_detail_view.dart';
 import 'package:whilabel/app_root.dart';
@@ -12,6 +13,7 @@ import 'package:whilabel/screens/camera/page/gallery_page.dart';
 import 'package:whilabel/screens/camera/page/search_whisky_name_page.dart';
 import 'package:whilabel/screens/camera/page/take_picture_page.dart';
 import 'package:whilabel/screens/camera/page/unregistered_whisky_page.dart';
+import 'package:whilabel/screens/camera/page/whisky_barcode_recognition/whisky_barcode_recognition_view_model.dart';
 import 'package:whilabel/screens/camera/page/whisky_barcode_recognition_page.dart';
 import 'package:whilabel/screens/camera/page/whisky_barcode_scan_page.dart';
 import 'package:whilabel/screens/login/login_view.dart';
@@ -73,7 +75,8 @@ class Routes {
 
   static const String archivingPostDetailRoute = "/whiskey_register";
   static const String userAdditionalInfoRoute = "/user_additional_info";
-  static const String restInfoAdditionalRoute = "/user_additional_info/restInfoAdditional";
+  static const String restInfoAdditionalRoute =
+      "/user_additional_info/restInfoAdditional";
   static const String onBoardingRoute = "/on_boarding";
 }
 
@@ -111,15 +114,19 @@ class RouteGenerator {
         final nickName = routeSettings.arguments as String?;
         return MaterialPageRoute(
             builder: (_) => ChangeNotifierProvider<UserAdditionalInfoViewModel>(
-                create: (_) => UserAdditionalInfoViewModel(currentUserStatus: ProvidersManager.currentUserStatus, appUserRepository: _appUserRepository),
+                create: (_) => UserAdditionalInfoViewModel(
+                    currentUserStatus: ProvidersManager.currentUserStatus,
+                    appUserRepository: _appUserRepository),
                 child: UserAdditionalInfoView(nickName: nickName)));
       case Routes.restInfoAdditionalRoute:
         final nickName = routeSettings.arguments as String;
         return MaterialPageRoute(
             builder: (_) => ChangeNotifierProvider<RestInfoAdditionalViewModel>(
-                create: (_) => RestInfoAdditionalViewModel(currentUserStatus: ProvidersManager.currentUserStatus, appUserRepository: _appUserRepository),
+                create: (_) => RestInfoAdditionalViewModel(
+                    currentUserStatus: ProvidersManager.currentUserStatus,
+                    appUserRepository: _appUserRepository),
                 child: RestInfoAdditionalPage(nickName: nickName)));
-        case Routes.onBoardingRoute:
+      case Routes.onBoardingRoute:
         return MaterialPageRoute(builder: (_) => const OnboardingStep1Page());
 
       //  "/myPage"를 경로로 가지고 있을 경우
@@ -168,7 +175,17 @@ class RouteGenerator {
         final _imageFile = routeSettings.arguments as File;
         return MaterialPageRoute(
             builder: (_) =>
-                WhiskyBarcodeRecognitionPage(imageFile: _imageFile));
+                ChangeNotifierProvider<WhiskyBarcodeRecognitionViewModel>(
+                    create: (_) => WhiskyBarcodeRecognitionViewModel(
+                        scanWhiskyBarcodeUseCase: ScanWhiskyBarcodeUseCase(),
+                        // ProvidersManager.scanBarcodeUseCase,
+                        searchWhiskeyDataUseCase:
+                            ProvidersManager.searchWhiskeyBarcodeUseCase,
+                        whiskyNewArchivingPostUseCase:
+                            ProvidersManager.whiskeyNewArchivingPostUseCase),
+                    child: WhiskyBarcodeRecognitionPage(
+                      imageFile: _imageFile,
+                    )));
       case "/camera/whiskyBarcodeScan":
         final _cameraDescriptions =
             routeSettings.arguments as List<CameraDescription>;
@@ -176,14 +193,14 @@ class RouteGenerator {
             builder: (_) =>
                 WhiskyBarCodeScanPage(cameras: _cameraDescriptions));
 
-//  "/whiskey_critique"를 경로로 가지는 경우
-
-    // case Routes.whiskeyCritiqueRoute:
-
       case "/whiskey_critique":
-      return MaterialPageRoute(builder: (_) => ChangeNotifierProvider<WhiskyCritiqueViewModel>(
-create: (_)=>WhiskyCritiqueViewModel(appUserRepository: _appUserRepository, whiskyNewArchivingPostUseCase: _whiskyNewArchivingPostUseCase),
-child: WhiskyCritiqueView()));
+        return MaterialPageRoute(
+            builder: (_) => ChangeNotifierProvider<WhiskyCritiqueViewModel>(
+                create: (_) => WhiskyCritiqueViewModel(
+                    appUserRepository: _appUserRepository,
+                    whiskyNewArchivingPostUseCase:
+                        _whiskyNewArchivingPostUseCase),
+                child: WhiskyCritiqueView()));
 //         return MaterialPageRoute(builder: (_) => WhiskyCritiqueView());
       case "/whiskey_critique/successfulUploadPost":
         final _currentWhiskyCount = routeSettings.arguments as int;

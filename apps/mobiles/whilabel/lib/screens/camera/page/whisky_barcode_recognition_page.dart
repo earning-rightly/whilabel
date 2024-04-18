@@ -5,12 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:whilabel/screens/_constants/colors_manager.dart';
 import 'package:whilabel/screens/_constants/routes_manager.dart';
 import 'package:whilabel/screens/_constants/whilabel_design_setting.dart';
+import 'package:whilabel/screens/camera/page/whisky_barcode_recognition/whisky_barcode_recognition_event.dart';
+import 'package:whilabel/screens/camera/page/whisky_barcode_recognition/whisky_barcode_recognition_view_model.dart';
+import 'package:whilabel/screens/_global/widgets/back_listener.dart';
 
-import '../view_model/camera_event.dart';
+
 import '../view_model/camera_view_model.dart';
 import '../widget/image_scan_animation.dart';
 
@@ -19,7 +23,8 @@ class WhiskyBarcodeRecognitionPage extends StatefulWidget {
   // 1. 바코드 스캔 useCaase 만들기
   // 2. 바코드 resize 비율 새로 만들기
   // 3. 바코드 이미지 테스트 코드 만들기
-  const WhiskyBarcodeRecognitionPage({Key? key, required this.imageFile})
+  const WhiskyBarcodeRecognitionPage(
+      {Key? key, required this.imageFile, })
       : super(key: key);
   final File imageFile;
 
@@ -32,10 +37,11 @@ class _WhiskyBarcodeRecognitionPageState
     extends State<WhiskyBarcodeRecognitionPage> {
   @override
   void initState() {
-    final viewModel = context.read<CameraViewModel>();
+    final viewModel = context.read<WhiskyBarcodeRecognitionViewModel>();
 
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      viewModel.scanBarcode(widget.imageFile);
+    Future.delayed(const Duration(milliseconds: 1000), () async{
+      final tempDir = await getTemporaryDirectory();
+      viewModel.scanBarcode(widget.imageFile, tempDir.path);
     });
 
     super.initState();
@@ -43,19 +49,24 @@ class _WhiskyBarcodeRecognitionPageState
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.read<CameraViewModel>();
-    String? whiskyBarcode = context.select<CameraViewModel, String?>(
-        (CameraViewModel cameraViewModel) => cameraViewModel.state.barcode);
+    final viewModel = context.read<WhiskyBarcodeRecognitionViewModel>();
+    final cameraViewModel = context.read<CameraViewModel>();
+
+    String? whiskyBarcode =
+        context.select<WhiskyBarcodeRecognitionViewModel, String?>(
+            (WhiskyBarcodeRecognitionViewModel _viewModel) =>
+                _viewModel.state.barcode);
 
     if (whiskyBarcode != null) {
-      Future.delayed(const Duration(milliseconds: 2000), () {
-        viewModel.onEvent(CameraEvent.searchWhiskeyWithBarcode(whiskyBarcode),
-            callback: () async {
+      Future.delayed(const Duration(milliseconds: 1000), () async {
+        viewModel.onEvent(
+            WhiskyBarcodeRecognitionEvent.searchWhiskeyWithBarcode(
+                whiskyBarcode), callback: () async {
           if (whiskyBarcode != "" && viewModel.state.isFindWhiskyData) {
-
-            Navigator.popAndPushNamed(context, Routes.cameraRoutes.takePictureRoute,
-            arguments: viewModel.state.cameras);
-
+            await cameraViewModel.saveBarcode(whiskyBarcode);
+            Navigator.popAndPushNamed(
+                context, Routes.cameraRoutes.takePictureRoute,
+                arguments: cameraViewModel.state.cameras);
           } else {
             await Navigator.popAndPushNamed(
                 context, Routes.cameraRoutes.unregisteredWhiskyRoute,
@@ -64,49 +75,52 @@ class _WhiskyBarcodeRecognitionPageState
         });
       });
     }
-    return Scaffold(
-        body: SafeArea(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: [
-            Flexible(
-                flex: 10,
-                child: Container(
-                  color: Colors.transparent,
-                )),
-            Stack(
-              children: [
-                ImageScanAnimation(
-                  imageFile: widget.imageFile,
-                  width: 343.w,
-                  height: 427.h,
-                ),
-              ],
-            ),
-            Flexible(
-                flex: 14,
-                child: Container(
-                  padding: EdgeInsets.only(top: WhilabelSpacing.space32),
-                  color: Colors.transparent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      LoadingAnimationWidget.discreteCircle(
-                        color: ColorsManager.gray500,
-                        secondRingColor: ColorsManager.gray500,
-                        size: 20,
-                      ),
-                      SizedBox(width: 5),
-                      Text("이미지 분석중입니다")
-                    ],
+    return BackListener(
+      onBackButtonClick: () {},
+      child: Scaffold(
+          body: SafeArea(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              Flexible(
+                  flex: 10,
+                  child: Container(
+                    color: Colors.transparent,
+                  )),
+              Stack(
+                children: [
+                  ImageScanAnimation(
+                    imageFile: widget.imageFile,
+                    width: 343.w,
+                    height: 427.h,
                   ),
-                )),
-          ],
+                ],
+              ),
+              Flexible(
+                  flex: 14,
+                  child: Container(
+                    padding: EdgeInsets.only(top: WhilabelSpacing.space32),
+                    color: Colors.transparent,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        LoadingAnimationWidget.discreteCircle(
+                          color: ColorsManager.gray500,
+                          secondRingColor: ColorsManager.gray500,
+                          size: 20,
+                        ),
+                        SizedBox(width: 5),
+                        Text("이미지 분석중입니다")
+                      ],
+                    ),
+                  )),
+            ],
+          ),
         ),
-      ),
-    ));
+      )),
+    );
   }
 
   Future<void> showSuccedDialog() async {
