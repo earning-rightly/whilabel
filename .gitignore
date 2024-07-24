@@ -67,3 +67,4 @@
 **/android/app/release
 **.g.dart
 **.freezed.dart
+**.env

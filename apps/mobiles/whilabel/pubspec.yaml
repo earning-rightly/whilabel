@@ -1,7 +1,7 @@
 name: whilabel
 description: A new Flutter project.
 publish_to: "none"
-version: 1.0.0+1
+version: 1.0.0+4
 
 environment:
   sdk: ">=3.1.0-260.0.dev <4.0.0"
@@ -110,7 +110,7 @@ flutter:
     - assets/icon/_check/
     - assets/icon/on_boarding/
     - assets/icon/pop_menu/
-    - assets/config/.env
+    - .env
   fonts:
     - family: Pretendard
       fonts:

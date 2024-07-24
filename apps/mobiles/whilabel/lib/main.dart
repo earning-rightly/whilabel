@@ -58,7 +58,7 @@ void initializeNotification() async {
 }
 
 void main() async {
-  await dotenv.load(fileName: 'assets/config/.env');
+  await dotenv.load(fileName: '.env');
 
   await Hive.initFlutter(); // * Hive 초기화
   await Hive.openBox(strManger.WATCH_AGAIN_CHECKBOX); // 다시 보지 않을 UI를 보여 줄지 여부를 저장하는 박스
